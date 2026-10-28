@@ -4,6 +4,57 @@ Lịch sử thay đổi và registry của toàn bộ tài liệu canonical tron
 `capstone-project-docs`. Các đường dẫn bên dưới là đường dẫn tương đối từ
 repository root.
 
+## 2026-10-28 — Chuẩn hoá tên entity và quy ước Crow's Foot theo tài liệu ERD
+
+### Changed
+
+- [ERD editable](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio) và [model](diagrams/erd/platform_erd.json): dùng 40 danh từ số ít PascalCase làm tên hiển thị, có nghĩa rõ theo source (`User`, `Project`, `DatasetVersion`, `PlatformAdminGrant`, `TokenUsageEntry`...). Tên bảng và source code giữ nguyên; `data-table` và bảng mapping trong [README](diagrams/erd/README.md) giữ liên kết 1:1 về 40 bảng gốc.
+- Rà lại nhãn quan hệ thành cụm động từ đọc từ parent sang child; làm rõ đây là association dữ liệu, không phải flow/process arrow. `ProjectMembership` giữ vai trò associative entity, không thêm đường N:M trùng lặp giữa User và Project. Lineage `StageRun precedes StageRun` không ngụ ý tái sử dụng engine state; `StageDecision results from PIConsultation` đọc đúng chiều association.
+- [Builder/validator](diagrams/erd/build_platform_erd.py): phân loại identifying theo FK thuộc PK của child, thể hiện nét liền cho 3 quan hệ identifying và nét đứt cho 67 quan hệ non-identifying. Đây là biến thể IE được chọn và ghi trong legend; nét đứt không còn biểu thị layer/provenance hay optionality. Optionality/cardinality vẫn ở hai đầu nối và dựa trên constraint source.
+- Ghi rõ mức chi tiết là entity-relationship overview của schema đã hiện thực, ẩn attributes theo mẫu report; không gọi hình này là logical/physical model đầy đủ. Giữ 40 entity và 70 FK, gồm 54 quan hệ hiển thị mặc định và 16 quan hệ provenance trong layer có thể bật.
+- Local-only `docs/1.2/report/FA26SE115_Report7.docx` (Git-ignored): đổi 40 ô tên entity trong mục III 3.1.5 thành tên khớp ERD; giữ nguyên description đã đối chiếu, số thứ tự, định dạng và placeholder ảnh.
+- Không đổi requirement, actor, scope, workflow hoặc database schema; BRD/PRD không cần cập nhật. Giữ nguyên các deletion/temp draw.io đã có trong working tree.
+
+### Validation
+
+- Regenerate và `python3 diagrams/erd/build_platform_erd.py --check`: đủ 40 tên duy nhất/40 bảng/70 FK, kiểm tra naming map, cardinality, identifying stroke, routing/labels, không để nhãn đè marker cardinality và rebuild khớp byte.
+- Export bằng draw.io và xem hình render; render lại DOCX, kiểm tra trang 39–40. Report giữ 159 trang; text/pagination các trang khác giữ nguyên.
+- Kiểm tra ZIP/OOXML: đúng 40 ô tên entity thay đổi so với report trước đợt naming; các description, numbering, styles và phần ngoài bảng giữ nguyên.
+- Kiểm tra local links, Python syntax và `git diff --check`; backend không thay đổi nên không chạy backend tests.
+
+### References
+
+- [ER/Studio naming rules](https://docwiki.embarcadero.com/ERStudioDA/193/en/Object_Name_Rules), [erwin entity names](https://ftpdocs.broadcom.com/cadocs/0/CA%20ERwin%20%20Data%20Modeler%20r8%201-ENU/Bookshelf_Files/HTML/Methods/254614.html).
+- [Microsoft Crow's Foot guidance](https://support.microsoft.com/en-gb/visio/create-a-diagram-with-crow-s-foot-database-notation), [draw.io Crow's Foot notation](https://www.drawio.com/docs/tutorials/crows-foot-notation/), [ERD Editor identifying relationships](https://docs.erd-editor.io/docs/guide/guides/relationship-editing/).
+- [Research decisions và mapping đầy đủ](diagrams/erd/README.md); reference sources được tra cứu ngày 2026-10-28.
+
+## 2026-10-28 — ERD editable cho Report 7 mục III 3.1.5 theo source Platform
+
+### Added
+
+- [Report 7 ERD](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio): 40 entity, 70 quan hệ FK đúng source `logos/services/management`; ô chỉ ghi tên entity, đường nối có tên quan hệ và Crow's Foot theo phong cách ERD trong report mẫu. Không liệt kê cột/PK/FK ở mức conceptual.
+- [ERD model](diagrams/erd/platform_erd.json), [builder/validator](diagrams/erd/build_platform_erd.py) và [hướng dẫn](diagrams/erd/README.md): sinh trực tiếp từ SQLAlchemy metadata, xác minh nullable/unique/PK/CHECK; 54 quan hệ chính hiển thị mặc định và 16 quan hệ provenance giữ trong layer ẩn có thể bật trong draw.io.
+- Cardinality xét cả constraint kết hợp: `email_otps` chỉ có một purpose `sign_in` cùng unique `(user_id, purpose)`; `platform_settings` là singleton `id=1`. Không suy diễn FK từ JSON, `source_id` đa hình hoặc context IDs của monitoring/audit.
+
+### Changed
+
+- Local-only report `docs/1.2/report/FA26SE115_Report7.docx` (Git-ignored): cập nhật 11 ô Entities Description trong mục 3.1.5, gồm projects, OAuth grants, webhook/email outbox, comments, integration secrets, historical contexts, research case, stage lineage, token usage và monitoring. Giữ đủ 40 entity, thứ tự, styles và placeholder Figure 9 để người dùng tự gắn ảnh.
+- Giữ nguyên ba deletion của ERD cũ đã có trong working tree trước task; các link lịch sử tới chúng được đổi thành tên file và ghi rõ đã xoá, có link tới bộ ERD hiện tại.
+- Không đổi source code, requirement, scope, actor hoặc workflow; BRD/PRD không cần sửa. Đây là cập nhật biểu diễn schema đã hiện thực và phần mô tả entity trong report.
+
+### Validation
+
+- `python3 diagrams/erd/build_platform_erd.py` và `--check`: đủ 40 entity/70 FK, cardinality khớp source, không trùng entity port, không chồng entity/nhãn quan hệ chính và không có đường nối xuyên entity; rebuild khớp byte.
+- Export thực tế bằng draw.io desktop và kiểm tra hình render: ô/tên/đường nối/Crow's Foot hiển thị đúng; giao cắt đường dùng jump arc.
+- Kiểm tra ZIP/OOXML report: chỉ 11 ô description thay đổi; các ZIP member khác, văn bản ngoài bảng và placeholder ảnh giữ nguyên. Render report sau chỉnh vẫn 159 trang; chỉ nội dung trang 39–40 khác bản trước, các trang còn lại giữ nguyên text/pagination.
+- `git diff --check` và local link check được chạy sau cập nhật. Không chạy backend tests vì source code không đổi; ảnh render chỉ dùng cho QA, không đưa vào report.
+
+### References
+
+- [Editable ERD](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio), [source model](diagrams/erd/platform_erd.json), [builder](diagrams/erd/build_platform_erd.py).
+- Local-only reference (Git-ignored): `docs/example/Copy of 9927_HCM_SU26SE109_GSU41_HCM_GSU26SE41_FI2M_Report7_Final_Project_Report.docx`, mục 3.1.5.
+- Source: `logos/services/management/src/management/db/models_registry.py`, tám model modules đã đăng ký và Alembic revision `20261022_0048`.
+
 ## 2026-10-28 — Đồng bộ BRD/PRD/architecture với source contract 4.0.0 và hướng HGAR tabular
 
 ### Changed
@@ -174,13 +225,13 @@ repository root.
 
 ### Changed
 
-- Thay Conceptual ERD chung của cả hệ thống bằng [Platform BE Conceptual ERD](diagrams/erd/conceptual-erd/Platform-BE-Conceptual-ERD.drawio), sinh từ [ERD model](diagrams/erd/conceptual-erd/platform_be_conceptual_erd.json): 13 entity, 19 relationship.
+- Thay Conceptual ERD chung của cả hệ thống bằng `Platform-BE-Conceptual-ERD.drawio`, sinh từ `platform_be_conceptual_erd.json` (các file lịch sử đã xoá; xem [ERD hiện tại](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio)): 13 entity, 19 relationship.
 - Lý do: Popper v2 thay kiến trúc cũ nên nhóm entity core của Popper v1 không còn khớp, và phần Popper hiện chưa đủ rõ để vẽ. Sơ đồ chỉ gồm những gì Platform BE quản lý.
 - Entity: `User`, `Role`, `Project`, `ProjectMember`, `Dataset`, `DatasetVersion`, `ResearchContext`, `Run`, `FrameReview`, `RunArtifact`, `Comment`, `Notification`, `AuditLog`.
 - Sơ đồ theo chuẩn conceptual ERD: mỗi khái niệm nghiệp vụ xuất hiện đúng một lần, mọi relationship có tên và cardinality crow's-foot, không có thuộc tính, khoá hay chi tiết lưu trữ.
 - Entity mới so với bản trước: `ResearchContext`, `FrameReview`, `RunArtifact`, `AuditLog`. `DatasetSnapshot` đổi tên thành `DatasetVersion` theo PRD §44.
 - Bỏ `BillingAccount`, `PublicationRelease`, `PolicyVersion`, `DecisionRequest`, `EvaluationDecision`, `DatasetAssessment`, `UsageRecord` và toàn bộ entity core của Popper v1.
-- Xoá file `.drawio` và model của ERD chung cũ; [builder](diagrams/erd/conceptual-erd/build_conceptual_erd.py) nay mặc định sinh ERD của Platform BE và in tên relationship lên đường nối (trước đây để trống).
+- Xoá file `.drawio` và model của ERD chung cũ; `build_conceptual_erd.py` (builder lịch sử đã xoá) khi đó mặc định sinh ERD của Platform BE và in tên relationship lên đường nối (trước đây để trống).
 - Quyết định nghiệp vụ đi kèm: Reviewer chỉ đọc và bình luận, không có bước ký duyệt; dataset đợt này chỉ nhận CSV.
 - Chưa sửa BRD/PRD: hai tài liệu này vẫn tham chiếu kiến trúc Popper cũ (các điểm quyết định, Verify, publication view) và cần một đợt đồng bộ riêng với Popper v2.
 
@@ -193,7 +244,7 @@ repository root.
 
 ### Changed
 
-- Cập nhật `AI-Research-Experimentation-Platform-Conceptual-ERD.drawio` và `conceptual_erd.json` (đã xoá; thay bằng [Platform BE Conceptual ERD](diagrams/erd/conceptual-erd/Platform-BE-Conceptual-ERD.drawio) và [ERD model](diagrams/erd/conceptual-erd/platform_be_conceptual_erd.json)): còn 42 entity, 69 relationship.
+- Cập nhật `AI-Research-Experimentation-Platform-Conceptual-ERD.drawio` và `conceptual_erd.json` (đã xoá; bộ thay thế `Platform-BE-Conceptual-ERD.drawio`/`platform_be_conceptual_erd.json` sau đó cũng đã xoá; xem [ERD hiện tại](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio)): còn 42 entity, 69 relationship.
 - Bỏ entity `Organization` và ba relationship của nó (`owns` Project, `has member` User, `billed through` BillingAccount). BRD (BR-03, BRule-01) và PRD (§9, §10 FR-AUTH-03, §11, §44) không định nghĩa organization hay workspace: user đăng nhập rồi tạo project trực tiếp, và project là ranh giới cách ly dữ liệu. Tenant mà Popper yêu cầu (architecture §7) chính là Project.
 - Thêm `User owns Project` (1 — 0..n): người tạo project là owner (PRD FR-PROJ-01).
 - Thêm `Project billed through BillingAccount` (1 — 0..1) thay cho liên kết qua Organization, vì usage/cost được theo dõi theo project (PRD §37).
@@ -229,7 +280,7 @@ repository root.
   - Platform (calling service): Organization, User, Role, ProjectMember, Project, BillingAccount, Dataset/DatasetSnapshot, Comment, Notification, PublicationRelease.
   - Popper (AI Scientist runtime), khung nét đứt. Các đường nối cắt qua ranh giới này là interface platform ↔ Popper (Popper architecture §4).
   - Các record của Popper mà platform dùng tới được tô riêng: PolicyVersion, DecisionRequest, UsageRecord, EvaluationDecision, DatasetAssessment.
-- Thêm `conceptual_erd.json` (đã xoá) và [ERD builder](diagrams/erd/conceptual-erd/build_conceptual_erd.py). Model ghi reference nguồn cho từng entity. Builder có `--check` để kiểm tra geometry của connector, và hỗ trợ khung nhóm.
+- Thêm `conceptual_erd.json` và `build_conceptual_erd.py` (đã xoá). Model ghi reference nguồn cho từng entity. Builder khi đó có `--check` để kiểm tra geometry của connector, và hỗ trợ khung nhóm.
 - Nguồn: `docs/` của repo `popper`, gồm architecture §1, §4, §6, §7; state §1–§2; research-program §1–§2; error-control §2; Stage 1–5; runtime §7–§10; views-and-visualization §1; evaluation §5.
 - Ở mức conceptual, sơ đồ bỏ Artifact envelope, events, traces và các entity phụ (Construct, DataLead, Critique, Theory, Campaign, MethodLesson, Statement). Các phần này sẽ nằm trong logical ERD.
 - File `.drawio` đã được chỉnh tay trong draw.io sau khi build: bỏ legend, dòng Source, scope note và các note sends/receives; rút gọn tiêu đề hai khung. Builder chưa tái tạo các chỉnh sửa này, nên chạy lại builder sẽ ghi đè chúng.
