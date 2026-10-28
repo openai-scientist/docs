@@ -2,8 +2,8 @@
 ## AI Research Experimentation Platform
 
 **Document Type:** Product Requirements Document\
-**Version:** 2.1 Draft (2026-10-28)\
-**Status:** Đồng bộ với `logos` source hiện tại (`CONTRACT_VERSION=4.0.0`) và định hướng HGAR trên tabular data. Tên file v1.7 được giữ để bảo toàn cross-reference.\
+**Version:** 2.2 Draft (2026-10-28)\
+**Status:** Draft\
 **Liên quan:** [BRD](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) · [Architecture](architecture.md) · [changelog](changelog.md)
 
 > **Implementation boundary:** Current release supports versioned tabular intake/profile, evidence-linked hypotheses and a reviewed/locked experiment-design plan. It does not yet execute experiments or produce statistical verdicts/dossiers. Structure-aware split policy is the next tabular increment (FE-16).
@@ -22,6 +22,8 @@ Current release tạo:
 
 FE-16/HGAR roadmap sau đó mới thêm structure classification, split policy, protocol freeze, sandbox execution, evidence results, verdict và dossier.
 
+Phạm vi sản phẩm còn gồm **JFE (Journal Fingerprint Extraction)** để xây journal profile từ corpus có provenance và **Writing AIF (Argument Interchange Format) / ASW** để chuyển research outputs đã kiểm tra thành bản thảo có claim/evidence lineage. JFE profile có lifecycle độc lập và được Writing pin tại journal merge. Findings và kết luận trong bản thảo phải có evidence hợp lệ và được phê duyệt.
+
 # 2. Product Goals
 
 | ID | Mục tiêu |
@@ -33,6 +35,8 @@ FE-16/HGAR roadmap sau đó mới thêm structure classification, split policy, 
 | G-05 | Researcher hoặc PI xử lý accept/send-back, pause/resume/stop và budget theo authority; PI giữ quyền close. |
 | G-06 | Cấu hình model, integration, engine settings và budget không cần sửa code/deploy. |
 | G-07 | Chuẩn bị nền tảng khoa học cho FE-16 mà không ghi roadmap thành capability hiện tại. |
+| G-08 | Researcher chọn journal từ đề xuất, duyệt corpus và sử dụng profile có version, uncertainty và evidence. |
+| G-09 | Kiểm tra lập luận trước khi viết, giữ sentence-to-claim/evidence provenance và human approval trước export. |
 
 # 3. Non-Goals
 
@@ -42,14 +46,16 @@ FE-16/HGAR roadmap sau đó mới thêm structure classification, split policy, 
 - Organization/multi-tenant, custom roles, engine UI riêng hoặc hard delete lịch sử artifact.
 - Ảnh, free text như nguồn phân tích chính, deep learning, federated learning, reinforcement learning và special structures không có adapter.
 
+Giới hạn free text ở trên áp dụng cho input phân tích dataset của nhánh tabular; không loại trừ việc đọc paper hợp lệ trong JFE hoặc xử lý manuscript trong Writing. JFE/Writing không tự động nộp bài, không bảo đảm acceptance và không tạo research results thay cho execution.
+
 # 4. Users & Roles
 
 | Role | Phạm vi | Màn hình/chức năng chính |
 |---|---|---|
 | Platform Admin (`platform_admin`) | Toàn hệ thống | Users, projects, providers, settings, usage, logs, system. |
 | Project Manager (`project_manager`) | Project được quản lý | Workspace, members, datasets, runs, budget, settings, archive/complete/abandon. |
-| Researcher (`researcher`) | Project membership | Dataset/case, gate, clarification, amendment, hypotheses, plan, accept/send-back. |
-| Reviewer (`reviewer`) | Project membership | Read artifact/finding và comment; không upload/start/accept run. |
+| Researcher (`researcher`) | Project membership | Dataset/case, gates, hypotheses, plan; journal, corpus/profile, claims và bản thảo. |
+| Reviewer (`reviewer`) | Project membership | Read artifact/finding, journal profile, argument graph, manuscript và comment. |
 | AI PI (`oversight`) | Service decision boundary | Charter, stage outcome, failure, close, obligation, escalation. Không phải project member role. |
 
 ## 4.1 Permission rules
@@ -65,6 +71,8 @@ FE-16/HGAR roadmap sau đó mới thêm structure classification, split policy, 
 | Pause/resume/stop run | ✓ | ✓ | ✓ | – |
 | Abandon run | ✓ | ✓ | – | – |
 | Comment | ✓ | ✓ | ✓ | ✓ |
+| Chọn journal; quản lý corpus và công việc JFE | ✓ | ✓ | ✓ | – |
+| Duyệt journal profile, claims và bản thảo; export | ✓ | ✓ | ✓ | – |
 | Project audit | ✓ | ✓ | – | – |
 | System audit/admin | ✓ | – | – | – |
 
@@ -143,6 +151,24 @@ Các bước này chưa được expose như current product flow.
 - Current FE exposes the existing project/research workspace and hypothesis-oriented run presentation.
 - Dataset-first, `explore_dataset`, data-card gates and experiment-design scenes need FE integration before they can be presented as the default end-user journey.
 - Run studio labels must distinguish backend plan/review capability from future execution/result capability.
+
+## 7.6 JFE flow
+
+1. Researcher xem journal đề xuất từ research context và metadata kho T3; chấp nhận hoặc chọn journal khác.
+2. Researcher xác định phạm vi corpus, xem target/control papers, tiêu chí lựa chọn và quyền sử dụng, rồi phê duyệt corpus.
+3. Hệ thống phân tích cấu trúc paper, gán rhetorical labels và đo features có liên kết tới nguồn.
+4. Researcher/reviewer review annotation và kết quả phân tích; hệ thống tổng hợp đặc trưng journal cùng uncertainty và limitations.
+5. Researcher phê duyệt và phát hành journal profile theo phiên bản để dùng cho Writing.
+
+## 7.7 Writing AIF flow
+
+1. Researcher chọn research outputs; hệ thống xác nhận nguồn, quyền sử dụng, evidence và giới hạn claim.
+2. Hệ thống tổ chức evidence ledger, scientific statements và liên kết hypothesis/analysis/results.
+3. Claims được tranh biện, phân rã Toulmin, biểu diễn bằng AIF và đánh giá bằng ASPIC+.
+4. Researcher review và phê duyệt claims/argument graph.
+5. Researcher chọn journal profile; hệ thống kết hợp publisher rules để tạo writing contract, outline và section/paragraph contracts.
+6. Hệ thống tạo draft có sentence provenance, kiểm tra ngược với argument graph và hỗ trợ peer review/revision.
+7. Researcher phê duyệt bản thảo cuối, disclosure và xuất PDF/DOCX/LaTeX.
 
 # 8. ResearchCase Product Contract
 
@@ -236,6 +262,31 @@ Các bước này chưa được expose như current product flow.
 | PR-36 | Sandbox preflight enforces no test-set access, train-only preprocessing/resampling, network policy, checkpoint/resume/retry. | Planned; chưa có execution engine. |
 | PR-37 | Execute tracked runs and produce effect/CIs/margins/verdict/dossier. | Planned; current product không có result/verdict/dossier. |
 
+## 9.8 JFE requirements
+
+| ID | Requirement | Acceptance |
+|---|---|---|
+| PR-38 | Hệ thống đề xuất journal phù hợp với research context; người dùng có thể chấp nhận, tìm kiếm hoặc chọn journal khác. | Người dùng xem được lý do đề xuất và xác nhận journal mục tiêu. |
+| PR-39 | Người dùng quản lý và phê duyệt corpus gồm target/control papers theo phạm vi nghiên cứu và quyền sử dụng. | Corpus thể hiện tiêu chí lựa chọn, papers được chọn/loại, nguồn, phạm vi và quyết định phê duyệt. |
+| PR-40 | Hệ thống phân tích cấu trúc paper và duy trì liên kết về tài liệu nguồn. | Section, paragraph và sentence truy được về đúng document version và source span. |
+| PR-41 | Hệ thống gán nhãn rhetorical features, đo đặc trưng và hỗ trợ reviewer xác nhận hoặc hiệu chỉnh annotation. | Feature có định nghĩa, đơn vị đo, giá trị, evidence và lịch sử review. |
+| PR-42 | Hệ thống tổng hợp journal profile, thể hiện đặc trưng phổ biến và khác biệt so với control corpus. | Profile có số lượng mẫu, phân bố, độ bất định, dữ liệu thiếu và giới hạn phân tích. |
+| PR-43 | Người dùng có thẩm quyền phê duyệt và phát hành journal profile theo phiên bản. | Profile có version, nguồn dữ liệu và approval record; phiên bản đã phát hành được bảo toàn. |
+| PR-44 | Người dùng theo dõi tiến độ, lịch sử, tiếp tục hoặc hủy công việc JFE theo quyền trong project. | Trạng thái, tiến độ và hành động của người dùng được lưu và hiển thị nhất quán. |
+
+## 9.9 Writing AIF requirements
+
+| ID | Requirement | Acceptance |
+|---|---|---|
+| PR-45 | Hệ thống tiếp nhận research outputs, xác nhận quyền sử dụng và tổ chức evidence ledger cùng giới hạn claim. | Research outputs có nguồn, ownership, evidence links và phạm vi kết luận được phép. |
+| PR-46 | Hệ thống quản lý scientific statements, tranh biện, rulings và phân rã Toulmin. | Mỗi statement có loại, trạng thái, căn cứ và liên kết lập luận; assumptions được phân biệt với findings. |
+| PR-47 | Hệ thống biểu diễn lập luận bằng AIF và đánh giá bằng ASPIC+, kết hợp kiểm tra evidence và số liệu. | Graph thể hiện I/RA/CA/PA nodes, evidence mapping và kết quả đánh giá claim IN/OUT/undecided. |
+| PR-48 | Người dùng phê duyệt và đóng băng claims/graph trước khi sử dụng để viết bài. | Bản thảo chỉ khẳng định claim được chấp nhận; claim undecided có qualifier phù hợp; thay đổi claim có approval record. |
+| PR-49 | Hệ thống kết hợp journal profile với publisher rules để xác định yêu cầu cấu trúc và văn phong cho bản thảo. | Writing contract tham chiếu profile/rules version và giữ nguyên giới hạn claim đã duyệt. |
+| PR-50 | Hệ thống tạo outline, section/paragraph contracts và draft có sentence provenance. | Người dùng truy được claim và evidence của từng câu có nội dung khoa học. |
+| PR-51 | Hệ thống kiểm tra ngược bản thảo với AIF graph và hỗ trợ peer review về method, evidence và writing. | Báo cáo review chỉ rõ claim mới, scope widening, thiếu caveat, citation drift và mức độ phù hợp với journal. |
+| PR-52 | Người dùng review revision, phê duyệt bản thảo cuối, disclosure và xuất tài liệu. | Bản xuất có đúng draft/graph/profile version, approval record và nội dung được phép sử dụng. |
+
 # 10. API Surface (current)
 
 > Tên route dưới đây là contract-level orientation; source `services/management` là authority khi path, error hoặc response thay đổi.
@@ -276,13 +327,19 @@ Typical stable error boundaries include missing engine/config, problem required,
 
 # 11. Data and Artifact Contracts
 
-| Area | Current contract |
+| Area | Contract |
 |---|---|
 | Wire | `logos_contract` version `4.0.0`; schema ids and models are defined in `packages/contract`. |
 | Dataset input | `platform.dataset/v1`; version id/source metadata passed to dataset stage. |
 | Dataset output | `dataset.data_card/v1`, `dataset.data_card_markdown/v1`, `dataset.brief/v1`, `dataset.brief_markdown/v1`, optional `dataset.explore_report/v1`. |
 | Hypothesis input/output | Hypothesis schemas and evidence resources from `logos-hypothesis`; exact IDs follow source contract. |
 | Experiment design | `experiment_design.exp_plan/v1`; resources/index/review findings/revision artifacts as declared by engine. |
+| JFE corpus | Journal identity, target/control papers, tiêu chí lựa chọn, quyền sử dụng và nguồn tài liệu. |
+| JFE profile | Feature definitions/measurements, evidence, distributions, uncertainty, limitations, version và approval. |
+| Writing evidence | Research output manifest, evidence ledger, scientific statements và claim ceiling. |
+| Writing argument | Debate/rulings, Toulmin, AIF graph, evidence map, ASPIC+ labels và claim approval. |
+| Writing manuscript | Journal writing contract, outline, section/paragraph contracts, draft, sentence provenance, review findings và revision history. |
+| Writing export | Manuscript version, journal profile version, approved claims, disclosure và final approval record. |
 | Run params | `inputs.params.case` contains settled ResearchCase; no parallel legacy topic/objective source. |
 | Review categories | Includes leakage, baseline, control, statistics, reproducibility, evidence, metric validity, selective reporting, variable validity, measurement level, missing data, confounding, multiplicity, split discipline, effect size, small cells và other. |
 
@@ -299,6 +356,9 @@ Typical stable error boundaries include missing engine/config, problem required,
 | NFR-07 | **Performance:** Long-running LLM/engine work is backgrounded; UI receives progress through event stream; budgets bound work. |
 | NFR-08 | **Usability:** UI distinguishes AI proposed, code computed, reviewer found, researcher approved and PI decided. |
 | NFR-09 | **Extensibility:** New stage must declare engine spec, settings, schemas, gates, events and verification; no cross-stage imports. |
+| NFR-10 | **Source rights:** JFE/Writing kiểm tra quyền lưu, model processing, excerpt và export. Nếu nguồn bị thu hồi quyền, giữ metadata/audit theo policy nhưng ngừng cung cấp nội dung không còn được phép. |
+| NFR-11 | **Claim fidelity:** Mỗi claim và số liệu trong bản thảo phải truy được về evidence đã được phê duyệt; bản thảo phải giữ nguyên scope, qualifiers và limitations của claim. |
+| NFR-12 | **Review usability:** Người dùng xem được evidence, annotation cần review, claim status, revision diff và các quyết định phê duyệt. |
 
 # 13. Release Status
 
@@ -342,3 +402,8 @@ Typical stable error boundaries include missing engine/config, problem required,
 - **Business intent:** project registration and report define the tabular/HGAR direction, five structure types and FE-16 as next increment.
 - **Implementation truth:** `/Users/ngothanhdat/Documents/CODE/3. capstone/capstone-projects/projects/logos`, especially `packages/contract`, `services/management`, `stages/*`, `deploy/.env.example`; frontend contract surface is under `ai-research-platform-fe`.
 - **Documentation links:** [BRD](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) and [architecture](architecture.md) must keep current/planned labels aligned with this PRD.
+
+- [JFE Complete PRD v2](../ai-research-platform-fe/docs/JFE_Deliverables_v2/JFE_v2/JFE_Complete_PRD_v2.md).
+- [Yêu cầu dữ liệu kho T3](../ai-research-platform-fe/docs/jfe-t3-api-requirements.md).
+- **Writing flow:** `ai-research-platform-fe/src/app/(main)/projects/[projectId]/_components/run-studio/writing/data/core.ts`.
+- **JFE flow:** `ai-research-platform-fe/src/app/(main)/projects/[projectId]/_components/run-studio/writing/data/jfe.ts`.

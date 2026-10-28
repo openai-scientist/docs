@@ -4,6 +4,27 @@ Lịch sử thay đổi và registry của toàn bộ tài liệu canonical tron
 `capstone-project-docs`. Các đường dẫn bên dưới là đường dẫn tương đối từ
 repository root.
 
+## 2026-10-28 — Bổ sung phạm vi JFE và Writing AIF vào BRD/PRD
+
+### Changed
+
+- [BRD v2.2 Draft](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md): bổ sung business problems/objectives/metrics, stakeholder, scope JFE/Writing, BR-47–BR-61, business rules, nguồn phụ thuộc và rủi ro về corpus rights/claim fidelity.
+- [PRD v2.2 Draft](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md): bổ sung JFE/Writing vào bảng users/permissions, flow dạng bước, PR-38–PR-52, bảng data/artifact và non-functional requirements theo khung sẵn có.
+- Nội dung JFE/Writing trình bày dưới dạng yêu cầu nghiệp vụ/sản phẩm và tiêu chí nghiệm thu; không đưa trạng thái triển khai, đánh giá preview/mock, backlog tích hợp hoặc hướng dẫn xử lý kỹ thuật vào BRD/PRD.
+- Giữ khung và số thứ tự các phần có sẵn; dùng lại role, bảng quyền, định dạng flow và bảng artifact, không thêm bảng stage hoặc cấu trúc song song. Giữ nguyên phạm vi tabular/FE-16; chỉ sửa BRD, PRD và changelog.
+
+### Validation
+
+- Kiểm tra inventory `rg --files`, `git status`/`git diff`; đối chiếu trực tiếp FE adapter/workspace, Writing stage definitions/mock engine, JFE stage definitions và các handoff dưới đây.
+- Kiểm tra 61 BR / 52 PR có ID duy nhất, liên tục; đủ flow lựa chọn journal → corpus → phân tích → profile và evidence → lập luận → drafting → review/export; links/anchors trong BRD/PRD và link của entry mới; table boundaries/code fences và `git diff --check` — pass. Changelog lịch sử có một link liên repo không resolve tại checkout này (`../capstone-projects/projects/ai-research-platform-fe/docs/pipeline_stage_1_to_8_guide.md`), đã tồn tại từ HEAD; không phát sinh broken link mới.
+- Không chạy frontend/backend tests, runtime API hoặc diagram generator/render: thay đổi chỉ là Markdown, không sửa code/diagram; không chứng nhận runtime hoặc empirical validation.
+
+### References
+
+- [PRD source references](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md#15-references-and-source-of-truth).
+- [JFE integration plan](../ai-research-platform-fe/docs/jfe-capstone-integration-plan.md), [JFE backend handoff](../ai-research-platform-fe/docs/jfe-backend-agent-handoff.md), [T3 repository requirements](../ai-research-platform-fe/docs/jfe-t3-api-requirements.md).
+- [FE JFE adapter](../ai-research-platform-fe/src/lib/api/services/fetch-jfe.ts); Writing source paths được ghi tại PRD §15. Link liên repo cần sibling checkout `ai-research-platform-fe`.
+
 ## 2026-10-28 — Đồng bộ BRD/PRD/architecture với source contract 4.0.0 và hướng HGAR tabular
 
 ### Changed
