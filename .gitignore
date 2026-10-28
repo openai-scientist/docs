@@ -10,3 +10,6 @@ __pycache__/
 /skills/
 docs/*
 .codex
+# draw.io temp files
+.$*.bkp
+.$*.dtmp
