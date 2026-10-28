@@ -4,6 +4,45 @@ Lịch sử thay đổi và registry của toàn bộ tài liệu canonical tron
 `capstone-project-docs`. Các đường dẫn bên dưới là đường dẫn tương đối từ
 repository root.
 
+## 2026-10-28 — Đồng bộ BRD/PRD/architecture với source contract 4.0.0 và hướng HGAR tabular
+
+### Changed
+
+- [BRD](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md): cập nhật từ `ResearchCase`/intent và pipeline hiện tại; bổ sung scope tabular, data-card boundary, năm loại cấu trúc dữ liệu, split-policy roadmap FE-16 và business requirements cho protocol freeze/execution/evidence.
+- [PRD](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md): đồng bộ `CONTRACT_VERSION=4.0.0`, `ResearchCase`, case amendment/charter, API route, dataset format/limit, current `random_rows` split, validators của analysis plan và release status.
+- [architecture](architecture.md): đồng bộ package ownership, pipeline `default`/`dataset_first`, engine contract, dataset/hypothesis/experiment-design behavior, PI authority, frontend/platform boundary và deployment settings.
+- Cả ba tài liệu đều ghi rõ current capability kết thúc ở reviewed/locked plan; structure-aware split, sandbox execution, statistical result/verdict/dossier là FE-16/HGAR next increment, chưa có trong source hiện tại.
+- Không sửa source code, frontend hoặc diagram/builder trong đợt này. Inventory diagram cho thấy một số artifact lịch sử vẫn mô tả execution/Popper target; chúng không được dùng làm source of truth cho ba tài liệu này và cần một đợt migration riêng nếu muốn publish lại diagram.
+
+### Validation
+
+- `rg --files` trên docs repo và source repo; source inventory được quét ở `capstone-projects/projects`, đối chiếu trực tiếp `logos/packages/contract`, `services/management`, `stages/*`, `deploy/.env.example` và frontend boundary.
+- Đọc/extract các PDF/DOCX trong `docs/` bằng `pdftotext`/`soffice`, render kiểm tra đại diện PDF; đối chiếu booklet HGAR, phiếu đăng ký và Report 7.
+- Kiểm tra local Markdown links/cross-reference sau khi đánh dấu các artifact lịch sử đã xoá/di chuyển; các link active trỏ tới file hiện hữu.
+- `git diff --check` — pass. Không chạy backend test/generator/render diagram vì không sửa source code hoặc diagram.
+
+### References
+
+- Local-only validation input (ignored by Git): `docs/example/Booklet_HGAR_Tabular_Data_Science_Expanded_v2.pdf`.
+- Local-only validation input (ignored by Git): `docs/1.2/register/FA26SE115_Phieu-dang-ky_ v1.2.docx`.
+- Local-only validation input (ignored by Git): `docs/1.2/report/FA26SE115_Report7.docx`.
+
+## 2026-10-27 — Định hướng lại nội dung phiếu đăng ký sang dữ liệu dạng bảng (AI Scientist cho tabular dataset)
+
+### Changed
+
+- `docs/1.2/register/FA26SE115_Phieu-dang-ky_ v1.2.docx` (thư mục `docs/` nằm trong `.gitignore`, file không được track): giữ nguyên định dạng, thông tin chung (lớp, GVHD, sinh viên, chữ ký) và tên đề tài (không được phép đổi), viết lại nội dung toàn bộ mục 3 và mục 4 theo booklet `docs/example/Booklet_HGAR_Tabular_Data_Science_Expanded_v2.pdf`.
+  - Tên đề tài giữ nguyên "Design and Evaluation of an AI Data Agent for Automated Data Analysis Using User-Provided Datasets"; nội dung điều hướng AI Data Agent thành một AI Scientist trên dữ liệu dạng bảng do người dùng cung cấp.
+  - Bỏ hướng AI Data Agent theo CRISP-DM và bỏ phạm vi ML/SE cũ; phạm vi mới là dữ liệu dạng bảng.
+  - Liệt kê 5 kiểu cấu trúc dữ liệu kèm split policy: quan sát độc lập, có cấu trúc nhóm, theo thời gian, panel/longitudinal, và cấu trúc đặc biệt cần adapter hoặc split policy riêng.
+  - Cập nhật functional/non-functional requirements, theory/practice, deliverables, task packages, research problems/questions/methodology theo hướng HGAR (protocol freeze, human gates, scientific reviewer).
+- `docs/1.2/report/FA26SE115_Report7.docx`: định vị lại report theo hướng dữ liệu dạng bảng, giữ nguyên tên đề tài và phần mô tả hệ thống đã code (API, DB, test, user manual).
+  - Mục I viết lại Overview, Product Background, Existing Systems (thêm 2 dòng Data structure, Leakage control vào bảng so sánh), Business Opportunity, Vision, Scope; thêm danh sách 5 kiểu cấu trúc dữ liệu kèm split policy; thêm FE-16 (ghi rõ là increment kế tiếp vì code hiện chưa có split policy), sửa LI-01, thêm EX-11, EX-12.
+  - Mục II: câu tổng quan nêu phạm vi tabular. Mục III: Product Overview nêu 5 kiểu cấu trúc, thêm đoạn mở đầu cho 3.4 Data Management và NFR 4.2.6 Scientific Validity.
+  - Dựng lại TOC có link; 159 trang, số trang ổn định.
+- Chưa sửa BRD/PRD/architecture: cần đồng bộ hướng tabular và FE-16 ở đợt sau.
+- Validation: render phiếu bằng LibreOffice (6 trang) và kiểm tra trực quan; `git diff --check` sạch.
+
 ## 2026-10-23 — Xoá các tài liệu handoff đã cũ
 
 ### Removed
@@ -87,7 +126,7 @@ repository root.
 ### Changed
 
 - Research run event stream (`research-run-event-stream.md`, đã xoá): `StagePlanStep.artifact` nay là tên cho người dùng đọc (ví dụ "Research goal", "Gap map") thay vì đường dẫn như `stage-01/goal.md`; thêm `StagePlan.reads` tuỳ chọn để FE hiện stage dựa vào gì và viết ra gì.
-- Bổ sung phần còn thiếu so với [hướng dẫn pipeline](../ai-research-platform-fe/docs/pipeline_stage_1_to_8_guide.md):
+- Bổ sung phần còn thiếu so với [hướng dẫn pipeline](../capstone-projects/projects/ai-research-platform-fe/docs/pipeline_stage_1_to_8_guide.md):
   - Stage 1: event `scope.approved` (`at`, `note`) cho bước PI duyệt goal, kèm mốc giờ lưu.
   - Stage 4: `literature.merged` đổi `sources[]` thành `records[]` (nguồn, ID, số trích dẫn, có DOI) cộng với `kept`. `literature.collected` thêm `collected_at`. `ShortlistPaper` thêm `source` và `citations`.
   - Stage 7: thêm event `synthesis.overview` và `synthesis.ranked` (cơ hội nghiên cứu xếp ưu tiên).
@@ -104,7 +143,7 @@ repository root.
 
 ### Changed
 
-- Research run event stream (`research-run-event-stream.md`, đã xoá): thay stage `understand` bằng 5 stage theo pipeline stage 1–7 ([hướng dẫn pipeline](../ai-research-platform-fe/docs/pipeline_stage_1_to_8_guide.md)): `scope` (1–2), `search` (3–4), `screen` (5), `read` (6), `synthesize` (7). `hypothesize` (stage 8) nay sinh hypothesis qua tranh luận 3 góc nhìn, mỗi hypothesis có 4 phần gồm tiêu chí bác bỏ `falsify`, kèm kiểm tra tính mới và khả thi.
+- Research run event stream (`research-run-event-stream.md`, đã xoá): thay stage `understand` bằng 5 stage theo pipeline stage 1–7 ([hướng dẫn pipeline](../capstone-projects/projects/ai-research-platform-fe/docs/pipeline_stage_1_to_8_guide.md)): `scope` (1–2), `search` (3–4), `screen` (5), `read` (6), `synthesize` (7). `hypothesize` (stage 8) nay sinh hypothesis qua tranh luận 3 góc nhìn, mỗi hypothesis có 4 phần gồm tiêu chí bác bỏ `falsify`, kèm kiểm tra tính mới và khả thi.
 - Khoá test plan (`plan.locked`, thêm `design`) chuyển sang step đầu của `experiment` (stage 9).
 - Thêm event `skills.loaded`; thêm agent `strategist`, đổi `knowledge` thành `librarian`; thêm luật 5 (hypothesis phải bác bỏ được) và luật 6 (con số nhớ ra chưa kiểm chứng cho tới khi có bài báo xác nhận).
 - Gate: `framing` đổi thành `scope`; thêm gate `screen` (HITL stage 5) cho Copilot và Full, cho phép bỏ bài khỏi shortlist.
@@ -154,7 +193,7 @@ repository root.
 
 ### Changed
 
-- Cập nhật [Conceptual ERD](diagrams/erd/conceptual-erd/AI-Research-Experimentation-Platform-Conceptual-ERD.drawio) và [ERD model](diagrams/erd/conceptual-erd/conceptual_erd.json): còn 42 entity, 69 relationship.
+- Cập nhật `AI-Research-Experimentation-Platform-Conceptual-ERD.drawio` và `conceptual_erd.json` (đã xoá; thay bằng [Platform BE Conceptual ERD](diagrams/erd/conceptual-erd/Platform-BE-Conceptual-ERD.drawio) và [ERD model](diagrams/erd/conceptual-erd/platform_be_conceptual_erd.json)): còn 42 entity, 69 relationship.
 - Bỏ entity `Organization` và ba relationship của nó (`owns` Project, `has member` User, `billed through` BillingAccount). BRD (BR-03, BRule-01) và PRD (§9, §10 FR-AUTH-03, §11, §44) không định nghĩa organization hay workspace: user đăng nhập rồi tạo project trực tiếp, và project là ranh giới cách ly dữ liệu. Tenant mà Popper yêu cầu (architecture §7) chính là Project.
 - Thêm `User owns Project` (1 — 0..n): người tạo project là owner (PRD FR-PROJ-01).
 - Thêm `Project billed through BillingAccount` (1 — 0..1) thay cho liên kết qua Organization, vì usage/cost được theo dõi theo project (PRD §37).
@@ -167,7 +206,7 @@ repository root.
 ### Changed
 
 - Cập nhật [BRD v1.10](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) và [PRD v1.9](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md), giữ nguyên tên file, cấu trúc module, thứ tự và toàn bộ mã requirement; không thêm module/BR/FR mới.
-- Nguồn đối chiếu là [Popper target architecture](../popper/docs/architecture.md) hiện tại: problem-first brief, Understand ⇄ Ground ⇄ Discover ⇄ Verify ⇄ Communicate, coordinator với bounded playbook; worker/decision layer là tùy chọn được đánh giá.
+- Nguồn đối chiếu là `Popper target architecture` (repo/path lịch sử không còn trong workspace): problem-first brief, Understand ⇄ Ground ⇄ Discover ⇄ Verify ⇄ Communicate, coordinator với bounded playbook; worker/decision layer là tùy chọn được đánh giá.
 - Sửa các câu mâu thuẫn trực tiếp: agent được viết/chạy/debug code trong sandbox; Verify tùy chọn; reserve unread units không cần approval, pin/freeze cần recorded approval; một primary look đã bắt đầu không được rerun để thay outcome.
 - BR-79 / Module AI: passive durable exposure/recording, round-scoped contract, Lineage/Program Error Plan kế thừa qua run, không cấp α mới cho mỗi batch/run. BR-60/80/81/87 và Module AF/AJ: tiếp tục nghiên cứu trên non-reserved data sau Verify, giữ origin/history, feedback/steering và recovery.
 - Đồng bộ summary, rules, acceptance criteria, provenance, risk và demo bị ảnh hưởng. Giữ các giá trị đề xuất của defaults, làm rõ one-batch demo grant và caller cap; run không Verify vẫn cung cấp exploratory figures, interpretation, code, sources và history.
@@ -175,7 +214,7 @@ repository root.
 
 ### Validation
 
-- Đối chiếu source architecture §1, §3.4–§3.6, §6–§10; [pipeline §2, §7.2](../popper/docs/subsystems/pipeline.md), [error control §2](../popper/docs/subsystems/error-control.md), [runtime](../popper/docs/subsystems/runtime.md).
+- Đối chiếu source architecture §1, §3.4–§3.6, §6–§10; `pipeline §2, §7.2`, `error control §2` và `runtime` (các path Popper lịch sử không còn trong workspace).
 - Kiểm tra 150 mã requirement trong BRD và 197 trong PRD: giữ nguyên danh sách/thứ tự so với HEAD; local links và code fences — pass.
 - Rà các rule hiện hành về generated code, reserved access, Verify retry và lineage error scope; kiểm tra cross-reference ID và link trong entry này — pass.
 - `git diff HEAD --check` — pass. Không chạy generator/render check vì không sửa diagram.
@@ -185,12 +224,12 @@ repository root.
 
 ### Added
 
-- Thêm [Conceptual ERD](diagrams/erd/conceptual-erd/AI-Research-Experimentation-Platform-Conceptual-ERD.drawio) dạng `.drawio` editable: 43 entity, 70 relationship, ký hiệu crow's foot, connector vuông góc.
+- Thêm `AI-Research-Experimentation-Platform-Conceptual-ERD.drawio` (đã xoá) dạng `.drawio` editable: 43 entity, 70 relationship, ký hiệu crow's foot, connector vuông góc.
 - Sơ đồ chia hai khung:
   - Platform (calling service): Organization, User, Role, ProjectMember, Project, BillingAccount, Dataset/DatasetSnapshot, Comment, Notification, PublicationRelease.
   - Popper (AI Scientist runtime), khung nét đứt. Các đường nối cắt qua ranh giới này là interface platform ↔ Popper (Popper architecture §4).
   - Các record của Popper mà platform dùng tới được tô riêng: PolicyVersion, DecisionRequest, UsageRecord, EvaluationDecision, DatasetAssessment.
-- Thêm [ERD model](diagrams/erd/conceptual-erd/conceptual_erd.json) và [ERD builder](diagrams/erd/conceptual-erd/build_conceptual_erd.py). Model ghi reference nguồn cho từng entity. Builder có `--check` để kiểm tra geometry của connector, và hỗ trợ khung nhóm.
+- Thêm `conceptual_erd.json` (đã xoá) và [ERD builder](diagrams/erd/conceptual-erd/build_conceptual_erd.py). Model ghi reference nguồn cho từng entity. Builder có `--check` để kiểm tra geometry của connector, và hỗ trợ khung nhóm.
 - Nguồn: `docs/` của repo `popper`, gồm architecture §1, §4, §6, §7; state §1–§2; research-program §1–§2; error-control §2; Stage 1–5; runtime §7–§10; views-and-visualization §1; evaluation §5.
 - Ở mức conceptual, sơ đồ bỏ Artifact envelope, events, traces và các entity phụ (Construct, DataLead, Critique, Theory, Campaign, MethodLesson, Statement). Các phần này sẽ nằm trong logical ERD.
 - File `.drawio` đã được chỉnh tay trong draw.io sau khi build: bỏ legend, dòng Source, scope note và các note sends/receives; rút gọn tiêu đề hai khung. Builder chưa tái tạo các chỉnh sửa này, nên chạy lại builder sẽ ghi đè chúng.
@@ -304,8 +343,8 @@ repository root.
 
 ### References
 
-- [BRD v1.8 Draft](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) và [bản REQ-TOOL](AI-Research-Experimentation-Platform-BRD-v1.8-REQ-TOOL.md)
-- [PRD v1.7 Draft](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md) và [bản REQ-TOOL](AI-Research-Experimentation-Platform-PRD-v1.7-REQ-TOOL.md)
+- [BRD v1.8 Draft](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) và bản REQ-TOOL (đã xoá)
+- [PRD v1.7 Draft](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md) và bản REQ-TOOL (đã xoá)
 - [Context — DFD Level 0](diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio)
 - [Activity — Main Flows](diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio)
 - [Sequence — Main Flows](diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio)
@@ -462,7 +501,7 @@ repository root.
 
 #### Auxiliary artifact
 
-- [Use Case diagram backup](<diagrams/usecase-diagrams/.$AI-Research-Experimentation-Platform-Use-Case.drawio.bkp>) — bản backup kỹ thuật, không phải source of truth.
+- Use Case diagram backup `.$AI-Research-Experimentation-Platform-Use-Case.drawio.bkp` (đã xoá) — bản backup kỹ thuật, không phải source of truth.
 
 ## Quy ước registry
 

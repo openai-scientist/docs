@@ -2,236 +2,300 @@
 ## AI Research Experimentation Platform
 
 **Document Type:** Business Requirements Document\
-**Project:** AI Research Experimentation Platform (codebase `logos` + `ai-research-platform-fe`)\
-**Version:** 2.0 Draft (2026-10-23)\
-**Status:** Viết lại theo hệ thống đã hiện thực. Thay thế toàn bộ BRD v1.x (dựa trên Popper target architecture).\
+**Project:** AI Research Experimentation Platform (`logos` + `ai-research-platform-fe`)\
+**Version:** 2.1 Draft (2026-10-28)\
+**Status:** Đồng bộ với source hiện tại và định hướng HGAR trên dữ liệu dạng bảng. Tên file v1.8 được giữ để không làm hỏng liên kết cũ.\
 **Liên quan:** [PRD](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md) · [Architecture](architecture.md) · [changelog](changelog.md)
+
+> **Ranh giới năng lực:** BRD này phân biệt rõ capability đang có trong source với increment tiếp theo. Bản hiện tại đã có intake/profile dữ liệu dạng bảng, data card/brief, hypothesis có evidence và experiment-design plan có review. FE-16 (nhận diện cấu trúc dữ liệu và enforcement split policy), sandbox execution, kết quả thống kê, verdict và dossier chưa được coi là capability đã triển khai.
 
 ---
 
 # 1. Executive Summary
 
-AI Research Experimentation Platform giúp researcher đi từ **một chủ đề nghiên cứu hoặc một bảng dữ liệu** tới **một tập hypothesis có bằng chứng** và **một experiment plan đã được review độc lập**, với AI agent làm phần lớn công việc và con người kiểm soát ở các điểm quyết định.
+AI Research Experimentation Platform giúp researcher đi từ một **research case** hoặc một **dataset version** tới data card/research brief, hypothesis có bằng chứng và experiment plan được review. AI thực hiện phần công việc có thể kiểm tra bằng code; researcher hoặc AI Principal Investigator (PI) giữ quyền đối với mục tiêu, phạm vi, gate và quyết định accept/send-back.
 
-Luồng nghiệp vụ:
+Luồng hiện tại:
 
 ```text
-Topic (+ domains)            hoặc     Dataset version (+ objective tuỳ chọn)
-        │                                        │
-        │                                  [dataset] data card + research brief
-        ▼                                        ▼
-[hypothesis] literature → evidence cards → research gaps → hypotheses (falsifiable)
+ResearchCase
+(intent + problem/context/constraints/references/domains; có thể gắn dataset)
+        │
+        ├─ có dataset_version_id ───────────────► dataset_first
+        │                                         dataset → hypothesis → experiment_design
+        │
+        └─ không có dataset ────────────────────► default
+                                                  hypothesis → experiment_design
+
+dataset: ingest → profile → describe → [explore tắt mặc định] → propose → brief
+        │              │                         │
+        │              └─ data_card_review       └─ question_choice
         ▼
-[experiment_design] resources → plan → critique độc lập → final check → locked plan
+hypothesis: literature/evidence → gaps → falsifiable hypotheses → review
         ▼
-Researcher / AI PI: accept từng stage, send-back khi cần, đóng run
+experiment_design: resources → statistical analysis plan → independent critique → lock
+        ▼
+researcher / PI: gate, accept/send-back, pause/resume/stop; PI-controlled close
 ```
 
-Ba giá trị cốt lõi:
+Định hướng tabular/HGAR của đề tài mở rộng luồng sau khi plan được lock:
 
-1. **Traceability**: mỗi claim trỏ về record lưu trữ (paper, evidence card, cột dữ liệu); mọi con số do code tính.
-2. **Review độc lập**: mỗi stage có reviewer riêng (model khác role `review`) và vòng revise có giới hạn; finding được công bố cùng artifact.
-3. **Human control có thể chọn mức**: mode `light` để researcher trả lời gate; mode `auto` để AI Principal Investigator (PI) quyết thay trong giới hạn charter, vẫn escalate khi có vấn đề integrity.
+```text
+[FE-16 kế tiếp] cấu trúc dữ liệu → split policy phù hợp → protocol freeze
+                → sandbox execution → evidence/statistical verdict → dossier
+```
 
-Hệ thống **không** chạy experiment, không tính kết quả nghiên cứu để kết luận, không viết paper.
+Đoạn sau là roadmap, không phải mô tả trạng thái source hiện tại.
+
+> Luồng dataset-first ở trên là capability của Platform/engine source. FE adapter hiện vẫn ưu tiên luồng hypothesis và chưa expose đầy đủ `dataset_version_id`, `explore_dataset` và dataset-stage UI; đây là phần FE integration cần hoàn thiện.
+
+Ba giá trị kinh doanh:
+
+1. **Traceability:** claim, evidence, data card, decision và artifact có provenance; con số phải đến từ code.
+2. **Review độc lập:** mỗi stage có reviewer/validator riêng, revision có giới hạn và finding được lưu cùng artifact.
+3. **Human control:** mode `light` để researcher xử lý gate; mode `auto` để PI quyết trong phạm vi charter và escalate khi có vấn đề integrity.
 
 # 2. Business Context
 
-Nghiên cứu dựa trên dữ liệu và literature cần nhiều bước thủ công: tìm và sàng lọc paper, trích bằng chứng, tìm gap, đặt hypothesis có thể bác bỏ, thiết kế experiment có baseline, control, power và kế hoạch phân tích. Các bước này tốn thời gian, đòi hỏi chuyên môn phương pháp luận và dễ sai mà không ai phát hiện.
+Nghiên cứu trên dữ liệu bảng cần đồng thời hiểu dataset, đặt câu hỏi có thể trả lời, kiểm soát leakage và lập kế hoạch phân tích. Lỗi split là rủi ro đặc biệt quan trọng: các hàng có cùng entity, cùng panel hoặc có quan hệ thời gian không thể luôn được đối xử như IID rows. Bên cạnh đó, preprocess/resampling ngoài vòng validation hoặc dùng lại holdout có thể làm kết quả lạc quan giả.
 
-LLM có thể làm nhanh các bước này nhưng có rủi ro: bịa trích dẫn, bịa số, trình bày giả định như kết luận, bỏ qua leakage hay baseline. Doanh nghiệp/nhóm nghiên cứu cần một nền tảng vừa tận dụng AI vừa giữ được provenance, review và quyền quyết định của con người.
+LLM có thể hỗ trợ tìm literature, mô tả biến và soạn kế hoạch nhanh hơn, nhưng có rủi ro bịa nguồn/số, nhầm proxy với khái niệm, bỏ qua missingness/confounding hoặc trình bày giả định như kết luận. Nền tảng phải tách phần AI đề xuất, code kiểm tra và phần researcher phê duyệt.
 
 # 3. Business Problems
 
 | ID | Vấn đề |
 |---|---|
-| BP-01 | Tổng quan literature và tìm research gap tốn nhiều tuần và phụ thuộc người làm. |
-| BP-02 | Hypothesis do người hay AI viết thường mơ hồ, không có tiêu chí bác bỏ. |
-| BP-03 | Experiment plan thiếu baseline, control, phân tích thống kê, kiểm soát leakage; lỗi chỉ lộ ra sau khi đã chạy. |
-| BP-04 | AI có thể bịa paper, số liệu hoặc nguồn; khó kiểm chứng nếu không có provenance. |
-| BP-05 | Dataset thực tế khó hiểu nhanh (biến, kiểu, missing, mã hoá) và có rủi ro lộ dữ liệu khi đưa cho LLM. |
-| BP-06 | Một AI tự chạy hết dễ tự xác nhận chính nó; cần reviewer độc lập và con người ở điểm rủi ro. |
-| BP-07 | Chi phí LLM khó kiểm soát theo run và theo project. |
-| BP-08 | Nhóm nghiên cứu cần cộng tác (phân quyền, comment, thông báo, audit) quanh cùng một run. |
+| BP-01 | Tổng quan literature, sàng lọc evidence và tìm research gap tốn nhiều thời gian. |
+| BP-02 | Hypothesis thường mơ hồ, không có biến, phép đo hoặc tiêu chí bác bỏ rõ. |
+| BP-03 | Experiment/analysis plan có thể thiếu baseline, control, thống kê, missing-data plan hoặc kiểm soát leakage. |
+| BP-04 | LLM có thể bịa citation, số liệu hoặc mức độ chắc chắn; khó audit nếu artifact không có provenance. |
+| BP-05 | Dataset thực tế khó hiểu nhanh: kiểu biến, mã missing, cardinality, free text, PII và unit of observation. |
+| BP-06 | Random row split không phù hợp với grouped, temporal, panel/longitudinal hoặc cấu trúc đặc biệt sẽ làm rò rỉ thông tin. |
+| BP-07 | Preprocess/resampling và việc xem lại holdout có thể làm sai tính xác nhận của phân tích. |
+| BP-08 | Một AI tự lập kế hoạch rồi tự chấp thuận dễ tự xác nhận chính nó; cần reviewer và human gate. |
+| BP-09 | Token, model key và chi phí theo run/project cần được kiểm soát. |
+| BP-10 | Nhóm nghiên cứu cần cộng tác, comment, notification và audit quanh cùng một run. |
 
 # 4. Business Objectives
 
 | ID | Mục tiêu | Liên kết |
 |---|---|---|
-| BO-01 | Rút ngắn đường từ topic/dataset tới hypothesis có bằng chứng và experiment plan có thể review. | BP-01, BP-02, BP-03 |
-| BO-02 | Mọi claim, số liệu, nguồn đều truy được về record lưu trữ hoặc phép tính của code. | BP-04 |
-| BO-03 | Hiểu dataset mà không để model thấy dòng dữ liệu. | BP-05 |
-| BO-04 | Mỗi stage có review độc lập, finding công khai và revise có giới hạn. | BP-03, BP-06 |
-| BO-05 | Con người giữ quyền ở gate và ở quyết định accept/send-back; mode auto có PI và escalation. | BP-06 |
-| BO-06 | Kiểm soát chi phí bằng token budget theo run và budget tháng theo project. | BP-07 |
-| BO-07 | Cộng tác an toàn: role cố định, lời mời, comment, thông báo, webhook, audit log. | BP-08 |
-| BO-08 | Đo được chất lượng agent bằng bench có chấm điểm. | BP-06 |
+| BO-01 | Rút ngắn đường từ research case/dataset tới hypothesis có evidence và plan có thể review. | BP-01..BP-03 |
+| BO-02 | Truy được claim, citation, biến, số liệu và quyết định về record hoặc phép tính của code. | BP-04, BP-05 |
+| BO-03 | Profile dataset theo data-card path mà không đưa raw rows cho model; bảo vệ source, hash và version, đồng thời kiểm soát rõ nhánh `explore`. | BP-05 |
+| BO-04 | Làm cho unit of observation, leakage risk và split policy trở thành phần bắt buộc của hướng tabular kế tiếp. | BP-06, BP-07 |
+| BO-05 | Duy trì review độc lập, human gate, PI escalation và audit trail. | BP-08 |
+| BO-06 | Kiểm soát token budget, model key và ngân sách project. | BP-09 |
+| BO-07 | Hỗ trợ collaboration an toàn trong phạm vi project. | BP-10 |
+| BO-08 | Đánh giá hệ thống bằng benchmark, seeded flaws và so sánh human-only/AutoML/generic agent/HGAR ở increment nghiên cứu. | BP-06, BP-08 |
 
 # 5. Success Metrics
 
+## 5.1 Đo được với capability hiện tại
+
 | Metric | Cách đo |
 |---|---|
-| Run hoàn tất | Tỉ lệ run tới `completed` so với `failed` (không tính `stopped` do người dùng). |
-| Traceability | 0 artifact được publish với evidence ref không resolve (gate code chặn). |
-| Chất lượng hypothesis | Điểm bench `logos_eval` trên hypothesis cases (ML/SE). |
-| Chất lượng critic | Seeded-flaw recall của critic experiment_design (`python -m logos_eval.flaws`). |
-| Tự phục hồi | Số stage được healing chạy lại thành công so với số cần người can thiệp. |
-| Chi phí | Token mỗi run, tỉ lệ run `budget_exceeded`. |
-| Thời gian | Thời gian từ tạo run tới stage cuối được publish. |
+| Run progress/completion | Tỉ lệ Platform run kết thúc với trạng thái và gap rõ; phân biệt `queued`, `running`, `paused`, `awaiting_review`, `completed`, `budget_exceeded`, `failed`, `stopped` và action abandon. |
+| Stage completion | Tỉ lệ stage đạt `PENDING`, `RUNNING`, `COMPLETED`, `ACCEPTED`, `FAILED`, `STOPPED` hoặc `SUPERSEDED`, tách khỏi run-level status. |
+| Traceability | Không publish artifact có evidence ref, schema id hoặc số liệu không resolve/không do code tạo. |
+| Review quality | Finding blocking được phát hiện trong seeded-flaw bench; theo dõi revision và known risk. |
+| Data safety | Data card có source hash/access record; data-card path không nhận raw row, còn `explore` là nhánh experimental đang tắt mặc định và có boundary riêng. |
+| Budget compliance | Không stage nào vượt token budget; đo `budget_exceeded`, usage và cost ledger theo run/project. |
+| Reliability | Tỉ lệ resume/healing thành công sau pause/provider failure; lỗi cần người có mã và hướng xử lý rõ. |
+
+## 5.2 Metrics cho increment FE-16/HGAR
+
+| Metric | Cách đo |
+|---|---|
+| RQ1 — structure detection | Độ chính xác phân loại independent/grouped/temporal/panel/special so với nhãn chuyên gia. |
+| RQ2 — protocol validity | Tỉ lệ lỗi split, leakage, train-only preprocessing/resampling và holdout reuse được seeded test phát hiện trước khi chạy. |
+| RQ3 — cycle quality | Tỉ lệ hoàn tất full cycle, verdict có evidence, thời gian và chi phí so với human-only, AutoML-only và generic agent. |
+| Reproducibility | Dataset hash, case/protocol version, code/environment, seed, params và outputs đủ để tái lập run. |
+| Human control | Mọi thay đổi protocol, holdout, spending và claim/publication đều có researcher approval/audit record. |
 
 # 6. Stakeholders
 
 | Stakeholder | Role hệ thống | Mối quan tâm |
 |---|---|---|
-| System Administrator | `platform_admin` | Cấu hình model/key, engine settings, budget mặc định, user, giám sát, audit |
-| Project Manager | `project_manager` | Project, thành viên, dữ liệu, run, đóng/hoàn tất project, abandon run |
-| Researcher / Data Analyst | `researcher` | Dữ liệu, bắt đầu run, trả lời gate, accept/send-back, charter, directive |
-| Reviewer / Stakeholder | `reviewer` | Đọc kết quả, comment |
-| AI Principal Investigator | Service `oversight` | Quyết định/khuyến nghị pipeline theo charter |
+| System Administrator | `platform_admin` | Model/key, engine settings, budget mặc định, user, audit và vận hành. |
+| Project Manager | `project_manager` | Project, member, dataset, run, budget và close/abandon. |
+| Researcher / Data Analyst | `researcher` | Research case, dataset, clarification, gate, hypothesis, plan và accept/send-back. |
+| Reviewer / Stakeholder | `reviewer` | Đọc artifact, finding và comment trong phạm vi project. |
+| Data/Methodology Reviewer | reviewer nghiệp vụ ở increment tương lai | Xác nhận unit, structure, split policy và protocol freeze. Chưa phải service/role riêng trong source hiện tại. |
+| AI Principal Investigator | service `oversight` | Charter, stage outcome, failure, close, obligation và escalation. |
 
-# 7. As-Is (không có platform)
+# 7. As-Is
 
-Researcher tự tìm paper qua công cụ tìm kiếm, ghi chú thủ công, tự viết hypothesis và plan trong tài liệu rời; review dựa vào đồng nghiệp khi có thời gian; dùng chatbot thì không có provenance, không giới hạn chi phí, không lưu vết quyết định.
+Researcher tự tìm paper, ghi chú, kiểm tra dataset và viết plan trong các file rời. Quy tắc split/leakage có thể chỉ nằm trong kinh nghiệm cá nhân; reviewer khó biết model đã thấy gì; chi phí, quyết định và phiên bản dữ liệu không được nối thành một audit trail.
 
 # 8. To-Be
 
-- Một workspace theo project: dữ liệu, tài liệu, thành viên, run, kết quả, comment.
-- Run được điều phối qua pipeline engine có contract rõ; tiến trình hiển thị trực tiếp (Run studio).
-- Mỗi stage publish artifact bất biến kèm review finding, revision diff và gap.
-- Researcher hoặc AI PI quyết định accept/send-back; mọi quyết định được ghi.
-- Chi phí bị chặn bởi budget; lỗi hạ tầng được tự phục hồi.
+- Một project workspace chứa dataset versions, files, members, runs, artifacts, comments, notifications và audit.
+- Một run bắt đầu bằng `ResearchCase` có intent, problem hoặc dataset exploration, context, constraints, references và domains.
+- Dataset stage tạo data card/research brief từ aggregates; data-card path không đưa raw rows vào model/artifact. Nhánh `explore` experimental tắt mặc định và phải có boundary riêng.
+- Hypothesis stage tạo evidence-linked, falsifiable hypotheses; experiment-design stage tạo plan được critique và lock.
+- Researcher/PI quyết định ở gate; mọi clarification/amendment/accept/send-back đều có version và event.
+- FE-16 bổ sung structure-aware split policy và protocol controls; execution/verdict/dossier chỉ được mở sau khi có sandbox, provenance và validation tương ứng.
 
 # 9. Scope
 
-## 9.1 Trong phạm vi (đã hiện thực)
+## 9.1 Trong phạm vi — đã có trong source hiện tại
 
 | Nhóm | Nội dung |
 |---|---|
-| Tài khoản | Đăng nhập không mật khẩu (mã 6 số / link), Google sign-in tuỳ chọn, onboarding, avatar, admin tạo/khoá user |
-| Project | Tạo, sửa, archive/restore, complete/reopen; trạng thái suy ra tự động; không hard delete |
-| Thành viên | 3 project role + platform admin; mời qua email, hết hạn 24 giờ |
-| Dữ liệu | Dataset CSV/XLSX có version; data connection PostgreSQL, MySQL, BigQuery, Google Sheets, Google Drive, Prometheus, InfluxDB; project files |
-| Run | Pipeline `default` (topic) và `dataset_first` (dataset); mode `light`/`auto`; gate, accept, send-back, rerun, pause/resume/stop/abandon, sync |
-| Engine | `dataset`, `hypothesis`, `experiment_design` |
-| AI PI | Charter, stage outcome, failure, close; Critic (tắt mặc định); directive; obligation |
-| Chi phí | Token budget theo run, tăng budget để resume; budget tháng project; cost ledger; usage admin |
-| Cộng tác | Comment trên run, thông báo + SSE, preference, webhook Slack/Teams/Discord, audit log |
-| Quản trị | Model theo role, integration (TypeSafe), admin/engine settings, overview, usage, log monitoring |
-| Đánh giá | Bench `logos_eval` |
+| Tài khoản & quyền | Passwordless auth, onboarding, platform admin, project role `project_manager`/`researcher`/`reviewer`, member invitation và access control. |
+| Project | Create/edit/archive/restore/complete/reopen; project là scope cao nhất, không organization layer. |
+| Dataset | Versioned upload/import; CSV, TSV, XLSX, SAV, ZSAV, DTA, Parquet và zip/codebook theo dataset service; giới hạn mặc định 50 MiB. |
+| Connections | Import table/view/SELECT từ connector được hỗ trợ; credential không trả về, host private bị chặn. |
+| Research case | Intent `test`, `compare`, `explain`, `explore_dataset`; problem/context/constraints/references/domains; dataset version; charter, clarification và amendment. |
+| Run orchestration | Pipeline `default` hoặc `dataset_first`; một active run/project; light/auto; gate, stage review, accept/send-back, pause/resume/stop/rerun/sync/abandon. |
+| Dataset engine | `ingest → profile → describe → explore → propose → brief`; data card, brief, optional explore report; gates `data_card_review` và `question_choice`. |
+| Hypothesis engine | Literature/evidence pipeline, gap, hypothesis, provenance, review và revision. |
+| Experiment design | Resource grounding, plan, independent critique, validators/calculators, final check và locked plan. Với data card, plan là statistical analysis plan. |
+| AI PI & governance | Charter, stage outcome, failure, close, directive, obligation, escalation; Critic có cờ cấu hình riêng. |
+| Collaboration & admin | Comments, notifications/SSE, webhooks, audit, model/integration/engine settings, usage và cost ledger. |
+| Evaluation | `logos_eval` bench và seeded-flaw evaluation theo source hiện tại. |
 
-## 9.2 Ngoài phạm vi
+## 9.2 Increment tabular/HGAR — yêu cầu kế tiếp, chưa coi là đã triển khai
 
-- Chạy experiment, huấn luyện model, tính kết quả thống kê để kết luận finding.
-- Viết paper/manuscript; Verify/confirmation trên dữ liệu reserved (kiến trúc Popper cũ).
-- Organization/multi-tenant; project là scope cao nhất.
-- Permission table hay custom role.
-- Engine `objective` và pipeline nghiên cứu observational của Logos v1 (đã park ở tag `logos-v1-parked`).
-- `explore` (Data Formulator) ở production cho tới khi có sandbox docker.
+| Nhóm | Nội dung mục tiêu |
+|---|---|
+| Structure classification | Phân biệt independent, grouped, temporal, panel/longitudinal và special. Researcher xác nhận hoặc sửa. |
+| Split policy registry | Chọn policy theo structure: repeated stratified k-fold cho independent; group-disjoint cho grouped; chronological/rolling-origin cho temporal; entity-disjoint + past-to-future cho panel; adapter riêng cho special. |
+| Dataset manifest | Ghi hash, schema, license, target, unit, group/time, risks, access và quyết định structure. |
+| Protocol freeze | Freeze baselines, factors, split, metrics, seeds, statistical plan, compute budget và approvals trước execution. |
+| Sandbox execution | Chạy code cô lập, network off mặc định, preflight leakage, train-only preprocessing/resampling, checkpoint/resume/retry và immutable run. |
+| Evidence & dossier | Lưu effect/CIs/practical margins, verdict supported/not supported/inconclusive và dossier được researcher duyệt. |
 
-# 10. Business Requirements
+# 10. Ngoài phạm vi
 
-## 10.1 Truy cập và cộng tác
+- Trong baseline hiện tại: model training, experiment execution, statistical result generation, verdict và publication dossier.
+- Không tự động xử lý special structures nếu chưa có adapter/split policy riêng.
+- Ảnh, free text như nguồn phân tích chính, deep learning, federated learning và reinforcement learning.
+- Organization/multi-tenant, custom role/permission matrix và UI riêng của engine.
+- Đưa raw rows vào LLM để “tự khám phá” khi chưa có sandbox/consent; `explore` hiện tắt mặc định.
+- Tuyên bố causal effect hoặc kết luận publication chỉ từ plan/hypothesis.
+
+# 11. Business Requirements
+
+## 11.1 Truy cập và cộng tác
 
 | ID | Yêu cầu |
 |---|---|
-| BR-01 | Người dùng đăng nhập bằng email không mật khẩu; tài khoản tạo khi đăng nhập lần đầu; Google sign-in khi được cấu hình. |
-| BR-02 | Quyền chỉ dựa vào role: `platform_admin` hoặc `user` ở cấp hệ thống; `project_manager`, `researcher`, `reviewer` ở cấp project. Không phải member thì không thấy project. |
-| BR-03 | Project luôn có ít nhất một Project Manager active. Project archived chỉ đọc. |
-| BR-04 | Thêm thành viên là lời mời; chỉ thành member sau khi chấp nhận. |
-| BR-05 | Mọi thay đổi được ghi audit log; Project Manager xem log project, Admin xem log toàn hệ thống. |
-| BR-06 | Thành viên comment trên run; nhận thông báo realtime; có thể gửi event run ra Slack/Teams/Discord. |
+| BR-01 | Người dùng đăng nhập bằng passwordless email; Google sign-in chỉ có khi được cấu hình. |
+| BR-02 | Quyền dựa trên `platform_admin` và project role `project_manager`, `researcher`, `reviewer`; non-member nhận `404`, thiếu role nhận lỗi `403`. |
+| BR-03 | Project có ít nhất một Project Manager active; project archived là read-only. |
+| BR-04 | Member vào project qua invitation; expiry do access setting kiểm soát, mặc định hiện tại là 7 ngày và không vượt 720 giờ. |
+| BR-05 | Thay đổi quan trọng có audit; comment, notification/SSE và webhook dùng để cộng tác. |
 
-## 10.2 Dữ liệu
-
-| ID | Yêu cầu |
-|---|---|
-| BR-07 | Upload CSV hoặc XLSX (sheet đầu); UTF-8, header unique, độ rộng dòng đều, tối đa 50 MiB mặc định. |
-| BR-08 | File mới là version mới; không ghi đè dữ liệu cũ. |
-| BR-09 | Import từ data connection (bảng hoặc `SELECT`) thành dataset version; credential mã hoá, không trả về; chặn host private. |
-| BR-10 | Engine `dataset` tạo data card kiểu SPSS và research brief; mọi số do code tính; model không thấy dòng dữ liệu; không copy dòng dữ liệu vào artifact; nhóm nhỏ hơn `min_cell` bị gộp. |
-| BR-11 | Researcher review data card và chọn research question ở gate (mode light). |
-
-## 10.3 Hypothesis
+## 11.2 Research case và run
 
 | ID | Yêu cầu |
 |---|---|
-| BR-12 | Từ topic (12–2000 ký tự) và tối đa 6 domain, hệ thống tìm literature thật, sàng lọc, trích evidence card ở mức abstract, tổng hợp gap và sinh hypothesis. |
-| BR-13 | Mỗi paper có provenance; mỗi card/gap/hypothesis tham chiếu record lưu trữ; paper không chấm điểm bị loại có lý do. |
-| BR-14 | Mỗi hypothesis có falsification criterion nêu quan sát cụ thể làm nó sai. |
-| BR-15 | Novelty report được gắn nhãn là đánh giá heuristic. |
-| BR-16 | Researcher duyệt shortlist (bỏ paper / yêu cầu tìm lại) và duyệt tập hypothesis (giữ/bỏ / comment để revise). |
-| BR-17 | Thiếu model, credential hay literature thì run báo lỗi rõ, không sinh nội dung giả. |
+| BR-06 | Tạo run phải nhận một `ResearchCase`, không dùng `topic`/`objective` legacy làm source chính. |
+| BR-07 | `intent.kind` thuộc `test`, `compare`, `explain`, `explore_dataset`; intent text dài 12–2000 ký tự. |
+| BR-08 | `problem` dài 12–2000 ký tự, bắt buộc khi case settled trừ `explore_dataset`; explore phải có dataset version. |
+| BR-09 | Case lưu `context` (tối đa 4000), tối đa 20 constraints, 30 references và tối đa 10 domains; nếu không có dataset phải có ít nhất một domain. |
+| BR-10 | Case được settled trước khi engine chạy; PI charter/clarification không được ghi đè phần researcher. |
+| BR-11 | Sau khi settled, thay đổi chỉ qua researcher amendment có reason, version và event; stage đã bắt đầu vẫn giữ case version cũ. |
+| BR-12 | Có `dataset_version_id` thì chạy `dataset_first`; không có dataset thì chạy `default`. `explore_dataset` là intent đặc biệt cho phép dataset stage đề xuất problem; pipeline hiện tại kết thúc ở reviewed/locked plan. |
 
-## 10.4 Experiment design
-
-| ID | Yêu cầu |
-|---|---|
-| BR-18 | Từ hypothesis đã accept, hệ thống tìm resource có nguồn kiểm chứng (dataset, benchmark, baseline, code). |
-| BR-19 | Hệ thống viết experiment plan phủ mọi hypothesis, mỗi hypothesis có claim và decision rule riêng; chỉ researcher được loại/hoãn hypothesis. |
-| BR-20 | Plan được hai critic độc lập (Methodologist, Skeptic) review, revise có giới hạn, rồi final check mới. |
-| BR-21 | Mọi tính toán thống kê (ví dụ power) do calculator có test tham chiếu; không bịa số. |
-| BR-22 | Plan được đóng băng theo byte kèm hash; trạng thái review, gap, assumption nằm ở metadata. Plan chưa review xong vẫn publish với gap/finding mở; publish không đồng nghĩa với chấp thuận hay quyền chạy experiment. |
-| BR-23 | Researcher review resource và plan ở gate; comment ở plan gửi plan qua thêm một vòng critique. |
-
-## 10.5 Điều phối run
+## 11.3 Dataset và data card
 
 | ID | Yêu cầu |
 |---|---|
-| BR-24 | Mỗi project chỉ có một run active. |
-| BR-25 | Run đi qua các stage của pipeline; stage hoàn tất phải được accept trước khi sang stage sau; có thể send-back về stage trước (tối đa `max_iterations`) hoặc rerun. |
-| BR-26 | Mode `light`: researcher trả lời gate và quyết định accept/send-back. Mode `auto`: không mở gate tuỳ chọn, PI quyết định trong giới hạn. |
-| BR-27 | Câu hỏi của agent không chặn run: hệ thống chọn default, ghi lại và đánh dấu không phải ý định researcher. |
-| BR-28 | Giới hạn (vòng revise, token) kết thúc stage sớm với gap được ghi, không làm mất kết quả tốt nhất hiện có. |
-| BR-29 | Lỗi hạ tầng tạm thời được tự chạy lại; khi cần người, hệ thống nói rõ cần làm gì. |
-| BR-30 | Người có quyền pause, resume, stop run; Project Manager abandon run bị kẹt. |
+| BR-13 | Upload/import tạo dataset version bất biến; không ghi đè version cũ và lưu SHA-256/source metadata. |
+| BR-14 | Dataset service nhận CSV, TSV, XLSX, SAV, ZSAV, DTA, Parquet và zip/codebook; giới hạn upload mặc định 50 MiB. |
+| BR-15 | Data connection chỉ import nguồn/statement được phép; credential được seal, không trả về/log, private host bị chặn. |
+| BR-16 | Dataset engine tạo data card gồm unit, rows/columns, variable type/measure/role/kind, missingness, cardinality, flags, access, caveats và decisions. |
+| BR-17 | Mọi số trong data card do code tính; data-card path chỉ đưa aggregates/data card cho model, không copy raw row vào published artifact; `explore` là nhánh experimental đang tắt mặc định và category dưới `min_cell` không lộ count. |
+| BR-18 | Data card hiện ghi split `random_rows` gồm exploration/confirmation rows với seed/fraction; đây là exploratory/confirmation split, chưa phải structure-aware evaluation split. |
+| BR-19 | Researcher có thể review data card và chọn research question ở gate; mode auto dùng rule/PI theo cấu hình. |
 
-## 10.6 AI Principal Investigator
+## 11.4 Tabular scientific validity — FE-16 kế tiếp
+
+| ID | Yêu cầu mục tiêu |
+|---|---|
+| BR-20 | Hệ thống nhận diện independent/grouped/temporal/panel/special và hiển thị lý do/độ tin cậy cho researcher. |
+| BR-21 | Researcher xác nhận target, unit of observation, entity/group key, time/order, availability và leakage risk. |
+| BR-22 | Hệ thống chọn hoặc yêu cầu researcher chọn split policy khớp structure; không cho plan ghi policy mâu thuẫn với manifest. |
+| BR-23 | Preprocess và resampling phải nằm trong training fold; confirmation/holdout chỉ dùng theo protocol và một lần. |
+| BR-24 | Protocol freeze ghi baselines, factors, split, metrics, seed, statistical plan, budget và human approval trước execution. |
+| BR-25 | Special structure chỉ được chạy khi có adapter/policy được đăng ký; nếu không thì block hoặc đưa ra ngoài scope, không tự fallback random rows. |
+| BR-26 | Mọi structure/split decision, amendment và exception phải có provenance/audit và đi cùng dataset hash. |
+
+## 11.5 Hypothesis
 
 | ID | Yêu cầu |
 |---|---|
-| BR-31 | PI soạn charter (research question, objective, success criterion); researcher có thể sửa và thêm directive. |
-| BR-32 | PI quyết định (auto) hoặc khuyến nghị (light) ở stage outcome và failure; luôn viết close report. |
-| BR-33 | PI không được kết thúc run, không trả lời gate engine, không accept item bị chặn trừ khi ghi rõ là known risk. |
-| BR-34 | Rủi ro được chấp nhận trở thành obligation mà stage sau phải xử lý; close report nêu mọi obligation mở. |
-| BR-35 | Escalation về integrity, xung đột charter hoặc không quyết được luôn chuyển cho researcher. |
+| BR-27 | Hypothesis engine tìm/sàng lọc literature và tạo evidence-linked research gap từ case hoặc dataset brief. |
+| BR-28 | Mỗi paper/evidence card/gap/hypothesis có provenance; evidence không resolve thì không publish. |
+| BR-29 | Hypothesis phải nêu variables/claim và falsification criterion cụ thể; novelty là heuristic, không phải chứng minh. |
+| BR-30 | Researcher có thể review shortlist/hypothesis, drop/keep/comment hoặc yêu cầu revise; thiếu provider/model phải báo lỗi rõ, không fake output. |
 
-## 10.7 Chi phí và quản trị
+## 11.6 Experiment design hiện tại
 
 | ID | Yêu cầu |
 |---|---|
-| BR-36 | Run có token budget (mặc định 4M, tối đa 20M); hết budget thì pause và chờ tăng budget. |
-| BR-37 | Project có budget tháng (soft cap) và cảnh báo; usage hiển thị theo project và cho admin. |
-| BR-38 | Model key do admin nhập (BYOK), mã hoá, chỉ gửi kèm request; engine không lưu key. |
-| BR-39 | Admin chỉnh behaviour settings và settings từng engine qua giao diện, không qua environment. |
-| BR-40 | Admin có overview, usage, log monitoring realtime và audit log. |
+| BR-31 | Từ hypothesis và data card/brief, engine tạo plan; khi có data card, plan phải là statistical analysis plan cho dataset đó. |
+| BR-32 | Plan ghi measurement fit, missing-data handling, confounding, multiplicity, effect size/CI, split discipline và seed khi có resampling. |
+| BR-33 | Validators phải kiểm tra variables tồn tại, measurement level, missing plan, current split discipline, small cells và resampling seed. |
+| BR-34 | Critique/review độc lập, revision có giới hạn; plan lock theo hash khi hoàn tất bước lock. |
+| BR-35 | Plan chưa được review đầy đủ vẫn phải mang gap/finding; “published/locked” không có nghĩa là experiment đã chạy hoặc claim đã được chứng minh. |
 
-# 11. Business Rules
+## 11.7 Điều phối, PI và chi phí
+
+| ID | Yêu cầu |
+|---|---|
+| BR-36 | Mỗi project chỉ có một active run; stage phải đi theo pipeline, có gate/accept/send-back/rerun và bounded iteration. |
+| BR-37 | Mode `light` để researcher xử lý gate; `auto` để PI quyết trong authority; integrity/charter conflict/cannot decide phải escalate. |
+| BR-38 | Agent question không block run; default/assumption phải được ghi, không được coi là researcher intent. |
+| BR-39 | Pause/resume/stop/abandon, provider retry và budget exhaustion phải giữ artifact tốt nhất cùng gap/reason. |
+| BR-40 | PI tạo charter, stage outcome, failure, close và obligation; PI không trả lời engine gate và không tự biến plan thành kết quả. |
+| BR-41 | Run có token budget mặc định 4.000.000, tối đa 20.000.000; project có usage/cost ledger và budget cảnh báo. |
+| BR-42 | Model key/integration secret chỉ nằm trong memory/request, được seal ở Platform và không được engine đọc từ `.env`/file. |
+
+## 11.8 Execution/evidence — sau FE-16
+
+| ID | Yêu cầu mục tiêu |
+|---|---|
+| BR-43 | Chỉ execution service có sandbox, preflight và policy kiểm soát mới được chạy code/ML; engine plan hiện tại không cung cấp capability này. |
+| BR-44 | Mọi execution phải lưu immutable run, code/env/seed/params, logs, artifacts và checkpoint/resume/retry. |
+| BR-45 | Scientific reviewer tính paired effects, confidence intervals, practical margins và verdict supported/not supported/inconclusive từ outputs do code tạo. |
+| BR-46 | Dossier chỉ được tạo sau evidence review và human approval; không tự suy ra publication claim từ LLM narrative. |
+
+# 12. Business Rules
 
 | ID | Quy tắc |
 |---|---|
-| RULE-01 | Gate kiểm tra traceability, không kiểm tra đúng sai: chỉ provenance/contract hỏng mới bị từ chối; vấn đề nội dung thành finding hoặc known risk. |
-| RULE-02 | Số liệu trong plan và kết quả đến từ code, không từ text của LLM. |
-| RULE-03 | Mỗi hard rule trong prompt có validator trong code. |
-| RULE-04 | Artifact bất biến; mọi thay đổi là version mới. |
-| RULE-05 | Review pass khi không còn finding `blocking`. |
-| RULE-06 | Approve gate và accept stage là hai hành động riêng. |
-| RULE-07 | Trạng thái project do hệ thống suy ra (`draft`, `data_ready`, `researching`, `needs_review`), trừ `completed` do Project Manager đặt; `archived` thay thế các trạng thái khác. |
-| RULE-08 | Platform lưu metadata và file, không đọc hay đánh giá nội dung khoa học. |
+| RULE-01 | `ResearchCase` là nguồn chính của intent/scope; settled case chỉ đổi qua researcher amendment. |
+| RULE-02 | Data version bất biến; dataset hash và artifact provenance phải được giữ qua pipeline. |
+| RULE-03 | `random_rows` hiện tại không được mô tả là group/time/panel split hoặc leakage-safe evaluation policy. |
+| RULE-04 | Số liệu do code/calculator/profiler tạo; model không được viết số như sourced fact. |
+| RULE-05 | Prompt và validator phải đồng bộ; lỗi nội dung chưa đủ để làm mất artifact nếu provenance/contract vẫn hợp lệ, nhưng phải thành finding/gap. |
+| RULE-06 | Review pass khi không còn finding `blocking`; approve gate và accept stage là hai hành động riêng. |
+| RULE-07 | Artifact immutable; sửa bằng revision/version/amendment, không overwrite lịch sử. |
+| RULE-08 | Data-card path không đưa raw rows cho model; `explore` là nhánh experimental tắt mặc định vì ranh giới sandbox hiện chưa đáp ứng yêu cầu. |
+| RULE-09 | Không được ghi nhận execution result/verdict/dossier là current capability cho tới khi sandbox, validator và evidence store tồn tại trong source. |
+| RULE-10 | Platform quản lý data/access/run/audit; engine làm khoa học của stage; PI quyết định pipeline, không sở hữu run state. |
 
-# 12. Assumptions & Constraints
+# 13. Assumptions & Constraints
 
-- Có LLM gateway tương thích OpenAI và key hợp lệ; model role `review` nên khác model `stage` để review độc lập thật.
-- Literature lấy từ provider công khai (OpenAlex…); card chỉ ở mức abstract.
-- Một replica API hoặc volume dùng chung; PostgreSQL 16; storage local hoặc R2.
-- Rate limit tính theo process; cần rate limit ở ingress khi scale.
+- LLM gateway tương thích OpenAI, model role `stage` và `review` được cấu hình; thiếu credential phải báo lỗi/pause rõ.
+- Literature provider công khai trả citation/evidence đủ provenance; abstract evidence không phải full-text validation.
+- Platform hiện hỗ trợ CPU-friendly tabular workflow; các cấu trúc đặc biệt cần adapter riêng.
+- PostgreSQL/storage/deployment là hạ tầng của source `logos`; chi tiết wire/config chuẩn nằm trong [architecture](architecture.md).
+- Tên file BRD/PRD hiện giữ legacy để các link cũ tiếp tục hoạt động.
 
-# 13. Risks
+# 14. Risks & Mitigations
 
 | Risk | Giảm thiểu |
 |---|---|
-| LLM bịa nguồn/số | Evidence ref bắt buộc, gate traceability, calculator |
-| Reviewer cùng model với tác giả | Role `review` cấu hình riêng; Critic PI riêng |
-| Lộ dữ liệu cho model | Model chỉ thấy data card; `explore` tắt |
-| Chi phí vượt | Token budget run + budget tháng project |
-| Provider outage | Retry + pause `ProviderUnavailable`, self-healing |
-| Auto mode quyết sai | Guard trong code, escalation bắt buộc, obligation, audit |
+| LLM bịa nguồn/số | Evidence ref, schema validation, calculator/profiler và reviewer độc lập. |
+| Random split gây leakage | FE-16 structure detection + split registry; hiện phải ghi rõ limitation của `random_rows`. |
+| Model thấy raw data | Data card aggregate-only, access record, explore off; execution sandbox phải có policy riêng. |
+| Researcher đổi mục tiêu giữa chừng | Settled case, versioned amendment, stage lineage và audit. |
+| Reviewer cùng bias với author | Model role `review`, Critic và seeded-flaw evaluation; vẫn phải theo dõi independence thực tế. |
+| Auto mode quyết sai | Authority guard, escalation, obligation, light mode và audit. |
+| Chi phí/provider outage | Per-run token budget, monthly budget, retry/pause/resume và usage ledger. |
+| Roadmap bị hiểu là đã có | Mỗi requirement/roadmap section ghi trạng thái current/FE-16; PRD và architecture phải đồng bộ nhãn này. |

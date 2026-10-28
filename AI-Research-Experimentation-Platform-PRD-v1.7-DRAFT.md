@@ -2,263 +2,343 @@
 ## AI Research Experimentation Platform
 
 **Document Type:** Product Requirements Document\
-**Version:** 2.0 Draft (2026-10-23)\
-**Status:** Viết lại theo hệ thống đã hiện thực (`logos` contract 3.3.0, `ai-research-platform-fe`). Thay thế PRD v1.x.\
+**Version:** 2.1 Draft (2026-10-28)\
+**Status:** Đồng bộ với `logos` source hiện tại (`CONTRACT_VERSION=4.0.0`) và định hướng HGAR trên tabular data. Tên file v1.7 được giữ để bảo toàn cross-reference.\
 **Liên quan:** [BRD](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) · [Architecture](architecture.md) · [changelog](changelog.md)
+
+> **Implementation boundary:** Current release supports versioned tabular intake/profile, evidence-linked hypotheses and a reviewed/locked experiment-design plan. It does not yet execute experiments or produce statistical verdicts/dossiers. Structure-aware split policy is the next tabular increment (FE-16).
 
 ---
 
 # 1. Product Summary
 
-Web app cho nhóm nghiên cứu: tạo project, đưa dữ liệu vào, bắt đầu một **run**; các engine AI lần lượt tạo data card/research brief (nếu có dataset), hypothesis có bằng chứng và experiment plan đã review; researcher (hoặc AI PI ở mode auto) duyệt từng bước. Mọi artifact, review, quyết định và chi phí được lưu và truy vết.
+Web application cho nhóm nghiên cứu. Người dùng tạo project, upload/import dataset version (tuỳ chọn), tạo một `ResearchCase`, rồi theo dõi run qua các engine. Nếu có `dataset_version_id`, pipeline đi theo `dataset → hypothesis → experiment_design`; nếu không có dataset, pipeline là `hypothesis → experiment_design`. `explore_dataset` chỉ là intent đặc biệt để dataset stage đề xuất problem khi cần.
+
+Current release tạo:
+
+1. `dataset.data_card/v1` và `dataset.brief/v1` từ aggregates của dataset;
+2. evidence, gaps và falsifiable hypotheses;
+3. experiment plan, hoặc statistical analysis plan khi có data card, có critique/validation và lock.
+
+FE-16/HGAR roadmap sau đó mới thêm structure classification, split policy, protocol freeze, sandbox execution, evidence results, verdict và dossier.
 
 # 2. Product Goals
 
 | ID | Mục tiêu |
 |---|---|
-| G-01 | Một run đi trọn pipeline mà không cần thao tác ngoài platform. |
-| G-02 | Người dùng thấy agent đang làm gì theo thời gian thực. |
-| G-03 | Mọi artifact có finding review, diff revision và gap rõ ràng. |
-| G-04 | Không run nào vượt token budget đã đặt. |
-| G-05 | Admin cấu hình model, key, settings không cần redeploy. |
+| G-01 | Researcher có thể khởi tạo và theo dõi một run end-to-end trong platform. |
+| G-02 | Case, dataset version, artifact, gate, finding, decision và chi phí đều có lineage/audit. |
+| G-03 | Data-card path hỗ trợ profile/hypothesis mà không nhận raw rows; nhánh `explore` experimental có boundary riêng và đang tắt mặc định. |
+| G-04 | Mỗi stage có review/validator và revision bounded; không publish provenance hỏng. |
+| G-05 | Researcher hoặc PI xử lý accept/send-back, pause/resume/stop và budget theo authority; PI giữ quyền close. |
+| G-06 | Cấu hình model, integration, engine settings và budget không cần sửa code/deploy. |
+| G-07 | Chuẩn bị nền tảng khoa học cho FE-16 mà không ghi roadmap thành capability hiện tại. |
 
 # 3. Non-Goals
 
-Chạy experiment; tính finding; viết paper; organization/multi-tenant; custom role; hard delete project; giao diện riêng của engine.
+- Chạy model/experiment, sandbox execution, training, result calculation, scientific verdict hoặc publication dossier trong current release.
+- Tự động tuyên bố causal effect, novelty đã chứng minh hoặc paper-ready conclusion.
+- Upload raw rows vào LLM để tự khám phá khi chưa có consent/sandbox/policy.
+- Organization/multi-tenant, custom roles, engine UI riêng hoặc hard delete lịch sử artifact.
+- Ảnh, free text như nguồn phân tích chính, deep learning, federated learning, reinforcement learning và special structures không có adapter.
 
 # 4. Users & Roles
 
-| Role | Phạm vi | Màn hình chính |
+| Role | Phạm vi | Màn hình/chức năng chính |
 |---|---|---|
-| Platform Admin (`platform_admin`) | Toàn hệ thống | `/admin/*` |
-| Project Manager (`project_manager`) | Project | Workspace project, Members, Settings |
-| Researcher (`researcher`) | Project | Datasets, Connections, Documents, Research flow |
-| Reviewer (`reviewer`) | Project, chỉ đọc + comment | `/reviews`, Research flow |
+| Platform Admin (`platform_admin`) | Toàn hệ thống | Users, projects, providers, settings, usage, logs, system. |
+| Project Manager (`project_manager`) | Project được quản lý | Workspace, members, datasets, runs, budget, settings, archive/complete/abandon. |
+| Researcher (`researcher`) | Project membership | Dataset/case, gate, clarification, amendment, hypotheses, plan, accept/send-back. |
+| Reviewer (`reviewer`) | Project membership | Read artifact/finding và comment; không upload/start/accept run. |
+| AI PI (`oversight`) | Service decision boundary | Charter, stage outcome, failure, close, obligation, escalation. Không phải project member role. |
 
-Mọi user đã đăng nhập đều tạo được project và trở thành Project Manager của nó.
-
-## 4.1 Ma trận quyền
+## 4.1 Permission rules
 
 | Hành động | Admin | PM | Researcher | Reviewer |
 |---|:-:|:-:|:-:|:-:|
-| Liệt kê project | tất cả | của mình | của mình | của mình |
-| Đọc project, member, dataset, run, kết quả, comment | ✓ | ✓ | ✓ | ✓ |
-| Sửa, archive, restore, complete, reopen project | ✓ | ✓ | – | – |
-| Mời, đổi role, xoá member; huỷ/gửi lại lời mời | ✓ | ✓ | – | – |
-| Upload/đổi tên dataset; upload/xoá project file | ✓ | ✓ | ✓ | – |
-| Tạo, test, browse, import data connection | ✓ | ✓ | ✓ | – |
-| Bắt đầu/sync run; trả lời gate; accept/send-back | ✓ | ✓ | ✓ | – |
+| Đọc project/member/dataset/run/artifact/comment | ✓ | ✓ | ✓ | ✓ |
+| Create/edit/archive/restore/complete/reopen project | ✓ | ✓ | – | – |
+| Manage members/invitations | ✓ | ✓ | – | – |
+| Upload/import/rename dataset; manage project files | ✓ | ✓ | ✓ | – |
+| Create/test/browse/import connection | ✓ | ✓ | ✓ | – |
+| Create/sync run, answer gate, accept/send-back | ✓ | ✓ | ✓ | – |
+| Pause/resume/stop run | ✓ | ✓ | ✓ | – |
 | Abandon run | ✓ | ✓ | – | – |
-| Comment; sửa comment của mình | ✓ | ✓ | ✓ | ✓ |
-| Xoá comment | bất kỳ | bất kỳ | của mình | của mình |
-| Xem audit log project | ✓ | ✓ | 404 | 404 |
-| Khoá user, cấp admin, audit toàn hệ thống, trang admin | ✓ | – | – | – |
+| Comment | ✓ | ✓ | ✓ | ✓ |
+| Project audit | ✓ | ✓ | – | – |
+| System audit/admin | ✓ | – | – | – |
 
-Không phải member → `404`; role không đủ → `403 ROLE_REQUIRED`.
+Non-member responses use `404`; insufficient role uses `403`/`ROLE_REQUIRED` according to Platform API behavior.
 
 # 5. Product Principles
 
 | ID | Nguyên tắc |
 |---|---|
-| PP-01 | Traceability trước nội dung: không evidence ref thì không publish. |
-| PP-02 | Số do code tính. |
-| PP-03 | Run kết thúc với kết quả tốt nhất và gap, không dừng hẳn vì giới hạn. |
-| PP-04 | Câu hỏi của agent không chặn run; default được ghi và đánh dấu. |
-| PP-05 | Rule trong prompt đi kèm validator trong code. |
-| PP-06 | Người quyết ở gate và accept; PI chỉ quyết thay ở mode auto, và luôn escalate integrity. |
-| PP-07 | Không lưu, log hay trả về secret. |
+| PP-01 | `ResearchCase` là nguồn chính của intent/scope; không dùng lại `topic`/`objective` legacy làm contract chính. |
+| PP-02 | Code/profiler/calculator tạo số; LLM chỉ diễn giải hoặc đề xuất, không được giả dạng sourced fact. |
+| PP-03 | Data-card path không đưa raw rows vào model; artifact chỉ chứa aggregates, schema và provenance cần thiết. Nhánh `explore` experimental đang tắt mặc định. |
+| PP-04 | Artifact immutable; amendment/revision/rerun tạo lineage mới. |
+| PP-05 | Review pass, gate approval, stage acceptance và run close là các trạng thái khác nhau. |
+| PP-06 | Current `random_rows` exploration/confirmation split không được gọi là structure-aware evaluation policy. |
+| PP-07 | Mọi capability roadmap phải có trạng thái rõ (`planned`, `not implemented`) cho tới khi source và validator có thật. |
 
-# 6. Information Architecture
+# 6. Current vs Next Release
+
+| Capability | Current release | FE-16/HGAR next increment |
+|---|---|---|
+| Dataset | Versioned table intake/profile/data card/brief | Manifest có unit/group/time/structure và decision log mở rộng |
+| Split | `random_rows`, seed, exploration/confirmation fraction | Group-disjoint, chronological/rolling-origin, panel entity+time, special adapter |
+| Hypothesis | Literature/evidence/gap/hypothesis có review | Giữ nguyên, bổ sung structure-aware constraints |
+| Plan | Experiment plan; data card → statistical analysis plan; review + lock | Protocol freeze trước execution |
+| Execution | Chưa có execution engine/sandbox | Isolated sandbox, network off mặc định, checkpoint/resume/retry |
+| Evidence | Plan/findings/gaps; chưa có result evidence | Effects, CIs, margins, verdict và dossier |
+| Human control | Case/charter/gates/accept/send-back/amendment | Approval cho structure, protocol, holdout, spending và publication |
+
+## 6.1 Backend capability vs frontend exposure
+
+The Platform/engine source supports the dataset-first contract described above, but the current FE adapter is still feature-gated and hypothesis-oriented: the data stage is disabled in the run-studio feature configuration, and the start-run form does not yet submit `dataset_version_id` or expose `explore_dataset`. Therefore dataset-first is a current backend capability/contract and a planned end-user FE flow, not a claim that the current UI already exposes the full tabular journey.
+
+# 7. Primary User Flows
+
+## 7.1 Current platform flow — dataset-first backend contract
+
+1. User tạo project và dataset version.
+2. User mở Research flow và chọn `dataset_version_id`; `intent.kind=explore_dataset` là tùy chọn khi muốn dataset stage đề xuất problem, còn `test`/`compare`/`explain` có thể dùng problem đã biết.
+3. Platform settle case; vì case có dataset, `dataset_first` bắt đầu `dataset` stage.
+4. Dataset engine ingest/profile/describe; gate `data_card_review` cho researcher ở mode `light`.
+5. Engine propose câu hỏi; gate `question_choice`; brief ghi objective/question/variables.
+6. Nếu brief tạo problem `dataset_proposed`, Platform yêu cầu case/charter phù hợp trước stage kế tiếp khi PI flow cần nó.
+7. Hypothesis engine tạo literature/evidence/gap/hypothesis; researcher/PI review và accept/send-back.
+8. Experiment-design engine nhận hypothesis + data card/brief, tạo statistical analysis plan; resources/plan review và independent critique chạy theo engine contract.
+9. Plan được lock/publish cùng finding/gap. Run close ghi obligation nếu có.
+
+## 7.2 Current flow — case không có dataset
+
+1. User cung cấp `intent`, `problem`, context, constraints, references và ít nhất một domain.
+2. Platform chạy `default`: `hypothesis → experiment_design`.
+3. Nếu PI bật, charter/clarification được xử lý theo `light`/`auto`; nếu PI không cấu hình hoặc charter bị skip, run vẫn tiếp tục theo case settled.
+4. Kết quả cuối là evidence-linked hypotheses và reviewed/locked plan, không phải experiment result.
+
+## 7.3 Case change flow
+
+- Case đã settled chỉ được đổi qua `POST /projects/{project_id}/runs/{run_id}/case/amendments`.
+- Amendment phải có fields + researcher reason; Platform tăng `case.version` và phát `case.amended`.
+- Stage đã bắt đầu tiếp tục dùng case version cũ; stage kế tiếp nhận version mới.
+- Researcher clarification là phần durable của case; PI không được ghi đè researcher intent.
+
+## 7.4 Future flow — FE-16/HGAR
 
 ```text
-/                         landing · /privacy · /terms
-/auth/login → /auth/verify → /onboarding
-/projects                 danh sách project
-/projects/{id}            tổng quan workspace
-  ├── datasets            dataset + version  → /datasets/{datasetId}
-  ├── connections         data connections
-  ├── files               Documents (project files)
-  ├── experiments         Research flow: tạo run, Run studio, gate, stage, PI, artifact, comment
-  ├── members             (PM) thành viên, lời mời
-  └── settings            (PM) project settings, integrations, notification preferences, budget
-/reviews                  hàng chờ của reviewer
-/admin                    overview
-  ├── users · users/{id}
-  ├── projects · projects/{id}
-  ├── providers           model theo role stage / review
-  ├── decision-providers  TypeSafe integration
-  ├── settings            admin settings + engine settings
-  ├── usage · logs (audit) · log-monitoring · system
+dataset manifest → researcher confirms structure/target/unit/group/time
+→ select matching split policy → freeze protocol/approval
+→ sandbox preflight → execute tracked runs
+→ scientific review → supported / not supported / inconclusive
+→ researcher-approved dossier
 ```
 
-# 7. Primary User Flow
+Các bước này chưa được expose như current product flow.
 
-```text
-1. Đăng nhập bằng mã email → đặt tên (onboarding)
-2. Tạo project (thành PM) → mời researcher/reviewer
-3. (Tuỳ chọn) Upload CSV/XLSX hoặc import từ connection → dataset version
-4. Research flow → Start run: topic + domains | dataset version; mode light/auto; token budget
-5. (light) Duyệt charter của PI
-6. Stage dataset (nếu có): gate data_card_review → gate question_choice → publish brief → Accept
-7. Stage hypothesis: gate shortlist → gate hypotheses → publish → Accept
-8. Stage experiment_design: gate resources_review → gate plan_review → publish plan → Accept
-9. PI close report → run completed → member đọc, tải artifact, comment
-```
+## 7.5 Frontend exposure status
 
-Ở bất kỳ stage nào sau khi `COMPLETED`: **Accept**, **Send back** về stage trước (iteration mới), hoặc **Rerun**.
+- Current FE exposes the existing project/research workspace and hypothesis-oriented run presentation.
+- Dataset-first, `explore_dataset`, data-card gates and experiment-design scenes need FE integration before they can be presented as the default end-user journey.
+- Run studio labels must distinguish backend plan/review capability from future execution/result capability.
 
-# 8. Feature Modules
+# 8. ResearchCase Product Contract
 
-## 8.A Authentication & Account
-
-- `POST /auth/email/start` gửi mã 6 số và link `{APP_URL}/auth/verify#token=...`; trả lời giống nhau cho mọi email; tạo tài khoản nếu chưa có. Mã/link hết hạn sau 10 phút; dùng một cái huỷ cái kia; 10 lần sai khoá mã 1 giờ.
-- Session cookie HttpOnly, 30 ngày tuyệt đối, 7 ngày idle; CSRF token cho mọi `POST/PATCH/PUT/DELETE`.
-- `user.onboarded=false` cho tới khi đặt tên (`PATCH /auth/me`).
-- Google sign-in khi đủ cấu hình; chỉ nhận Gmail/Workspace đã verify.
-- Rate limit: `email/start` 10/phút, các bước verify 20/phút → `429 RATE_LIMITED`.
-- Admin tạo user, khoá (`USER_SUSPENDED`), cấp/thu `platform_admin`.
-
-**AC:** đăng nhập lại sau reload qua `GET /auth/me` + `GET /auth/csrf-token`; request ghi thiếu CSRF → `403 CSRF_INVALID`.
-
-## 8.B Project Workspace
-
-- Trường: tên, mô tả, topic, domains, settings. Trạng thái suy ra: `draft` (chưa có dataset), `data_ready`, `researching` (có run active), `needs_review`, `completed` (PM đặt, reopen được), `archived`.
-- Archive/restore; archived → chỉ đọc (`PROJECT_ARCHIVED`). Không hard delete.
-- Members: mời qua email theo role, chấp nhận trong 24 giờ; gợi ý người mời qua `invite-candidates` (có SSE). Luôn còn một PM active (`LAST_PROJECT_MANAGER`).
-- Documents: upload/tải/xoá project file.
-- Activity feed và audit log project.
-
-## 8.C Datasets
-
-- Upload CSV hoặc XLSX (sheet đầu chuyển sang CSV); UTF-8, header unique, dòng đều, ≤ 50 MiB (`DATASET_MAX_UPLOAD_BYTES`).
-- Mỗi file mới là version mới; đổi tên dataset; xem chi tiết và preview.
-- Version được gửi cho engine qua `platform.dataset/v1`.
-
-## 8.D Data Connections
-
-- Connector: PostgreSQL, MySQL, BigQuery, Google Sheets, Google Drive (Google Picker), Prometheus, InfluxDB.
-- Lưu, test, browse, preview, import bảng hoặc `SELECT` thành dataset version (timeout 300 giây).
-- Credential mã hoá bằng `CONNECTION_SECRET_KEY`, không bao giờ trả về; thiếu key → `503 CONNECTIONS_NOT_CONFIGURED`. Chặn host loopback/private/link-local.
-
-## 8.E Run & Research flow
-
-**Tạo run** (`POST /projects/{id}/runs`):
-
-| Trường | Ràng buộc |
+| Field | Current rule |
 |---|---|
-| `topic` | 12–2000 ký tự; bắt buộc nếu không có dataset, nếu có thì thành objective |
-| `dataset_version_id` | Tuỳ chọn; có thì dùng pipeline `dataset_first` |
-| `domains` | Tối đa 6 |
-| `review_mode` / `interaction_mode` | `light` (mặc định) hoặc `auto` |
-| `token_budget` | > 0, ≤ `run_max_token_budget`; mặc định `run_default_token_budget` |
+| `version`, `status` | Bắt đầu version 1; `draft` hoặc `settled`; engine chỉ nhận case settled. |
+| `intent` | `kind`: `test`, `compare`, `explain`, `explore_dataset`; text 12–2000 ký tự. |
+| `problem` | 12–2000 ký tự; optional chỉ khi intent là `explore_dataset` và case còn draft. |
+| `context` | Tối đa 4000 ký tự. |
+| `constraints` | Tối đa 20 item; mỗi item tối đa 500 ký tự. |
+| `references` | Tối đa 30 citation/note. |
+| `domains` | Tối đa 10; run không có dataset phải có ít nhất một domain. |
+| `dataset_version_id` | Optional cho test/compare/explain; bắt buộc cho `explore_dataset`. |
+| `clarifications` | Câu hỏi PI và câu trả lời researcher; tối đa 10. |
+| `amendments` | Version, changed fields, reason, timestamp; oldest-first. |
+| `charter` | PI objectives, scope in/out, success/kill criteria, risk posture, assumptions, open questions, profile. |
 
-**Trạng thái run:** `queued`, `running`, `paused`, `awaiting_review`, `completed`, `budget_exceeded`, `failed`, `stopped`.
+`RunCreate` cũng nhận `review_mode` (`light`/`auto`), optional `interaction_mode`, `token_budget`, `problem`, `intent`, `context`, `constraints`, `references`, `dataset_version_id` và `domains`. Các legacy params không còn là nguồn chính.
 
-**Hành động:** `gates/{gate}` (trả lời gate), `pause`, `resume`, `stop`, `budget` (đặt tổng mới để resume), `sync`, `abandon` (PM; đánh dấu `failed`, không báo engine). Stage: `accept`, `send-back`, `rerun`, `reviews`.
+# 9. Product Requirements
 
-**Recovery banner:** hiển thị `recovery.state` (`healing` / `needs_you`), lý do, lần thử, `next_try_at` và hành động gợi ý.
+## 9.1 Authentication, project and collaboration
 
-**Run studio:** đọc `GET .../events` + `events/stream` (SSE snapshot), dựng scene theo `step_key`: Scope, Search, Screen, Read, Synthesize, Hypothesize (debate), Map, Data, Experiment, Revision. Có hàng đợi trình chiếu và trạng thái "đang làm" khi engine im lặng. Hiển thị phase, step, gate mở, token đã dùng.
-
-**AC:** tạo run thứ hai khi đang có run active → `409 RUN_ACTIVE`; engine không cấu hình → `503`; engine không truy cập được → `502`; contract khác major → `ENGINE_CONTRACT_MISMATCH`.
-
-## 8.F Stage `dataset`
-
-Step: `ingest → profile → describe → explore (tắt) → propose → brief`.
-
-| Gate (light) | Kind | Researcher |
+| ID | Requirement | Acceptance |
 |---|---|---|
-| `data_card_review` | artifact_review | Duyệt data card, sửa nhãn/khái niệm/role của biến |
-| `question_choice` | question | Chọn research question đề xuất |
+| PR-01 | Passwordless email login, optional Google sign-in, onboarding và account lifecycle. | User tạo được session; admin có thể lock/unlock theo API. |
+| PR-02 | Project có PM, members, archive/restore/complete/reopen; archived read-only. | Role guard và state guard trả lỗi ổn định. |
+| PR-03 | Invitation expiry theo access settings (default hiện tại 7 ngày, ceiling 720 giờ). | Invitation hết hạn không accept được; audit có actor/time. |
+| PR-04 | Comments, notification, SSE và webhook cho run/project events. | Member xem đúng event theo project scope. |
+| PR-05 | Audit log cho member, dataset, case, amendment, gate, run, budget và admin changes. | Record có actor, action, resource, timestamp và request context. |
 
-Output: `data_card.json` (`dataset.data_card/v1`), `data_card.md`, `brief.json` (`dataset.brief/v1`, primary), `brief.md`. Định dạng đọc được: csv, tsv, xlsx, sav, zsav, dta, parquet, zip. Settings: `min_cell` 5, `high_missing` 0.5, `max_levels` 30, `exploration_fraction` 0.3, `explore` false.
+## 9.2 Dataset intake
 
-## 8.G Stage `hypothesis`
-
-Step: `understand → search → screen → extract → synthesize → hypothesize → critique → verify → lock`.
-
-| Gate (light) | Sau | Researcher |
+| ID | Requirement | Acceptance |
 |---|---|---|
-| `shortlist` | screen | Approve; bỏ paper (`params.dropped`); reject → search lại |
-| `hypotheses` | verify | Approve (`dropped`, `kept`); comment kèm finding → critique lại |
+| PR-06 | Upload/import file table tạo immutable dataset version với original filename, size, SHA-256, row count và columns. | Upload version mới không overwrite version cũ. |
+| PR-07 | Supported file format: CSV, TSV, XLSX, SAV, ZSAV, DTA, Parquet; zip có codebook/member. | Format hợp lệ được normalize nội bộ; format/size lỗi có error rõ. |
+| PR-08 | Default max upload là 52,428,800 bytes (50 MiB). | Request vượt limit bị reject trước ingest. |
+| PR-09 | Connection import hỗ trợ nguồn/table/view/SELECT và connector được đăng ký; secret không trả về. | Credential sealed; private/loopback host bị chặn. |
+| PR-10 | Dataset version có preview/download/list versions theo project/member policy. | Dataset version id ổn định; delete không phá lineage đang dùng. |
 
-Output: `hypothesis.hypotheses/v1` (primary), `hypothesis.evidence/v1`, `hypothesis.argument_map/v1`; kèm novelty report, semantic graph, research canvas. Revise tự động khi review có blocking (≤ 2); vòng do researcher gửi lại ≤ 3. Advisory về chất lượng phát dưới dạng activity `hypothesis.advisory`.
+## 9.3 Dataset stage
 
-**AC:** mỗi hypothesis có falsification criterion; mọi card/gap/hypothesis tham chiếu id tồn tại; không literature → lỗi `NO_LITERATURE`.
-
-## 8.H Stage `experiment_design`
-
-Step: `understand → ground → design → critique → verify → lock`.
-
-| Gate (light) | Sau | Researcher |
+| ID | Requirement | Acceptance |
 |---|---|---|
-| `resources_review` | ground | Duyệt resource; comment → ground lại |
-| `plan_review` | verify | Duyệt plan và finding mở; comment → thêm một vòng critique |
+| PR-11 | Engine steps là `ingest`, `profile`, `describe`, optional `explore`, `propose`, `brief`. | Output step/resume manifest đúng contract. |
+| PR-12 | Publish `dataset.data_card/v1`, markdown, `dataset.brief/v1`, markdown và optional explore report. | Artifact schema validate; primary artifact là brief. |
+| PR-13 | Data card có source format/hash, unit, rows/columns, variables, measure/kind/role, missingness, flags, access, caveats, gaps, decisions. | Mọi field sourced/derived/LLM có source semantics phù hợp. |
+| PR-14 | Model của data-card path chỉ đọc data card/aggregates; không copy raw row vào published output. Nhánh `explore` experimental phải được bật riêng. | Review artifact không có raw row; access record phản ánh rows `none`/`exploration`; mặc định `explore=false`. |
+| PR-15 | `data_card_review` sau `describe`, `question_choice` sau `propose`; gates mở tối đa theo mode. | Light mode có researcher gate; auto mode dùng Platform/PI rule. |
+| PR-16 | Current split chỉ là `Split.method=random_rows` với seed, exploration fraction, n_exploration, n_confirmation. | Tài liệu/UI không gọi đây là group/time/panel-safe split. |
+| PR-17 | `explore` mặc định false. | Không bật raw-row exploration nếu chưa có sandbox/policy. |
 
-Input: `hypothesis.hypotheses/v1` (bắt buộc), `hypothesis.evidence/v1`, `review.findings/v1` (tuỳ chọn). Output: `experiment_design.exp_plan/v1` (`exp_plan.md`, primary, byte đã review), `experiment_design.resources/v1`, `experiment_design.experiment_index/v1`. Status, approval, gap, assumption ở metadata. Settings: `stage_max_tokens` 2.000.000, `jev_max_calls` 24, `task_max_turns` 12, `task_max_tokens` 120.000, `resource_scout` false.
+## 9.4 Hypothesis stage
 
-**AC:** plan chưa review xong vẫn publish với cờ không hoàn tất và finding mở; chỉ `no_plan` là thất bại.
+| ID | Requirement | Acceptance |
+|---|---|---|
+| PR-18 | Run literature/evidence workflow: understand, search, screen, extract, synthesize, hypothesize, critique, verify, lock. | Bounded loops, stage events và outputs hợp lệ. |
+| PR-19 | Paper/evidence/gap/hypothesis có resolvable provenance; evidence scope được ghi. | Reference lỗi không publish; không fake fallback khi provider/model thiếu. |
+| PR-20 | Hypothesis phải falsifiable; novelty report gắn heuristic label. | Reviewer kiểm tra criterion/claim/source. |
+| PR-21 | Researcher review shortlist và hypotheses; approve, drop, comment hoặc request changes. | Gate response cập nhật artifact lineage/event. |
 
-## 8.I Review & Revision
+## 9.5 Experiment-design stage
 
-- Mỗi vòng review công bố `review.findings/v1` (severity `blocking|major|minor`, category `leakage|baseline|control|statistics|reproducibility|evidence|other`); revision công bố `revision.diff/v1` và `revision.response/v1`.
-- UI hiển thị các vòng review theo stage (`/stages/{id}/reviews`), diff giữa artifact (`/artifacts/{id}/diff`) và tải artifact.
-- Send-back mở iteration mới; Platform ghi `iteration.summary` so sánh với iteration trước.
+| ID | Requirement | Acceptance |
+|---|---|---|
+| PR-22 | Steps là `understand → ground → design → critique → verify → lock`. | Step order/edges/max loops khớp engine spec. |
+| PR-23 | Nếu có data card, workspace role là `analysis`; plan là statistical analysis plan cho dataset D1. | Plan dùng exact variable names/measurement levels từ card. |
+| PR-24 | Validators kiểm tra variables, measurement fit, missing plan, confounding, multiplicity, split discipline, small cells và resampling seed. | Finding có category/severity/anchor; không tự tạo số bằng LLM. |
+| PR-25 | Gates `resources_review` (khi cần) và `plan_review`; comment plan quay lại critique theo bound. | Reviewer/Researcher thấy open finding và revision diff. |
+| PR-26 | Lock giữ byte/hash/approval/review state; publish không đồng nghĩa với execution/approval of result. | Rerun/revision không overwrite plan lineage. |
 
-## 8.J AI Principal Investigator
+## 9.6 Orchestration, PI and budget
 
-- Tab PI trong run: charter, consultations, notebook.
-- Researcher sửa charter (`PUT /pi/charter`), thêm directive (`POST /pi/directives`), endorse hoặc retry consultation.
-- Ở `light`: PI khuyến nghị charter/outcome/failure, researcher quyết. Ở `auto`: PI quyết, Platform áp dụng; escalation `integrity`, `charter_conflict`, `cannot_decide` dừng lại chờ researcher.
-- Critic (`pi_critic_enabled`, mặc định tắt) review mỗi stage hoàn tất: ≤ 8 point, trạng thái từng obligation.
-- Close report nêu mọi obligation mở.
+| ID | Requirement | Acceptance |
+|---|---|---|
+| PR-27 | Pipeline config hỗ trợ `default` và `dataset_first`; một active run/project. | Case có dataset route đúng dataset-first; case không có dataset route đúng default. |
+| PR-28 | Run supports events, SSE, gates, pause/resume/stop, budget, sync, rerun/healing và abandon theo authority. | State transitions có audit/event và stable errors. |
+| PR-29 | PI consults charter, stage outcome, failure và close; Critic stage review là config riêng. | PI action guard không accept blocking item thiếu known-risk reason. |
+| PR-30 | Clarification/amendment durable; PI không thay intent researcher. | `case.amended` event + version visible trong run history. |
+| PR-31 | Default run token budget 4,000,000; maximum 20,000,000; Platform có project budget/cost ledger. | Budget exhaustion giữ best artifact và ghi gap/reason. |
+| PR-32 | BYOK/integration keys chỉ truyền trong request/memory. | Secret không xuất hiện trong artifact/log/event/API response. |
 
-## 8.K Budget & Usage
+## 9.7 FE-16/HGAR requirements — planned
 
-- Token budget run; hết → `budget_exceeded`, tăng budget để resume; event `budget.updated`.
-- Budget tháng của project (soft cap, cảnh báo); `GET /projects/{id}/spending/usage`.
-- Admin `/admin/usage` theo thời gian, project, model.
+| ID | Requirement | Status |
+|---|---|---|
+| PR-33 | Classify independent/grouped/temporal/panel/special; researcher confirms target/unit/group/time/availability. | Planned; chưa có source implementation. |
+| PR-34 | Registry maps structure to split policy; special requires adapter or out-of-scope result. | Planned; current contract chỉ có `random_rows`. |
+| PR-35 | Freeze protocol: baselines, factors, split, metrics, seeds, statistics, budget, approval. | Planned; current lock chỉ lock plan artifact. |
+| PR-36 | Sandbox preflight enforces no test-set access, train-only preprocessing/resampling, network policy, checkpoint/resume/retry. | Planned; chưa có execution engine. |
+| PR-37 | Execute tracked runs and produce effect/CIs/margins/verdict/dossier. | Planned; current product không có result/verdict/dossier. |
 
-## 8.L Comments, Notifications, Integrations
+# 10. API Surface (current)
 
-- Comment trên run: tạo, sửa của mình, xoá theo quyền.
-- Thông báo trong app + SSE (`/notifications/stream`), đánh dấu đã đọc; preference theo project.
-- Integration project (≤ 10): Slack, Microsoft Teams, Discord incoming webhook; event `run.awaiting_review`, `run.finished`; test gửi và lịch sử delivery.
+> Tên route dưới đây là contract-level orientation; source `services/management` là authority khi path, error hoặc response thay đổi.
 
-## 8.M Administration
+## 10.1 Dataset routes
 
-| Trang | Nội dung |
+| Method | Path | Mục đích |
+|---|---|---|
+| GET | `/projects/{project_id}/datasets` | List datasets. |
+| POST | `/projects/{project_id}/datasets` | Upload/create dataset. |
+| POST | `/projects/{project_id}/datasets/from-connection` | Import từ connection. |
+| GET/PATCH/DELETE | `/projects/{project_id}/datasets/{dataset_id}` | Read/update/delete dataset metadata theo policy. |
+| GET | `/projects/{project_id}/datasets/{dataset_id}/versions` | List immutable versions. |
+| POST | `/projects/{project_id}/datasets/{dataset_id}/versions` | Upload version mới. |
+| POST | `/projects/{project_id}/datasets/{dataset_id}/versions/from-connection` | Import version mới từ connection. |
+| GET | `/projects/{project_id}/datasets/{dataset_id}/versions/{version_id}/download` | Download version. |
+| GET | `/projects/{project_id}/datasets/{dataset_id}/versions/{version_id}/preview` | Preview rows theo masking/access policy. |
+
+## 10.2 Research run routes
+
+| Method | Path | Mục đích |
+|---|---|---|
+| GET | `/projects/{project_id}/runs` | List run. |
+| POST | `/projects/{project_id}/runs` | Create/start run từ ResearchCase. |
+| GET | `/projects/{project_id}/runs/{run_id}` | Run aggregate/state. |
+| GET | `/projects/{project_id}/runs/{run_id}/events` | Paginated event history. |
+| GET | `/projects/{project_id}/runs/{run_id}/events/stream` | SSE stream. |
+| POST | `/projects/{project_id}/runs/{run_id}/gates/{gate_id}` | Submit gate answer. |
+| POST | `/projects/{project_id}/runs/{run_id}/case/amendments` | Researcher amendment cho settled case. |
+| POST | `/projects/{project_id}/runs/{run_id}/pause` | Pause. |
+| POST | `/projects/{project_id}/runs/{run_id}/resume` | Resume với budget/credentials hợp lệ. |
+| POST | `/projects/{project_id}/runs/{run_id}/stop` | Stop/cancel. |
+| POST | `/projects/{project_id}/runs/{run_id}/budget` | Increase budget theo permission. |
+| POST | `/projects/{project_id}/runs/{run_id}/sync` | Reconcile engine state/events. |
+| POST | `/projects/{project_id}/runs/{run_id}/abandon` | PM/admin abandon run bị kẹt. |
+
+Typical stable error boundaries include missing engine/config, problem required, dataset required, role/access, budget, credentials và contract mismatch. Error response không echo secret/submitted sensitive values.
+
+# 11. Data and Artifact Contracts
+
+| Area | Current contract |
 |---|---|
-| Overview | Số liệu tổng quan hệ thống |
-| Users | Danh sách, tạo, khoá, cấp admin |
-| Projects | Xem mọi project |
-| Providers | Model + key theo role `stage` / `review`; test kết nối |
-| Decision providers | Integration TypeSafe |
-| Settings | `pi_critic_enabled`, `max_auto_revisions` (2), `max_iterations` (3), `run_default_token_budget` (4M), `run_max_token_budget` (20M), `oversight_llm_timeout_seconds` (180), `oversight_contact_email`; settings từng engine |
-| Usage | Token theo thời gian/project/model |
-| Logs | Audit log toàn hệ thống |
-| Log monitoring | Request event đã redact, error rate, cảnh báo, SSE |
+| Wire | `logos_contract` version `4.0.0`; schema ids and models are defined in `packages/contract`. |
+| Dataset input | `platform.dataset/v1`; version id/source metadata passed to dataset stage. |
+| Dataset output | `dataset.data_card/v1`, `dataset.data_card_markdown/v1`, `dataset.brief/v1`, `dataset.brief_markdown/v1`, optional `dataset.explore_report/v1`. |
+| Hypothesis input/output | Hypothesis schemas and evidence resources from `logos-hypothesis`; exact IDs follow source contract. |
+| Experiment design | `experiment_design.exp_plan/v1`; resources/index/review findings/revision artifacts as declared by engine. |
+| Run params | `inputs.params.case` contains settled ResearchCase; no parallel legacy topic/objective source. |
+| Review categories | Includes leakage, baseline, control, statistics, reproducibility, evidence, metric validity, selective reporting, variable validity, measurement level, missing data, confounding, multiplicity, split discipline, effect size, small cells và other. |
 
-# 9. Non-Functional Requirements
+# 12. Non-Functional Requirements
 
-| ID | Yêu cầu |
+| ID | Requirement |
 |---|---|
-| NFR-01 | Lỗi dự đoán được trả `APIError` có `code` ổn định và message tiếng Anh dễ hiểu; không trả 500 trần. |
-| NFR-02 | SSE gửi snapshot, keep-alive 15 giây, `Cache-Control: no-cache, no-transform`; client reconnect nhận snapshot mới. |
-| NFR-03 | Restart engine không mất run: run thành `paused` (`interrupted`), resume kèm key. |
-| NFR-04 | Provider outage → retry với backoff trong 60 giây rồi pause, không fail. |
-| NFR-05 | Secret mã hoá trong DB; key model chỉ trong bộ nhớ của engine/PI. |
-| NFR-06 | Graceful shutdown 30 giây cho Uvicorn. |
-| NFR-07 | Mọi thay đổi FE nhìn thấy được ghi trong `logos/docs/fe-contract-changes.md`. |
+| NFR-01 | **Security:** HttpOnly session, CSRF/CORS/rate limit, member isolation, sealed secrets, service keys, no secret in logs/artifacts. |
+| NFR-02 | **Privacy:** Data-card path sends only allowed aggregates/data card to model; the opt-in experimental `explore` path has a separate exploration-row boundary; PII flags and access records are retained. |
+| NFR-03 | **Scientific validity current:** Profiler/calculators are deterministic; plan validators enforce measurement/missing/split-discipline/small-cell/seed rules available in current card. |
+| NFR-04 | **Scientific validity next:** Structure-aware split, train-only preprocess/resampling, holdout-once and sandbox preflight must be implemented before claiming execution validity. |
+| NFR-05 | **Reproducibility:** Dataset SHA, case version, artifact hash, event/order, engine version, settings, seed and budget are retained where available. |
+| NFR-06 | **Reliability:** Resume/checkpoint/idempotent event/artifact delivery; provider failures pause clearly and do not silently fabricate output. |
+| NFR-07 | **Performance:** Long-running LLM/engine work is backgrounded; UI receives progress through event stream; budgets bound work. |
+| NFR-08 | **Usability:** UI distinguishes AI proposed, code computed, reviewer found, researcher approved and PI decided. |
+| NFR-09 | **Extensibility:** New stage must declare engine spec, settings, schemas, gates, events and verification; no cross-stage imports. |
 
-# 10. Release Status
+# 13. Release Status
 
-| Hạng mục | Trạng thái |
-|---|---|
-| Auth, project, member, dataset, connection, files | Đã có |
-| Pipeline `default` (hypothesis → experiment_design) | Đã có; tạm dừng phát triển trong lúc làm nhánh dataset |
-| Pipeline `dataset_first` | Đang phát triển |
-| AI PI | Đã có; Critic tắt mặc định |
-| Run studio | Đã có cho stage hypothesis; các scene khác đang hoàn thiện |
-| `explore` (Data Formulator) | Thử nghiệm, tắt |
-| Experiment execution, paper | Ngoài phạm vi |
+| Capability | Status | Evidence/source |
+|---|---|---|
+| Auth/project/member/connection/dataset versioning | Current | `services/management` routes/models and FE workspace. |
+| Contract and case model | Current | `packages/contract`, `ResearchCase`, contract 4.0.0. |
+| `default` and `dataset_first` orchestration | Current | `management/research/orchestrator.py`, `deploy/.env.example`; routing phụ thuộc dataset presence. |
+| Dataset data card/brief and gates | Current | `stages/dataset/engine.py`, dataset artifact contracts. |
+| Literature hypothesis workflow | Current | `stages/hypothesis/engine.py` and contract schemas. |
+| Analysis plan and independent review | Current | `stages/experiment-design/engine.py`, analysis pack/validators. |
+| Structure detection + split policy registry (FE-16) | Planned | Current `Split.method` only `random_rows`. |
+| Protocol freeze as execution gate | Planned | Current plan lock is artifact lock, not execution freeze. |
+| Sandbox execution / model training | Not implemented | No execution engine in current pipeline. |
+| Result statistics / verdict / dossier | Not implemented | Current run ends at plan/review/close. |
+
+# 14. Acceptance Checklist
+
+## 14.1 Current release
+
+- [ ] User can create project, upload/import dataset version and see source/hash/version.
+- [ ] User can create a settled ResearchCase with valid intent/problem/dataset/domain constraints.
+- [ ] Dataset-first/default pipeline is selected correctly and one active run/project is enforced.
+- [ ] Data card/brief artifacts validate; raw rows do not appear in published data-card artifacts, còn `explore` chỉ chạy khi được bật riêng.
+- [ ] Hypothesis evidence refs and falsification criteria are present or surfaced as findings/gaps.
+- [ ] Data-card plan uses variable names/measurement levels and current validators catch split/missing/small-cell/seed issues.
+- [ ] Case amendment increments version and emits durable event.
+- [ ] Budget, pause/resume, retry and missing credentials produce auditable state.
+
+## 14.2 FE-16/HGAR gate before implementation claim
+
+- [ ] Structure classifier benchmarked against expert labels.
+- [ ] Split policy is selected from structure, researcher-confirmed and persisted with manifest/hash.
+- [ ] Preprocessing/resampling and holdout access are enforced in code, not only prompt text.
+- [ ] Sandbox has network/data permissions, checkpoint/resume/retry and immutable execution lineage.
+- [ ] Effect/CI/margin/verdict output is code-generated and reviewed; dossier requires human approval.
+
+# 15. References and Source of Truth
+
+- **Methodology/design:** `docs/example/Booklet_HGAR_Tabular_Data_Science_Expanded_v2.pdf` and the current register/report in `docs/1.2/`.
+- **Business intent:** project registration and report define the tabular/HGAR direction, five structure types and FE-16 as next increment.
+- **Implementation truth:** `/Users/ngothanhdat/Documents/CODE/3. capstone/capstone-projects/projects/logos`, especially `packages/contract`, `services/management`, `stages/*`, `deploy/.env.example`; frontend contract surface is under `ai-research-platform-fe`.
+- **Documentation links:** [BRD](AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md) and [architecture](architecture.md) must keep current/planned labels aligned with this PRD.
