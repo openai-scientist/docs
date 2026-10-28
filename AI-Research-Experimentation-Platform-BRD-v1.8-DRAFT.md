@@ -3,8 +3,8 @@
 
 **Document Type:** Business Requirements Document\
 **Project:** AI Research Experimentation Platform (`logos` + `ai-research-platform-fe`)\
-**Version:** 2.1 Draft (2026-10-28)\
-**Status:** Đồng bộ với source hiện tại và định hướng HGAR trên dữ liệu dạng bảng. Tên file v1.8 được giữ để không làm hỏng liên kết cũ.\
+**Version:** 2.2 Draft (2026-10-28)\
+**Status:** Draft\
 **Liên quan:** [PRD](AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md) · [Architecture](architecture.md) · [changelog](changelog.md)
 
 > **Ranh giới năng lực:** BRD này phân biệt rõ capability đang có trong source với increment tiếp theo. Bản hiện tại đã có intake/profile dữ liệu dạng bảng, data card/brief, hypothesis có evidence và experiment-design plan có review. FE-16 (nhận diện cấu trúc dữ liệu và enforcement split policy), sandbox execution, kết quả thống kê, verdict và dossier chưa được coi là capability đã triển khai.
@@ -47,6 +47,8 @@ researcher / PI: gate, accept/send-back, pause/resume/stop; PI-controlled close
 
 Đoạn sau là roadmap, không phải mô tả trạng thái source hiện tại.
 
+Nhánh hỗ trợ công bố nghiên cứu bổ sung **JFE (Journal Fingerprint Extraction)** và **Writing AIF**: JFE xây profile đặc trưng của tạp chí từ corpus có quyền sử dụng; Writing tổ chức evidence thành lập luận kiểm tra được bằng AIF (Argument Interchange Format), rồi viết bản thảo trong giới hạn claim đã duyệt. Profile JFE được xây và phát hành độc lập, có thể tái sử dụng; Writing tham chiếu đúng phiên bản tại bước journal merge. Các findings và kết luận trong bản thảo phải được hỗ trợ bởi evidence đã được phê duyệt.
+
 > Luồng dataset-first ở trên là capability của Platform/engine source. FE adapter hiện vẫn ưu tiên luồng hypothesis và chưa expose đầy đủ `dataset_version_id`, `explore_dataset` và dataset-stage UI; đây là phần FE integration cần hoàn thiện.
 
 Ba giá trị kinh doanh:
@@ -75,6 +77,8 @@ LLM có thể hỗ trợ tìm literature, mô tả biến và soạn kế hoạc
 | BP-08 | Một AI tự lập kế hoạch rồi tự chấp thuận dễ tự xác nhận chính nó; cần reviewer và human gate. |
 | BP-09 | Token, model key và chi phí theo run/project cần được kiểm soát. |
 | BP-10 | Nhóm nghiên cứu cần cộng tác, comment, notification và audit quanh cùng một run. |
+| BP-11 | Chọn tạp chí và học cấu trúc bài viết thường dựa vào cảm tính; khó phân biệt thông lệ quan sát được với quy định bắt buộc của publisher. |
+| BP-12 | Bản thảo có thể khuếch đại claim, bỏ caveat, lệch citation hoặc thêm kết luận không được evidence hỗ trợ. |
 
 # 4. Business Objectives
 
@@ -88,6 +92,8 @@ LLM có thể hỗ trợ tìm literature, mô tả biến và soạn kế hoạc
 | BO-06 | Kiểm soát token budget, model key và ngân sách project. | BP-09 |
 | BO-07 | Hỗ trợ collaboration an toàn trong phạm vi project. | BP-10 |
 | BO-08 | Đánh giá hệ thống bằng benchmark, seeded flaws và so sánh human-only/AutoML/generic agent/HGAR ở increment nghiên cứu. | BP-06, BP-08 |
+| BO-09 | Hỗ trợ researcher chọn tạp chí và dùng profile có bằng chứng, control corpus, uncertainty và phiên bản rõ ràng. | BP-11 |
+| BO-10 | Giữ lineage từ research record → evidence → claim/lập luận → câu trong bản thảo; researcher duyệt claim và bản xuất cuối. | BP-04, BP-12 |
 
 # 5. Success Metrics
 
@@ -113,14 +119,23 @@ LLM có thể hỗ trợ tìm literature, mô tả biến và soạn kế hoạc
 | Reproducibility | Dataset hash, case/protocol version, code/environment, seed, params và outputs đủ để tái lập run. |
 | Human control | Mọi thay đổi protocol, holdout, spending và claim/publication đều có researcher approval/audit record. |
 
+## 5.3 Metrics mục tiêu cho JFE và Writing AIF
+
+| Metric | Cách đo |
+|---|---|
+| JFE provenance coverage | Feature/profile resolve được về corpus snapshot, document/span và extractor/registry version; công bố N, missing/N/A và uncertainty. |
+| JFE review quality | Theo dõi parse failures, annotation disagreement, holdout validation và reviewer decisions. |
+| Writing claim fidelity | Tỉ lệ câu có claim truy được về frozen graph/evidence; không xuất bản khi còn unsupported claim hoặc factual conflict blocking. |
+| Writing efficiency & control | Đo thời gian, chi phí, revision và quyết định duyệt so với quy trình thủ công trên cùng record. |
+
 # 6. Stakeholders
 
 | Stakeholder | Role hệ thống | Mối quan tâm |
 |---|---|---|
 | System Administrator | `platform_admin` | Model/key, engine settings, budget mặc định, user, audit và vận hành. |
 | Project Manager | `project_manager` | Project, member, dataset, run, budget và close/abandon. |
-| Researcher / Data Analyst | `researcher` | Research case, dataset, clarification, gate, hypothesis, plan và accept/send-back. |
-| Reviewer / Stakeholder | `reviewer` | Đọc artifact, finding và comment trong phạm vi project. |
+| Researcher / Data Analyst | `researcher` | Research case, dataset, gate, hypothesis, plan; chọn journal, duyệt corpus/profile, claims và bản thảo. |
+| Reviewer / Stakeholder | `reviewer` | Đọc artifact, finding, journal profile, lập luận và bản thảo; comment trong phạm vi project. |
 | Data/Methodology Reviewer | reviewer nghiệp vụ ở increment tương lai | Xác nhận unit, structure, split policy và protocol freeze. Chưa phải service/role riêng trong source hiện tại. |
 | AI Principal Investigator | service `oversight` | Charter, stage outcome, failure, close, obligation và escalation. |
 
@@ -136,6 +151,7 @@ Researcher tự tìm paper, ghi chú, kiểm tra dataset và viết plan trong c
 - Hypothesis stage tạo evidence-linked, falsifiable hypotheses; experiment-design stage tạo plan được critique và lock.
 - Researcher/PI quyết định ở gate; mọi clarification/amendment/accept/send-back đều có version và event.
 - FE-16 bổ sung structure-aware split policy và protocol controls; execution/verdict/dossier chỉ được mở sau khi có sandbox, provenance và validation tương ứng.
+- JFE cung cấp journal profile có version và review; Writing AIF giữ claim/evidence, kiểm tra lập luận và kiểm tra ngược bản thảo trước human sign-off.
 
 # 9. Scope
 
@@ -167,14 +183,22 @@ Researcher tự tìm paper, ghi chú, kiểm tra dataset và viết plan trong c
 | Sandbox execution | Chạy code cô lập, network off mặc định, preflight leakage, train-only preprocessing/resampling, checkpoint/resume/retry và immutable run. |
 | Evidence & dossier | Lưu effect/CIs/practical margins, verdict supported/not supported/inconclusive và dossier được researcher duyệt. |
 
+## 9.3 JFE và Writing AIF
+
+| Nhóm | Nội dung |
+|---|---|
+| JFE | Đề xuất và lựa chọn journal; quản lý target/control corpus; phân tích cấu trúc, gán nhãn, đo đặc trưng; tổng hợp và phê duyệt journal profile. |
+| Writing AIF / ASW | Quản lý evidence và scientific statements; tranh biện và đánh giá lập luận bằng Toulmin/AIF/ASPIC+; xây outline, soạn thảo, kiểm tra, review, phê duyệt và xuất bản thảo. |
+
 # 10. Ngoài phạm vi
 
 - Trong baseline hiện tại: model training, experiment execution, statistical result generation, verdict và publication dossier.
 - Không tự động xử lý special structures nếu chưa có adapter/split policy riêng.
-- Ảnh, free text như nguồn phân tích chính, deep learning, federated learning và reinforcement learning.
+- Ảnh, free text như nguồn phân tích dataset chính của nhánh tabular, deep learning, federated learning và reinforcement learning. Giới hạn này không loại trừ paper text trong JFE hoặc manuscript trong Writing.
 - Organization/multi-tenant, custom role/permission matrix và UI riêng của engine.
 - Đưa raw rows vào LLM để “tự khám phá” khi chưa có sandbox/consent; `explore` hiện tắt mặc định.
 - Tuyên bố causal effect hoặc kết luận publication chỉ từ plan/hypothesis.
+- Tự động nộp bài cho publisher, bảo đảm journal acceptance, sao chép bài nguồn hoặc coi journal fit là xác nhận tính đúng khoa học.
 
 # 11. Business Requirements
 
@@ -264,6 +288,31 @@ Researcher tự tìm paper, ghi chú, kiểm tra dataset và viết plan trong c
 | BR-45 | Scientific reviewer tính paired effects, confidence intervals, practical margins và verdict supported/not supported/inconclusive từ outputs do code tạo. |
 | BR-46 | Dossier chỉ được tạo sau evidence review và human approval; không tự suy ra publication claim từ LLM narrative. |
 
+## 11.9 Journal Fingerprint Extraction (JFE)
+
+| ID | Yêu cầu |
+|---|---|
+| BR-47 | Researcher nhận đề xuất journal theo research context và có thể chấp nhận, tìm kiếm hoặc chọn journal khác. |
+| BR-48 | Researcher quản lý và phê duyệt corpus gồm bài từ journal mục tiêu và nhóm đối chứng theo tiêu chí lựa chọn rõ ràng. |
+| BR-49 | Paper và kết quả phân tích từ kho T3 phải có nguồn gốc, phạm vi nội dung và quyền sử dụng rõ ràng. |
+| BR-50 | Đặc trưng cấu trúc, rhetorical moves và văn phong của paper có định nghĩa, phép đo, evidence và review. |
+| BR-51 | Journal profile thể hiện đặc trưng phổ biến, khác biệt so với nhóm đối chứng, độ bất định và giới hạn phân tích. |
+| BR-52 | Journal profile được researcher phê duyệt, phát hành theo phiên bản và tái sử dụng cho nhiều bản thảo. |
+| BR-53 | Researcher theo dõi tiến độ, lịch sử và quản lý công việc JFE trong phạm vi project. |
+
+## 11.10 Writing AIF
+
+| ID | Yêu cầu |
+|---|---|
+| BR-54 | Research outputs dùng để viết bài phải có nguồn, quyền sử dụng, evidence và phạm vi kết luận rõ ràng. |
+| BR-55 | Claim trong bản thảo phải truy được về hypothesis, analysis, kết quả và evidence tương ứng. |
+| BR-56 | Scientific statements được phân loại rõ; claim được tranh biện và review về phương pháp, thống kê, phạm vi và literature. |
+| BR-57 | Lập luận được biểu diễn bằng Toulmin/AIF và đánh giá bằng ASPIC+ trước khi researcher phê duyệt claims. |
+| BR-58 | Bản thảo chỉ khẳng định claims được chấp nhận; claim chưa xác định phải giữ qualifier phù hợp. |
+| BR-59 | Cấu trúc và văn phong bản thảo phù hợp journal profile/publisher rules, không làm thay đổi nội dung hoặc mức độ chắc chắn của claim. |
+| BR-60 | Bản thảo được kiểm tra tính nhất quán với lập luận đã duyệt, gồm evidence, citation, scope và limitations. |
+| BR-61 | Researcher review revision, phê duyệt bản thảo cuối, disclosure và xuất tài liệu; việc nộp bài do researcher quyết định. |
+
 # 12. Business Rules
 
 | ID | Quy tắc |
@@ -278,6 +327,9 @@ Researcher tự tìm paper, ghi chú, kiểm tra dataset và viết plan trong c
 | RULE-08 | Data-card path không đưa raw rows cho model; `explore` là nhánh experimental tắt mặc định vì ranh giới sandbox hiện chưa đáp ứng yêu cầu. |
 | RULE-09 | Không được ghi nhận execution result/verdict/dossier là current capability cho tới khi sandbox, validator và evidence store tồn tại trong source. |
 | RULE-10 | Platform quản lý data/access/run/audit; engine làm khoa học của stage; PI quyết định pipeline, không sở hữu run state. |
+| RULE-11 | JFE profile publication và manuscript approval là hai gate riêng; profile completion không đồng nghĩa approval cho claim hay paper. |
+| RULE-12 | Writing chỉ dùng evidence hợp lệ trong phạm vi đã duyệt. Graph validity/ASPIC+ IN không tự chứng minh một kết luận thực nghiệm là đúng. |
+| RULE-13 | Profile version, frozen graph, draft revision và sentence provenance phải đi cùng nhau; sửa upstream làm downstream cần review lại, không âm thầm ghi đè. |
 
 # 13. Assumptions & Constraints
 
