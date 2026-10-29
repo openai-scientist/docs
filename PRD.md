@@ -33,7 +33,8 @@ Hệ thống không hứa khoa học luôn đúng. Hệ thống hứa ba điều
 | G-06 | Chi tiêu có trần ở hai mức: token budget của run và budget tháng của project. | BO-06 |
 | G-07 | Nhóm cộng tác an toàn trong project, quyền theo role. | BO-07 |
 | G-08 | Mọi run kết thúc với kết quả rõ, kể cả `with_gaps`; không treo. | BO-08 |
-| G-09 | Chất lượng từng stage và cả pipeline được đo bằng acceptance scenario, seeded-flaw bench và paper reproduction bench. | BO-09 |
+| G-09 | Chất lượng từng stage và cả pipeline được đo bằng acceptance scenario, seeded-flaw bench, planted-truth bench và paper reproduction bench. | BO-09 |
+| G-12 | (Should) Researcher thấy điều đã biết về mỗi claim key qua nhiều run: claim status, forecast score và replication run trên dữ liệu độc lập. | BO-02, BO-04, BO-10 |
 | G-10 | Chỉ export ra ngoài project khi Dossier đã được duyệt. | BO-11 |
 | G-11 | (Could, sau MVP) Researcher chọn tạp chí bằng profile có bằng chứng (JFE). | BO-12 |
 
@@ -119,7 +120,7 @@ MoSCoW: Must cho FE-01..FE-15 và FE-17; Should cho FE-19 (sau MVP); Could cho F
 | FE-06 | Dataset stage | Must | Biến dữ liệu thành DatasetSnapshot: chất lượng, question map, split theo power và fitness. | Researcher; Persona (dataset) | BR-26, BR-41, BR-43, BR-44, BR-76, BR-84, BR-85, BR-86, BR-88, BR-89 |
 | FE-07 | Hypothesis stage and Literature Base | Must | Rà soát literature có phương pháp và tạo HypothesisSet có evidence. | Researcher; Persona (hypothesis) | BR-41, BR-45, BR-54, BR-90, BR-91, BR-92, BR-99 |
 | FE-08 | Experiment design stage and Lock | Must | Lập AnalysisPlan cho dữ liệu bảng có sẵn và khoá plan bằng Lock. | Researcher; Persona (experiment_design) | BR-26, BR-31, BR-46, BR-47, BR-50, BR-83, BR-86, BR-93, BR-94, BR-95, BR-96, BR-99 |
-| FE-09 | Execution stage | Must | Chạy plan đã lock, giữ kết quả confirmatory trong envelope, unseal, và tính verdict, grade, claim ceiling bằng code. | Researcher; Persona (execution) | BR-11, BR-26, BR-48, BR-49, BR-50, BR-51, BR-52, BR-53, BR-54, BR-55, BR-56, BR-57, BR-86, BR-87 |
+| FE-09 | Execution stage | Must | Chạy plan đã lock, giữ kết quả confirmatory trong envelope, unseal, và tính verdict, grade, claim ceiling bằng code. | Researcher; Persona (execution) | BR-11, BR-26, BR-48, BR-49, BR-50, BR-51, BR-52, BR-53, BR-54, BR-55, BR-56, BR-57, BR-86, BR-87, BR-105 |
 | FE-10 | Paper stage | Must | Soạn PaperPack mà đội viết bài dùng được mà không phải dẫn xuất lại số liệu. | Researcher; Persona (paper) | BR-56, BR-65, BR-66, BR-67, BR-68, BR-69, BR-70, BR-71, BR-72, BR-73 |
 | FE-11 | Independent review loop and personas | Must | Review độc lập bắt buộc cho mọi object version, với finding đã kiểm và tối đa hai vòng sửa. | Persona (guard); Researcher | BR-35, BR-36, BR-37, BR-38, BR-39, BR-40, BR-42, BR-97, BR-100, BR-101 |
 | FE-12 | Local Node | Must | Giữ dữ liệu `local` trên máy user, chạy job cạnh dữ liệu và chỉ release aggregate qua release gate. | Researcher; Project Manager | BR-14, BR-16, BR-18, BR-19, BR-20, BR-21, BR-22, BR-27, BR-80, BR-81 |
@@ -129,6 +130,7 @@ MoSCoW: Must cho FE-01..FE-15 và FE-17; Should cho FE-19 (sau MVP); Could cho F
 | FE-17 | Administration and monitoring | Must | Cho Platform Admin quản lý user, model, key, audit và theo dõi vận hành. | Platform Admin | BR-02, BR-05, BR-14, BR-23, BR-29, BR-40 |
 | FE-18 | Journal Fingerprint Extraction (JFE) | Could | Dựng profile tạp chí có bằng chứng để paper stage tham chiếu (sau MVP). | Researcher | BR-74 |
 | FE-19 | Method comparison research | Should | So sánh các phương pháp ML trên cùng dữ liệu bằng claim type `method_comparison` (research pattern G–J, baseline policy F); sau MVP. | Researcher; Persona (experiment_design, execution) | BR-82, BR-83, BR-93, BR-96, BR-98, BR-99 |
+| FE-20 | Claim ledger, forecast and replication | Should | Cho researcher thấy điều đã biết về mỗi claim key xuyên run, chấm độ chắc của model và nhân rộng claim trên dữ liệu độc lập; đo giá trị bằng planted-truth bench. | Researcher; AI PI; Persona (experiment_design) | BR-106, BR-107, BR-108, BR-109, BR-110 |
 
 FE-16: Deprecated, không dùng lại để tránh nhầm với feature cũ. Nội dung của feature cũ thuộc execution stage (FE-09); xem [id-mapping.md](id-mapping.md#ánh-xạ-prd).
 
@@ -222,7 +224,7 @@ FR chính: FR-94, FR-95, FR-96, FR-97, FR-98, FR-99, FR-70.
 
 # 8. Functional Requirements
 
-Mỗi FR là một hành vi ổn định, kiểm được, ở mức sản phẩm. Mỗi FR chứa một requirement kiểm được độc lập. FR-146 trở đi được thêm sau khi ID đã chốt: FR-146 đến FR-150 là FR mới; các FR từ FR-151 tách ra từ FR cha và nằm ngay sau dòng cha, cùng priority và cùng BR nguồn. FR-263 trở đi là FR mới thêm sau khi ID đã chốt: hạn chờ item pinned (FR-263 đến FR-266), phần `method_comparison` tách khỏi FR Must (FR-267 đến FR-269) và rule của vòng sửa (FR-270, FR-271); chúng nằm trong feature của chúng. Giới hạn, thời hạn và điều kiện chi tiết là system rule (`SR-`) của Report III và truy về FR. Cột Verification: T = Test, I = Inspection, A = Analysis, D = Demonstration. Priority của FR lấy theo MoSCoW của feature.
+Mỗi FR là một hành vi ổn định, kiểm được, ở mức sản phẩm. Mỗi FR chứa một requirement kiểm được độc lập. FR-146 trở đi được thêm sau khi ID đã chốt: FR-146 đến FR-150 là FR mới; các FR từ FR-151 tách ra từ FR cha và nằm ngay sau dòng cha, cùng priority và cùng BR nguồn. FR-263 trở đi là FR mới thêm sau khi ID đã chốt: hạn chờ item pinned (FR-263 đến FR-266), phần `method_comparison` tách khỏi FR Must (FR-267 đến FR-269), rule của vòng sửa (FR-270, FR-271), evidence rows và tích trên hàng độc lập (FR-272, FR-273, Must) và FE-20 (FR-274 đến FR-287, Should); chúng nằm trong feature của chúng. Giới hạn, thời hạn và điều kiện chi tiết là system rule (`SR-`) của Report III và truy về FR. Cột Verification: T = Test, I = Inspection, A = Analysis, D = Demonstration. Priority của FR lấy theo MoSCoW của feature.
 
 ## FE-01 — Account and access
 
@@ -434,7 +436,9 @@ Mỗi FR là một hành vi ổn định, kiểm được, ở mức sản phẩ
 | FR-58 | Hệ thống phải ghi mọi thủ tục tìm kiếm của lane E và của user vào tried ledger cùng ngưỡng nhiễu. | Càng tìm nhiều, ngưỡng càng cao. | BR-52 | Must | T |
 | FR-208 | Hệ thống phải nâng ngưỡng cho candidate sau khi số thủ tục tìm kiếm tăng. | Tìm nhiều làm tăng kết quả đẹp do may rủi. | BR-52 | Must | T |
 | FR-59 | Hệ thống phải gán cho mỗi candidate được xác nhận một confirmation tier (`replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`). | Mức xác nhận có thứ bậc. | BR-53 | Must | T |
-| FR-209 | Hệ thống phải chỉ ghi e-value vào ledger cho tier `replicated` và `reserve`. | Chỉ dữ liệu mới cho e-value hợp lệ. | BR-53 | Must | T |
+| FR-209 | Hệ thống phải chỉ ghi evidence e-value vào claim ledger cho kết quả confirmatory và cho candidate ở tier `replicated` hoặc `reserve`. | Chỉ hàng chưa dùng để khám phá cho evidence e-value hợp lệ. | BR-53 | Must | T |
+| FR-272 | Hệ thống phải gán evidence rows (`confirmatory`, `reserve` hoặc validation source theo hash) cho mỗi record có evidence e-value, bằng code. | Ledger cần biết hai record có dùng chung hàng hay không. | BR-53; BR-105 | Must | T |
+| FR-273 | Hệ thống phải nhân evidence e-value của một claim key chỉ giữa các nhóm hàng độc lập, mỗi nhóm một record (record đầu tiên), và đánh dấu claim key `promoted` khi tích từ 1/α, với α là setting. | Cùng hàng đếm hai lần, hoặc chọn record lớn nhất, làm mất kiểm soát sai lầm. | BR-105 | Must | T |
 | FR-60 | Hệ thống phải đưa replication package (code hash, environment, dữ liệu, seed, split) vào EvidenceBundle. | Replay cần đủ đầu vào. | BR-57 | Must | T |
 | FR-210 | Hệ thống phải để replicator tái lập kết quả của EvidenceBundle. | Kết quả tái lập được. | BR-57 | Must | T |
 | FR-211 | Hệ thống phải đánh đỏ item của bundle khi kết quả tái lập lệch. | Phát hiện lệch. | BR-57 | Must | T |
@@ -620,6 +624,29 @@ Mỗi FR là một hành vi ổn định, kiểm được, ở mức sản phẩ
 | FR-267 | Hệ thống phải để AnalysisPlan của `method_comparison` có ba evidence family theo thứ tự: discrimination, reliability (calibration, stress, uncertainty), decision (threshold, cost, subgroup) (FE-19, sau MVP). | Một metric không đủ để kết luận. | BR-93 | Should | T |
 | FR-268 | Hệ thống phải dùng task family để chọn metric policy và protocol cho `method_comparison` (FE-19, sau MVP). | Metric và protocol đúng với loại bài toán. | BR-83 | Should | T |
 | FR-269 | Hệ thống phải cho `method_comparison` dùng pattern F làm baseline policy (FE-19, sau MVP). | `method_comparison` cần baseline. | BR-96 | Should | T |
+
+## FE-20 — Claim ledger, forecast and replication
+
+**Mục đích:** Cho researcher thấy điều đã biết về mỗi claim key xuyên run, chấm độ chắc của model, nhân rộng claim trên dữ liệu độc lập và đo giá trị của hệ thống. **Actor:** Researcher; AI PI; Persona (experiment_design). **Journey:** J3, J4. **Tiêu chí chấp nhận:** (Should; vào MVP sau khi stage acceptance qua và planted-truth bench đo được nó, nếu không thì sau MVP) Trên Stack Overflow 2025 rồi 2026: mỗi hypothesis có verdict trên hai snapshot, tích evidence e-value và claim status; mỗi forecast có điểm; một báo cáo planted-truth bench có recall, phát hiện sai, hidden-error rate và attention budget.
+
+| FR | Statement | Rationale | Source | Priority | Verification |
+|---|---|---|---|---|---|
+| FR-274 | Hệ thống phải hiển thị claim ledger theo claim key: mọi record xuyên run (run, snapshot, evidence rows, verdict, evidence e-value), tích và `promoted`. | Điều đã biết nằm ở một chỗ, không rải trên các run. | BR-105 | Should | T |
+| FR-275 | Hệ thống phải tính claim ledger chỉ từ hand-off object đã lưu, để replay cùng record cho cùng ledger. | Ledger không có chủ sở hữu thứ hai và không bị sửa tay. | BR-105 | Should | T |
+| FR-276 | Hệ thống phải tính claim status cho mỗi claim key bằng code (`conjecture`, `testable`, `locked`, `tested`, `supported`, `refuted`, `unresolved`, `exploratory`, `established`, `contested`). | Một khái niệm xuyên run, cùng thang với claim ceiling. | BR-106 | Should | T |
+| FR-277 | Hệ thống phải ghi trong claim ledger phần nào của luật `established` chưa có. | Không ngầm coi phần thiếu là đạt. | BR-106 | Should | T |
+| FR-278 | Hệ thống phải để experiment_design stage ghi một forecast cho mỗi primary và secondary hypothesis trước khi lock plan: xác suất từ 0,01 tới 0,99 rằng verdict là `supported`, kèm một dòng lý do; contract check đỏ khi thiếu. | Độ chắc được ghi trước khi biết kết quả. | BR-107 | Should | T |
+| FR-279 | Hệ thống phải giữ forecast trong Lock. | Forecast không sửa được sau khi thấy kết quả. | BR-107; BR-47 | Should | T |
+| FR-280 | Hệ thống phải tính điểm Brier của mỗi forecast sau unseal và forecast score theo project. | Đo model có biết nó chắc tới đâu. | BR-107 | Should | T |
+| FR-281 | Hệ thống phải hiển thị forecast với nhãn "model forecast" và không dùng nó cho verdict, grade, claim ceiling, claim status hay next step. | Xác suất của model không phải bằng chứng. | BR-108 | Should | T |
+| FR-282 | Hệ thống phải mở replication run từ next step `replicate`: plan mới có program cùng hash với plan đã accepted, trên DatasetSnapshot độc lập có vai trò `validation`; check đỏ khi hash khác. | Nhân rộng đúng nghĩa: cùng phân tích, hàng mới. | BR-109 | Should | T |
+| FR-283 | Hệ thống phải để researcher lock plan của replication run (action pinned). | Lock luôn là quyết định của user. | BR-109; BR-26 | Should | T |
+| FR-284 | Hệ thống phải để paper stage dùng chữ "replicated" chỉ cho claim key `promoted` có record trên ít nhất hai snapshot. | Lời văn không vượt điều đã nhân rộng. | BR-109 | Should | T |
+| FR-285 | Hệ thống phải chạy planted-truth bench từ dataset tới paper và đo recall của hiệu ứng thật, phát hiện sai và claim mạnh hơn verdict. | Đo giá trị bằng sự thật đã biết. | BR-110 | Should | A |
+| FR-286 | Hệ thống phải tính hidden-error rate và attention budget cho mỗi run của planted-truth bench. | Đo lời hứa "không có lỗi nào bị giấu" và chi phí chú ý của người. | BR-110 | Should | A |
+| FR-287 | Hệ thống phải chạy ablation của mỗi persona và mỗi tham số phán đoán trên planted-truth bench, nhiều lần mỗi cấu hình; luật toàn vẹn không bị ablation. | Chỉ giữ cơ chế làm tăng độ tin. | BR-110 | Should | A |
+
+Ngoài FE-20, các năng lực sau là Could, sau MVP, và chưa có FR: rival explanation với dự đoán phân biệt; test stringency và negative knowledge; multiverse share; breaker trên model của provider khác cùng adversarial collaboration; winner's curse học từ replication; crux report; stakes theo câu hỏi; AI PI dựng lại trên hand-off object, chọn test tiếp theo theo giá trị thông tin; tree search trong exploration sau unseal.
 
 # 9. Non-Functional Requirements
 

@@ -976,7 +976,7 @@ Each case below traces to a use case, its FRs and its business rules. A fixture 
 - Preconditions: An unsealed run. Lane E (the exploration lane of the execution stage) produces candidates.
 - Steps: 1. Run lane E. 2. Inspect which data splits lane E reads. 3. Read the tried ledger after 1, 10 and 50 search procedures. 4. Read the inbox. 5. Reject one candidate. 6. Confirm candidates in each confirmation tier.
 - Test data: A search that yields candidates at the four tiers.
-- Expected result: Lane E reads the exploration split only and uses no validation source. The noise threshold in the tried ledger rises as the number of procedures grows. Each candidate enters the inbox with MSG-46 and never goes straight into the plan. The rejected candidate stays in the ledger. Each confirmed candidate has a tier. Only `replicated` and `reserve` write an e-value (a sequential measure of evidence) to the ledger.
+- Expected result: Lane E reads the exploration split only and uses no validation source. The noise threshold in the tried ledger rises as the number of procedures grows. Each candidate enters the inbox with MSG-46 and never goes straight into the plan. The rejected candidate stays in the ledger. Each confirmed candidate has a tier. Only confirmatory results and the tiers `replicated` and `reserve` write an evidence e-value (a measure of evidence that multiplies across independent rows) to the claim ledger.
 - Status: Not run.
 
 ##### TC-25 Run the paper stage

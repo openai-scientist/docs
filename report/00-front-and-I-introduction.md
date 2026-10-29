@@ -428,6 +428,7 @@ The priority uses the MoSCoW scale. The feature numbering skips one number on pu
 | FE-17 | Administration and monitoring | Must | Lets the Platform Admin manage users, models, keys, and audit, and monitor operations. |
 | FE-18 | Journal Fingerprint Extraction (JFE) | Could | Builds an evidence-based journal profile that the `paper` stage can refer to (after MVP). |
 | FE-19 | Method comparison research | Should | Compares machine-learning methods on the same data with the claim type `method_comparison` (after MVP). |
+| FE-20 | Claim ledger, forecast and replication | Should | Shows what is known about each claim key across runs, scores the model's forecasts, replicates claims on an independent dataset and measures value on a planted-truth bench (enters the MVP after stage acceptance passes and the planted-truth bench measures it). |
 
 *Table 4: Major features and priority.*
 
@@ -462,6 +463,21 @@ The table below lists the exclusions, which are outside the scope.
 | EX-09 | A comparison of the Platform with human-only work, AutoML, or generic agents. | The product does not benchmark the Platform against these systems. This does not exclude user research topics: a user may compare an AutoML method with baselines on the user's own data under `method_comparison` (FE-19, Should, after MVP). |
 
 These limitations and exclusions form the baseline scope. They prevent uncontrolled expansion and let the review board judge whether the team can implement and demonstrate the system within the capstone schedule.
+
+### 6.3 Future Work
+
+The capabilities below extend the scientific core after the MVP (Could). Each must first show on the planted-truth bench that it makes results more trustworthy per minute of human attention.
+
+| # | Capability | Purpose |
+| ----- | ----- | ----- |
+| 1 | Rival explanations | Each hypothesis lists rivals from a fixed vocabulary (confounding, reverse causation, selection, measurement) with a prediction that tells them apart. A claim key is not promoted while a feasible rival test is untested. |
+| 2 | Test stringency and negative knowledge | Code computes how severely a claim was tested (Mayo's severity), so "enough power, no effect of interest" is kept apart from "not enough evidence". |
+| 3 | Multiverse share | The share of defensible analysis forks that agree in direction. |
+| 4 | Breaker and adversarial collaboration | After unseal, a guard on another provider's model attacks the claim. Before unseal, both sides record what result would convince them. |
+| 5 | Winner's curse learned from replication | Code learns how much discovered effects shrink on replication and plans the next confirmation's power with it. |
+| 6 | Crux report and stakes | The forks, rivals and assumptions that flip a conclusion are shown first; the Researcher states how much each question matters. |
+| 7 | AI PI on the hand-off objects | The AI PI reads the five objects and the claim ledger and proposes the next test by value of information. |
+| 8 | Tree search in exploration | After unseal only; each good branch becomes a candidate for a replication run. |
 
 ## Open items
 
