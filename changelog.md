@@ -3,6 +3,22 @@
 Định dạng theo [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là đường dẫn tương đối từ repository root.
 
+## 2026-10-29 — Hoàn tác sửa diagram, bàn giao checklist tự vẽ
+
+- Khôi phục [Use Case editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) nguyên byte từ bản trước lần sửa diagram gần nhất; gỡ PNG được tạo trong lần sửa đó. Giữ quy tắc phong cách một trang đã được người dùng chốt và các thay đổi không liên quan.
+- Thêm [checklist cập nhật Use Case](diagrams/01-use-case/use-case-update-checklist.md): ưu tiên, actor/quyền, ánh xạ nhãn cũ, chức năng cần bổ sung, quan hệ UML và danh sách đủ 41 UC có FE/FR theo [Report III](report/03-software-requirements-specification.md), [BRD](BRD.md), [PRD](PRD.md). Người dùng tự vẽ; không sửa requirement hoặc nội dung diagram.
+- Đối chiếu thêm bản `xFA26SE115_Report7.md` người dùng gửi: bảng 41 UC/FE/FR khớp nguồn repo; chỉnh checklist dùng actor Persona cho maker/guard, User cho Sign in, bỏ LLM provider khỏi phương án mặc định và sửa tham chiếu validation upload về bước 2. Ghi nhận hai lỗi trình bày trong Report7 (thiếu heading UC-01 và chú thích approval `[a]` bị rơi); không sửa file Downloads hay diagram.
+- Chi tiết hóa checklist thành thao tác cụ thể: 20 oval đổi tên, 21 oval thêm mới, danh sách oval/đường gốc cần xóa, bảng actor–UC cho đủ 41 UC, một generalization PM → Researcher và một include upload → validate; không đề xuất extend. Kiểm tra inventory oval khớp XML gốc, link local tồn tại và diagram không bị sửa.
+- Theo yêu cầu người dùng, checklist không đề xuất actor Google/Email hoặc oval riêng cho từng phương thức đăng nhập; giữ UC-01 Sign in tổng quát, không thay đổi yêu cầu xác thực trong BRD/PRD.
+- Validation: diagram khôi phục khớp byte bản sao lưu và có một page; checklist đủ 41 mã UC duy nhất; link local trong checklist và entry này tồn tại; `git diff --check` đạt. Không render lại vì sơ đồ được khôi phục nguyên bản.
+
+## 2026-10-29 — Giữ cấu trúc Use Case một trang
+
+- Cập nhật [quy tắc Use Case](diagrams/01-use-case/rule.md): giữ bố cục sơ đồ cũ trên một trang, không tách overview, module hoặc trang chi tiết. Quy tắc riêng này ưu tiên hơn hướng dẫn chung về tách diagram khi đông use case.
+- Làm rõ phong cách theo ảnh người dùng: actor hai bên, cụm ellipse chính–phụ trong một khung dọc, nét mảnh/nền trắng; không dùng module box hay danh sách ellipse một cột. Ảnh chỉ là tham chiếu bố cục; ngữ nghĩa và quyền vẫn theo tài liệu nguồn.
+- Hoàn tác bộ sơ đồ tám trang, builder và preview vừa tạo; khôi phục file editable từ bản sao lưu trước khi sửa. Không đổi requirement trong [BRD](BRD.md), [PRD](PRD.md) hay [Use Case Spec](report/03-software-requirements-specification.md).
+- Validation: so sánh byte với bản sao lưu đạt; XML có đúng một page; `git diff --check` đạt. Không thay đổi nội dung hay hình học sơ đồ nên không cần render lại.
+
 ## 2026-10-29 — Hoàn tất merge Context diagram
 
 - Hợp nhất [Context diagram](diagrams/11-optional/System-Context-Diagram.drawio) (khi merge vào cấu trúc diagrams mới, file chuyển từ `diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio` sang `diagrams/11-optional/`, nội dung giữ nguyên): giữ bốn trang và bố cục hiện có, cập nhật metadata nguồn theo [BRD](BRD.md), [PRD](PRD.md) và context model `diagrams/context-diagrams/context_diagram.json` (đã gỡ cùng folder cũ). Không đổi requirement hay workflow.
