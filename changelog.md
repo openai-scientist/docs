@@ -12,6 +12,9 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ### Added
 
+- Khôi phục 5 diagram editable đã bị xoá trong [commit 151edf99](https://github.com/openai-scientist/capstone-project-docs/commit/151edf99e173c75ffc9433ed2c938ff15bcd3504) vào `diagrams/11-optional/`: [Activity](diagrams/11-optional/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Context](diagrams/11-optional/AI-Research-Experimentation-Platform-Context.drawio), [ERD](diagrams/11-optional/AI-Research-Experimentation-Platform-ERD.drawio), [Sequence](diagrams/11-optional/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio) và [Use Case](diagrams/11-optional/AI-Research-Experimentation-Platform-Use-Case.drawio). Nội dung nghiệp vụ, requirement và workflow không đổi; BRD, PRD và Use Case Spec không cần cập nhật.
+  - Validation: `xmllint --noout` đạt trên cả 5 file; `git diff --check` và kiểm tra whitespace cho các file mới đạt.
+
 - [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): lấp các mục chữ còn trống của Report III và IV; trong I–V chỉ còn ô diagram. Nội dung lấy từ code web app, backend và database script, viết ở [S3](deliverables/supplements/S3-requirements.md) và [S4](deliverables/supplements/S4-design.md); `report/` không đổi.
   - III: câu dẫn 2.2 và 3.; 3.1.2 Screen Descriptions; 3.1.3 Screen Authorization; 3.1.4 Non-Screen Functions; 3.1.5 Entity Descriptions; mô tả 63 chức năng ở 3.2–3.9; NFR chia theo thuộc tính ở 4.2.1–4.2.6.
   - IV 2.2.1–2.2.40: mô tả từng bảng sinh bằng [describe_tables.py](deliverables/database/describe_tables.py) từ [database script](deliverables/database/FA26SE115_database-script.sql).
