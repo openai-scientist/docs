@@ -33,7 +33,8 @@ Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, v
 - Đặt màn hình, bảng dữ liệu hay tên API vào use case.
 
 ## Checklist
-- [ ] Tất cả UC-01 … UC-41 trong III 2.2 có mặt (gồm cả use case *after MVP*, ghi chú `(after MVP)`).
+- [ ] View hiện tại có 38 UC trong danh mục UC-01 … UC-41, tạm bỏ UC-08, UC-30, UC-31 (Local Node) theo yêu cầu người dùng; không đánh lại số. Giữ nhãn `(after MVP)` cho UC-40/41. Xem [checklist](use-case-update-checklist.md).
+- [ ] Chỉ có 6 actor: User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider. Persona/AI PI là nội bộ; không vẽ Local Node, Google hoặc Email trong view này.
 - [ ] Mỗi use case có ít nhất một actor.
 - [ ] Hướng mũi tên include/extend đúng.
 

@@ -9,7 +9,7 @@ Sources: SEP490 report template (T) and the SWP490 Review 2 guide (R2).
 Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dưới đây áp dụng thêm cho tất cả.
 
 **File và tên**
-- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
+- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md) và Class Diagram được gộp tám tab theo [rule riêng](07-class/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
 - Export PNG cùng tên, cùng folder: `File > Export as > PNG`, Zoom 200%, Border 20 px, nền trắng, bỏ chọn "Transparent background". Report chỉ chèn PNG này.
 - Nội dung theo `report/`: tên actor, UC, FE, entity, state, message lấy đúng chữ trong report (tiếng Anh). Code khác report thì báo leader, không tự vẽ theo code.
 
@@ -47,7 +47,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 | [04-system-overview](04-system-overview/) | System Overview Diagram | 1 | IV 1.1 (IV-2) | T, R2 |
 | [05-package](05-package/) | Package Diagram | 1 | IV 1.2 (IV-4) | T |
 | [06-database](06-database/) | Database Diagram (tables, matches the database script) | 1 | IV 2.2 | T, R2 |
-| [07-class](07-class/) | Class Diagram, one per feature group | 8 | IV 3.1.1–3.8.1 | T |
+| [07-class](07-class/) | Class Diagram, one tab per feature group | 1 file / 8 tabs | IV 3.1.1–3.8.1 | T |
 | [08-sequence](08-sequence/) | Sequence Diagram, merged where the structure is the same | ~25–30 | IV 3.x.y | T |
 | [09-state-machine](09-state-machine/) | State Machine Diagram, one per main entity | 6 | IV 3.2–3.6 | R2 |
 | [10-activity](10-activity/) | Activity Diagram (swimlanes), one per main workflow | 5 | IV 3.4–3.6, VI 3 | R2 |
@@ -56,14 +56,17 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 ## File checklist
 
 ### 07-class
-- [ ] `Class-Diagram-Authentication-Account.drawio`
-- [ ] `Class-Diagram-Project-Workspace.drawio`
-- [ ] `Class-Diagram-Data-Management.drawio`
-- [ ] `Class-Diagram-Research-Run-Orchestration.drawio`
-- [ ] `Class-Diagram-Research-Engines.drawio`
-- [ ] `Class-Diagram-AI-Principal-Investigator.drawio`
-- [ ] `Class-Diagram-Notifications-Integrations.drawio`
-- [ ] `Class-Diagram-Administration-Monitoring.drawio`
+
+File chung: [Class-Diagram-Authentication-Account.drawio](07-class/Class-Diagram-Authentication-Account.drawio). Tên file giữ từ bản Authentication người dùng đã duyệt; file hiện có đủ 8 tab và PNG riêng từng nhóm. Xem [thuyết minh/nguồn/validation](07-class/Class-Diagrams-design.md). Đây là bộ thiết kế đề xuất, chưa thay placeholder trong report.
+
+- [x] Authentication & Account
+- [x] Project Workspace
+- [x] Data Management
+- [x] Research Run Orchestration
+- [x] Research Engines
+- [x] AI Principal Investigator
+- [x] Notifications & Integrations
+- [x] Administration & Monitoring
 
 ### 08-sequence
 One file per sequence; the report lists 63 template slots (IV 3.1–3.8). Features with the same
