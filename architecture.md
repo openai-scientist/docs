@@ -132,6 +132,7 @@ Phạm vi hệ thống: Web app, Platform, Stage engines, AI PI, Local Node, th�
 | S12 | Dataset tuỳ chọn khi bắt đầu; dataset stage tìm hoặc hỏi. | Human control with progress | ADR-14 |
 | S13 | Research pattern là đơn vị có version trong một registry; pipeline order chống leakage được guard chặn trước khi chạy; mỗi pattern có negative test. | Integrity | ADR-17 |
 | S14 | Claim type `method_comparison` dùng cùng harness, Lock, envelope và verdict; chỉ thêm pattern G–J. Should, sau MVP. | Integrity, Traceability | ADR-18 |
+| S15 | Claim ledger là view dẫn xuất xuyên run theo claim key; evidence e-value chỉ nhân giữa các nhóm hàng độc lập; claim status là mức claim ceiling xuyên run. Claim status, forecast và replication run là Should. | Integrity, Traceability, Replayability | ADR-19, ADR-20 |
 
 ---
 
@@ -155,7 +156,7 @@ Phạm vi hệ thống: Web app, Platform, Stage engines, AI PI, Local Node, th�
 | Platform | Người dùng, project, member, run, run state, budget, key, audit, presence, decision inbox tổng hợp, decision log chéo stage, Lock, envelope, unseal, Dossier, approval, thông báo | Không đánh giá nội dung khoa học |
 | Stage engine ×5 (dataset, hypothesis, experiment_design, execution, paper) | Chạy một stage trên Harness theo HarnessSpec; tạo hand-off object | Không lưu người, project, key; không đọc kết quả envelope trước unseal |
 | Harness | Runtime chung (xem 5.2) | Không biết khoa học của stage |
-| AI PI | Connector persona: tóm tắt, đề xuất next step, ghi Lab notebook, quyết định tạm khi `autopilot` + `away` | Không kết thúc run; không quyết định item pinned |
+| AI PI | Connector persona: tóm tắt, đề xuất next step, ghi Lab notebook, quyết định tạm khi `autopilot` + `away`; đọc claim ledger (tính bằng code từ hand-off object đã lưu) | Không kết thúc run; không quyết định item pinned; không sửa claim ledger |
 | Executor | Chạy job phân tích. Hai nơi chạy: trong engine (cloud) hoặc trên Local Node. Cùng một thư viện phân tích | Không tạo đường riêng cho dữ liệu |
 | Local Node | Giữ dữ liệu `local`; chạy job cạnh dữ liệu; release gate; release log; desktop app | Không gửi hàng dữ liệu; không yêu cầu Docker |
 | Thư viện contract | Định nghĩa hand-off object, action type, giao thức job | — |
@@ -339,6 +340,31 @@ Bảng này mô tả khái niệm và quan hệ. Nó không ghi kiểu dữ li�
 4. Khi đủ approval cho version hiện tại, Dossier chuyển sang approved.
 5. **Export** ra ngoài project là action pinned và cần Dossier approved. Platform chỉ ghi approval và kiểm hash; Platform không đánh giá khoa học.
 6. Mỗi export ghi vào audit log với version Dossier và định dạng.
+
+### 6.h Vòng suy luận, test và bằng chứng (đích; Should và Could)
+
+View này là đích của hệ thống sau MVP. Năm stage giữ nguyên là công cụ có kỷ luật; AI PI là chủ thể đọc claim ledger và đề xuất test tiếp theo.
+
+```text
+ [quan sát]──abduction──►[conjecture + rival]──deduction──►[dự đoán đã lock]
+  dataset, anomaly,        hypothesis                        experiment_design
+  literature               (model đề xuất, code kiểm nguồn)   (code kiểm biến, power; forecast)
+                                                                  │ induction
+                                                                  ▼
+ [claim ledger] ◄── claim status do code ── [bằng chứng] ◄── [test kín]
+  view dẫn xuất                              evidence e-value  execution
+      │
+      ├── điểm then chốt → researcher
+      ├── anomaly → abduction (vòng mới)
+      └── claim cần nhân rộng → replication run trên dữ liệu độc lập
+```
+
+1. **Model làm abduction:** conjecture, rival explanation, giả định phụ, dự đoán phân biệt. Lỗi ở đây rẻ vì code lọc chúng.
+2. **Code làm deduction và induction:** kiểm dự đoán có theo được không (biến tồn tại, power đủ), chạy test, tính bằng chứng và chuyển claim status.
+3. **Researcher giữ stakes và điểm then chốt:** điều gì quan trọng, giả định phụ nào chấp nhận được, nhánh nào đúng.
+4. Mỗi record xác nhận mang evidence rows. Claim ledger nhân evidence e-value chỉ giữa các nhóm hàng độc lập (ADR-19). Claim status là mức claim ceiling xuyên run (ADR-20).
+5. Forecast của model nằm trong Lock, được chấm điểm sau unseal và không quyết định điều gì.
+6. Next step `replicate` mở replication run: cùng program (cùng hash), DatasetSnapshot độc lập có vai trò `validation`, researcher lock.
 
 ---
 
@@ -593,13 +619,13 @@ Mỗi ADR có Status, Context, Decision, Alternatives considered, Consequences. 
 - **Alternatives considered:** (a) Tin agent không nhìn. (b) Mã hoá kết quả.
 - **Consequences:** Kiểm soát truy cập bằng đường code đủ cho mối đe doạ này. Platform là điểm tin cậy. Hệ thống không chống được kẻ có quyền sửa code của Platform.
 
-### ADR-09 — Chính sách split quyết định ở dataset stage; tier xác nhận; e-value chỉ trên hàng mới
+### ADR-09 — Chính sách split quyết định ở dataset stage; tier xác nhận; evidence e-value chỉ trên hàng mới
 
 - **Status:** Accepted
 - **Context:** Split ngẫu nhiên ba phần cố định không xét power. Candidate từ khám phá cần cách xác nhận có thứ bậc.
-- **Decision:** Dataset stage tính power cho hypothesis đã chọn. Nếu n giữ power đủ và còn phần dự trữ thì split ba phần (exploration / confirmation / reserve); nếu không thì hai phần; dưới n tối thiểu thì không split và ghi là limitation. Split tôn trọng unit of observation và cấu trúc dữ liệu: hàng cùng group không nằm ở hai phần; dữ liệu có trật tự thời gian chia theo thời gian. Researcher xác nhận unit và cấu trúc (action pinned) trước khi split được tạo. Tier xác nhận từ mạnh đến yếu: `replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`. Chỉ `replicated` và `reserve` ghi e-value vào ledger.
+- **Decision:** Dataset stage tính power cho hypothesis đã chọn. Nếu n giữ power đủ và còn phần dự trữ thì split ba phần (exploration / confirmation / reserve); nếu không thì hai phần; dưới n tối thiểu thì không split và ghi là limitation. Split tôn trọng unit of observation và cấu trúc dữ liệu: hàng cùng group không nằm ở hai phần; dữ liệu có trật tự thời gian chia theo thời gian. Researcher xác nhận unit và cấu trúc (action pinned) trước khi split được tạo. Tier xác nhận từ mạnh đến yếu: `replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`. Chỉ kết quả confirmatory và candidate ở tier `replicated` hoặc `reserve` ghi evidence e-value vào claim ledger (ADR-19).
 - **Alternatives considered:** (a) Split ngẫu nhiên ba phần cố định.
-- **Consequences:** Split gắn với power thật của câu hỏi. Tích e-value chỉ hợp lệ trên hàng mới. Dataset stage cần hypothesis nháp sớm để tính power.
+- **Consequences:** Split gắn với power thật của câu hỏi. Tích evidence e-value chỉ hợp lệ trên hàng mới và chỉ giữa nhóm hàng độc lập (ADR-19). Dataset stage cần hypothesis nháp sớm để tính power.
 
 ### ADR-10 — Local Node: hàng dữ liệu không rời máy; một release gate; không cần Docker
 
@@ -673,6 +699,22 @@ Mỗi ADR có Status, Context, Decision, Alternatives considered, Consequences. 
 - **Alternatives considered:** (a) Chỉ hỗ trợ nghiên cứu hiện tượng, không có `method_comparison`. (b) Đưa vào MVP. (c) Một engine riêng cho so sánh phương pháp.
 - **Consequences:** Phạm vi rộng hơn. Không thêm cơ chế mới cho Lock, envelope hay verdict. Rủi ro phạm vi nằm ở R-14.
 
+### ADR-19 — Evidence e-value chỉ nhân giữa các nhóm hàng độc lập
+
+- **Status:** Accepted
+- **Context:** Agent loop dừng khi nó muốn. Tích evidence e-value giữ mức sai lầm đặt trước dù vòng dừng lúc nào (bất đẳng thức Ville), nhưng chỉ khi các thừa số đến từ hàng độc lập. Hai lần chạy execution trên cùng snapshot tạo hai record cho cùng hàng.
+- **Decision:** Code gán evidence rows cho mỗi record có evidence e-value: `confirmatory`, `reserve` hoặc validation source theo hash. Một nhóm hàng độc lập là cặp (snapshot, evidence rows), hoặc chính validation source. Theo claim key, mỗi nhóm góp một evidence e-value: record đầu tiên, không phải record lớn nhất. Claim ledger nhân giữa các nhóm và đánh dấu `promoted` khi tích từ 1/α; α là setting. Record không có evidence rows (record cũ) không vào tích.
+- **Alternatives considered:** (a) Nhân mọi record có cờ confirmatory (bỏ sót replication và reserve, đếm trùng). (b) Giữ record lớn nhất mỗi nhóm (chọn lọc). (c) Trung bình evidence e-value trong nhóm.
+- **Consequences:** Replication và reserve góp bằng chứng; chạy lại không làm phồng tích. Record cũ cần được tính lại nếu muốn vào ledger. Dữ liệu hai năm khảo sát có thể có chung người trả lời; điều đó ghi là limitation.
+
+### ADR-20 — Claim status là mức claim ceiling xuyên run
+
+- **Status:** Accepted (Should)
+- **Context:** Verdict là kết quả của một test trong một run. Researcher cần biết điều đã biết về một claim qua mọi test. Một bộ từ vựng thứ hai bên cạnh verdict và claim ceiling sẽ tạo hai khái niệm cho cùng một việc.
+- **Decision:** Code tính claim status theo claim key từ claim ledger, cùng thang với claim ceiling: `conjecture` → `testable` → `locked` → `tested` → `supported`, `refuted`, `unresolved` hoặc `exploratory` → `established`; `contested` từ mọi mức khi có bằng chứng ngược. `established` cần claim key `promoted` trên hàng độc lập; test stringency, multiverse share và rival thêm vào luật khi các phần đó có, và ledger ghi phần còn thiếu. Ngưỡng là setting.
+- **Alternatives considered:** (a) Không có status; ledger chỉ liệt kê verdict theo thời gian. (b) Một state machine riêng của claim, khác claim ceiling.
+- **Consequences:** Một khái niệm cho mức claim, trong một run và xuyên run. Paper đọc claim status để chọn lời văn. Luật `established` tăng dần theo phase; trước khi đủ, status ghi rõ phần thiếu.
+
 ---
 
 ## 10. Quality requirements
@@ -681,7 +723,7 @@ Mỗi ADR có Status, Context, Decision, Alternatives considered, Consequences. 
 
 | Quality goal | Thuộc tính | Cách bảo đảm (ADR) |
 |---|---|---|
-| Integrity | Không con số do model viết; không lỗi bị giấu; confirmatory không bị thấy sớm; leakage bị phát hiện hoặc chặn | ADR-06, ADR-07, ADR-08, ADR-11, ADR-17 |
+| Integrity | Không con số do model viết; không lỗi bị giấu; confirmatory không bị thấy sớm; leakage bị phát hiện hoặc chặn; bằng chứng không bị đếm hai lần | ADR-06, ADR-07, ADR-08, ADR-11, ADR-17, ADR-19 |
 | Traceability | Mọi claim và con số trỏ về record; object ghim version | ADR-01, ADR-07, ADR-12 |
 | Replayability | Cùng input ghim cho cùng hash | ADR-01, ADR-08 |
 | Data privacy | Hàng dữ liệu `local` không rời máy; mọi release có log | ADR-10 |
