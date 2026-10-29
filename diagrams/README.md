@@ -9,7 +9,7 @@ Sources: SEP490 report template (T) and the SWP490 Review 2 guide (R2).
 Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dưới đây áp dụng thêm cho tất cả.
 
 **File và tên**
-- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md) và Class Diagram được gộp tám tab theo [rule riêng](07-class/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
+- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md), Class Diagram được gộp tám tab theo [rule riêng](07-class/rule.md) và Sequence Diagram được chia tám folder/file theo nhóm, mỗi sequence một tab theo [rule riêng](08-sequence/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
 - Export PNG cùng tên, cùng folder: `File > Export as > PNG`, Zoom 200%, Border 20 px, nền trắng, bỏ chọn "Transparent background". Report chỉ chèn PNG này.
 - Nội dung theo `report/`: tên actor, UC, FE, entity, state, message lấy đúng chữ trong report (tiếng Anh). Code khác report thì báo leader, không tự vẽ theo code.
 
@@ -48,7 +48,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 | [05-package](05-package/) | Package Diagram | 1 | IV 1.2 (IV-4) | T |
 | [06-database](06-database/) | Database Diagram (tables, matches the database script) | 1 | IV 2.2 | T, R2 |
 | [07-class](07-class/) | Class Diagram, one tab per feature group | 1 file / 8 tabs | IV 3.1.1–3.8.1 | T |
-| [08-sequence](08-sequence/) | Sequence Diagram, merged where the structure is the same | ~25–30 | IV 3.x.y | T |
+| [08-sequence](08-sequence/) | Sequence Diagram, one tab per sequence, grouped by feature | 8 files / 64 tabs | IV 3.x.y; IV-10/12 | T |
 | [09-state-machine](09-state-machine/) | State Machine Diagram, one per main entity | 6 | IV 3.2–3.6 | R2 |
 | [10-activity](10-activity/) | Activity Diagram (swimlanes), one per main workflow | 5 | IV 3.4–3.6, VI 3 | R2 |
 | [11-optional](11-optional/) | System Context, Business Process, Deployment, Scrum Process | 4 | I 1.2, II 2.1, III 1, IV 1.1 | report/ |
@@ -69,12 +69,18 @@ File chung: [Class-Diagram-Authentication-Account.drawio](07-class/Class-Diagram
 - [x] Administration & Monitoring
 
 ### 08-sequence
-One file per sequence; the report lists 63 template slots (IV 3.1–3.8). Features with the same
-structure share one diagram (SEP490 template rule). The leader decides the merge list and the
-six slots of removed v3 features (Answer Gate, Send Back, Charter, Consultations, Endorse, Reviewer Queue).
-Already in `report/`:
-- [ ] `Sequence-Diagram-Lock-Plan-and-Unseal-Results.drawio` (IV-10)
-- [ ] `Sequence-Diagram-Execute-Local-Job-and-Release-Aggregate.drawio` (IV-12)
+Theo yêu cầu người dùng: tám folder, mỗi folder một file draw.io chính, mỗi sequence một tab. Bộ thiết kế đề xuất gồm 64 tab và PNG riêng; xem [inventory/nguồn/caption mapping](08-sequence/Sequence-Groups-design.md). Authentication có đủ năm sequence, không chỉ bản Email Code mẫu. Tầng dữ liệu đã bổ sung Repository theo chuỗi Service → Repository → Database; bản Email Code standalone và tab đầu Authentication được đồng bộ cùng model.
+
+- Authentication & Account: 5 tab.
+- Project Workspace: 12 tab.
+- Data Management: 10 tab, gồm Execute Local Job and Release Aggregate (IV-12).
+- Research Run Orchestration: 13 tab.
+- Research Engines: 6 tab, gồm Experiment Design/Lock và Execution/Unseal đối chiếu IV-10; thêm Execution/Paper theo phần thiết kế năm engine.
+- AI Principal Investigator: 5 tab.
+- Notifications & Integrations: 4 tab.
+- Administration & Monitoring: 9 tab.
+
+Các caption cũ được ánh xạ theo nghiệp vụ hiện hành; không khôi phục v3 flow đã bỏ. Chưa chèn PNG hoặc thay placeholder trong report.
 
 ### 09-state-machine
 - [ ] `State-Machine-Diagram-Research-Run.drawio` (IV-7)
