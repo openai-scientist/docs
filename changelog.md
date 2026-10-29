@@ -12,6 +12,9 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ### Added
 
+- [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): viết lại bối cảnh dự án ở I 1 Overview (câu mở đầu) và I 2 Product Background theo yêu cầu của team: sản phẩm hướng tới sinh viên và người mới muốn viết bài báo khoa học nhưng chưa biết lộ trình, xuất phát từ kinh nghiệm dự án RBL cùng cô Hương (khó khăn lớn nhất ở nghiên cứu dữ liệu dạng bảng); mục đích là bộ khung các giai đoạn nghiên cứu rõ ràng, từng bước, thay vì tự động hoá nghiên cứu cho người đã giỏi; sau đó dẫn sang hệ thống hiện tại (5 stage). Bảng BP và phần còn lại của mục 2 giữ nguyên. Nội dung ở [S1](deliverables/supplements/S1-introduction.md), thay cho mục tương ứng của `report/00` chỉ trong docx; `report/` không đổi.
+  - Validation: build lại, đoạn cũ không còn trong docx; TOC 515 mục ổn định; render 236 trang, kiểm tra trực quan trang 19.
+
 - Khôi phục 5 diagram editable đã bị xoá trong [commit 151edf99](https://github.com/openai-scientist/capstone-project-docs/commit/151edf99e173c75ffc9433ed2c938ff15bcd3504) vào `diagrams/11-optional/`: [Activity](diagrams/11-optional/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Context](diagrams/11-optional/AI-Research-Experimentation-Platform-Context.drawio), [ERD](diagrams/11-optional/AI-Research-Experimentation-Platform-ERD.drawio), [Sequence](diagrams/11-optional/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio) và [Use Case](diagrams/11-optional/AI-Research-Experimentation-Platform-Use-Case.drawio). Nội dung nghiệp vụ, requirement và workflow không đổi; BRD, PRD và Use Case Spec không cần cập nhật.
   - Validation: `xmllint --noout` đạt trên cả 5 file; `git diff --check` và kiểm tra whitespace cho các file mới đạt.
 
