@@ -3,6 +3,13 @@
 Định dạng theo [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là đường dẫn tương đối từ repository root.
 
+## 2026-10-30 — Cập nhật rule State Machine Diagram
+
+- Cập nhật [rule state machine](diagrams/09-state-machine/rule.md) theo [Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/about-state-diagrams/), [draw.io](https://www.drawio.com/docs/diagram-types/uml/state-diagrams/) và ảnh mẫu người dùng: bố cục dọc đen trắng, nhánh hai bên, phân biệt state với action/flowchart, trigger/guard/effect và choice.
+- Sửa các ràng buộc cũ quá cứng: không bắt buộc final cho mọi vòng đời, không cấm fork/join hợp lệ, cho phép completion transition thiếu trigger, không ép event thì quá khứ hoặc effect theo tên code. Làm rõ initial/final, composite, mapping FR/test và kiểm tra ngữ nghĩa cùng ảnh export.
+- Chỉ thay hướng dẫn vẽ và changelog; không đổi requirement, actor, rule nghiệp vụ hoặc flow sản phẩm nên không cần sửa BRD/PRD/Use Case Spec. Folder state machine hiện chỉ có rule, chưa có builder/editable/PNG cần regenerate.
+- Validation: đối chiếu hai nguồn và bảng state Research Run/Hand-off Object trong [Software Design Document](report/04-software-design-document.md#342-state-viewpoint-run-state-machine); `python -I tools/doclint.py diagrams/09-state-machine/rule.md`: 0 errors/0 warnings; `git diff --check` sạch. Lint toàn bộ changelog còn 37 lỗi lịch sử (tên đã bỏ/link cũ), đã đối chiếu HEAD: không thêm lỗi mới; link trong entry mới hợp lệ. Không có thay đổi diagram để chạy render/validator.
+
 ## 2026-10-30 — Bổ sung Repository trong toàn bộ Sequence Diagram
 
 - Theo yêu cầu người dùng, thêm một Repository giữa Service và Database trong 64 tab của tám file chính và bản Email Code standalone. Mỗi request dữ liệu có call Service → Repository → Database và reply ngược lại; không còn Service gọi trực tiếp Database. Tên Repository theo trách nhiệm service của từng page.
