@@ -5,12 +5,30 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ## 2026-10-29 — Hoàn tất merge Context diagram
 
-- Hợp nhất [Context diagram](diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio): giữ bốn trang và bố cục hiện có, cập nhật metadata nguồn theo [BRD](BRD.md), [PRD](PRD.md) và [context model](diagrams/context-diagrams/context_diagram.json). Không đổi requirement hay workflow.
-- Kiểm tra: [builder](diagrams/context-diagrams/build_context_diagram.py) chạy thành công vào file tạm; validator báo 0 lỗi, 2 cảnh báo đường nối giao nhau (score 20); draw.io xuất PDF thành công. `tools/doclint.py` và self-test đạt; kiểm tra link local trong changelog đạt. Không thay layout thủ công bằng output của builder.
+- Hợp nhất [Context diagram](diagrams/11-optional/System-Context-Diagram.drawio) (khi merge vào cấu trúc diagrams mới, file chuyển từ `diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio` sang `diagrams/11-optional/`, nội dung giữ nguyên): giữ bốn trang và bố cục hiện có, cập nhật metadata nguồn theo [BRD](BRD.md), [PRD](PRD.md) và context model `diagrams/context-diagrams/context_diagram.json` (đã gỡ cùng folder cũ). Không đổi requirement hay workflow.
+- Kiểm tra: builder `diagrams/context-diagrams/build_context_diagram.py` chạy thành công vào file tạm; validator báo 0 lỗi, 2 cảnh báo đường nối giao nhau (score 20); draw.io xuất PDF thành công. `tools/doclint.py` và self-test đạt; kiểm tra link local trong changelog đạt. Không thay layout thủ công bằng output của builder.
 
 ## [Unreleased]
 
 ### Changed
+
+- [diagrams/03-conceptual-erd](diagrams/03-conceptual-erd/rule.md) (đổi tên từ `03-logical-erd`): team chốt vẽ ERD mức conceptual. Rule mới: entity chỉ ghi tên, quan hệ có tên và bản số Crow's Foot hai đầu, cho phép nhiều-nhiều trực tiếp, cấm thuộc tính/khoá/kiểu dữ liệu và entity kỹ thuật; ghi chú độ lệch với chữ "Logical ERD" của hướng dẫn Review 2. Cập nhật [README](diagrams/README.md) và [06-database](diagrams/06-database/rule.md).
+- [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): bổ sung các mục Review 2 yêu cầu mà `report/` chưa có, nội dung lấy từ code `logos` và `ai-research-platform-fe` (ngày 2026-10-29), viết ở [deliverables/supplements/](deliverables/supplements/S4-design.md); `report/` không đổi.
+  - II 6.2: repository, branch rules, Conventional Commits, CI của từng repo ([S2](deliverables/supplements/S2-project-management.md)); trả lời open item O-7.
+  - IV 1.1: Technology Declaration (stack kèm version từ lock file, dịch vụ bên thứ ba với mục đích và dữ liệu gửi đi, AI tools) và Environments, Deployment and Rollback ([S4](deliverables/supplements/S4-design.md)).
+  - IV 2.2: Database Script, kèm [database script](deliverables/database/FA26SE115_database-script.sql) sinh bằng cách chạy migration Alembic tới `20261022_0048` trên PostgreSQL 16 rồi `pg_dump --schema-only` (41 bảng, không dữ liệu).
+  - V 4.2: thêm trường Execution (Automated/Manual theo level và method ở V 2.1) và Actual result cho 60 test case.
+  - [review2-gaps.md](review2-gaps.md): các mục còn cần leader quyết định (workflow, state entity, ERD lệch script, staging, KNIME/Orange trong khung mẫu).
+  - Validation: build lại theo khung 358 heading; 0 dòng nội dung leader bị sót; TOC 513 mục ổn định; field 514/514; render 214 trang và kiểm tra trực quan trang mới.
+- [diagrams/](diagrams/README.md): dựng lại cấu trúc folder cho draw.io theo bộ diagram đã chốt (SEP490 template và hướng dẫn Review 2): `01-use-case` đến `10-activity` và `11-optional`, README có bảng folder, vị trí trong report, checklist tên file và quy tắc chung (file, frame UML, font, màu, export PNG). Mỗi folder có `rule.md` quy định ký hiệu, bố cục, điều cấm và checklist theo chuẩn: UML 2.5.1 (use case, class, sequence, state machine, activity, package, deployment), Crow's Foot (logical ERD, database), C4 (system overview, context), BPMN 2.0 (business process), mẫu SEP490 và hướng dẫn Review 2. Đã đối chiếu với nguồn online (OMG UML 2.5.1 và issue UMLR-670, Ambler *Elements of UML 2.0 Style*/agilemodeling.com, uml-diagrams.org, c4model.com, Camunda BPMN naming, draw.io crow's foot), sửa lại frame kind, hướng include/extend, quy ước tên (event thì quá khứ, guard không trùng, `name : Class`, reply chỉ khi cần, `[Container: tech]`, legend C4) và thêm mục Nguồn cho từng rule; 24 link nguồn đã kiểm tra trả về HTTP 200. Các folder diagram cũ (activity, context, erd, sequence, usecase) đã được dọn trước đó vì stale so với v3; link tới các file này trong các entry cũ đổi thành đường dẫn dạng text.
+- [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx) (bản track cho cả team; bản làm việc local vẫn ở `docs/1.2/report/`): dựng lại nội dung từ `report/00`–`06` nhưng **giữ nguyên khung Table of Contents của mẫu báo cáo đồ án** (358 heading cấp 1–4 cũ, đúng tên và thứ tự), cùng trang bìa và định dạng heading, bảng, bullet, ô ảnh, caption của bản docx cũ.
+  - Nội dung leader được đặt vào heading cũ tương ứng theo một bảng ánh xạ, chữ giữ nguyên; heading con của markdown chuyển thành đoạn in đậm. Ví dụ: UC-01..41 vào III 2.2.2 Descriptions; FE-xx vào các nhóm III 3.2–3.9; Data Design vào IV 2. Database Design; Quality Scenarios, Risks and Technical Debt vào IV 1.1; các how-to Diátaxis vào nhóm User Manual tương ứng. Mục leader không có chỗ riêng trong khung cũ (Re-plan, Scope change log, Hand-off objects, Test risks, Users and Actors, các hệ thống AI Scientist/co-scientist/data-to-paper/Kosmos) được gộp vào heading gần nhất. Đã kiểm tra: 0 dòng nội dung leader bị bỏ sót (trừ các mục "Open items" nội bộ).
+  - 259 heading của khung mẫu chưa có nội dung tương ứng trong `report/` (ví dụ KNIME, Orange, từng chức năng/sequence diagram cũ, Table Details từng bảng, Screens Flow) được giữ, kèm dòng `[CONTENT TO BE ADDED — …]`; 158 ô `[IMAGE TO BE ADDED — …]` cho hình theo khung cũ và hình của leader.
+  - Caption hình và nội dung ô ảnh dùng tên diagram chuẩn BA/UML để người chuẩn bị biết cần vẽ gì: System Context Diagram, Use Case Diagram, Component, Deployment, Package Diagram, ERD, Screen Flow Diagram, `Class Diagram – <nhóm>`, `Sequence Diagram – <use case>`, `State Machine Diagram – <đối tượng>`, `Activity Diagram – <quy trình>`, `UI Screen – <chức năng>`. Chỉ đổi trong docx, `report/` giữ tên gốc.
+  - Bộ sơ đồ đối chiếu [hướng dẫn Review 2](docs/example/SWP490_R2_Huong-dan-chuan-bi-Review-2_1.pdf) và report mẫu SEP490 (`docs/example/1_SEP490`, `docs/example/2_SEP490`). 14 ô ảnh đánh dấu "REQUIRED – Review 2": System Overview, Logical ERD, State machine cho Research Run, Hand-off Object, Project, Local Node, Dossier, Decision Item, và Activity diagram cho 5 luồng chính. 75 ô ảnh đánh dấu "REQUIRED – SEP490 template": Use Case, Screen Flow, Database Diagram (IV 2.2), Package, Class diagram theo feature, Sequence diagram. IV-2 đổi thành System Overview Diagram, IV-6 đổi thành Activity Diagram. Các ô State Diagram của khung mẫu mà nhóm không có thực thể có vòng đời thì ghi chú, không đặt ô ảnh.
+  - TOC có link, gồm Heading 1–4 và caption hình (513 mục), số trang lấy từ bản render và đã ổn định; footer đổi sang "OpenAI-Scientist".
+  - Không sửa file nào trong `report/`.
+  - Validation: kiểm tra phủ nội dung 0 dòng thiếu; render bằng LibreOffice field TOC cân bằng (514 begin/514 end), kiểm tra trực quan trang TOC.
 
 - Tên hệ thống: "AI Research Experimentation Platform" đổi thành **OpenAI-Scientist** (theo tên organization) trong `report/`, [glossary.md](glossary.md), [BRD.md](BRD.md), [PRD.md](PRD.md), [architecture.md](architecture.md), [README.md](README.md) và [traceability.md](traceability.md). Tên đề tài đã đăng ký giữ nguyên trên trang bìa. Các thuật ngữ thành phần Platform, engine và Local Node không đổi. Diagram chưa đổi tên (vẫn stale).
 - `report/`: biên tập giọng văn để bỏ dấu hiệu văn bản máy viết, gồm đối lập giả, câu chốt, gạch ngang, chữ đậm trang trí và tự mô tả tài liệu. Nội dung, ID và bảng giữ nguyên.
@@ -132,20 +150,20 @@ Kiểm tra: đối chiếu glossary với thiết kế đích và actor với BR
 
 ### Changed
 
-- [ERD editable](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio) và [model](diagrams/erd/platform_erd.json): dùng 40 danh từ số ít PascalCase làm tên hiển thị (`User`, `Project`, `DatasetVersion`, `PlatformAdminGrant`, `TokenUsageEntry`...); bảng mapping trong [README](diagrams/erd/README.md) giữ liên kết 1:1 về 40 bảng gốc.
+- ERD editable (`diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio`) và model (`diagrams/erd/platform_erd.json`): dùng 40 danh từ số ít PascalCase làm tên hiển thị (`User`, `Project`, `DatasetVersion`, `PlatformAdminGrant`, `TokenUsageEntry`...); bảng mapping trong README (`diagrams/erd/README.md`) giữ liên kết 1:1 về 40 bảng gốc.
 - Nhãn quan hệ là cụm động từ đọc từ parent sang child, là association dữ liệu chứ không phải flow. `ProjectMembership` là associative entity, không thêm đường N:M trùng giữa User và Project.
-- [Builder/validator](diagrams/erd/build_platform_erd.py): nét liền cho 3 quan hệ identifying, nét đứt cho 67 quan hệ non-identifying (biến thể IE ghi trong legend). Optionality/cardinality ở hai đầu nối, dựa trên constraint của schema.
+- Builder/validator (`diagrams/erd/build_platform_erd.py`): nét liền cho 3 quan hệ identifying, nét đứt cho 67 quan hệ non-identifying (biến thể IE ghi trong legend). Optionality/cardinality ở hai đầu nối, dựa trên constraint của schema.
 - Mức chi tiết là entity-relationship overview, ẩn attributes theo mẫu report; không gọi là logical/physical model đầy đủ. Giữ 40 entity, 70 FK (54 hiển thị mặc định, 16 provenance trong layer bật được).
 - Không đổi requirement, actor, scope, workflow hay schema; BRD/PRD không cần cập nhật.
 
-Kiểm tra: regenerate và `--check` đạt (40 tên duy nhất, 70 FK, cardinality, identifying stroke, routing, rebuild khớp byte); export bằng draw.io và xem hình render; kiểm tra link và `git diff --check`. Nguồn quy tắc đặt tên: [ER/Studio](https://docwiki.embarcadero.com/ERStudioDA/193/en/Object_Name_Rules), [Microsoft Crow's Foot](https://support.microsoft.com/en-gb/visio/create-a-diagram-with-crow-s-foot-database-notation), [draw.io Crow's Foot](https://www.drawio.com/docs/tutorials/crows-foot-notation/); chi tiết ở [ERD README](diagrams/erd/README.md).
+Kiểm tra: regenerate và `--check` đạt (40 tên duy nhất, 70 FK, cardinality, identifying stroke, routing, rebuild khớp byte); export bằng draw.io và xem hình render; kiểm tra link và `git diff --check`. Nguồn quy tắc đặt tên: [ER/Studio](https://docwiki.embarcadero.com/ERStudioDA/193/en/Object_Name_Rules), [Microsoft Crow's Foot](https://support.microsoft.com/en-gb/visio/create-a-diagram-with-crow-s-foot-database-notation), [draw.io Crow's Foot](https://www.drawio.com/docs/tutorials/crows-foot-notation/); chi tiết ở ERD README (`diagrams/erd/README.md`).
 
 ## [2026-10-28] — ERD editable cho Report 7 mục III 3.1.5
 
 ### Added
 
-- [Report 7 ERD](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio): 40 entity, 70 quan hệ FK theo schema Platform; ô chỉ ghi tên entity, đường nối có tên quan hệ và Crow's Foot; không liệt kê cột/PK/FK ở mức conceptual.
-- [ERD model](diagrams/erd/platform_erd.json), [builder/validator](diagrams/erd/build_platform_erd.py), [hướng dẫn](diagrams/erd/README.md): sinh từ metadata của schema, xác minh nullable/unique/PK/CHECK; 54 quan hệ chính hiển thị mặc định, 16 quan hệ provenance trong layer ẩn.
+- Report 7 ERD (`diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio`): 40 entity, 70 quan hệ FK theo schema Platform; ô chỉ ghi tên entity, đường nối có tên quan hệ và Crow's Foot; không liệt kê cột/PK/FK ở mức conceptual.
+- ERD model (`diagrams/erd/platform_erd.json`), builder/validator (`diagrams/erd/build_platform_erd.py`), hướng dẫn (`diagrams/erd/README.md`): sinh từ metadata của schema, xác minh nullable/unique/PK/CHECK; 54 quan hệ chính hiển thị mặc định, 16 quan hệ provenance trong layer ẩn.
 - Cardinality xét cả constraint kết hợp (OTP một purpose cùng unique theo user và purpose; settings là singleton). Không suy diễn FK từ JSON, tham chiếu đa hình hoặc context ID của monitoring/audit.
 
 ### Changed
@@ -253,7 +271,7 @@ Kiểm tra: typecheck, lint và test của frontend đạt (184 test pass, gồm
 
 ### Changed
 
-- Thay Conceptual ERD chung bằng ERD riêng cho Platform BE (13 entity, 19 relationship; các file lịch sử đã xoá, xem [ERD hiện tại](diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio)). Lý do: Popper v2 thay kiến trúc cũ nên entity core của Popper v1 không còn khớp; sơ đồ chỉ gồm những gì Platform BE quản lý.
+- Thay Conceptual ERD chung bằng ERD riêng cho Platform BE (13 entity, 19 relationship; các file lịch sử đã xoá, xem ERD hiện tại (`diagrams/erd/AI-Research-Experimentation-Platform-ERD.drawio`)). Lý do: Popper v2 thay kiến trúc cũ nên entity core của Popper v1 không còn khớp; sơ đồ chỉ gồm những gì Platform BE quản lý.
 - Entity: `User`, `Role`, `Project`, `ProjectMember`, `Dataset`, `DatasetVersion`, `ResearchContext`, `Run`, `FrameReview`, `RunArtifact`, `Comment`, `Notification`, `AuditLog`. Mỗi khái niệm xuất hiện một lần, mọi relationship có tên và cardinality crow's-foot, không có thuộc tính hay khoá. `DatasetSnapshot` đổi tên thành `DatasetVersion` theo PRD.
 - Bỏ `BillingAccount`, `PublicationRelease`, `PolicyVersion`, `DecisionRequest`, `EvaluationDecision`, `DatasetAssessment`, `UsageRecord` và entity core của Popper v1.
 - Trước đó cùng ngày: bỏ `Organization` (42 entity, 69 relationship) vì BRD/PRD không định nghĩa organization hay workspace; project là ranh giới cách ly dữ liệu. Thêm `User owns Project` và `Project billed through BillingAccount`.
@@ -322,13 +340,13 @@ Kiểm tra: kiểm tự động đạt (BR/BRule đúng thứ tự và section, 
 - Cập nhật Use Case diagram, Activity và Sequence artifacts/builders theo các entry đồng bộ BRD/PRD.
 - Backup Context draw.io là artifact kỹ thuật, không phải nguồn nội dung; Context model và builder là nguồn cho Context DFD Level 0.
 
-Kiểm tra: `git diff --check` đạt; kết quả validation diagram nằm ở entry tương ứng. Diagram: [Context](diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio), [Activity](diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Sequence](diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio), [Use Case](diagrams/usecase-diagrams/AI-Research-Experimentation-Platform-Use-Case.drawio).
+Kiểm tra: `git diff --check` đạt; kết quả validation diagram nằm ở entry tương ứng. Diagram: Context (`diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio`), Activity (`diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio`), Sequence (`diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio`), Use Case (`diagrams/usecase-diagrams/AI-Research-Experimentation-Platform-Use-Case.drawio`).
 
 ## [2026-09-23] — System Context theo DFD Level 0
 
 ### Added
 
-- [Context — DFD Level 0](diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio) dạng `.drawio` editable, kèm [context model](diagrams/context-diagrams/context_diagram.json) và [context builder](diagrams/context-diagrams/build_context_diagram.py): sáu external entity, một process trung tâm, 25 labeled data flow cấp cao theo BRD/PRD.
+- Context — DFD Level 0 (`diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio`) dạng `.drawio` editable, kèm context model (`diagrams/context-diagrams/context_diagram.json`) và context builder (`diagrams/context-diagrams/build_context_diagram.py`): sáu external entity, một process trung tâm, 25 labeled data flow cấp cao theo BRD/PRD.
 - Layout theo reference: Researcher ở trên, Project Manager/System Administrator bên trái, provider bên phải, Reviewer bên dưới; nới corridor để connector không chồng; nhãn flow sát làn mũi tên, rút gọn nhãn dài, tăng cỡ chữ.
 - Loại module nội bộ và Secure Sandbox khỏi external boundary; AI/LLM Provider và Structured Decision Provider ở mức abstraction, không khóa vào vendor.
 
@@ -338,8 +356,8 @@ Kiểm tra: builder đạt (layout DFD Level 0 deterministic, không cần Graph
 
 ### Changed
 
-- [Activity — Main Flows](diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio) và [builder](diagrams/activity-diagrams/update_activity_diagram.py): đồng bộ với BR-64/65/73-75/78 (Structured Idea Record/Reflection, optional novelty assessment, bounded tied candidates, immutable branch snapshots, sibling join, shared testing family, provenance/evaluation metadata, trang Final Outputs & Manuscript). Sửa thứ tự Hypothesis Selection Gate, đưa novelty về đúng lane, chuyển method-cap sang Experiment Planner / AI Agent, giới hạn reviewer override ở Researcher, cập nhật ownership của Evaluation, thêm nhánh Approved / Rejected–Revise–Automated Review cho Final Outputs.
-- [Sequence — Main Flows](diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio) và [builder](diagrams/sequence-diagrams/build_sequence_diagrams.py): từ 24 lên 30 trang UC (UC-25–UC-30: Research Definition, Hypotheses, Experiments, Research Findings, Research Outputs, System Administration); đồng bộ UC-10–UC-16, UC-18–UC-24. UC-10: novelty có `opt [Novelty feature enabled]` và nhánh `SOURCE / NOT ASSESSED`; UC-11: human review optional, cho phép high-confidence auto-continue.
+- Activity — Main Flows (`diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio`) và builder (`diagrams/activity-diagrams/update_activity_diagram.py`): đồng bộ với BR-64/65/73-75/78 (Structured Idea Record/Reflection, optional novelty assessment, bounded tied candidates, immutable branch snapshots, sibling join, shared testing family, provenance/evaluation metadata, trang Final Outputs & Manuscript). Sửa thứ tự Hypothesis Selection Gate, đưa novelty về đúng lane, chuyển method-cap sang Experiment Planner / AI Agent, giới hạn reviewer override ở Researcher, cập nhật ownership của Evaluation, thêm nhánh Approved / Rejected–Revise–Automated Review cho Final Outputs.
+- Sequence — Main Flows (`diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio`) và builder (`diagrams/sequence-diagrams/build_sequence_diagrams.py`): từ 24 lên 30 trang UC (UC-25–UC-30: Research Definition, Hypotheses, Experiments, Research Findings, Research Outputs, System Administration); đồng bộ UC-10–UC-16, UC-18–UC-24. UC-10: novelty có `opt [Novelty feature enabled]` và nhánh `SOURCE / NOT ASSESSED`; UC-11: human review optional, cho phép high-confidence auto-continue.
 - Use Case diagram giữ nguyên; BRD/PRD không sửa vì là source input.
 
 Kiểm tra: biên dịch hai builder đạt; Sequence sinh đúng 30 trang UC-01..UC-30; activitylint `--strict` và validator `--strict --score` của Activity, Sequence đạt (0 error, 0 warning, score 0); semantic QA đạt (0 lỗi message actor, return source, fragment parent); render draw.io 31.4.5 đạt trên các trang đã chọn; `git diff --check` đạt.
@@ -380,8 +398,8 @@ Kiểm tra: local link trong changelog và AGENTS.md đạt; `git diff --check` 
 ### Gói tài liệu ban đầu
 
 - Tài liệu nguồn: [BRD v1.8 Draft](BRD.md), [PRD v1.7 Draft](PRD.md). Use Case Specification không có file canonical; Use Case diagram giữ nguyên theo scope.
-- Diagram: [Context](diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio), [Activity](diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Use Case](diagrams/usecase-diagrams/AI-Research-Experimentation-Platform-Use-Case.drawio), [Sequence](diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio).
-- Builder: [Context model](diagrams/context-diagrams/context_diagram.json), [Context builder](diagrams/context-diagrams/build_context_diagram.py), [Use Case builder](diagrams/usecase-diagrams/build_usecase_diagram.py), [Sequence builder](diagrams/sequence-diagrams/build_sequence_diagrams.py), [README](README.md), [AGENTS.md](AGENTS.md).
+- Diagram: Context (`diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio`), Activity (`diagrams/activity-diagrams/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio`), Use Case (`diagrams/usecase-diagrams/AI-Research-Experimentation-Platform-Use-Case.drawio`), Sequence (`diagrams/sequence-diagrams/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio`).
+- Builder: Context model (`diagrams/context-diagrams/context_diagram.json`), Context builder (`diagrams/context-diagrams/build_context_diagram.py`), Use Case builder (`diagrams/usecase-diagrams/build_usecase_diagram.py`), Sequence builder (`diagrams/sequence-diagrams/build_sequence_diagrams.py`), [README](README.md), [AGENTS.md](AGENTS.md).
 - Backup kỹ thuật của Use Case diagram (đã xoá) không phải source of truth.
 
 ### Quy ước registry
