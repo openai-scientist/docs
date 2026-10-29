@@ -392,7 +392,7 @@ In every UC, an action by a member without the needed role fails with MSG-01. A 
 - Actors: Researcher.
 - Preconditions: lane E produced candidates.
 - Trigger: a candidate enters the decision inbox.
-- Main flow: 1. Lane E, the exploration lane of the `execution` stage, works only on the exploration part. It does not touch the confirmation part and does not use a validation source. 2. The stage records each search procedure and its noise threshold in the tried ledger. The threshold rises as the number of procedures grows. 3. Each candidate enters the inbox (MSG-46). 4. The user chooses. A candidate never goes straight into the plan. 5. A confirmed candidate gets a confirmation tier. Only `replicated` and `reserve` write an e-value to the ledger.
+- Main flow: 1. Lane E, the exploration lane of the `execution` stage, works only on the exploration part. It does not touch the confirmation part and does not use a validation source. 2. The stage records each search procedure and its noise threshold in the tried ledger. The threshold rises as the number of procedures grows. 3. Each candidate enters the inbox (MSG-46). 4. The user chooses. A candidate never goes straight into the plan. 5. A confirmed candidate gets a confirmation tier. Only confirmatory results and the tiers `replicated` and `reserve` write an evidence e-value to the claim ledger.
 - Alternative and exception flows: the user rejects the candidate; it stays in the ledger.
 - Postconditions: a candidate is never a claim.
 - Business rules: BR-51, BR-52, BR-53.
@@ -807,7 +807,7 @@ System rule for FE-07:
 | FR-58 | The system shall record every search procedure of lane E and of the user in the tried ledger with a noise threshold. | The more searching, the higher the threshold. | BR-52 | Must | Test |
 | FR-208 | The system shall raise the threshold for later candidates as the number of search procedures grows. | More searching raises the chance of a good-looking result by luck. | BR-52 | Must | Test |
 | FR-59 | The system shall give each confirmed candidate a confirmation tier (`replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`). | The level of confirmation has an order. | BR-53 | Must | Test |
-| FR-209 | The system shall write an e-value to the ledger only for the tiers `replicated` and `reserve`. | Only new data gives a valid e-value. | BR-53 | Must | Test |
+| FR-209 | The system shall write an evidence e-value to the claim ledger only for confirmatory results and for candidates of the tiers `replicated` and `reserve`. | Only rows not used for discovery give a valid evidence e-value. | BR-53 | Must | Test |
 | FR-60 | The system shall put a replication package (code hash, environment, data, seed, split) in the EvidenceBundle. | Replay needs all inputs. | BR-57 | Must | Test |
 | FR-210 | The system shall let the Replicator reproduce the results of the EvidenceBundle. | Results can be reproduced. | BR-57 | Must | Test |
 | FR-211 | The system shall turn a bundle item red when the reproduced results differ. | Detects a difference. | BR-57 | Must | Test |
@@ -1109,7 +1109,7 @@ Quality categories that the requirements do not yet cover (backup and retention 
 | BR-50 | Execution runs in a sandbox; the agent works on the twin; a dry run returns no estimates. |
 | BR-51 | Lane E uses the exploration part only; a candidate is not a claim. |
 | BR-52 | The tried ledger records every search procedure and raises the noise threshold. |
-| BR-53 | A confirmed candidate has a confirmation tier; only `replicated` and `reserve` write e-values. |
+| BR-53 | A confirmed candidate has a confirmation tier; only confirmatory results, `replicated` and `reserve` write evidence e-values. |
 | BR-54 | Code computes the verdict of each hypothesis. |
 | BR-55 | Code computes grade A to D. |
 | BR-56 | The `execution` stage computes the claim ceiling; the `paper` stage does not exceed it. |

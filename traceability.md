@@ -15,20 +15,20 @@ Thuật ngữ theo [glossary.md](glossary.md). ID theo [README §4](README.md).
 
 # 1. Matrix A — BO → BR
 
-Cột BO của BR trong BRD §8 ghi BO cho cả 104 BR. Matrix A lấy nguyên từ cột đó. Một BR có thể phục vụ nhiều BO.
+Cột BO của BR trong BRD §8 ghi BO cho cả 110 BR. Matrix A lấy nguyên từ cột đó. Một BR có thể phục vụ nhiều BO.
 
 | BO | Mục tiêu (rút gọn) | BR |
 |---|---|---|
 | BO-01 | Từ research case tới hypothesis và plan có thể review | BR-07, BR-08, BR-15, BR-43, BR-45, BR-46, BR-82, BR-83, BR-85, BR-89, BR-90, BR-93, BR-94, BR-95, BR-96, BR-99, BR-102 |
-| BO-02 | Truy vết và replay | BR-10, BR-11, BR-12, BR-16, BR-41, BR-42, BR-47, BR-57, BR-66, BR-67, BR-68 |
+| BO-02 | Truy vết và replay | BR-10, BR-11, BR-12, BR-16, BR-41, BR-42, BR-47, BR-57, BR-66, BR-67, BR-68, BR-105, BR-107, BR-108 |
 | BO-03 | Hàng dữ liệu không rời nơi giữ | BR-17, BR-18, BR-19, BR-20, BR-21, BR-22, BR-81 |
-| BO-04 | Kết quả xác nhận không thể p-hacking | BR-44, BR-47, BR-48, BR-49, BR-50, BR-51, BR-52, BR-53, BR-76, BR-84, BR-86, BR-87, BR-88, BR-92, BR-98 |
-| BO-05 | Review độc lập và quyền quyết định của người | BR-24, BR-25, BR-26, BR-27, BR-28, BR-29, BR-30, BR-31, BR-32, BR-33, BR-34, BR-35, BR-36, BR-37, BR-38, BR-39, BR-40, BR-75, BR-104 |
+| BO-04 | Kết quả xác nhận không thể p-hacking | BR-44, BR-47, BR-48, BR-49, BR-50, BR-51, BR-52, BR-53, BR-76, BR-84, BR-86, BR-87, BR-88, BR-92, BR-98, BR-105, BR-106, BR-109 |
+| BO-05 | Review độc lập và quyền quyết định của người | BR-24, BR-25, BR-26, BR-27, BR-28, BR-29, BR-30, BR-31, BR-32, BR-33, BR-34, BR-35, BR-36, BR-37, BR-38, BR-39, BR-40, BR-75, BR-104, BR-110 |
 | BO-06 | Token budget và budget tháng | BR-23, BR-58, BR-59, BR-60, BR-61, BR-78 |
 | BO-07 | Cộng tác an toàn theo role | BR-01, BR-02, BR-03, BR-04, BR-05, BR-06, BR-09, BR-80, BR-103 |
 | BO-08 | Run luôn kết thúc | BR-13, BR-14, BR-58, BR-60, BR-77, BR-78, BR-104 |
-| BO-09 | Đánh giá bằng acceptance scenario và bench | BR-40, BR-97, BR-100, BR-101 |
-| BO-10 | PaperPack không vượt claim ceiling | BR-54, BR-55, BR-56, BR-65, BR-66, BR-67, BR-68, BR-69, BR-70, BR-71, BR-72, BR-73, BR-91 |
+| BO-09 | Đánh giá bằng acceptance scenario và bench | BR-40, BR-97, BR-100, BR-101, BR-107, BR-110 |
+| BO-10 | PaperPack không vượt claim ceiling | BR-54, BR-55, BR-56, BR-65, BR-66, BR-67, BR-68, BR-69, BR-70, BR-71, BR-72, BR-73, BR-91, BR-106, BR-108, BR-109 |
 | BO-11 | Export cần Dossier đã duyệt | BR-62, BR-63, BR-64, BR-79 |
 | BO-12 | (Could) JFE | BR-74 |
 
@@ -93,7 +93,7 @@ Mỗi dòng là một BR của BRD §8. FE và FR lấy từ cột Source của 
 | BR-50 | Sandbox, twin, dry run | FE-08, FE-09 | FR-47, FR-50, FR-197, FR-198 | UC-20, UC-22 | TC-20, TC-22 |
 | BR-51 | Lane E và candidate | FE-09 | FR-57, FR-206, FR-207 | UC-24 | TC-24 |
 | BR-52 | Tried ledger | FE-09 | FR-58, FR-208 | UC-24 | TC-24 |
-| BR-53 | Confirmation tier, e-value | FE-09 | FR-59, FR-209 | UC-24 | TC-24 |
+| BR-53 | Confirmation tier, evidence e-value, evidence rows | FE-09 | FR-59, FR-209, FR-272 | UC-24 (FR-272: —) | TC-24 (FR-272: —) |
 | BR-54 | Verdict do code tính | FE-07, FE-09 | FR-54, FR-61, FR-121, FR-202 | UC-19, UC-23 | TC-23, TC-44 |
 | BR-55 | Grade A-D | FE-09 | FR-55, FR-61, FR-203, FR-204 | UC-23 | TC-23 |
 | BR-56 | Claim ceiling | FE-09, FE-10 | FR-55, FR-64, FR-203, FR-204, FR-213, FR-214 | UC-23, UC-25 | TC-23, TC-25 |
@@ -117,6 +117,12 @@ Mỗi dòng là một BR của BRD §8. FE và FR lấy từ cột Source của 
 | BR-74 | JFE (Could, sau MVP) | FE-18 | FR-106..FR-109, FR-260, FR-261 | UC-40 | TC-40 |
 | BR-75 | Giả định được ghi vào decision log | FE-05 | FR-36, FR-180 | UC-16 | TC-49 |
 | BR-104 | Hạn chờ item pinned; hết hạn thì `ended(with_gaps)`, không ai quyết thay user | FE-02, FE-04, FE-05 | FR-08, FR-32, FR-178, FR-262..FR-266 | UC-04, UC-12, UC-16, UC-17, UC-38 | TC-04, TC-17, TC-38, TC-98, TC-99, TC-100 |
+| BR-105 | Claim ledger: tích chỉ giữa nhóm hàng độc lập, record đầu tiên, α là setting | FE-09, FE-20 | FR-272..FR-275 | — | — |
+| BR-106 | (Should) Claim status xuyên run | FE-20 | FR-276, FR-277 | — | — |
+| BR-107 | (Should) Forecast trong Lock, forecast score | FE-20 | FR-278..FR-280 | — | — |
+| BR-108 | (Should) Xác suất của model không quyết định | FE-20 | FR-281 | — | — |
+| BR-109 | (Should) Replication run, chữ "replicated" | FE-20 | FR-282..FR-284 | — | — |
+| BR-110 | (Should) Planted-truth bench, hidden-error rate, attention budget, ablation | FE-20 | FR-285..FR-287 | — | — |
 | BR-76 | Split theo unit of observation và cấu trúc dữ liệu; Researcher xác nhận | FE-06 | FR-40, FR-41, FR-181..FR-183 | UC-18 | TC-18, TC-42 |
 | BR-77 | Huỷ run | FE-04 | FR-22, FR-166..FR-168 | UC-13 | TC-13 |
 | BR-78 | Hạn trả lời của item `spending` | FE-04, FE-13 | FR-91, FR-246, FR-247, FR-262 | UC-12, UC-33 | TC-33, TC-98 |
@@ -195,7 +201,7 @@ Cột BR là các BR mà ADR hiện thực, theo phần Decision của ADR. Cộ
 | ADR-06 | Review độc lập bắt buộc | BR-35, BR-36, BR-37, BR-38, BR-39, BR-40 | FR-71..FR-75, FR-77, FR-78, FR-105, FR-221..FR-225, FR-228, FR-229, FR-259, FR-270, FR-271 |
 | ADR-07 | Số và verdict từ code | BR-41, BR-54, BR-55, BR-56, BR-66 | FR-24, FR-39, FR-43, FR-54, FR-55, FR-61, FR-63, FR-64, FR-169, FR-186, FR-202..FR-204, FR-212..FR-214 |
 | ADR-08 | Lock, envelope, unseal ở Platform | BR-47, BR-49 | FR-48, FR-51..FR-53, FR-147..FR-149, FR-188, FR-199..FR-201 |
-| ADR-09 | Split theo power, tier xác nhận | BR-26, BR-44, BR-53, BR-76 | FR-27, FR-40..FR-42, FR-59, FR-113, FR-147..FR-150, FR-181..FR-183, FR-209 |
+| ADR-09 | Split theo power, tier xác nhận | BR-26, BR-44, BR-53, BR-76 | FR-27, FR-40..FR-42, FR-59, FR-113, FR-147..FR-150, FR-181..FR-183, FR-209, FR-272 |
 | ADR-10 | Local Node, release gate | BR-18, BR-19, BR-20, BR-21, BR-22, BR-50, BR-81 | FR-12, FR-47, FR-50, FR-79..FR-84, FR-86, FR-87, FR-110, FR-157, FR-158, FR-197, FR-198, FR-230..FR-236, FR-239..FR-242 |
 | ADR-11 | Self-healing, một budget mỗi run, hạn chờ item pinned | BR-13, BR-14, BR-58, BR-104 | FR-08, FR-20, FR-21, FR-32, FR-43, FR-85, FR-86, FR-88, FR-103, FR-163..FR-165, FR-178, FR-186, FR-237..FR-239, FR-243, FR-257, FR-262..FR-266 |
 | ADR-12 | Dossier là tham chiếu | BR-62, BR-63, BR-64, BR-79 | FR-08, FR-94..FR-98, FR-249..FR-253 |
@@ -205,18 +211,25 @@ Cột BR là các BR mà ADR hiện thực, theo phần Decision của ADR. Cộ
 | ADR-16 | Tài liệu ở mức khái niệm | — | — |
 | ADR-17 | Research pattern registry, pipeline order | BR-86, BR-87, BR-88, BR-89, BR-95, BR-97 | FR-115..FR-118, FR-124..FR-127, FR-131..FR-134, FR-184, FR-185, FR-190..FR-196 |
 | ADR-18 | Claim type `method_comparison` (Should, sau MVP) | BR-82, BR-96, BR-98 | FR-126, FR-139..FR-145, FR-193, FR-194, FR-267..FR-269 |
+| ADR-19 | Evidence e-value chỉ nhân giữa nhóm hàng độc lập | BR-53, BR-105 | FR-209, FR-272..FR-275 |
+| ADR-20 | Claim status là mức claim ceiling xuyên run (Should) | BR-106 | FR-276, FR-277 |
 
-# 4a. Matrix E — FE-19 và SM có FR đo trực tiếp
+# 4a. Matrix E — FE-19, FE-20 và SM có FR đo trực tiếp
 
-Ma trận này ghi FE-19 và các SM mà một FR đo trực tiếp (SM-02, SM-16, SM-17, SM-18). Các SM còn lại không có FR riêng.
+Ma trận này ghi FE-19, FE-20 và các SM mà một FR đo trực tiếp (SM-02, SM-16, SM-17, SM-18, SM-19..SM-22). Các SM còn lại không có FR riêng.
 
 | Mục | Nội dung | BO | BR | FR |
 |---|---|---|---|---|
 | FE-19 | Method comparison research (Should, sau MVP) | BO-01, BO-04 | BR-82, BR-83, BR-93, BR-96, BR-98, BR-99 | FR-139..FR-145, FR-194, FR-267..FR-269 |
+| FE-20 | Claim ledger, forecast and replication (Should) | BO-02, BO-04, BO-05, BO-09, BO-10 | BR-106..BR-110 | FR-274..FR-287 |
 | SM-02 | Số question, thời gian bị chặn, overturn rate mỗi run; target chưa xác định (Câu hỏi mở 1) | BO-05 | BR-29, BR-40 | FR-105 |
 | SM-16 | (Sau MVP) Feature của journal profile truy được về corpus snapshot và span | BO-12 | BR-74 | FR-107 |
 | SM-17 | Tỷ lệ phát hiện leakage cài sẵn; target chưa xác định (Câu hỏi mở 3) | BO-09 | BR-100 | FR-135, FR-136 |
 | SM-18 | Tỷ lệ chặn vi phạm pipeline order cài sẵn; target chưa xác định (Câu hỏi mở 3) | BO-09 | BR-100, BR-86 | FR-135, FR-137 |
+| SM-19 | (Should) Forecast score theo run và project | BO-02, BO-09 | BR-107 | FR-280 |
+| SM-20 | (Should) Phần claim key `promoted` trên ít nhất hai snapshot | BO-04, BO-09 | BR-105, BR-109 | FR-273, FR-274 |
+| SM-21 | (Should) Hidden-error rate trên planted-truth bench | BO-05, BO-09 | BR-110 | FR-286 |
+| SM-22 | (Should) Attention budget trên planted-truth bench | BO-05, BO-09 | BR-110 | FR-286 |
 
 # 5. Coverage summary
 
@@ -224,26 +237,26 @@ Ma trận này ghi FE-19 và các SM mà một FR đo trực tiếp (SM-02, SM-1
 
 | Chỉ số | Giá trị |
 |---|---|
-| Số BR trong BRD §8 | 104 |
-| BR được phủ bởi ít nhất một FR | 104 |
+| Số BR trong BRD §8 | 110 |
+| BR được phủ bởi ít nhất một FR | 110 |
 | BR không có hành vi sản phẩm (`n/a`) | 0 |
 | BR có hành vi nhưng không có FR | 0 |
-| Số FR trong PRD §8 | 271 |
+| Số FR trong PRD §8 | 287 |
 | FR không có BR nguồn | 0 |
 | FR không xuất hiện trong Matrix B | 0 |
-| FR Must | 254 |
-| FR Should (FE-19, `method_comparison`) | 11 |
+| FR Must | 256 |
+| FR Should (FE-19 `method_comparison`: 11; FE-20: 14) | 25 |
 | FR Could (FE-18, JFE) | 6 |
-| BR có BO trong cột BO của BRD | 104 |
+| BR có BO trong cột BO của BRD | 110 |
 | BR không có BO | 0 |
 | Số UC trong Report III | 41 |
 | Số TC trong Report V | 101 |
 | FR có ít nhất một UC | 271 |
-| FR không có UC | 0 |
-| FR Must có ít nhất một TC | 254 |
+| FR không có UC | 16 (FR-272..FR-287, G8) |
+| FR Must có ít nhất một TC | 254 (FR-272, FR-273 chưa có, G8) |
 | FR Should và Could có ít nhất một TC | 17 |
-| FR không có TC | 0 |
-| Dòng Matrix B có cột UC và TC khác `—` | 104 |
+| FR không có TC | 16 (G8) |
+| Dòng Matrix B có cột UC và TC khác `—` | 104 (BR-105..BR-110 chưa có, G8) |
 
 # 6. Khoảng trống (gaps)
 
@@ -257,10 +270,11 @@ File này không sửa BRD hay PRD. Các mục dưới đây là khoảng trốn
 | G4 | QS không được NFR nào dẫn: QS-08 (QS-08: item hết phần budget thành `needs-you`). BR-13 và BR-58 có FR, nhưng không có NFR đo chỉ số này. | PRD thêm NFR cho QS-08, hoặc ghi QS-08 là scenario của FR-20. |
 | G5 | ADR-02 không có FR dẫn trực tiếp; nó chỉ được NFR-20 và NFR-23 hiện thực. ADR-16 là quyết định về cách viết tài liệu, không có BR hay FR; NFR-22 đo gián tiếp. | Chấp nhận. Không cần FR cho ADR-16. |
 | G7 | Số đếm phủ ở mức ID, không ở mức mệnh đề. Một BR nhiều mệnh đề (ví dụ BR-65, BR-26) có thể chỉ được phủ một phần bởi FR dẫn nó. | Kiểm theo mệnh đề khi viết UC và TC. |
+| G8 | FR-272 đến FR-287 và BR-105 đến BR-110 (lõi khoa học xuyên run, thêm 2026-10-29) chưa có UC trong Report III và TC trong Report V. FR-272 và FR-273 là Must. | Thêm UC và TC cho FR-272, FR-273 trước stage acceptance; thêm cho FE-20 khi FE-20 vào MVP (BRD §7.1). |
 
 G6 (cột UC và TC trống) đã đóng ngày 2026-10-29 cho 271 FR và 104 BR. FR-263 đến FR-271 và BR-104 được phủ bởi UC (Report III) và TC (Report V) cùng ngày. Mã G6 không dùng lại.
 
-Không có BR có hành vi mà thiếu FR. Không có FR dẫn BR không tồn tại. Không có FR thiếu BR nguồn.
+Không có BR có hành vi mà thiếu FR (110 BR, 287 FR, đếm lại bằng script ngày 2026-10-29). Không có FR dẫn BR không tồn tại. Không có FR thiếu BR nguồn.
 
 # 7. Cách cập nhật
 

@@ -19,6 +19,10 @@ OpenAI-Scientist giúp researcher đi từ một câu hỏi nghiên cứu và d�
 
 **Chuẩn chất lượng:** hệ thống không hứa khoa học luôn đúng. Hệ thống hứa ba điều: **không có lỗi nào bị giấu, mọi claim có nguồn, mọi run có thể chạy lại**.
 
+**Giá trị đo được:** con người vẫn kiểm kết quả. Giá trị của hệ thống là **độ tin trên mỗi phút chú ý của con người**: code bảo đảm quy trình (Lock, envelope, số từ code), nên người chỉ cần kiểm các điểm phán đoán. Model đề xuất giả thuyết và giải thích; code kiểm, chạy test và tính bằng chứng; researcher quyết điều gì quan trọng và các điểm then chốt.
+
+**Đích sau MVP (Should, BR-106..BR-110):** một lần trình diễn trên Stack Overflow 2025 rồi 2026 cho thấy 30 đến 40 forecast ghi trước unseal cùng forecast score; tỷ lệ candidate được nhân rộng; mỗi kết luận kèm một đến ba điểm then chốt; hidden-error rate gần 0 trên planted-truth bench.
+
 Pipeline luôn là `dataset_first`, gồm năm stage. Mỗi ranh giới stage có đúng một hand-off object, có kiểu, có version, có hash và bất biến sau khi accepted.
 
 ```text
@@ -83,7 +87,7 @@ Nền tảng tách ba phần: AI đề xuất và viết lời; code tính số,
 | BO-06 | Kiểm soát token budget theo run và budget theo tháng của project. | BP-09 |
 | BO-07 | Hỗ trợ cộng tác an toàn trong phạm vi project, với quyền theo role. | BP-10 |
 | BO-08 | Mọi run kết thúc với kết quả rõ (kể cả `with_gaps`); không treo. | BP-14 |
-| BO-09 | Đánh giá từng stage và cả pipeline bằng acceptance scenario, seeded-flaw bench và paper reproduction bench. | BP-06, BP-08 |
+| BO-09 | Đánh giá từng stage và cả pipeline bằng acceptance scenario, seeded-flaw bench, planted-truth bench và paper reproduction bench. | BP-06, BP-08 |
 | BO-10 | Tạo PaperPack mà đội viết bài biến thành bản nộp mà không phải dẫn xuất lại; claim không vượt claim ceiling. | BP-04, BP-12 |
 | BO-11 | Chỉ export ra ngoài project khi Dossier đã được duyệt. | BP-16 |
 | BO-12 | (Could, sau MVP) Hỗ trợ chọn tạp chí bằng profile có bằng chứng, control corpus và version rõ (JFE). | BP-11 |
@@ -110,6 +114,10 @@ Nền tảng tách ba phần: AI đề xuất và viết lời; code tính số,
 | SM-16 | (Sau MVP) Feature của journal profile truy được về corpus snapshot và span | 100% | Contract check của JFE | BO-12 |
 | SM-17 | Tỷ lệ phát hiện leakage cài sẵn: phần lỗi leakage của red-team catalogue (BR-100) mà hệ thống phát hiện | Ít nhất 90% | Seeded-flaw bench | BO-09 |
 | SM-18 | Tỷ lệ chặn vi phạm protocol: phần vi phạm pipeline order cài sẵn (BR-86) bị chặn trước khi chạy | 100% | Seeded-flaw bench | BO-09 |
+| SM-19 | (Should) Forecast score: điểm Brier của forecast so với verdict | Báo cáo mỗi run có forecast và cộng dồn theo project; ngưỡng đặt sau 30 forecast đầu | Claim ledger và Lock | BO-02, BO-09 |
+| SM-20 | (Should) Phần claim key `promoted` có record trên ít nhất hai snapshot độc lập | Báo cáo theo project | Claim ledger | BO-04, BO-09 |
+| SM-21 | (Should) Hidden-error rate: phần lỗi cài sẵn không xuất hiện trong decision inbox, cờ, known risk hay gap | 0 | Planted-truth bench | BO-05, BO-09 |
+| SM-22 | (Should) Attention budget: số item người phải xem mỗi run và phần lỗi cài sẵn nằm trong các item đó | Báo cáo mỗi run của bench | Planted-truth bench | BO-05, BO-09 |
 
 # 6. Stakeholders và Roles
 
@@ -159,6 +167,10 @@ Nền tảng tách ba phần: AI đề xuất và viết lời; code tính số,
 **Could, sau MVP:** JFE (Journal Fingerprint Extraction): profile tạp chí từ corpus được phép dùng, paper stage tham chiếu.
 
 **Should, sau MVP:** `method_comparison`: claim type so sánh các phương pháp ML trên cùng dữ liệu (research pattern G tối ưu hyperparameter, H ensemble và stacking, I ablation, J budget-aware, kèm baseline policy F). MVP không đổi (BR-82).
+
+**Should, vào MVP sau khi stage acceptance qua và planted-truth bench đo được nó; phần chưa xong trước khi capstone kết thúc là future work:** lõi khoa học xuyên run. Claim status theo claim key (BR-106), forecast và forecast score (BR-107, BR-108), replication run trên dữ liệu độc lập (BR-109), planted-truth bench (BR-110). Claim ledger chỉ nhân bằng chứng trên hàng độc lập (BR-105) là Must.
+
+**Could, sau MVP (future work của Report):** rival explanation với từ vựng cố định và dự đoán phân biệt; test stringency và negative knowledge; multiverse share; breaker trên model của provider khác cùng adversarial collaboration; winner's curse học từ replication; crux report; stakes theo câu hỏi; AI PI dựng lại trên hand-off object và chọn test tiếp theo theo giá trị thông tin; tree search trong exploration sau unseal.
 
 ## 7.2 Ngoài phạm vi
 
@@ -267,7 +279,13 @@ Cột "BO" ghi business objective (§4) mà rule phục vụ.
 | BR-50 | Execution chạy trong sandbox. Agent làm việc tự do trên twin; chạm dữ liệu thật chỉ qua aggregate hoặc chương trình đầy đủ. Dry run trên dữ liệu thật không trả ước lượng. | BO-04 |
 | BR-51 | Lane E (exploration) chỉ dùng exploration split. Lane E không chạm confirmatory split, không dùng validation source, không đưa candidate thẳng vào plan. Candidate không phải claim; candidate vào decision inbox để user chọn. | BO-04 |
 | BR-52 | Tried ledger ghi mọi thủ tục tìm kiếm ở lane E và ngưỡng nhiễu của nó. Càng tìm nhiều, ngưỡng cho candidate sau càng cao. Khám phá của user vào cùng ledger. | BO-04 |
-| BR-53 | Mỗi candidate được xác nhận ở một confirmation tier: `replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`. Chỉ `replicated` và `reserve` ghi e-value vào ledger. | BO-04 |
+| BR-53 | Mỗi candidate được xác nhận ở một confirmation tier: `replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`. Chỉ kết quả confirmatory và candidate ở tier `replicated` hoặc `reserve` ghi evidence e-value vào claim ledger. Code gán evidence rows cho mỗi record đó. | BO-04 |
+| BR-105 | Claim ledger nhân evidence e-value chỉ giữa các record trên hàng độc lập (khác snapshot hoặc khác evidence rows). Mỗi nhóm hàng độc lập góp một evidence e-value: record đầu tiên, không phải record lớn nhất. Claim key `promoted` khi tích từ 1/α; α là setting. Ledger là view dẫn xuất từ hand-off object: replay cùng record cho cùng ledger. | BO-02, BO-04 |
+| BR-106 | (Should) Code tính claim status cho mỗi claim key từ claim ledger, như mức claim ceiling xuyên run (`conjecture`, `testable`, `locked`, `tested`, `supported`, `refuted`, `unresolved`, `exploratory`, `established`, `contested`). `established` cần claim key `promoted` trên hàng độc lập; các phần khác của luật (test stringency, multiverse share, rival) được thêm khi có, và ledger ghi phần còn thiếu. Ngưỡng là setting. | BO-04, BO-10 |
+| BR-107 | (Should) Trước khi lock plan, experiment_design stage ghi một forecast cho mỗi primary và secondary hypothesis: xác suất verdict là `supported`, từ 0,01 tới 0,99, kèm một dòng lý do. Forecast là một phần của Lock. Sau unseal, code tính forecast score. | BO-02, BO-09 |
+| BR-108 | (Should) Xác suất do model đưa ra (forecast) không bao giờ quyết định điều gì: không vào verdict, grade, claim ceiling, claim status hay next step. Nó luôn hiển thị với nhãn "model forecast". | BO-02, BO-10 |
+| BR-109 | (Should) Next step `replicate` mở một replication run: plan mới có program cùng hash với plan đã accepted, trên một DatasetSnapshot độc lập có vai trò `validation`; researcher lock plan đó (action pinned). Paper chỉ dùng chữ "replicated" cho claim key `promoted` có record trên ít nhất hai snapshot. | BO-04, BO-10 |
+| BR-110 | (Should) Planted-truth bench chạy toàn pipeline trên bảng có hiệu ứng cài sẵn đã biết loại, và đo recall, phát hiện sai, claim mạnh hơn verdict, hidden-error rate và attention budget. Mỗi persona và mỗi tham số phán đoán (số vòng review, số lượt sửa) được đo bằng ablation trên bench; persona không làm tăng điểm thì bị tắt (như BR-40), còn review loop vẫn bắt buộc (BR-35). Luật toàn vẹn (Lock, envelope, số từ code, release gate) không bị ablation. | BO-05, BO-09 |
 | BR-54 | Verdict của mỗi hypothesis do code tính theo decision rule đã lock: `supported`, `trivial`, `not_supported`, `insufficient`, `not_tested`. Model không tạo verdict. | BO-10 |
 | BR-55 | Grade A–D do code tính từ diagnostics, robustness và deviation. | BO-10 |
 | BR-56 | Claim ceiling do execution stage tính từ verdict, grade và confirmation tier. Paper stage không vượt claim ceiling. "Plan đã lock" không có nghĩa claim đã được chứng minh. | BO-10 |
@@ -361,6 +379,8 @@ Các rule này bổ sung cho BR-26, BR-43..BR-46 và BR-54; chúng không thay c
 | Hàng dữ liệu rời máy giữ dữ liệu | Local Node, release gate, release log (BR-19..BR-21), BR-22. |
 | Researcher đổi mục tiêu giữa chừng | Amendment có version (BR-10), stale (BR-12), decision log (BR-29). |
 | Reviewer cùng bias với tác giả | Context mới, nhiều persona, precision trên seeded-flaw bench (BR-36, BR-40). |
+| Bằng chứng bị đếm hai lần hoặc chọn lọc qua nhiều run (cùng hàng dữ liệu cho nhiều record) | Evidence rows và luật một record đầu tiên cho mỗi nhóm hàng độc lập (BR-105). |
+| Xác suất của model bị đọc như bằng chứng | Forecast chỉ lưu và chấm điểm, nhãn "model forecast", không vào quyết định nào (BR-108). |
 | AI PI quyết sai | Chỉ quyết tạm, không item pinned, user lật lại; overturn đề xuất nâng level (BR-29..BR-31). |
 | User bị hỏi quá nhiều hoặc không có mặt | Preset theo stage, batching, presence; thông báo ngoài chỉ cho item pinned đang chặn và item `spending` (BR-24, BR-27, BR-28); hạn chờ item pinned (BR-104). |
 | Chi phí hoặc provider lỗi | Token budget, project budget, `ended(with_gaps)` (BR-58..BR-61); `failed_technical` khi lỗi kỹ thuật. |

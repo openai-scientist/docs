@@ -1,6 +1,6 @@
 # Glossary — OpenAI-Scientist
 
-**Phiên bản:** 1.0 (2026-10-29) · **Trạng thái:** Approved
+**Phiên bản:** 1.1 (2026-10-29) · **Trạng thái:** Approved
 **Liên quan:** [README](README.md) · [BRD](BRD.md) · [PRD](PRD.md) · [Architecture](architecture.md) · [changelog](changelog.md)
 
 Đây là **nguồn duy nhất** cho thuật ngữ của dự án. BRD, PRD, architecture, Report 7 và UI dùng đúng tên ở đây. Tài liệu khác không định nghĩa lại thuật ngữ; chúng chỉ dẫn link về file này.
@@ -12,6 +12,7 @@
 3. **Định nghĩa ở mức khái niệm.** Không ghi đường dẫn file, tên class, route hoặc kiểu cột.
 4. **Tên đã bỏ** nằm ở §11. Tài liệu mới không dùng chúng, trừ khi giải thích lịch sử.
 5. **Thêm thuật ngữ** bằng một dòng changelog. Không đổi nghĩa của thuật ngữ cũ mà không ghi vào §11.
+6. **Nghĩa đã giữ chỗ.** Một số từ chỉ có một nghĩa trong dự án: *severity* chỉ là mức của finding (`blocking`, `major`, `minor`); *calibration* chỉ là calibration của prediction model; *forecasting* (task family nằm ngoài phạm vi) khác *forecast* (§7a). Khái niệm khác cần một tên khác.
 
 ---
 
@@ -169,8 +170,26 @@
 | Candidate | Hypothesis do lane E đề xuất. Không bao giờ là claim. Vào decision inbox để user chọn. |
 | Candidate cap per round | Số cố định, giới hạn số candidate lane E được đưa vào decision inbox trong mỗi vòng. |
 | Confirmation tier | Cách một candidate được xác nhận, mạnh nhất trước: `replicated`, `reserve`, `unsealed_untouched`, `unsealed_touched`. |
-| e-value | Giá trị bằng chứng tuần tự của một record xác nhận. Chỉ tier `replicated` và `reserve` ghi e-value vào ledger. |
-| confounding E-value | Giá trị nhạy cảm với confounding không đo (VanderWeele và Ding). Khác hẳn e-value; không gọi chung một tên. |
+| Evidence e-value | Giá trị bằng chứng của một record xác nhận, do code đổi từ p-value. Evidence e-value của các record trên hàng độc lập được nhân với nhau mà vẫn giữ mức sai lầm đặt trước, kể cả khi vòng nghiên cứu dừng ở bất kỳ lúc nào. Chỉ kết quả confirmatory và candidate ở tier `replicated` hoặc `reserve` có evidence e-value. Khác confounding E-value. |
+| Evidence rows | Nhãn do code gán cho mỗi record có evidence e-value: phần hàng mà bằng chứng dùng (`confirmatory`, `reserve`, hoặc validation source xác định bằng hash). Hai record độc lập khi khác snapshot hoặc khác evidence rows. |
+| confounding E-value | Giá trị nhạy cảm với confounding không đo (VanderWeele và Ding). Khác evidence e-value; không gọi chung một tên. |
+
+## 7a. Claim ledger và độ tin
+
+| Term | Định nghĩa |
+|---|---|
+| Claim ledger | View do code dẫn xuất từ các hand-off object đã accepted, theo claim key, xuyên các run: mọi record (run, snapshot, evidence rows, verdict, evidence e-value), tích evidence e-value và `promoted`. Không ai sửa ledger; replay cùng record cho cùng ledger. Mỗi nhóm evidence rows độc lập chỉ góp một evidence e-value: record đầu tiên, không phải record lớn nhất. |
+| Promoted | Claim key có tích evidence e-value trong claim ledger ít nhất 1/α. α là setting. |
+| Claim status | Mức claim ceiling xuyên run của một claim key, do code tính từ claim ledger. Giá trị: `conjecture` (đã đề xuất), `testable` (trong HypothesisSet accepted), `locked` (trong plan đã Lock), `tested` (có verdict), rồi một trong `supported`, `refuted`, `unresolved`, `exploratory`; `established` sau khi được nhân rộng; `contested` từ bất kỳ mức nào khi có bằng chứng ngược. Verdict là kết quả của một test; claim status là kết quả của mọi test của một claim key. Phần nào của luật chưa có thì ledger ghi là thiếu. |
+| `established` | Claim status mạnh nhất. Cần đủ: claim key `promoted` trên hàng độc lập; test stringency cho "effect > SESOI" từ một ngưỡng; multiverse share từ một ngưỡng; mọi rival đã được kiểm hoặc ghi là limitation mở. Ngưỡng là setting. |
+| `refuted` | Claim status khi test stringency cho "effect < SESOI" cao: đủ power và không có hiệu ứng đáng kể. Đây là negative knowledge, khác `unresolved` (không đủ bằng chứng). |
+| Test stringency | Độ nghiêm của test (severity theo Mayo): xác suất test cho kết quả kém phù hợp với claim hơn kết quả đã thấy, nếu claim sai; tính từ ước lượng và sai số chuẩn cho "effect > SESOI" và "effect < SESOI". Không dùng từ "severity" cho khái niệm này (Quy tắc 6). Could, sau MVP. |
+| Forecast | Xác suất do model ghi trước khi lock plan rằng verdict của một hypothesis sẽ là `supported`, trong khoảng 0,01 đến 0,99, kèm một dòng lý do. Là một phần của Lock. Luôn hiển thị với nhãn "model forecast". Không quyết định điều gì. Khác calibration của prediction model và task family forecasting. |
+| Forecast score | Điểm Brier của các forecast so với verdict sau unseal, theo run và cộng dồn theo project. Đo model có biết nó chắc tới đâu. |
+| Replication run | Run áp dụng program của một plan đã accepted lên một DatasetSnapshot độc lập có vai trò `validation`; program có cùng hash. Khác tier `replicated` (cách xác nhận một candidate) và khác replication package (chạy lại cùng dữ liệu để so hash). |
+| Planted-truth bench | Bench chạy toàn pipeline từ dataset tới paper trên bảng có hiệu ứng cài sẵn đã biết loại: thật, không có, do confounding, do lỗi đo. Code đo recall của hiệu ứng thật, phát hiện sai và claim mạnh hơn verdict. Mở rộng seeded-flaw bench; không thay thế nó. |
+| Hidden-error rate | Phần lỗi cài sẵn của planted-truth bench không xuất hiện ở đâu cả: không trong decision inbox, cờ, known risk hay gap. Mục tiêu 0: đây là phép đo của lời hứa "không có lỗi nào bị giấu". |
+| Attention budget | Số item một người phải xem trong một run, và phần lỗi cài sẵn nằm trong các item đó. Hiển thị theo run. |
 
 ## 8. Paper
 
@@ -220,3 +239,4 @@
 | Pipeline `default` (bắt đầu từ hypothesis) | Pipeline `dataset_first`; dataset stage xử lý trường hợp chưa có dataset | |
 | Runner (local runner + Docker sandbox) | Local Node | Local Node không yêu cầu Docker phía user. |
 | novelty (như verdict), PipelineRecommendation, Suggestion | Next step | |
+| e-value (đứng một mình), e-value ledger | Evidence e-value, claim ledger | Tách hai nghĩa của "e-value"; nghĩa của VanderWeele là confounding E-value. |
