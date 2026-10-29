@@ -1,32 +1,31 @@
 # Rule: Screen Flow Diagram
 
-Chuẩn: mẫu SEP490 Report 3, mục 3.1.1 Screens Flow (không thuộc UML; dùng quy ước wireflow/navigation map). Vị trí: III 3.1.1. Áp dụng thêm [quy tắc chung](../README.md#common-rules-bắt-buộc-cho-mọi-diagram).
+Screen flow của web app sử dụng dạng navigation map phân nhánh, tham khảo [Screen Flow Diagram](https://online.visual-paradigm.com/community/share/screen-flow-diagram-jrf06icih) và hình mẫu của team. Sơ đồ thể hiện khu vực giao diện, các màn hình, chức năng, tab và dialog chính của từng khu vực; không phải UML hay activity diagram.
 
-## Mục đích
-Thể hiện các màn hình của web app và đường điều hướng giữa chúng. Màn hình nào được mở từ màn hình nào, bằng hành động gì.
+## File và phạm vi
 
-## Ký hiệu bắt buộc
-| Element | Ký hiệu | Quy tắc |
-|---|---|---|
-| Màn hình | Hình chữ nhật bo góc, 160×60 | Tên màn hình đúng như mục III 3.1.2 Screen Descriptions, kèm mã nếu có (`SC-03 Project Overview`). |
-| Điểm vào | Hình tròn đen nhỏ | Điểm bắt đầu, thường nối tới Sign In. |
-| Điều hướng | Mũi tên liền, đầu mũi tên đặc | Nhãn là hành động người dùng: `click "New run"`, `submit`. |
-| Điều hướng có điều kiện | Mũi tên + nhãn `[điều kiện]` | Ví dụ `[role = Platform Admin]`. |
-| Popup/dialog | Hình chữ nhật nét đứt | Gắn với màn hình cha. |
-| Nhóm theo vai trò/khu vực | Container (swimlane hoặc group) | Ví dụ "Project workspace", "Run studio", "Admin console". |
+- Dùng một file editable `Screen-Flow-Diagram.drawio` với ba tab: **Access**, **Project Workspace**, **Admin**. Quy tắc này là ngoại lệ cho quy định một page mỗi file trong [quy tắc chung](../README.md#common-rules-bắt-buộc-cho-mọi-diagram).
+- Export một PNG riêng cho mỗi tab, cùng folder, border 20 px, nền trắng. Với tab quá lớn, cho phép export ảnh tổng thể theo chiều rộng phù hợp; tách hình khi đưa vào report để chữ đọc được.
+- Nội dung dựa trên frontend hiện tại; đối chiếu report khi danh sách màn hình và phân quyền được bổ sung. Không coi sơ đồ frontend là xác nhận requirement hoặc runtime.
 
-## Bố cục
-- Luồng đi từ trái sang phải hoặc trên xuống dưới, bắt đầu từ Sign In.
-- Màn hình chung (header, navigation) không vẽ lặp; ghi chú "Global navigation available from all screens".
-- Màn hình chỉ Platform Admin thấy đặt riêng một nhóm.
+## Ký hiệu và bố cục
+
+- Đi từ trái sang phải: điểm vào → layout/nhóm điều hướng → màn hình → chức năng, tab, màn hình con hoặc dialog.
+- Màn hình, layout và khu vực điều hướng: hình chữ nhật nền xám nhạt, viền xám; điểm vào có thể dùng nền vàng nhạt như hình mẫu. Tên và điều kiện nằm trong ô.
+- Dialog, modal, drawer: ô bo tròn, ghi rõ loại trong nhãn. Nhánh của dialog nối từ màn hình hoặc khu vực mở nó.
+- Mũi tên liền thể hiện quan hệ mở hoặc điều hướng. Có thể dùng đường nhánh chung như mẫu; tránh đường xuyên ô, giao cắt và nhãn chồng nhau. Không bắt buộc ghi hành động trên mọi mũi tên khi đích và ngữ cảnh đã rõ; điều kiện quyền hoặc điều hướng không hiển nhiên phải ghi rõ.
+- Dùng node layout chung để thể hiện sidebar/header, không lặp layout ở từng màn hình. Đặt khu vực Platform Admin riêng trong tab Admin.
+- Arial, nền trắng, kích thước chữ và bố cục phải đọc được khi xuất ảnh; không đặt caption Figure trong ảnh.
 
 ## Không được
-- Vẽ logic xử lý phía server hay lời gọi API.
-- Dùng ảnh chụp màn hình thay cho ô chữ nhật. Ảnh chụp đặt ở các mục `UI Screen` riêng.
+
+- Vẽ xử lý server hoặc lời gọi API như màn hình.
+- Dùng ảnh chụp thay cho node có thể chỉnh sửa.
+- Khẳng định đầy đủ theo III 3.1.2/3.1.3 khi danh sách hoặc bảng phân quyền chưa có.
 
 ## Checklist
-- [ ] Mọi màn hình trong III 3.1.2 đều có mặt và có ít nhất một đường vào.
-- [ ] Màn hình phân quyền khớp III 3.1.3 Screen Authorization.
 
-## Nguồn
-- Mẫu SEP490 Report 3, mục 3.1 System Functional Overview. Screen flow không có chuẩn quốc tế, nên rule này theo mẫu của trường.
+- [ ] Mỗi tab có điểm vào, phân nhánh rõ và các màn hình/dialog có nguồn frontend.
+- [ ] Điều kiện role và nhánh đăng nhập thể hiện đúng; ngoại lệ hoặc đường chưa vẽ được ghi chú.
+- [ ] Ba PNG được export lại từ đúng tab sau lần sửa cuối.
+- [ ] Khi report có screen descriptions và authorization, đối chiếu tên, độ bao phủ và role trước khi đưa vào report.

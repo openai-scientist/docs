@@ -1,0 +1,7 @@
+# Screen flow
+
+[Screen-Flow-Diagram.drawio](Screen-Flow-Diagram.drawio) có ba tab editable: Access, Project Workspace và Admin. Ảnh xuất lần lượt: [Access](Screen-Flow-Diagram-Access.png), [Project Workspace](Screen-Flow-Diagram-Project-Workspace.png), [Admin](Screen-Flow-Diagram-Admin.png).
+
+Sơ đồ dùng kiểu phân nhánh của [mẫu Visual Paradigm](https://online.visual-paradigm.com/community/share/screen-flow-diagram-jrf06icih), theo [rule](rule.md). Nguồn frontend: `src/lib/auth/auth-config.ts`, `src/hooks/use-auth.ts`, `src/navigation/sidebar/project-sidebar-items.ts`, `src/navigation/sidebar/admin-sidebar-items.ts` và các page/component tương ứng trong repository `ai-research-platform-fe`.
+
+Sơ đồ bao gồm các khu vực, chức năng và dialog chính trong từng màn hình; các nhánh không nhất thiết là route riêng. Không liệt kê mọi trạng thái lỗi hoặc đường dẫn phụ. Các nhánh được rút gọn theo chức năng nghiệp vụ chính; một số trang admin dùng dữ liệu mẫu. PNG là bản xem tổng thể; khi chèn vào report cần kiểm tra kích thước chữ và tách hình nếu cần. Các phương thức đăng nhập có thể đưa người đã onboarding tới role home hoặc một đích `next` hợp lệ; trường hợp này ghi chú trên tab Access. Tên và phân quyền cần được đối chiếu lại với report: [SRS open item 9](../../report/03-software-requirements-specification.md#6-open-items) ghi rằng màn hình chưa được đặc tả. Sơ đồ phản ánh source, không chứng minh hành vi runtime.

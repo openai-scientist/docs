@@ -9,7 +9,7 @@ Sources: SEP490 report template (T) and the SWP490 Review 2 guide (R2).
 Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dưới đây áp dụng thêm cho tất cả.
 
 **File và tên**
-- Mỗi `.drawio` chỉ chứa 1 diagram (1 page). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
+- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
 - Export PNG cùng tên, cùng folder: `File > Export as > PNG`, Zoom 200%, Border 20 px, nền trắng, bỏ chọn "Transparent background". Report chỉ chèn PNG này.
 - Nội dung theo `report/`: tên actor, UC, FE, entity, state, message lấy đúng chữ trong report (tiếng Anh). Code khác report thì báo leader, không tự vẽ theo code.
 
