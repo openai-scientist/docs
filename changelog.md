@@ -10,6 +10,23 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ## [Unreleased]
 
+### Added
+
+- Khôi phục 5 diagram editable đã bị xoá trong [commit 151edf99](https://github.com/openai-scientist/capstone-project-docs/commit/151edf99e173c75ffc9433ed2c938ff15bcd3504) vào `diagrams/11-optional/`: [Activity](diagrams/11-optional/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Context](diagrams/11-optional/AI-Research-Experimentation-Platform-Context.drawio), [ERD](diagrams/11-optional/AI-Research-Experimentation-Platform-ERD.drawio), [Sequence](diagrams/11-optional/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio) và [Use Case](diagrams/11-optional/AI-Research-Experimentation-Platform-Use-Case.drawio). Nội dung nghiệp vụ, requirement và workflow không đổi; BRD, PRD và Use Case Spec không cần cập nhật.
+  - Validation: `xmllint --noout` đạt trên cả 5 file; `git diff --check` và kiểm tra whitespace cho các file mới đạt.
+
+- [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): lấp các mục chữ còn trống của Report III và IV; trong I–V chỉ còn ô diagram. Nội dung lấy từ code web app, backend và database script, viết ở [S3](deliverables/supplements/S3-requirements.md) và [S4](deliverables/supplements/S4-design.md); `report/` không đổi.
+  - III: câu dẫn 2.2 và 3.; 3.1.2 Screen Descriptions; 3.1.3 Screen Authorization; 3.1.4 Non-Screen Functions; 3.1.5 Entity Descriptions; mô tả 63 chức năng ở 3.2–3.9; NFR chia theo thuộc tính ở 4.2.1–4.2.6.
+  - IV 2.2.1–2.2.40: mô tả từng bảng sinh bằng [describe_tables.py](deliverables/database/describe_tables.py) từ [database script](deliverables/database/FA26SE115_database-script.sql).
+  - Validation: placeholder giảm từ 249 xuống 136 (III 1 và IV 69 là ô diagram, VI 66); dòng leader chưa đặt chỉ là 6 dòng mở đầu supplement; TOC 515 mục ổn định; render 236 trang, kiểm tra trực quan trang 62 và 141.
+
+- [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): mục I 3 Existing Systems dùng heading của leader thay cho KNIME/Orange của khung mẫu (3.1 Jupyter, 3.2 The AI Scientist, 3.3 AI co-scientist, 3.4 data-to-paper, 3.5 Kosmos, 3.6 Comparison and Research Gap); mỗi hệ thống nằm đúng heading, không còn placeholder ở Report I. `report/` không đổi.
+  - Validation: build lại 360 heading; dòng leader chưa đặt chỉ còn 4 dòng mở đầu của supplement (như trước); TOC 515 mục ổn định; render 214 trang, kiểm tra trực quan trang 21.
+
+- [Conceptual ERD](diagrams/03-conceptual-erd/Entity-Relationship-Diagram-Conceptual.drawio): 30 entity, 51 quan hệ, sinh bằng [build_erd.py](diagrams/03-conceptual-erd/build_erd.py) từ [database script](deliverables/database/FA26SE115_database-script.sql). Entity là bảng nghiệp vụ, đặt tên danh từ số ít PascalCase; bỏ 11 bảng kỹ thuật và các FK chỉ ghi người tạo/sửa/xác nhận. Bản số Crow's Foot suy từ FK (NOT NULL, FK là PK). [rule.md](diagrams/03-conceptual-erd/rule.md) cập nhật theo: nguồn entity, cách đặt tên, cách suy bản số, bố cục. Không đổi BRD/PRD/Use Case Spec vì không đổi requirement. Team chốt ERD theo database script; [review2-gaps.md](review2-gaps.md) ghi phần IV 2.1 cần leader cập nhật cho khớp.
+  - Mọi entity cùng kích thước; đường nối do builder định tuyến trên lưới 20 px, không đường nào đi chung đoạn hoặc cắt qua entity.
+  - Validation: builder kiểm tra bảng khớp layout và mọi quan hệ có động từ; draw.io CLI xuất PNG thành công; kiểm tra trực quan: không đường cắt qua entity, không nhãn chồng nhau.
+
 ### Changed
 
 - [diagrams/03-conceptual-erd](diagrams/03-conceptual-erd/rule.md) (đổi tên từ `03-logical-erd`): team chốt vẽ ERD mức conceptual. Rule mới: entity chỉ ghi tên, quan hệ có tên và bản số Crow's Foot hai đầu, cho phép nhiều-nhiều trực tiếp, cấm thuộc tính/khoá/kiểu dữ liệu và entity kỹ thuật; ghi chú độ lệch với chữ "Logical ERD" của hướng dẫn Review 2. Cập nhật [README](diagrams/README.md) và [06-database](diagrams/06-database/rule.md).
