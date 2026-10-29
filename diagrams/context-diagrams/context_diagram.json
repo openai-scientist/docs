@@ -2,8 +2,8 @@
   "title": "AI Research Experimentation Platform — Context Diagram",
   "page_name": "Context Diagram",
   "source_documents": [
-    "AI-Research-Experimentation-Platform-BRD-v1.8-DRAFT.md",
-    "AI-Research-Experimentation-Platform-PRD-v1.7-DRAFT.md"
+    "BRD.md",
+    "PRD.md"
   ],
   "scope_note": "DFD Level 0: one system process with six external entities and 25 high-level data flows; internal modules are intentionally omitted.",
   "canvas": {
