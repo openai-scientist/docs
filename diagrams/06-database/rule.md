@@ -13,13 +13,13 @@ Thể hiện đúng các bảng trong database script: cột, kiểu, khoá, rà
 | Quan hệ FK | Đường liền Crow's Foot | Nối từ cột FK tới cột PK của bảng được tham chiếu. Bản số ở hai đầu. |
 
 ## Bố cục
-- Cùng cách gom nhóm như Logical ERD để dễ đối chiếu.
+- Cùng cách gom nhóm như Conceptual ERD để dễ đối chiếu.
 - Bảng nhiều cột có thể chỉ ghi cột khoá và cột nghiệp vụ chính, các cột còn lại ghi trong Table Descriptions.
 - Diagram quá lớn thì tách theo nhóm, mỗi file `Database-Diagram-<Group>.drawio`.
 
 ## Không được
 - Bảng hoặc cột không có trong script, hoặc ngược lại.
-- Dùng tên entity PascalCase của bản logical.
+- Dùng tên entity PascalCase của bản conceptual.
 
 ## Checklist
 - [ ] Đối chiếu từng bảng với database script; không lệch tên, cột, FK.

@@ -43,7 +43,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 |---|---|---|---|---|
 | [01-use-case](01-use-case/) | Use Case Diagram | 1–3 | III 2.2.1 | T |
 | [02-screen-flow](02-screen-flow/) | Screen Flow Diagram | 1 | III 3.1.1 | T |
-| [03-logical-erd](03-logical-erd/) | Entity Relationship Diagram (logical) | 1 | III 3.1.5, IV-5 | T, R2 |
+| [03-conceptual-erd](03-conceptual-erd/) | Entity Relationship Diagram (conceptual) | 1 | III 3.1.5, IV-5 | T, R2 |
 | [04-system-overview](04-system-overview/) | System Overview Diagram | 1 | IV 1.1 (IV-2) | T, R2 |
 | [05-package](05-package/) | Package Diagram | 1 | IV 1.2 (IV-4) | T |
 | [06-database](06-database/) | Database Diagram (tables, matches the database script) | 1 | IV 2.2 | T, R2 |

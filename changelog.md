@@ -7,6 +7,7 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ### Changed
 
+- [diagrams/03-conceptual-erd](diagrams/03-conceptual-erd/rule.md) (đổi tên từ `03-logical-erd`): team chốt vẽ ERD mức conceptual. Rule mới: entity chỉ ghi tên, quan hệ có tên và bản số Crow's Foot hai đầu, cho phép nhiều-nhiều trực tiếp, cấm thuộc tính/khoá/kiểu dữ liệu và entity kỹ thuật; ghi chú độ lệch với chữ "Logical ERD" của hướng dẫn Review 2. Cập nhật [README](diagrams/README.md) và [06-database](diagrams/06-database/rule.md).
 - [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): bổ sung các mục Review 2 yêu cầu mà `report/` chưa có, nội dung lấy từ code `logos` và `ai-research-platform-fe` (ngày 2026-10-29), viết ở [deliverables/supplements/](deliverables/supplements/S4-design.md); `report/` không đổi.
   - II 6.2: repository, branch rules, Conventional Commits, CI của từng repo ([S2](deliverables/supplements/S2-project-management.md)); trả lời open item O-7.
   - IV 1.1: Technology Declaration (stack kèm version từ lock file, dịch vụ bên thứ ba với mục đích và dữ liệu gửi đi, AI tools) và Environments, Deployment and Rollback ([S4](deliverables/supplements/S4-design.md)).
