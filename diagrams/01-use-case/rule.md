@@ -18,11 +18,14 @@ Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, v
 | Generalization | Đường liền, đầu tam giác rỗng chỉ về phía tổng quát | Giữa actor (Project Manager → Researcher theo BR-80) hoặc giữa use case. |
 
 ## Bố cục
+- Giữ cấu trúc sơ đồ cũ của người dùng trên đúng một trang trong một file `.drawio`. Không tách thành overview, module hoặc trang chi tiết theo nhóm FE. Khi cập nhật nghiệp vụ, sửa trực tiếp các actor, use case và quan hệ cần thiết trong bố cục hiện có; chỉ điều chỉnh vị trí cục bộ khi cần tránh chồng lấn.
+- Phong cách theo ảnh tham chiếu của người dùng: một khung hệ thống lớn theo chiều dọc; Project Manager và Researcher ở bên trái, actor hỗ trợ và quản trị ở bên phải; các ellipse tạo thành cụm chức năng chính–phụ, rải quanh use case trung tâm của từng cụm. Giữ nền trắng, nét mảnh, chữ đen và bố cục tổng thể hiện có; không chuyển sang danh sách ellipse xếp đều thành một cột.
+- Đường association từ actor tỏa tới use case liên quan, dừng ở biên ellipse; bố trí include/extend gần cụm tương ứng để tránh đi xuyên hình. Hình tham chiếu định hướng bố cục, không thay thế quy tắc ngữ nghĩa UML hoặc tên/quyền trong BRD, PRD và Report III.
 - Actor chính và use case chính ở góc trên trái. Actor phụ và hệ thống ngoài bên phải.
 - Use case thường xảy ra trước đặt cao hơn.
 - Actor không nối trực tiếp với actor (ngoại trừ generalization).
-- Use case gom theo FE, các use case cùng FE đặt gần nhau. Có thể kẻ package mờ nếu cần.
-- Quá 15–20 use case thì tách nhiều diagram theo nhóm FE. Mỗi diagram có frame `uc <nhóm>`, ví dụ `uc Account, Project and Data`.
+- Use case cùng FE đặt gần nhau thành cụm trong cùng khung hệ thống; không thêm package/module box chia vùng.
+- Khi có nhiều use case, mở rộng vùng vẽ và điều chỉnh khoảng cách trong cùng trang; không tự tách diagram theo nhóm FE hoặc tạo overview.
 
 ## Không được
 - Vẽ luồng, thứ tự bước, hoặc nối use case với use case bằng đường liền.
