@@ -9,7 +9,7 @@ Sources: SEP490 report template (T) and the SWP490 Review 2 guide (R2).
 Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dưới đây áp dụng thêm cho tất cả.
 
 **File và tên**
-- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md), Class Diagram được gộp tám tab theo [rule riêng](07-class/rule.md) và Sequence Diagram được chia tám folder/file theo nhóm, mỗi sequence một tab theo [rule riêng](08-sequence/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
+- Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md), Class Diagram được gộp tám tab theo [rule riêng](07-class/rule.md), Sequence Diagram được chia tám folder/file theo nhóm, mỗi sequence một tab theo [rule riêng](08-sequence/rule.md), và State Machine Diagram được gộp một file/chín tab theo [rule riêng](09-state-machine/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
 - Export PNG cùng tên, cùng folder: `File > Export as > PNG`, Zoom 200%, Border 20 px, nền trắng, bỏ chọn "Transparent background". Report chỉ chèn PNG này.
 - Nội dung theo `report/`: tên actor, UC, FE, entity, state, message lấy đúng chữ trong report (tiếng Anh). Code khác report thì báo leader, không tự vẽ theo code.
 
@@ -49,7 +49,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 | [06-database](06-database/) | Database Diagram (tables, matches the database script) | 1 | IV 2.2 | T, R2 |
 | [07-class](07-class/) | Class Diagram, one tab per feature group | 1 file / 8 tabs | IV 3.1.1–3.8.1 | T |
 | [08-sequence](08-sequence/) | Sequence Diagram, one tab per sequence, grouped by feature | 8 files / 64 tabs | IV 3.x.y; IV-10/12 | T |
-| [09-state-machine](09-state-machine/) | State Machine Diagram, one per main entity | 6 | IV 3.2–3.6 | R2 |
+| [09-state-machine](09-state-machine/) | State Machine Diagram, grouped flat lifecycle views | 1 file / 9 tabs | IV 3.2–3.6; Authentication bổ sung | R2 |
 | [10-activity](10-activity/) | Activity Diagram (swimlanes), one per main workflow | 5 | IV 3.4–3.6, VI 3 | R2 |
 | [11-optional](11-optional/) | System Context, Business Process, Deployment, Scrum Process | 4 | I 1.2, II 2.1, III 1, IV 1.1 | report/ |
 
@@ -83,12 +83,20 @@ Theo yêu cầu người dùng: tám folder, mỗi folder một file draw.io ch�
 Các caption cũ được ánh xạ theo nghiệp vụ hiện hành; không khôi phục v3 flow đã bỏ. Chưa chèn PNG hoặc thay placeholder trong report.
 
 ### 09-state-machine
-- [ ] `State-Machine-Diagram-Research-Run.drawio` (IV-7)
-- [ ] `State-Machine-Diagram-Hand-off-Object.drawio` (IV-8)
-- [ ] `State-Machine-Diagram-Project.drawio` (IV 3.2.14)
-- [ ] `State-Machine-Diagram-Local-Node.drawio` (IV 3.3.11)
-- [ ] `State-Machine-Diagram-Dossier.drawio` (IV 3.4.15)
-- [ ] `State-Machine-Diagram-Decision-Item.drawio` (IV 3.6.7)
+
+File chung: [State-Machine-Diagrams.drawio](09-state-machine/State-Machine-Diagrams.drawio). **Tám nhóm Class Diagram và tab Dossier Version riêng**, giữ đầy đủ trạng thái/nhánh, không khối lồng, dùng junction cho các nhánh thay thế khi cần và nhãn sự kiện/guard rõ trên đường nối; [Yes]/[No] là guard alias có predicate trong thuyết minh. Mỗi vòng đời là một graph UML liền mạch, mỗi state chỉ xuất hiện một lần; không dùng nhãn end event hoặc state lặp theo cụm sự kiện. Có PNG riêng từng tab, builder và [inventory/nguồn/truy vết](09-state-machine/State-Machine-Diagrams-design.md). Chưa chèn ảnh/thay placeholder trong report.
+
+- [x] Authentication & Account — bản đăng nhập email đã duyệt.
+- [x] Project Workspace — Project; Dossier Version được tách thành tab riêng.
+- [x] Data Management — vòng đời Local Node pairing với project, thiết kế dự kiến từ UC-08/31.
+- [x] Research Run Orchestration — Research Run.
+- [x] Research Engines — Hand-off Object version: composite chứa bảy state chưa stale, một transition chung tới Stale.
+- [x] AI Principal Investigator — Decision Item.
+- [x] Notifications & Integrations — notification email delivery, đề xuất từ schema/policy.
+- [x] Administration & Monitoring — monitoring alert, đề xuất từ schema/hành vi.
+- [x] Dossier Version — approval và export theo từng version.
+
+Theo yêu cầu mới, Local Node trong Report7/Class được thể hiện trở lại trong bộ State như thiết kế dự kiến; Run khôi phục nhánh chờ/resume node_offline. Không xác nhận Local Node đã được triển khai. Các lifecycle đã hoàn tất nối final; Stale và Failed có thể còn rework/retry nên chưa kết thúc. Tám nhóm chức năng không phải tám lifecycle bắt buộc trong report. Class/Report7 nguồn chưa được thu hẹp theo implementation trong đợt sửa State này.
 
 ### 10-activity
 - [ ] `Activity-Diagram-Execute-Research-Run.drawio` (IV-6)

@@ -4,16 +4,18 @@
 
 File editable chung: [Class-Diagram-Authentication-Account.drawio](Class-Diagram-Authentication-Account.drawio). Giữ tên artifact đã dùng để người dùng tiếp tục mở cùng file; nội dung hiện có cả tám nhóm, không chỉ Authentication. Mỗi tab là một Class Diagram, không phải Sequence hoặc Activity Diagram.
 
-| Tab | PNG riêng | Classifier | Nguồn chính trong Report7 |
-|---|---|---:|---|
-| Authentication & Account | [PNG](Class-Diagram-Authentication-Account.png) | 11 | IV 3.1; III 3.2; [thuyết minh chi tiết](Authentication-Account-design.md) |
-| Project Workspace | [PNG](Class-Diagram-Project-Workspace.png) | 12 | IV 3.2, §2.1.1; III 3.3; FR-04–08, FR-111, FR-153, FR-263 |
-| Data Management | [PNG](Class-Diagram-Data-Management.png) | 12 | IV 3.3 và phần Local Node FE-12; III Data Management; FR-09–12, FR-80–87, FR-110, FR-112 |
-| Research Run Orchestration | [PNG](Class-Diagram-Research-Run-Orchestration.png) | 13 | IV 3.4, Budget FE-13, Dossier FE-14, Cross-Cutting Behavior; FR-13–24, FR-88–98, FR-262–266 |
-| Research Engines | [PNG](Class-Diagram-Research-Engines.png) | 15 | IV 3.5 và phần FE-07–11; FR-37–78, FR-113–137, FR-270 |
-| AI Principal Investigator | [PNG](Class-Diagram-AI-Principal-Investigator.png) | 12 | IV 3.6; FR-25–36, FR-147–150, FR-262–266 |
-| Notifications & Integrations | [PNG](Class-Diagram-Notifications-Integrations.png) | 12 | IV 3.7; III Notifications/Project settings; FR-29, FR-99–100, FR-264 |
-| Administration & Monitoring | [PNG](Class-Diagram-Administration-Monitoring.png) | 11 | IV 3.8; FR-101–105; NFR-09, NFR-24 |
+
+| Tab                              | PNG riêng                                           | Classifier | Nguồn chính trong Report7                                                                   |
+| -------------------------------- | --------------------------------------------------- | ----------: | ------------------------------------------------------------------------------------------- |
+| Authentication &amp; Account     | [PNG](Class-Diagram-Authentication-Account.png)     | 11         | IV 3.1; III 3.2; [thuyết minh chi tiết](Authentication-Account-design.md)                   |
+| Project Workspace                | [PNG](Class-Diagram-Project-Workspace.png)          | 12         | IV 3.2, §2.1.1; III 3.3; FR-04–08, FR-111, FR-153, FR-263                                   |
+| Data Management                  | [PNG](Class-Diagram-Data-Management.png)            | 12         | IV 3.3 và phần Local Node FE-12; III Data Management; FR-09–12, FR-80–87, FR-110, FR-112    |
+| Research Run Orchestration       | [PNG](Class-Diagram-Research-Run-Orchestration.png) | 13         | IV 3.4, Budget FE-13, Dossier FE-14, Cross-Cutting Behavior; FR-13–24, FR-88–98, FR-262–266 |
+| Research Engines                 | [PNG](Class-Diagram-Research-Engines.png)           | 15         | IV 3.5 và phần FE-07–11; FR-37–78, FR-113–137, FR-270                                       |
+| AI Principal Investigator        | [PNG](Class-Diagram-AI-Principal-Investigator.png)  | 12         | IV 3.6; FR-25–36, FR-147–150, FR-262–266                                                    |
+| Notifications &amp; Integrations | [PNG](Class-Diagram-Notifications-Integrations.png) | 12         | IV 3.7; III Notifications/Project settings; FR-29, FR-99–100, FR-264                        |
+| Administration &amp; Monitoring  | [PNG](Class-Diagram-Administration-Monitoring.png)  | 11         | IV 3.8; FR-101–105; NFR-09, NFR-24                                                          |
+
 
 Nguồn chính là `C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md` do người dùng cung cấp, snapshot SHA256 `8618EB8123E0A3D259C9E5F5BA97F9E29602534AE3503B2AAA25E0D2E5EB232D`. Đối chiếu [Report IV trong repo](../../report/04-software-design-document.md) về entity, quan hệ và flow; [Report III](../../report/03-software-requirements-specification.md) về requirement. Không sửa file trong Downloads hoặc placeholder của report.
 
@@ -35,7 +37,7 @@ Tab Authentication giữ nguyên class, thành viên, ID và nhãn đã được
 
 Kích thước class không còn dùng chung một chiều rộng: builder đo tên/stereotype bằng Arial Bold 19 và các dòng thành viên bằng Arial 17; chừa tổng đệm 48 px cho header, 32 px cho thành viên, làm tròn chiều rộng lên 10 px và giữ tối thiểu 190 px. Chiều cao vẫn theo số dòng, giữ nguyên nội dung và cách xuống dòng. Entity/enum ít nội dung gọn hơn service/controller. Khi thay chiều rộng, giữ tâm hộp để bảo toàn cụm, cập nhật chiều rộng các ngăn, port trên/dưới, waypoint liên quan và vị trí nhãn/multiplicity. Thay đổi này áp dụng cả Authentication và Research Engines; cả tám PNG được xuất lại.
 
-Sáu tab Project Workspace, Data Management, Research Run Orchestration, AI Principal Investigator, Notifications & Integrations và Administration & Monitoring giữ hướng đọc gọn trái → phải nhưng dùng tọa độ riêng theo từng cụm quan hệ, thay lưới hàng/cột cách đều. Project/Membership và Dataset/Version giữ các entity dùng chung gần nhau; Invitation/Document, local execution/release, proposal/metrics được đặt thành cụm có cao độ và khoảng cách khác nhau. BudgetLedger nằm dưới BudgetService, NotificationChannel dưới IntegrationService; EngineSettings và ba kết quả monitoring tách thành các nhánh riêng. Khoảng cách dọc được thu lại sau render để tránh tăng khoảng rỗng. Canvas tự vừa phạm vi hộp; port và waypoint được tính lại theo tọa độ mới. Nhánh controller vẫn có nhãn trên đoạn ngang cuối, không đặt chữ giữa hai hành lang song song.
+Sáu tab Project Workspace, Data Management, Research Run Orchestration, AI Principal Investigator, Notifications &amp; Integrations và Administration &amp; Monitoring giữ hướng đọc gọn trái → phải nhưng dùng tọa độ riêng theo từng cụm quan hệ, thay lưới hàng/cột cách đều. Project/Membership và Dataset/Version giữ các entity dùng chung gần nhau; Invitation/Document, local execution/release, proposal/metrics được đặt thành cụm có cao độ và khoảng cách khác nhau. BudgetLedger nằm dưới BudgetService, NotificationChannel dưới IntegrationService; EngineSettings và ba kết quả monitoring tách thành các nhánh riêng. Khoảng cách dọc được thu lại sau render để tránh tăng khoảng rỗng. Canvas tự vừa phạm vi hộp; port và waypoint được tính lại theo tọa độ mới. Nhánh controller vẫn có nhãn trên đoạn ngang cuối, không đặt chữ giữa hai hành lang song song.
 
 Authentication và Research Engines giữ nguyên trong lượt chỉnh sáu tab này. Research Engines đã có bố cục riêng theo cụm: HypothesisSet dưới HypothesisEngine, review sát PaperPack và nhánh Harness–Lock–Envelope phía dưới. Chỉ giữ căn thẳng tại nơi giúp nối trực tiếp, không xê dịch ngẫu nhiên từng hộp. So sánh trước/sau cho cả tám tab xác nhận ID, tên class, thành viên, nhãn, source/target và chiều quan hệ giữ nguyên; chỉ đổi hình học/port/waypoint/kiểu nhãn trên sáu tab được yêu cầu.
 
@@ -82,3 +84,7 @@ Start-Process -FilePath 'C:/Program Files/draw.io/draw.io.exe' -ArgumentList @('
 - Sau lần chỉnh bố cục trái → phải gọn hơn: xuất lại và kiểm tra trực quan sáu PNG bị ảnh hưởng; validator chung tiếp tục báo 0 errors/0 warnings, score 0. So sánh danh sách cell/value/source/target trước và sau layout xác nhận không thay nội dung hoặc loại bỏ quan hệ; file vẫn đủ tám tab/98 classifier. Controller dùng port theo từng nhánh; các đoạn đi lên và đi xuống dùng phần hành lang tách nhau, không gộp các quan hệ.
 - Đã thử GreenLens `--package --strict`: profile này đòi đủ ERD/architecture/Use Case/Sequence/Class và nhận diện tên tab theo convention riêng; nó báo missing-family/unknown-page cho bộ chỉ có Class với tên nhóm feature. Không coi đây là kết quả pass; không áp dụng gate full GreenLens package cho artifact này. Dùng inventory 8 tab/class vocabulary và validator chung để kiểm tra phạm vi thực tế, không thêm các diagram khác chỉ để đáp ứng profile không phù hợp.
 - Link local và `git diff --check` được kiểm tra. Chưa chèn ảnh vào Word, chưa kiểm tra in A4 hoặc xác nhận implementation/runtime. Khổ ngang, không frame/legend là lựa chọn người dùng đã chốt để xem diagram.
+
+## Phạm vi Local Node trong phiên bản hiện tại (2026-10-30)
+
+Theo xác nhận của người dùng, Local Node chưa triển khai. `LocalNode`, `LocalNodeService` và các quan hệ local work trong tab Data Management hiện mô tả thiết kế dự kiến từ Report7, không phải phần đã giao. Việc chúng xuất hiện trong Class không bắt buộc phải có State Diagram. Theo yêu cầu mới, bộ [State Diagram hiện tại](../09-state-machine/State-Machine-Diagrams-design.md) khôi phục vòng đời Local Node pairing và nhánh chờ node_offline của Run dưới dạng thiết kế dự kiến, không xác nhận chức năng đã triển khai. Ghi chú này không tái sinh hay sửa các lớp/quan hệ trong editable Class và không ghi đè nội dung Class đang được chỉnh sửa.
