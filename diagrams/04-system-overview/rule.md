@@ -1,6 +1,6 @@
 # Rule: System Overview Diagram
 
-Chuẩn: C4 model (Simon Brown), mức 2 Container. Thoả yêu cầu SEP490 Report 4 mục 1.1 (sub-system, external system, kết nối) và Review 2 (thành phần, dịch vụ ngoài, luồng dữ liệu chính). Vị trí: IV 1.1 (IV-2). Áp dụng thêm [quy tắc chung](../README.md#common-rules-bắt-buộc-cho-mọi-diagram).
+Chuẩn: C4 model (Simon Brown), mức 2 Container. Thoả yêu cầu SEP490 Report 4 mục 1.1 (sub-system, external system, kết nối) và Review 2 (thành phần, dịch vụ ngoài, luồng dữ liệu chính). Vị trí: Report 7 IV 1.1 chỉ dùng System Architecture Diagram (layered, IV-1) và Deployment Diagram (IV-2). Chỉ giữ file `.drawio`. Áp dụng thêm [quy tắc chung](../README.md#common-rules-bắt-buộc-cho-mọi-diagram).
 
 ## Mục đích
 Cho người đọc thấy hệ thống gồm những khối chạy riêng nào, nói chuyện với nhau và với dịch vụ ngoài ra sao.

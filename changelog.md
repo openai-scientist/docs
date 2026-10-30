@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-30 — Hợp nhất lịch sử tài liệu
+
+- Giữ các mục changelog của hai nhánh và cập nhật hai liên kết diagram đã chuyển vị trí; ghi đường dẫn tài liệu Review 2 không còn trong repository dưới dạng văn bản. Merge không thay đổi requirement hoặc workflow, nên không sửa BRD/PRD/Use Case Spec.
+- Validation: builder [Package Diagram](diagrams/05-package/build_package_diagram.py) tái tạo [editable](diagrams/05-package/Package-Diagram.drawio) byte-identical với `PYTHONUTF8=1`; validator strict có 0 errors và lần lượt 61, 104, 59 warnings cho Package, [System Architecture](diagrams/04-system-overview/System-Architecture-Diagram.drawio), [Deployment](diagrams/04-system-overview/Deployment-Diagram-Production.drawio). Đã xem ba PNG hiện có; chưa render lại. Kiểm tra liên kết changelog và `git diff --check`.
+
 ## 2026-10-30 — Research Engines dùng composite state
 
 - Theo lựa chọn mới, [Research Engines](diagrams/09-state-machine/05-Research-Engines.png) gom bảy state chưa stale vào composite Current version (not stale), Stale ở ngoài. Một transition upstreamVersionChanged từ state cha áp dụng cho mọi state con khi pinned upstream có version mới, thay cho bảy nhánh lặp và chuỗi junction. Có initial ngoài vào composite và initial trong vào Draft; giữ nguyên state, nhánh checks/review, giới hạn revision và khoảng cách đều.
@@ -159,6 +164,13 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 - Không đổi requirement hoặc flow nghiệp vụ nên không sửa BRD/PRD/Use Case Spec; chưa thay placeholder/chèn ảnh vào report. Google, sign-out, session expiry và resend ngoài phạm vi bản thử.
 - Validation: builder chạy; validator `--strict --score` đạt 0 errors/0 warnings, score 0; export PNG scale 2/border 20 nền trắng và xem trực quan. Builder tái tạo byte-identical; lint thuyết minh/inventory/rule: 0 errors, 1 warning do link builder là đường dẫn source. Link entry mới hợp lệ; `git diff --check` sạch. Không kiểm tra runtime hoặc in A4.
 
+## 2026-10-30 — Dọn khối thừa trong IV 3.4 Research Run Orchestration
+
+- Xoá trong [Report 7 docx](deliverables/FA26SE115_Report7.docx) khối nội dung cũ nằm giữa tiêu đề 3.4 và 3.4.1 Class Diagram: 3.4.1–3.4.3 viewpoint cũ, 3.13 Budget and Cost, 3.14 Dossier, 3.19 Cross-Cutting Behavior cùng Figure IV-5, IV-6, IV-7, IV-12, IV-13. Khối này trùng số với mục 3.4.1 của template SEP490. Bản prod đã được người dùng xoá tương ứng.
+- Xoá 5 dòng hình tương ứng trong mục lục. Số trang trong mục lục cần refresh trong Word.
+- Không sửa [report/04-software-design-document.md](report/04-software-design-document.md) (khung của leader) và không cần sửa BRD/PRD/Use Case Spec, vì đây là lỗi sắp xếp trong docx.
+- Validation: render PDF bằng LibreOffice, kiểm tra 3.4 nối thẳng vào 3.4.1 Class Diagram và không còn caption IV-5/6/7/12/13.
+
 ## 2026-10-30 — Cập nhật rule State Machine Diagram
 
 - Cập nhật [rule state machine](diagrams/09-state-machine/rule.md) theo [Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/about-state-diagrams/), [draw.io](https://www.drawio.com/docs/diagram-types/uml/state-diagrams/) và ảnh mẫu người dùng: bố cục dọc đen trắng, nhánh hai bên, phân biệt state với action/flowchart, trigger/guard/effect và choice.
@@ -181,6 +193,24 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 - Giữ phong cách người dùng chốt: không frame ngoài, nền trắng, tên actor tách chân, call/reply phân biệt, guard có hàng riêng, không activation lồng dài qua opt. Activation phủ đủ các reply thay thế theo cặp caller–callee. Các operation/persistence chưa chốt là đề xuất thiết kế; không tự định nghĩa endpoint hoặc xác nhận runtime. Không đổi requirement BRD/PRD/Use Case Spec hoặc placeholder Report7, nên không cần sửa các tài liệu nghiệp vụ đó.
 - Luồng Google gồm mở consent, từ chối hoặc callback, xác minh identity và ánh xạ cùng verified email. Handle Must-Ask và Receive Notifications khởi tạo bởi event hệ thống trong context đã xác thực; user không cần mở UI để backend xử lý, chỉ nhận update khi connected và authorized.
 - Validation: tái tạo ổn định tám file và inventory; ánh xạ đủ 61 heading sequence, 64 tab/64 PNG, mỗi folder đúng một draw.io chính; model XML Email Code khớp bản đã duyệt. Validator `--strict --score` trên tám file: 0 errors, 0 warnings, score 0. Xuất PNG từng tab bằng draw.io CLI scale 2/border 20 nền trắng; xem contact sheet của toàn bộ tab và mở riêng các trang có fragment phức tạp, kiểm tra lại hai trang event sau sửa cuối. `python -I tools/doclint.py`: 13 file, 0 errors/0 warnings; link local, whitespace file mới và `git diff --check` đạt. Chưa kiểm tra in A4/chèn Word hoặc runtime; giữ nguyên staged changes đã có, không stage/commit/push.
+
+## 2026-10-29 — Kiến trúc hệ thống và deployment (IV 1.1)
+
+- Vẽ lại [System Architecture Diagram](diagrams/04-system-overview/System-Architecture-Diagram.drawio) theo mẫu layered architecture: các tầng Users, Edge, Production VPS (gồm Application, Data, AI research) và External services, dải CI/CD bên dưới; dùng logo chính thức (Simple Icons), có tiêu đề, phiên bản, legend và line jump. Thay hình IV-1 cùng đoạn mô tả trong S4 và docx.
+- Thêm [System Architecture Diagram](diagrams/04-system-overview/System-Architecture-Diagram.drawio) và [Deployment Diagram](diagrams/04-system-overview/Deployment-Diagram-Production.drawio) (UML 2.5: container Docker là node `«executionEnvironment»`, image là `«artifact»`). Nguồn: compose, workflow CI/CD của hai repo sản phẩm và thông tin hạ tầng do team cung cấp (1 Linux VPS + Dokploy, Cloudflare, LLM OpenAI/Gemini/OpenRouter). Theo yêu cầu dọn folder, chỉ giữ hai file `.drawio`; bỏ builder, PNG và các bản nháp Container/Component/CI-CD.
+- Viết lại IV 1.1 trong [S4 supplement](deliverables/supplements/S4-design.md) và [Report 7 docx](deliverables/FA26SE115_Report7.docx):
+  - Thu gọn từ 3 hình còn 2 hình: IV-1 System Architecture, IV-2 Deployment.
+  - Đổi 1.1.4 thành 1.1.3.
+  - Lùi số các hình IV phía sau xuống 1, tạo lại mục lục và sửa bảng viewpoint.
+  - Không sửa `report/` (leader).
+- Ghi nhận các giới hạn hiện tại: một VPS duy nhất, chưa có staging, chưa backup DB, chưa có giám sát bên ngoài.
+- Nội dung khác với `report/` 1.1 cần báo leader:
+  - Mục 1.1 mới mô tả hệ thống như đang chạy thật.
+  - Engine `execution` và `paper` cùng Local Node chỉ được ghi là có trong thiết kế, chưa có trong bản phát hành hiện tại.
+- Validation:
+  - Builder chạy thành công.
+  - Xuất PNG 200%, viền 20 px, kiểm tra bằng mắt không còn đường cắt hộp hay nhãn chồng.
+  - Docx render qua LibreOffice; kiểm tra mục lục và các trang 115–119.
 
 ## 2026-10-29 — Vẽ thử Sequence Sign In With Email Code
 
@@ -292,7 +322,7 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ## 2026-10-29 — Hoàn tất merge Context diagram
 
-- Hợp nhất [Context diagram](diagrams/11-optional/System-Context-Diagram.drawio) (khi merge vào cấu trúc diagrams mới, file chuyển từ `diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio` sang `diagrams/11-optional/`, nội dung giữ nguyên): giữ bốn trang và bố cục hiện có, cập nhật metadata nguồn theo [BRD](BRD.md), [PRD](PRD.md) và context model `diagrams/context-diagrams/context_diagram.json` (đã gỡ cùng folder cũ). Không đổi requirement hay workflow.
+- Hợp nhất [Context diagram](diagrams/12-context/System-Context-Diagram.drawio) (khi merge vào cấu trúc diagrams mới, file chuyển từ `diagrams/context-diagrams/AI-Research-Experimentation-Platform-Context.drawio` sang `diagrams/11-optional/`, nội dung giữ nguyên): giữ bốn trang và bố cục hiện có, cập nhật metadata nguồn theo [BRD](BRD.md), [PRD](PRD.md) và context model `diagrams/context-diagrams/context_diagram.json` (đã gỡ cùng folder cũ). Không đổi requirement hay workflow.
 - Kiểm tra: builder `diagrams/context-diagrams/build_context_diagram.py` chạy thành công vào file tạm; validator báo 0 lỗi, 2 cảnh báo đường nối giao nhau (score 20); draw.io xuất PDF thành công. `tools/doclint.py` và self-test đạt; kiểm tra link local trong changelog đạt. Không thay layout thủ công bằng output của builder.
 
 ## [Unreleased]
@@ -311,7 +341,7 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
   - Không đổi: MVP vẫn là FE-01..FE-15 và FE-17; diagram trong `diagrams/` không đổi. [Report7.docx](deliverables/FA26SE115_Report7.docx) chưa được cập nhật theo các thay đổi của `report/` trong đợt này.
   - Validation: `python -I tools/doclint.py` (0 lỗi); `git diff --check` sạch; số BR, FR và priority đếm lại bằng script từ BRD §8 và PRD §8 (cùng script cho lại 104 BR, 271 FR, 254 Must trên bản trước).
 
-- Khôi phục 5 diagram editable đã bị xoá trong [commit 151edf99](https://github.com/openai-scientist/capstone-project-docs/commit/151edf99e173c75ffc9433ed2c938ff15bcd3504) vào `diagrams/11-optional/`: [Activity](diagrams/11-optional/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Context](diagrams/11-optional/AI-Research-Experimentation-Platform-Context.drawio), [ERD](diagrams/11-optional/AI-Research-Experimentation-Platform-ERD.drawio), [Sequence](diagrams/11-optional/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio) và [Use Case](diagrams/11-optional/AI-Research-Experimentation-Platform-Use-Case.drawio). Nội dung nghiệp vụ, requirement và workflow không đổi; BRD, PRD và Use Case Spec không cần cập nhật.
+- Khôi phục 5 diagram editable đã bị xoá trong [commit 151edf99](https://github.com/openai-scientist/capstone-project-docs/commit/151edf99e173c75ffc9433ed2c938ff15bcd3504) vào `diagrams/11-optional/`: [Activity](diagrams/11-optional/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio), [Context](diagrams/11-optional/AI-Research-Experimentation-Platform-Context.drawio), [ERD](diagrams/11-optional/AI-Research-Experimentation-Platform-ERD.drawio), [Sequence](diagrams/11-optional/AI-Research-Experimentation-Platform-Main-Flows-Sequence.drawio) và [Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio). Nội dung nghiệp vụ, requirement và workflow không đổi; BRD, PRD và Use Case Spec không cần cập nhật.
   - Validation: `xmllint --noout` đạt trên cả 5 file; `git diff --check` và kiểm tra whitespace cho các file mới đạt.
 
 - [deliverables/FA26SE115_Report7.docx](deliverables/FA26SE115_Report7.docx): lấp các mục chữ còn trống của Report III và IV; trong I–V chỉ còn ô diagram. Nội dung lấy từ code web app, backend và database script, viết ở [S3](deliverables/supplements/S3-requirements.md) và [S4](deliverables/supplements/S4-design.md); `report/` không đổi.
@@ -341,7 +371,7 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
   - Nội dung leader được đặt vào heading cũ tương ứng theo một bảng ánh xạ, chữ giữ nguyên; heading con của markdown chuyển thành đoạn in đậm. Ví dụ: UC-01..41 vào III 2.2.2 Descriptions; FE-xx vào các nhóm III 3.2–3.9; Data Design vào IV 2. Database Design; Quality Scenarios, Risks and Technical Debt vào IV 1.1; các how-to Diátaxis vào nhóm User Manual tương ứng. Mục leader không có chỗ riêng trong khung cũ (Re-plan, Scope change log, Hand-off objects, Test risks, Users and Actors, các hệ thống AI Scientist/co-scientist/data-to-paper/Kosmos) được gộp vào heading gần nhất. Đã kiểm tra: 0 dòng nội dung leader bị bỏ sót (trừ các mục "Open items" nội bộ).
   - 259 heading của khung mẫu chưa có nội dung tương ứng trong `report/` (ví dụ KNIME, Orange, từng chức năng/sequence diagram cũ, Table Details từng bảng, Screens Flow) được giữ, kèm dòng `[CONTENT TO BE ADDED — …]`; 158 ô `[IMAGE TO BE ADDED — …]` cho hình theo khung cũ và hình của leader.
   - Caption hình và nội dung ô ảnh dùng tên diagram chuẩn BA/UML để người chuẩn bị biết cần vẽ gì: System Context Diagram, Use Case Diagram, Component, Deployment, Package Diagram, ERD, Screen Flow Diagram, `Class Diagram – <nhóm>`, `Sequence Diagram – <use case>`, `State Machine Diagram – <đối tượng>`, `Activity Diagram – <quy trình>`, `UI Screen – <chức năng>`. Chỉ đổi trong docx, `report/` giữ tên gốc.
-  - Bộ sơ đồ đối chiếu [hướng dẫn Review 2](docs/example/SWP490_R2_Huong-dan-chuan-bi-Review-2_1.pdf) và report mẫu SEP490 (`docs/example/1_SEP490`, `docs/example/2_SEP490`). 14 ô ảnh đánh dấu "REQUIRED – Review 2": System Overview, Logical ERD, State machine cho Research Run, Hand-off Object, Project, Local Node, Dossier, Decision Item, và Activity diagram cho 5 luồng chính. 75 ô ảnh đánh dấu "REQUIRED – SEP490 template": Use Case, Screen Flow, Database Diagram (IV 2.2), Package, Class diagram theo feature, Sequence diagram. IV-2 đổi thành System Overview Diagram, IV-6 đổi thành Activity Diagram. Các ô State Diagram của khung mẫu mà nhóm không có thực thể có vòng đời thì ghi chú, không đặt ô ảnh.
+  - Bộ sơ đồ đối chiếu hướng dẫn Review 2 (`docs/example/SWP490_R2_Huong-dan-chuan-bi-Review-2_1.pdf`, không còn trong repository) và report mẫu SEP490 (`docs/example/1_SEP490`, `docs/example/2_SEP490`). 14 ô ảnh đánh dấu "REQUIRED – Review 2": System Overview, Logical ERD, State machine cho Research Run, Hand-off Object, Project, Local Node, Dossier, Decision Item, và Activity diagram cho 5 luồng chính. 75 ô ảnh đánh dấu "REQUIRED – SEP490 template": Use Case, Screen Flow, Database Diagram (IV 2.2), Package, Class diagram theo feature, Sequence diagram. IV-2 đổi thành System Overview Diagram, IV-6 đổi thành Activity Diagram. Các ô State Diagram của khung mẫu mà nhóm không có thực thể có vòng đời thì ghi chú, không đặt ô ảnh.
   - TOC có link, gồm Heading 1–4 và caption hình (513 mục), số trang lấy từ bản render và đã ổn định; footer đổi sang "OpenAI-Scientist".
   - Không sửa file nào trong `report/`.
   - Validation: kiểm tra phủ nội dung 0 dòng thiếu; render bằng LibreOffice field TOC cân bằng (514 begin/514 end), kiểm tra trực quan trang TOC.
