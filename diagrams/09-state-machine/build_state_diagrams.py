@@ -24,7 +24,7 @@ class Page:
             'final': 'ellipse;shape=endState;fillColor=#000000;',
             'text': 'text;strokeColor=none;fillColor=none;fontStyle=1;fontSize=18;align=left;',
             'note': 'shape=note;size=15;whiteSpace=wrap;align=left;spacing=10;',
-            'composite': 'rounded=1;arcSize=4;container=1;collapsible=0;pointerEvents=0;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontStyle=1;whiteSpace=wrap;',
+            'composite': 'swimlane;rounded=1;arcSize=4;startSize=40;horizontal=1;container=1;collapsible=0;pointerEvents=0;align=left;spacingLeft=12;fontStyle=1;whiteSpace=wrap;',
         }
         cell = E.SubElement(self.root, 'mxCell', id=key, value=text, style=BASE + styles[kind], vertex='1', parent=parent)
         E.SubElement(cell, 'mxGeometry', x=str(x), y=str(y), width=str(w), height=str(h), attrib={'as': 'geometry'})
@@ -34,7 +34,7 @@ class Page:
 
     def edge(self, key, source, target, text='', ports=(.5, 1, .5, 0), points=(), parent='1', pos=0, ref='', test=''):
         sx, sy, tx, ty = ports
-        style = BASE + f'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX={sx};exitY={sy};entryX={tx};entryY={ty};exitPerimeter=1;entryPerimeter=1;'
+        style = BASE + f'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX={sx};exitY={sy};entryX={tx};entryY={ty};exitPerimeter=1;entryPerimeter=1;'
         cell = E.SubElement(self.root, 'mxCell', id=key, value=text, style=style, edge='1', parent=parent, source=source, target=target)
         cell.set('source-ref', ref)
         cell.set('test-ref', test)
@@ -278,6 +278,84 @@ def flat_run():
         edge = labelled_route(p,key,'waiting','ended',text,(sx,1,1,ty),((x,y),),1,'IV 3.4.2; '+ref,test)
         edge.set('result-value', result)
     p.edge('lifecycle-complete', 'ended', 'final', ref='Completion of Run lifecycle; result remains stored; no record deletion', test='Design completion check')
+    # Running and Waiting form one active region. Only events valid in both
+    # substates are inherited from its boundary; reason-specific exits stay local.
+    p.node('active-run', 'Active run', 450, -60, 1120, 760, 'composite')
+    composite = p.root.find("mxCell[@id='active-run']")
+    composite.set('uml-kind', 'composite')
+    p.root.remove(composite)
+    p.root.insert(2, composite)
+    for key in ('start', 'running', 'waiting'):
+        cell = p.root.find(f"mxCell[@id='{key}']")
+        cell.set('parent', 'active-run')
+        geo = cell.find('mxGeometry')
+        geo.set('x', str(float(geo.get('x')) - 450))
+        geo.set('y', str(float(geo.get('y')) + 60))
+    import re
+    for key, redundant, y, x, target_x, end_y in [
+        ('cancel-running', 'cancel-waiting', 240, 180, 560, 900),
+        ('fatal-running', 'fatal-waiting', 360, 260, 640, 840),
+        ('budget-running', 'budget-waiting', 480, 340, 720, 780),
+    ]:
+        p.root.remove(p.root.find(f"mxCell[@id='{redundant}']"))
+        edge = p.root.find(f"mxCell[@id='{key}']")
+        edge.set('source', 'active-run')
+        edge.set('source-ref', edge.get('source-ref') + '; applies in Running and Waiting')
+        style = edge.get('style')
+        for attr, value in (('exitX', 0), ('exitY', (y + 60) / 760)):
+            style = re.sub(rf'{attr}=[^;]+;', f'{attr}={value};', style)
+        edge.set('style', style)
+        geo = edge.find('mxGeometry')
+        for child in list(geo): geo.remove(child)
+        points = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+        for px, py in ((x, y), (x, end_y), (target_x, end_y)):
+            E.SubElement(points, 'mxPoint', x=str(px), y=str(py))
+    # Vertical presentation: blocked events on the left, resumes on the right.
+    box(p, 'active-run', 100, 0, 1400, 900)
+    box(p, 'scope-start', 788, -100)
+    box(p, 'start', 728, 90)  # coordinates relative to the composite
+    box(p, 'running', 600, 200, 280, 100)
+    box(p, 'waiting', 600, 540, 280, 100)
+    box(p, 'ended', 700, 1280, 280, 120)
+    box(p, 'final', 825, 1510, 30, 30)
+    def reroute(key, ports, points, label_pos=0):
+        edge = p.root.find(f"mxCell[@id='{key}']")
+        style = edge.get('style')
+        for attr, value in zip(('exitX', 'exitY', 'entryX', 'entryY'), ports):
+            style = re.sub(rf'{attr}=[^;]+;', f'{attr}={value};', style)
+        edge.set('style', style)
+        geo = edge.find('mxGeometry')
+        geo.set('x', str(label_pos))
+        for child in list(geo): geo.remove(child)
+        if points:
+            arr = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+            for x, y in points:
+                E.SubElement(arr, 'mxPoint', x=str(x), y=str(y))
+    for key, port, label_pos in [
+        ('decision-blocked', .2, -.65),
+        ('local-job-blocked', .5, 0),
+        ('monthly-limit', .8, .65),
+    ]:
+        reroute(key, (port, 1, port, 0), (), label_pos)
+    for key, sy, ty, corridor in [
+        ('decision-answered', .8, .2, 1400),
+        ('node-returned', .5, .5, 1300),
+        ('spend-approved', .2, .8, 1200),
+    ]:
+        reroute(key, (1, sy, 1, ty), ((corridor, 540 + sy*100), (corridor, 200 + ty*100)), -.68)
+    reroute('finished', (0, .05, .1, 0), ((-120, 205), (-120, 1220), (728, 1220)), .3)
+    for key, y, corridor, bottom, target in [
+        ('cancel-running', 380, -30, 1160, 784),
+        ('fatal-running', 480, 10, 1100, 840),
+        ('budget-running', 580, 50, 1040, 896),
+    ]:
+        reroute(key, (0, y/900, (target-700)/280, 0), ((corridor, y), (corridor, bottom), (target, bottom)), .45)
+    for key, sx, target_y, corridor, turn_y in [
+        ('pinned-expired', .95, .7, 1160, 740),
+        ('spending-closed', .8, .3, 1100, 820),
+    ]:
+        reroute(key, (sx, 1, 1, target_y), ((700 + sx*280, turn_y), (corridor, turn_y), (corridor, 1280 + target_y*120)), .45)
+    p.page.set('scope', 'One Run; Active run is a sequential composite with Running and Waiting; Ended is outside')
     return p.page
 
 
@@ -320,9 +398,9 @@ def composite_handoff():
     for key in ('create','check','review-start','review-done','accept','lock'): route(key)
     route('red-branch',(0,.5,1,.5),pos=-.4)
     route('green-branch',(1,.5,.8,0),((1130,390),(1130,490),(976,490)),pos=-.65)
-    route('repair',(.5,0,0,.25),((270,250),(650,250),(650,370)),pos=-.6)
-    route('revise-review',(0,.5,.65,1),((560,790),(560,470),(955,470)),pos=-.25)
-    route('regression',(1,.2,.8,0),((1260,566),(1260,270),(1000,270)),pos=.3)
+    route('repair',(.5,0,.2,.2),((270,250),(820,250),(820,310)),pos=-.6)
+    route('revise-review',(0,.5,.5,1),((560,790),(560,470),(910,470)),pos=-.25)
+    route('regression',(1,.2,.8,.2),((1260,566),(1260,270),(1000,270),(1000,310)),pos=.3)
     p.page.set('scope', 'One hand-off object version; round aliases revision rounds; no automatic refresh of stale versions')
     p.root.find("mxCell[@id='review']").set('state-behavior', 'Includes asynchronous revision work and checks; at most two revision rounds; remaining findings become known risks or await user decision (IV 3.11)')
     # One inherited invalidation transition replaces seven identical leaf transitions.
@@ -364,14 +442,25 @@ def flat_decision():
         p.root.find(f"mxCell[@id='{key}']").set('guard-expression', guard)
     p.root.find("mxCell[@id='confirmed-branch']").set('effect', 'record confirmation in decision log')
     p.root.find("mxCell[@id='overturned-branch']").set('effect', 'undo dependent work; mark affected objects stale; record overturn in decision log')
-    p.edge('pending-cancelled', 'pending', 'closed-cancelled', 'run cancelled', ports=(0, .1, .2, 0),
-           points=((-100, 198), (-100, 1100), (584, 1100)), ref='IV 3.4.1 alternative flow; FR-22; still pending', test='TC-13')
-    p.edge('tentative-cancelled', 'tentative', 'closed-cancelled', 'run cancelled', ports=(1, .3, .8, 0),
-           points=((1480, 214), (1480, 1100), (776, 1100)), ref='IV 3.4.1 alternative flow; FR-22; awaiting user review', test='TC-13')
-    for key,x,y in [('answered',215,620), ('unanswered',525,680),
-                    ('spending-expired',225,940), ('confirmed',1135,940),
-                    ('overturned',745,940), ('closed-cancelled',665,1320)]:
-        finish_at(p,key,x,y)
+    box(p, 'closed-cancelled', 1550, 700, 320, 80)
+    p.edge('pending-cancelled', 'pending', 'closed-cancelled', 'run cancelled', ports=(.85, 0, 1, .5),
+           points=((598, 60), (1950, 60), (1950, 740)),
+           ref='IV 3.4.1 alternative flow; FR-22; still pending', test='TC-13')
+    p.edge('tentative-cancelled', 'tentative', 'closed-cancelled', 'run cancelled', ports=(1, .3, 0, .5),
+           points=((1450, 214), (1450, 740)),
+           ref='IV 3.4.1 alternative flow; FR-22; awaiting user review', test='TC-13')
+    # Explicit completion transitions share their final route visually.
+    p.node('decision-final', '', 745, 1320, 30, 30, 'final')
+    for key, x in [('answered', 390), ('spending-expired', 240),
+                   ('unanswered', 540), ('overturned', 760),
+                   ('confirmed', 1150), ('closed-cancelled', 1710)]:
+        ports = (1, .5, .5, 0) if key == 'answered' else (.5, 1, .5, 0)
+        points = [(390, 560)] if key == 'answered' else []
+        points += [(x, 1100)]
+        if x != 760: points.append((760, 1100))
+        p.edge(key + '-complete', key, 'decision-final', ports=ports, points=points,
+               ref='Completion of Decision Item lifecycle; history remains stored',
+               test='Design completion check')
     return p.page
 
 
@@ -465,22 +554,33 @@ def apply_reference_style(page):
     if page.get('reference-style') == 'fi2m-lifecycle-v1': return
     scale = .72
     labels = {
-        'decision-blocked': 'Decision blocks work [present or pinned]',
-        'monthly-limit': 'Monthly budget reaches 100%',
-        'local-job-blocked': 'Local job blocks work [Node offline]',
-        'node-returned': 'Node reconnects [node offline]',
-        'decision-answered': 'User answers [decision]',
-        'spend-approved': 'Extra spend approved [budget review]',
+        'request-code': 'Code requested',
+        'paired': 'Pairing succeeds',
+        'online-revoked': 'Pairing revoked',
+        'offline-revoked': 'Pairing revoked',
+        'decision-blocked': 'Decision blocks work',
+        'monthly-limit': 'Monthly budget reached',
+        'local-job-blocked': 'Node offline',
+        'node-returned': 'Node reconnects',
+        'decision-answered': 'Decision answered',
+        'spend-approved': 'Extra spend approved',
         'finished': 'All stages accepted',
-        'cancel-running': 'User cancels [authorized]',
-        'cancel-waiting': 'User cancels [authorized]',
-        'fatal-running': 'Unrecoverable technical error',
-        'fatal-waiting': 'Unrecoverable technical error',
-        'budget-running': 'Run token budget exhausted',
-        'budget-waiting': 'Run token budget exhausted',
-        'pinned-expired': 'Pinned wait expires [unanswered]',
-        'spending-closed': 'Spending declined or expired [budget review]',
-        'user-review': 'User confirms or overturns',
+        'cancel-running': 'Run cancelled',
+        'cancel-waiting': 'Run cancelled',
+        'fatal-running': 'Technical failure',
+        'fatal-waiting': 'Technical failure',
+        'budget-running': 'Token budget exhausted',
+        'budget-waiting': 'Token budget exhausted',
+        'pinned-expired': 'Pinned wait expires',
+        'spending-closed': 'Spending declined or expired',
+        'user-review': 'Decision submitted',
+        'tentative-decision': 'AI PI decides [eligible]',
+        'pinned-timeout': 'Pinned deadline expires',
+        'spending-timeout': 'Spending deadline expires',
+        'revise-review': 'Revision checked [round < 2]',
+        'dossier-export': 'Export authorized',
+        'resolution-reported': 'Resolution reported',
+        'retry': 'Retry scheduled (proposed)',
         'dispatch': 'Dispatch requested',
         'delivery-result': 'Delivery result received',
         'status-update': 'Alert status updated',
@@ -500,8 +600,6 @@ def apply_reference_style(page):
                 if 'transition-spec' not in cell.attrib:
                     cell.set('transition-spec',full)
             value = labels.get(cell.get('id'),full)
-            if cell.get('result-value'):
-                value += '\n/ result := ' + cell.get('result-value')
             value = value.replace('upstreamVersionChanged','New upstream version')
             cell.set('value',value)
         # Keep non-key shape prefixes (rhombus / ellipse / text) intact.
@@ -515,6 +613,81 @@ def apply_reference_style(page):
             for key in ('x','y'):
                 if point.get(key) is not None: point.set(key,str(round(float(point.get(key))*scale,3)))
     page.set('reference-style','fi2m-lifecycle-v1')
+
+
+def remove_composite_frames(page):
+    """Replace inherited exits with explicit leaf transitions."""
+    name = page.get('name')
+    if name not in {'Research Run Orchestration', 'Research Engines'}:
+        return page
+    cells = {c.get('id'): c for c in page.findall('.//mxCell')}
+    if name == 'Research Run Orchestration':
+        inherited = [(deepcopy(cells[key]), source) for key in ('cancel-running', 'fatal-running', 'budget-running') for source in ('running', 'waiting')]
+    else:
+        inherited = [(deepcopy(cells['version-invalidated']), source) for source in ('draft', 'red', 'green', 'review', 'ready', 'accepted', 'locked')]
+    p = flat_page(page, name)
+    if name == 'Research Engines':
+        box(p, 'stale', 1700, 750, 220, 160)
+    import re
+    for edge, source in inherited:
+        original = edge.get('id')
+        edge.set('id', original + '-' + source)
+        edge.set('source', source)
+        edge.set('parent', '1')
+        edge.set('transition-spec', edge.get('transition-spec', edge.get('value', '')))
+        if name == 'Research Run Orchestration':
+            labels = {'cancel-running': 'Run cancelled', 'fatal-running': 'Technical failure', 'budget-running': 'Token budget exhausted'}
+            edge.set('value', labels[original])
+            idx = ('cancel-running', 'fatal-running', 'budget-running').index(original)
+            if source == 'running':
+                sx, sy, tx, ty = 0, (.25 + .25*idx), 0, (.7 - .25*idx)
+                x = (-80, -30, 20)[idx]
+                y = 1280 + ty*120
+                points = ((x, 200 + sy*100), (x, y))
+            else:
+                sx, sy, tx, ty = (.15 + .2*idx), 1, (.15 + .2*idx), 0
+                points = ()
+            style = BASE + f'edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX={sx};exitY={sy};entryX={tx};entryY={ty};exitPerimeter=1;entryPerimeter=1;'
+        else:
+            edge.set('value', 'New upstream version')
+            sx, sy, tx, ty = 1, .5, 0, (.1 + .12 * ('draft', 'red', 'green', 'review', 'ready', 'accepted', 'locked').index(source))
+            lanes = {'green': (1080, 590, 770), 'review': (1080, 790, 800),
+                     'ready': (1150, 990, 830), 'accepted': (1250, 1190, 860),
+                     'locked': (1350, 1390, 890)}
+            style = BASE + 'edgeStyle=none;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;'
+            points = ()
+            if source in lanes:
+                x, from_y, to_y = lanes[source]
+                entry = (to_y - 750) / 160
+                style = BASE + f'edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=0;entryY={entry};exitPerimeter=1;entryPerimeter=1;'
+                points = ((x, from_y), (x, to_y))
+            if source == 'draft':
+                style = BASE + 'edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=.5;entryY=0;'
+                points = ((1950,190), (1950,700), (1810,700))
+            if source == 'red':
+                style = BASE + 'edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0;exitY=.5;entryX=.5;entryY=1;'
+                points = ((-40,390), (-40,1510), (1810,1510))
+        edge.set('style', style)
+        geo = edge.find('mxGeometry')
+        if name == 'Research Run Orchestration':
+            geo.set('x', '0.75' if source == 'running' else str((-.65, 0, .65)[idx]))
+        else:
+            geo.set('x', '0.5' if source in {'green', 'review', 'ready', 'accepted', 'locked'} else '-0.55')
+        for child in list(geo): geo.remove(child)
+        if points:
+            arr = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+            for x, y in points: E.SubElement(arr, 'mxPoint', x=str(x), y=str(y))
+        p.root.append(edge)
+    if name == 'Research Run Orchestration':
+        edge = p.root.find("mxCell[@id='finished']")
+        edge.set('style', re.sub(r'entryX=[^;]+;entryY=[^;]+;', 'entryX=0;entryY=0.95;', edge.get('style')))
+        geo = edge.find('mxGeometry')
+        for child in list(geo): geo.remove(child)
+        arr = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+        for x, y in ((-150,205), (-150,1394)):
+            E.SubElement(arr, 'mxPoint', x=str(x), y=str(y))
+    p.page.set('scope', 'Flat lifecycle; formerly inherited exits are explicit transitions from each applicable state')
+    return p.page
 
 
 def build():
@@ -534,11 +707,17 @@ def build():
                 root.remove(cell)
     pages = [combined, data_management(), flat_run(), composite_handoff(), flat_decision(), notifications(), monitoring(), dossier_page]
     for page in pages:
+        page = remove_composite_frames(page)
+        # Scope and explanatory notes belong in the companion design, not on the image.
+        root = page.find('./mxGraphModel/root')
+        for cell in list(root):
+            if cell.get('vertex') == '1' and ';text;' in cell.get('style', ''):
+                root.remove(cell)
         normalize_choice_guards(page)
         apply_reference_style(page)
         if page.get('name') == 'Research Engines':
             geometry = page.find(".//mxCell[@id='check']/mxGeometry")
-            E.SubElement(geometry, 'mxPoint', x='-48', y='0', attrib={'as': 'offset'})
+            E.SubElement(geometry, 'mxPoint', x='0', y='-20', attrib={'as': 'offset'})
         if page.get('name') == 'Project Workspace':
             geometry = page.find(".//mxCell[@id='edit']/mxGeometry")
             geometry.set('x', '-0.5')
@@ -575,6 +754,28 @@ def build():
                 point.set('x', str(float(point.get('x', '0')) + dx))
                 point.set('y', str(float(point.get('y', '0')) + dy))
             cell.set('parent', '1')
+        # Preserve the hand-adjusted routes in the editable diagram.
+        manual_routes = {
+            'Research Engines': {
+                'regression': [(976.0, 407.5), (976.0, 194.38), (778.0, 194.38)],
+                'repair': [(263.19, 180.0), (670.0, 180.0)],
+                'version-invalidated-draft': [(1372.0, 136.78)],
+            },
+            'AI Principal Investigator': {
+                'pending-cancelled': [(430.59, 110.06), (1231.18, 110.06)],
+            },
+        }
+        for key, points in manual_routes.get(page.get('name'), {}).items():
+            edge = page.find(f".//mxCell[@id='{key}']")
+            geo = edge.find('mxGeometry')
+            for arr in geo.findall("Array[@as='points']"):
+                geo.remove(arr)
+            arr = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+            for x, y in points:
+                E.SubElement(arr, 'mxPoint', x=str(x), y=str(y))
+            if key == 'pending-cancelled':
+                style = edge.get('style').replace('entryX=1;', 'entryX=0.5;').replace('entryY=0.5;', 'entryY=0;').replace('entryPerimeter=1;', '')
+                edge.set('style', style + 'entryDx=0;entryDy=0;')
         mx.append(page)
     E.indent(mx, space='  ')
     target = OUT / f'{NAME}.drawio'
@@ -588,9 +789,9 @@ def write_design(mx):
         ('Authentication-Account', 'III 3.2.1; IV 3.1', 'Một lần đăng nhập email; giữ graph đã duyệt, chỉ đổi tên tab theo nhóm Class.'),
         ('Project-Workspace', 'III 3.3.1–3.3.3; IV 3.2.14', 'Vòng đời Project gồm Active, Completed, Archived; Archived là read-only. Dossier Version được tách sang tab riêng.'),
         ('Data-Management', 'IV 3.3.11; IV 3.12; FR-85/87/110/242', 'Theo yêu cầu mới, khôi phục thiết kế vòng đời một Local Node pairing với project: Unpaired, Paired online, Paired offline, Revoked. Đây là state khái niệm từ UC-08/31 và FR-85/87/110/241/242, không khẳng định enum implementation. Pairing hợp lệ đưa tới online; mất kết nối không mất pairing; reconnect quay online. Revocation từ cả online/offline chặn local jobs, nêu lý do và giữ published objects readable. Final kết thúc pairing hiện tại, không xóa Node/results; re-pairing ngoài view. Không biến kiểm hash, chạy job hay release gate thành state của Node.'),
-        ('Research-Run-Orchestration', 'IV 3.4.2, Figure IV-7; IV 3.13', 'Một state machine liền mạch, chỉ ba state Running/Waiting/Ended theo enum RunState của Class Diagram và FR-21. Waiting có reason decision/node_offline/budget_review; node_offline khi Node offline và local job chặn việc; reconnect đưa về running, independent work và một combined notice theo FR-237/238; Ended có result complete/with_gaps/failed_technical/cancelled. Đây là field của state, không phải nhiều state trùng tên. Các transition riêng thể hiện đủ nguyên nhân/điều kiện và phép gán reason/result. Từ running: all stages accepted, token exhaustion, cancel, technical failure; từ waiting(decision): pinned deadline unanswered, token exhaustion, cancel, technical failure; từ waiting(budget_review): spending decline/expiry, token exhaustion, cancel, technical failure. Không lặp state hay tách các cụm tình huống rời; mỗi transition là nét liền có trigger [guard] / effect khi cần. Tên event/effect là ký hiệu thiết kế từ hành vi, không chốt event/API implementation. Chỉ complete khi tất cả stage accepted. Cancel chỉ bởi Project Manager hoặc creating Researcher. Pinned item không hết hạn trước wait deadline. Khôi phục nhánh node_offline theo yêu cầu mới như thiết kế dự kiến; không khẳng định Local Node đã triển khai.'),
-        ('Research-Engines', 'IV 3.4.3, Figure IV-8; IV 3.11; IV 3.8', 'Phạm vi một version; Under review bao gồm công việc sửa bất đồng bộ và chạy lại checks. Chỉ rời review qua nhánh revision checks completed khi kết quả đã có, tối đa hai vòng; findings còn lại là known risks hoặc chờ người dùng theo IV 3.11. Stale version giữ để truy vết; acceptance upstream và rerun downstream là công việc/version mới, không tự phục hồi version cũ. Transition phục hồi cụ thể chưa được nguồn chốt, nằm ngoài view. Vòng đời đầu ra Hand-off Object của engine: đủ draft, checks_red, checks_green, in_review, ready, accepted, locked, stale. Locked chỉ cho AnalysisPlan; không phải mọi object phải qua locked. Các đường upstream changed chỉ khi pinned upstream có version mới; từ đủ bảy state còn lại có thể thoát qua transition kế thừa của composite sang Stale theo câu “Any state can move to stale” ở IV 3.4.3. Theo yêu cầu mới, bảy state chưa stale nằm trong composite Current version (not stale), còn Stale ở ngoài. Một transition upstreamVersionChanged từ composite tới Stale áp dụng khi pinned upstream có version mới, thay cho bảy transition giống nhau. Initial ngoài vào composite, initial trong vào Draft. Đây là một region tuần tự, không phải các state đồng thời. Luồng chính giữ bước hàng 200, state/choice cao 80 và khoảng trống dọc 120 trước scale; không còn junction invalidation. Các đường checks/revision quay lại có hành lang riêng. round trên ảnh là alias revision rounds, giữ đặc tả đầy đủ trong transition-spec. Stale chưa hoàn tất vòng đời nên không gắn final. Toàn bộ vòng đời ở một graph, mỗi state chỉ xuất hiện một lần; model-state giữ code nguồn. Accepted version bất biến; muốn thay nội dung phải tạo version mới. Không tự vẽ stale → accepted hoặc tự động refresh dữ liệu.'),
-        ('AI-Principal-Investigator', 'IV 3.6.7; IV 3.5.2; IV 3.13; FR-22/28/31/91/265', 'Đủ nhánh human answer, AI PI tentative decision, user confirm/overturn, pinned timeout, spending timeout, cancel khi còn pending/awaiting user review. AI PI chỉ được tentative ở autopilot + away + non-pinned. Overturn undo dependent work, đánh dấu affected objects stale và ghi decision log. Confirm cũng ghi log. Timeout pinned đóng unanswered, end run with gaps, không ai quyết định thay user. Nhãn Pending/Answered/Confirmed/Overturned/Closed là thiết kế từ hành vi, không khẳng định enum implementation.'),
+        ('Research-Run-Orchestration', 'IV 3.4.2, Figure IV-7; IV 3.13', 'Một state machine liền mạch, chỉ ba state Running/Waiting/Ended theo enum RunState của Class Diagram và FR-21. Waiting có reason decision/node_offline/budget_review; node_offline khi Node offline và local job chặn việc; reconnect đưa về running, independent work và một combined notice theo FR-237/238; Ended có result complete/with_gaps/failed_technical/cancelled. Đây là field của state, không phải nhiều state trùng tên. Bố cục dọc đặt Running trên Waiting; các transition sang Waiting đi thẳng xuống và các nhánh tiếp tục đi bên phải. Không dùng composite; cancel, fatal error và token exhaustion có transition riêng từ Running và Waiting. Các nhánh chỉ áp dụng Running hoặc Waiting giữ riêng. Metadata và bảng giữ đầy đủ điều kiện và phép gán reason/result. Từ running: all stages accepted, token exhaustion, cancel, technical failure; từ waiting(decision): pinned deadline unanswered, token exhaustion, cancel, technical failure; từ waiting(budget_review): spending decline/expiry, token exhaustion, cancel, technical failure. Không lặp state hay tách các cụm tình huống rời; mỗi transition là nét liền có trigger [guard] / effect khi cần. Tên event/effect là ký hiệu thiết kế từ hành vi, không chốt event/API implementation. Chỉ complete khi tất cả stage accepted. Cancel chỉ bởi Project Manager hoặc creating Researcher. Pinned item không hết hạn trước wait deadline. Khôi phục nhánh node_offline theo yêu cầu mới như thiết kế dự kiến; không khẳng định Local Node đã triển khai.'),
+        ('Research-Engines', 'IV 3.4.3, Figure IV-8; IV 3.11; IV 3.8', 'Một version của Hand-off Object gồm draft, checks_red, checks_green, in_review, ready, accepted, locked và stale. Mỗi state chưa stale có transition riêng sang Stale khi pinned upstream có version mới; không dùng composite. Locked chỉ áp dụng AnalysisPlan. Revision tối đa hai vòng; Stale giữ lịch sử, không tự phục hồi. Điều kiện, effect và nguồn đầy đủ nằm trong metadata và bảng transition.'),
+        ('AI-Principal-Investigator', 'IV 3.6.7; IV 3.5.2; IV 3.13; FR-22/28/31/91/265', 'Đủ nhánh human answer, AI PI tentative decision, user confirm/overturn, pinned timeout, spending timeout, cancel khi còn pending/awaiting user review. AI PI chỉ được tentative ở autopilot + away + non-pinned. Overturn undo dependent work, đánh dấu affected objects stale và ghi decision log. Confirm cũng ghi log. Timeout pinned đóng unanswered, end run with gaps, không ai quyết định thay user. Closed khi run cancelled nằm bên phải; các transition hoàn tất dùng chung đường vẽ tới một final, không có junction. Nhãn Pending/Answered/Confirmed/Overturned/Closed là thiết kế từ hành vi, không khẳng định enum implementation.'),
         ('Notifications-Integrations', 'IV 2.2.16 notification_emails; IV 2.2.11 integration_deliveries; IV 3.7', 'Vòng đời email thông báo đủ pending, sending, sent, failed, skipped theo schema. Điều kiện send/skip và retry scheduled là đề xuất thiết kế từ notification policy/settings và attempts; không lấy lifecycle integration_deliveries làm bằng chứng cho retry email; report chưa chốt thuật toán retry hoặc chuyển tiếp của mọi status. Không tự đặt TTL/retry limit hoặc hứa luôn retry. External notices chỉ cho blocking pinned item và spending item theo policy. Sent biểu diễn kết quả gửi/chấp nhận từ nhà cung cấp, không chứng minh email đến inbox. IntegrationDelivery dùng pending/sending/sent/failed, không có skipped; không coi email và webhook là cùng một enum.'),
         ('Administration-Monitoring', 'III 3.9.9; IV 2.2.38 monitoring_alerts; IV 3.8; FR-104', 'Vòng đời một monitoring alert: active/resolved theo schema. Acknowledge là self-transition ghi acknowledged_at/by, không đồng nghĩa resolve. Resolution reported là event thiết kế cho việc ghi nhận resolved và resolved_at; nối trực tiếp Active tới Resolved, không thêm choice chỉ để đọc status. Không khẳng định ai hoặc thuật toán nào tự resolve. Không tự thêm reopen resolved alert; sự cố mới có thể là alert mới nhưng nguồn chưa chốt identity rule.'),
         ('Dossier-Version', 'IV 3.14; FR-94–98, FR-249–253', 'Vòng đời một Dossier version: Not approved, Approved và Superseded. Export cần approved và pinned authorization; ghi audit version và format. Version mới cần approval riêng.'),
@@ -619,12 +820,12 @@ def write_design(mx):
         'Profile áp dụng: Arial state 12/transition 11, cùng tỉ lệ bố cục compact; tiêu đề con 14. Nhãn hiển thị bằng lời như User cancels/Node reconnects/All stages accepted. transition-spec giữ trigger/guard/effect gốc; bảng bên dưới ghi cả nhãn ảnh và biểu thức đầy đủ. Không bỏ trạng thái, transition, reason/result hoặc predicate để làm hình gọn. Giữ nền trắng, state bo góc theo UML, không sao chép viền vuông/cắt ảnh/chữ quá nhỏ từ report mẫu.', '',
     ]
     lines += ['', '## Cách đọc và mức thiết kế', '',
-        'Giữ đầy đủ trạng thái và nhánh; Research Engines dùng composite theo yêu cầu mới, các view khác giữ bố cục hiện có, không thêm frame stm. Câu hỏi trong hình thoi, guard [No] trái/[Yes] phải; Yes/No là alias của biểu thức guard ở bảng dưới, không phải event. Nhãn ngắn nằm trực tiếp trên đường nối nền trắng; điều kiện, effect và reference đầy đủ ở bảng dưới. Research Engines dùng composite và một transition chung tới Stale; các nhánh revision giữ đường riêng; không dùng nhãn chung end event. Mỗi vòng đời là một graph liền mạch, mỗi state chỉ xuất hiện một lần; không tách các cụm sự kiện rồi vẽ lại state. Các transition dùng nét liền/mũi tên mở. Nhãn theo trigger [guard] / effect; choice chỉ phân nhánh tức thời theo guard; không đợi event ở đường ra. Event userDecisionSubmitted phải tới trước choice confirm/overturn. Reason/result là field context, giá trị và phép gán đầy đủ ở metadata/bảng transition; không cần ô chú thích kỹ thuật riêng trên ảnh theo profile report mẫu. model-state trong XML ánh xạ nhãn dễ đọc về state code nguồn. Đường chính/hồi tiếp vuông góc; transition trên biên composite tới Stale kế thừa cho mọi state con khi pinned upstream có version mới. Mỗi điểm final chỉ có ý nghĩa hoàn tất phạm vi đang mô tả, không phải xóa bản ghi.', '',
+        'Giữ đầy đủ trạng thái và nhánh; Research Engines và Research Run dùng state phẳng, các transition chung được vẽ riêng từ từng state; các view khác giữ bố cục hiện có. Câu hỏi trong hình thoi, guard [No] trái/[Yes] phải; Yes/No là alias của biểu thức guard ở bảng dưới, không phải event. Nhãn ngắn nằm trực tiếp trên đường nối nền trắng; điều kiện, effect và reference đầy đủ ở bảng dưới. Research Engines có transition riêng từ từng state tới Stale; các nhánh revision giữ đường riêng; không dùng nhãn chung end event. Mỗi vòng đời là một graph liền mạch, mỗi state chỉ xuất hiện một lần; không tách các cụm sự kiện rồi vẽ lại state. Các transition dùng nét liền và đầu mũi tên mặc định có tô. Nhãn theo trigger [guard] / effect; choice chỉ phân nhánh tức thời theo guard; không đợi event ở đường ra. Event userDecisionSubmitted phải tới trước choice confirm/overturn. Reason/result là field context, giá trị và phép gán đầy đủ ở metadata/bảng transition; không cần ô chú thích kỹ thuật riêng trên ảnh theo profile report mẫu. model-state trong XML ánh xạ nhãn dễ đọc về state code nguồn. Đường chính/hồi tiếp vuông góc; transition tới Stale áp dụng khi pinned upstream có version mới. Mỗi điểm final chỉ có ý nghĩa hoàn tất phạm vi đang mô tả, không phải xóa bản ghi.', '',
         'Tám nhóm chức năng được tổ chức thành chín tab: Dossier Version có tab riêng, cùng các vòng đời theo nhóm Class. Tab Data Management mô tả vòng đời một Local Node pairing theo yêu cầu mới, ở mức thiết kế dự kiến; chưa xác nhận implementation. Các lifecycle còn lại giữ nguồn và giới hạn thiết kế; Notifications/Monitoring là view đề xuất từ schema/hành vi.', '',
-        'Các status lấy từ nguồn nhưng một enum không tự xác nhận đầy đủ transition. Những nhãn hay transition diễn giải được chỉ rõ trong từng mục. Không đổi nghiệp vụ BRD/PRD/Use Case Spec; không thay placeholder Word. Final UML đánh dấu hoàn tất vòng đời/region, không hàm ý xóa record. Run có completion từ Ended tới final, result vẫn lưu; Authentication kết thúc một lần đăng nhập. Archived và Superseded kết thúc vòng đời trong phạm vi hình, không kết luận record bị xóa hoặc hệ thống không bao giờ có chức năng khôi phục. Các Decision Item đã trả lời/đóng, email Sent/Skipped và alert Resolved đều nối final. Mỗi nhánh có final riêng để tránh đường gom dài. Stale giữ lịch sử version; acceptance/rerun upstream-downstream không phải tự sửa version cũ. Không thêm final/transition phục hồi chưa chốt. Failed có thể giữ nguyên; retry email là đề xuất, không bảo đảm luôn retry.', '',
+        'Các status lấy từ nguồn nhưng một enum không tự xác nhận đầy đủ transition. Những nhãn hay transition diễn giải được chỉ rõ trong từng mục. Không đổi nghiệp vụ BRD/PRD/Use Case Spec; không thay placeholder Word. Final UML đánh dấu hoàn tất vòng đời/region, không hàm ý xóa record. Run có completion từ Ended tới final, result vẫn lưu; Authentication kết thúc một lần đăng nhập. Archived và Superseded kết thúc vòng đời trong phạm vi hình, không kết luận record bị xóa hoặc hệ thống không bao giờ có chức năng khôi phục. Các Decision Item đã trả lời/đóng, email Sent/Skipped và alert Resolved đều nối final. Decision Item gom đường vẽ các transition hoàn tất về một final chung; các view khác có thể dùng final riêng. Stale giữ lịch sử version; acceptance/rerun upstream-downstream không phải tự sửa version cũ. Không thêm final/transition phục hồi chưa chốt. Failed có thể giữ nguyên; retry email là đề xuất, không bảo đảm luôn retry.', '',
         'Test ID trong metadata/bảng là tham chiếu kịch bản, không phải kết quả test runtime. Design routing/retry check là kiểm tra thiết kế còn cần bổ sung, không bịa TC ID.', '',
     ]
-    lines += ['## Hiệu chỉnh sau review 2026-10-30', '', 'Bảo toàn transition-spec trước khi rút gọn nhãn. AI PI hiển thị guard autopilot/away/non-pinned, timeout có no answer; effect confirm/overturn lưu riêng và xuất ở bảng. Nhánh Ended của Run hiển thị result; Dossier export có effect export/audit. Review bao gồm revision work; sự kiện hoàn tất checks có guard tối đa hai vòng. Phạm vi stale version được ghi trong thuyết minh; email retry ghi proposed. Monitoring dùng resolution reported trực tiếp.', '', 'Giới hạn chưa chốt: cách ưu tiên nhiều blocker đồng thời của Run; identity/liên kết item tentative; chính sách retry và kết thúc failure email. Không tự thêm thuật toán hoặc transition cho các điểm này.', '']
+    lines += ['## Hiệu chỉnh sau review 2026-10-30', '', 'Bảo toàn transition-spec trước khi rút gọn nhãn. Nhãn AI PI [eligible] là alias của guard autopilot and away and not pinned; guard đầy đủ, timeout và effect confirm/overturn lưu trong metadata và bảng. Result của Run và effect export/audit của Dossier được giữ trong metadata và bảng. Review bao gồm revision work; sự kiện hoàn tất checks có guard tối đa hai vòng. Phạm vi stale version được ghi trong thuyết minh; email retry ghi proposed. Monitoring dùng resolution reported trực tiếp.', '', 'Giới hạn chưa chốt: cách ưu tiên nhiều blocker đồng thời của Run; identity/liên kết item tentative; chính sách retry và kết thúc failure email. Không tự thêm thuật toán hoặc transition cho các điểm này.', '']
     for i, (page, (_, source, note)) in enumerate(zip(mx.findall('diagram'), inventory), 1):
         lines += [f'## {i}. {page.get("name")}', '', source + '.', '', note, '']
         if i == 1:
@@ -645,7 +846,7 @@ def write_design(mx):
         lines.append('')
     lines += ['## Review UML theo hai hướng dẫn', '',
         'Đối chiếu [Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/about-state-diagrams/) về trạng thái đối tượng, sự kiện và guard; đối chiếu [draw.io](https://www.drawio.com/docs/diagram-types/uml/state-diagrams/) về shape, initial/final/choice và nhãn transition.', '',
-        'Đã sửa: Yes/No trần thành guard alias [Yes]/[No] có predicate; điều kiện Run hiện trên transition; input confirm/overturn tới trước choice; field reason/result giữ ở context/metadata/thuyết minh, giữ tên state thuần và không thêm ô context lên ảnh compact. Initial không có incoming và chỉ một outgoing không guard/trigger; final không có outgoing. Câu hỏi trong hình thoi và trái/phải là profile người dùng; Research Engines dùng composite với một transition invalidation kế thừa cho bảy state con, không phải hạn chế chung của UML.', '',
+        'Đã sửa: Yes/No trần thành guard alias [Yes]/[No] có predicate; điều kiện Run được lưu trong metadata và bảng transition; input confirm/overturn tới trước choice; field reason/result giữ ở context/metadata/thuyết minh, giữ tên state thuần và không thêm ô context lên ảnh compact. Initial không có incoming và chỉ một outgoing không guard/trigger; final không có outgoing. Câu hỏi trong hình thoi và trái/phải là profile người dùng; Research Engines dùng bảy transition invalidation riêng, không phải hạn chế chung của UML.', '',
         '| Tab / choice | [Yes] tương ứng | [No] tương ứng |', '|---|---|---|']
     for page in mx.findall('diagram'):
         cells = {c.get('id'): c for c in page.findall('.//mxCell')}

@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
-<mxfile host="drawio" version="26.0.0">
+<mxfile host="Electron" pages="9">
   <diagram id="email-code-attempt" name="Authentication &amp; Account" reference-style="fi2m-lifecycle-v1">
     <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="850" pageHeight="1100" background="#ffffff">
       <root>
@@ -14,7 +13,7 @@
         <mxCell id="awaiting-code" value="Awaiting email code" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;arcSize=15;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
           <mxGeometry as="geometry" x="201.6" y="216.0" width="144.0" height="38.88" />
         </mxCell>
-        <mxCell id="valid-code" value="Is code correct&#10;and unexpired?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="choice">
+        <mxCell id="valid-code" value="Is code correct&#xa;and unexpired?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="choice">
           <mxGeometry as="geometry" x="187.2" y="309.6" width="172.8" height="72.0" />
         </mxCell>
         <mxCell id="signed-in" value="Signed in" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;arcSize=15;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
@@ -23,22 +22,22 @@
         <mxCell id="final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
           <mxGeometry as="geometry" x="262.8" y="532.8" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="begin" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="initial" target="signed-out">
+        <mxCell id="begin" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="initial" target="signed-out">
           <mxGeometry as="geometry" relative="1">
             <mxPoint as="offset" x="0.0" y="0.0" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="request-code" value="email code requested&#10;/ send one-time code" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="signed-out" target="awaiting-code" transition-spec="email code requested&#10;/ send one-time code">
+        <mxCell id="request-code" value="Code requested" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="signed-out" target="awaiting-code" transition-spec="email code requested&#xa;/ send one-time code">
           <mxGeometry as="geometry" relative="1">
             <mxPoint as="offset" x="0.0" y="0.0" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="submit-code" value="code submitted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="awaiting-code" target="valid-code" transition-spec="code submitted">
+        <mxCell id="submit-code" value="code submitted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="awaiting-code" target="valid-code" transition-spec="code submitted">
           <mxGeometry as="geometry" relative="1">
             <mxPoint as="offset" x="0.0" y="0.0" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="invalid-code" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="valid-code" target="awaiting-code" branch-answer="No" guard-expression="code incorrect or expired" transition-spec="[No]">
+        <mxCell id="invalid-code" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="valid-code" target="awaiting-code" branch-answer="No" guard-expression="code incorrect or expired" transition-spec="[No]">
           <mxGeometry as="geometry" relative="1" x="-0.85">
             <Array as="points">
               <mxPoint x="72.0" y="345.6" />
@@ -47,7 +46,7 @@
             <mxPoint as="offset" x="0.0" y="0.0" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="accept-code" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="valid-code" target="signed-in" branch-answer="Yes" guard-expression="code correct and unexpired" transition-spec="[Yes]">
+        <mxCell id="accept-code" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="valid-code" target="signed-in" branch-answer="Yes" guard-expression="code correct and unexpired" transition-spec="[Yes]">
           <mxGeometry as="geometry" relative="1" x="-0.85">
             <Array as="points">
               <mxPoint x="460.8" y="345.6" />
@@ -55,7 +54,7 @@
             <mxPoint as="offset" x="0.0" y="0.0" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="complete-attempt" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="signed-in" target="final">
+        <mxCell id="complete-attempt" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="signed-in" target="final">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
               <mxPoint x="460.8" y="543.6" />
@@ -72,50 +71,47 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="300.96" y="83.2" width="17.28" height="17.28" />
+          <mxGeometry as="geometry" x="300.96" y="40.0" width="17.28" height="17.28" />
         </mxCell>
         <mxCell id="active" value="Active" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="230.4" y="155.2" width="158.4" height="50.4" />
+          <mxGeometry as="geometry" x="230.4" y="112.0" width="158.4" height="50.4" />
         </mxCell>
         <mxCell id="completed" value="Completed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="230.4" y="342.40000000000003" width="158.4" height="50.4" />
+          <mxGeometry as="geometry" x="230.4" y="299.2" width="158.4" height="50.4" />
         </mxCell>
-        <mxCell id="archived" value="Archived&#10;(read-only)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="230.4" y="529.6" width="158.4" height="50.4" />
+        <mxCell id="archived" value="Archived&#xa;(read-only)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
+          <mxGeometry as="geometry" x="230.4" y="486.4" width="158.4" height="50.4" />
         </mxCell>
-        <mxCell id="created" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="active" source-ref="III 3.3.1; FR-04" test-ref="TC-03">
+        <mxCell id="created" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="active" source-ref="III 3.3.1; FR-04" test-ref="TC-03">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="complete" value="marked completed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="completed" source-ref="III 3.3.3; FR-07" test-ref="TC-03; TC-05" transition-spec="project marked completed&#10;/ write audit entry">
+        <mxCell id="complete" value="marked completed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="completed" source-ref="III 3.3.3; FR-07" test-ref="TC-03; TC-05" transition-spec="project marked completed&#xa;/ write audit entry">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="archive-completed" value="archived" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="completed" target="archived" source-ref="III 3.3.3; FR-06; FR-07" test-ref="TC-03; TC-05" transition-spec="project archived&#10;/ write audit entry">
+        <mxCell id="archive-completed" value="archived" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="completed" target="archived" source-ref="III 3.3.3; FR-06; FR-07" test-ref="TC-03; TC-05" transition-spec="project archived&#xa;/ write audit entry">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="archive-active" value="archived" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="archived" source-ref="III 3.3.3; FR-06; FR-07" test-ref="TC-03; TC-05" transition-spec="project archived&#10;/ make read-only; audit">
+        <mxCell id="archive-active" value="archived" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="archived" source-ref="III 3.3.3; FR-06; FR-07" test-ref="TC-03; TC-05" transition-spec="project archived&#xa;/ make read-only; audit">
           <mxGeometry as="geometry" x="0" relative="1">
             <Array as="points">
-              <mxPoint x="568.8" y="180.4" />
-              <mxPoint x="568.8" y="554.8" />
+              <mxPoint x="568.8" y="137.2" />
+              <mxPoint x="568.8" y="511.59999999999997" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="edit" value="project updated" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.7;entryX=0;entryY=0.3;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="active" source-ref="III 3.3.3; FR-07" test-ref="TC-03; TC-05" transition-spec="project updated&#10;/ write audit entry">
+        <mxCell id="edit" value="project updated" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.7;entryX=0;entryY=0.3;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="active" source-ref="III 3.3.3; FR-07" test-ref="TC-03; TC-05" transition-spec="project updated&#xa;/ write audit entry">
           <mxGeometry as="geometry" x="-0.5" relative="1">
             <Array as="points">
-              <mxPoint x="57.6" y="190.48" />
-              <mxPoint x="57.6" y="170.32" />
+              <mxPoint x="57.6" y="147.28" />
+              <mxPoint x="57.6" y="127.12" />
             </Array>
             <mxPoint as="offset" x="0" y="14" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="project-heading" value="Project" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;text;strokeColor=none;fillColor=none;fontStyle=1;align=left;fontSize=14;" vertex="1" parent="1" uml-kind="text">
-          <mxGeometry as="geometry" x="230.4" y="40.0" width="180.0" height="21.6" />
-        </mxCell>
         <mxCell id="archived-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="298.8" y="659.2" width="21.6" height="21.6" />
+          <mxGeometry as="geometry" x="298.8" y="616.0" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="archived-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="archived" target="archived-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
+        <mxCell id="archived-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="archived" target="archived-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
       </root>
@@ -126,458 +122,481 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="scope" value="Local Node — project pairing lifecycle (planned design)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;text;strokeColor=none;fillColor=none;fontStyle=1;align=left;fontSize=14;" vertex="1" parent="1" uml-kind="text">
-          <mxGeometry as="geometry" x="72.0" y="40.0" width="720.0" height="28.8" />
-        </mxCell>
         <mxCell id="start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="300.96" y="97.6" width="17.28" height="17.28" />
+          <mxGeometry as="geometry" x="300.96" y="57.6" width="17.28" height="17.28" />
         </mxCell>
         <mxCell id="unpaired" value="Unpaired" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="unpaired" uml-kind="state">
-          <mxGeometry as="geometry" x="230.4" y="169.6" width="158.4" height="57.6" />
+          <mxGeometry as="geometry" x="230.4" y="129.6" width="158.4" height="57.6" />
         </mxCell>
-        <mxCell id="online" value="Paired&#10;(online)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="paired_online" uml-kind="state">
-          <mxGeometry as="geometry" x="230.4" y="342.4" width="158.4" height="57.6" />
+        <mxCell id="online" value="Paired&#xa;(online)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="paired_online" uml-kind="state">
+          <mxGeometry as="geometry" x="230.4" y="302.4" width="158.4" height="57.6" />
         </mxCell>
-        <mxCell id="offline" value="Paired&#10;(offline)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="paired_offline" uml-kind="state">
-          <mxGeometry as="geometry" x="633.6" y="342.4" width="158.4" height="57.6" />
+        <mxCell id="offline" value="Paired&#xa;(offline)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="paired_offline" uml-kind="state">
+          <mxGeometry as="geometry" x="633.6" y="302.4" width="158.4" height="57.6" />
         </mxCell>
         <mxCell id="revoked" value="Revoked" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="revoked" uml-kind="state">
-          <mxGeometry as="geometry" x="432.0" y="616.0" width="172.8" height="57.6" />
+          <mxGeometry as="geometry" x="432.0" y="576.0" width="172.8" height="57.6" />
         </mxCell>
-        <mxCell id="begin" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="unpaired" source-ref="UC-08 precondition: installed Node before project pairing" test-ref="TC-08">
+        <mxCell id="begin" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="unpaired" source-ref="UC-08 precondition: installed Node before project pairing" test-ref="TC-08">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="paired" value="pairing succeeds&#10;[valid project pairing code]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="unpaired" target="online" source-ref="UC-08; FR-87; conceptual connected pairing outcome" test-ref="TC-08" transition-spec="pairing succeeds&#10;[valid project pairing code]">
+        <mxCell id="paired" value="Pairing succeeds" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="unpaired" target="online" source-ref="UC-08; FR-87; conceptual connected pairing outcome" test-ref="TC-08" transition-spec="pairing succeeds&#xa;[valid project pairing code]">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="disconnected" value="connection lost" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.3;entryX=0;entryY=0.3;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="online" target="offline" source-ref="UC-31; FR-85; connection status independent of local job status" test-ref="TC-31" transition-spec="connection lost">
+        <mxCell id="disconnected" value="connection lost" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.3;entryX=0;entryY=0.3;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="online" target="offline" source-ref="UC-31; FR-85; connection status independent of local job status" test-ref="TC-31" transition-spec="connection lost">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="reconnected" value="Node reconnects" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.7;entryX=1;entryY=0.7;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="offline" target="online" source-ref="UC-31 alternative flow; IV 3.4.2 waiting(node_offline)" test-ref="TC-31" transition-spec="Node reconnects">
+        <mxCell id="reconnected" value="Node reconnects" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.7;entryX=1;entryY=0.7;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="offline" target="online" source-ref="UC-31 alternative flow; IV 3.4.2 waiting(node_offline)" test-ref="TC-31" transition-spec="Node reconnects">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="online-revoked" value="pairing revoked&#10;/ reject local jobs; explain reason;&#10;keep published objects readable" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.2;exitY=1;entryX=0.2;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="online" target="revoked" source-ref="UC-31; FR-110; FR-241; FR-242; end of this pairing, not deletion of Node or results" test-ref="TC-31" transition-spec="pairing revoked&#10;/ reject local jobs; explain reason;&#10;keep published objects readable">
+        <mxCell id="online-revoked" value="Pairing revoked" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.2;exitY=1;entryX=0.2;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="online" target="revoked" source-ref="UC-31; FR-110; FR-241; FR-242; end of this pairing, not deletion of Node or results" test-ref="TC-31" transition-spec="pairing revoked&#xa;/ reject local jobs; explain reason;&#xa;keep published objects readable">
           <mxGeometry as="geometry" x="0" relative="1">
             <Array as="points">
-              <mxPoint x="262.08" y="529.6" />
-              <mxPoint x="466.56" y="529.6" />
+              <mxPoint x="262.08" y="489.6" />
+              <mxPoint x="466.56" y="489.6" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="offline-revoked" value="pairing revoked&#10;/ reject local jobs; explain reason;&#10;keep published objects readable" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.8;exitY=1;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="offline" target="revoked" source-ref="UC-31; FR-110; FR-241; FR-242; end of this pairing, not deletion of Node or results" test-ref="TC-31" transition-spec="pairing revoked&#10;/ reject local jobs; explain reason;&#10;keep published objects readable">
+        <mxCell id="offline-revoked" value="Pairing revoked" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.8;exitY=1;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="offline" target="revoked" source-ref="UC-31; FR-110; FR-241; FR-242; end of this pairing, not deletion of Node or results" test-ref="TC-31" transition-spec="pairing revoked&#xa;/ reject local jobs; explain reason;&#xa;keep published objects readable">
           <mxGeometry as="geometry" x="0" relative="1">
             <Array as="points">
-              <mxPoint x="760.32" y="529.6" />
-              <mxPoint x="570.24" y="529.6" />
+              <mxPoint x="760.32" y="489.6" />
+              <mxPoint x="570.24" y="489.6" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="revoked-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="507.6" y="781.6" width="21.6" height="21.6" />
+          <mxGeometry as="geometry" x="507.6" y="741.6" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="revoked-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="revoked" target="revoked-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
+        <mxCell id="revoked-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="revoked" target="revoked-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
           <mxGeometry as="geometry" x="0" relative="1" />
-        </mxCell>
-        <mxCell id="scope-note" value="States describe one pairing, not job execution or dataset processing.&#10;A lost connection does not revoke the pairing. Re-pairing is outside this lifecycle.&#10;Design view only; no implementation verification implied." style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;text;strokeColor=none;fillColor=none;fontStyle=1;align=left;fontSize=14;" vertex="1" parent="1" uml-kind="text">
-          <mxGeometry as="geometry" x="72.0" y="868.0" width="900.0" height="72.0" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram name="Research Run Orchestration" id="research-run" reference-style="fi2m-lifecycle-v1">
+  <diagram name="Research Run Orchestration" id="research-run" scope="Flat lifecycle; formerly inherited exits are explicit transitions from each applicable state" reference-style="fi2m-lifecycle-v1">
     <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1600" pageHeight="1600" background="#ffffff">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="459.36" y="40.0" width="17.28" height="17.28" />
+          <mxGeometry as="geometry" x="744.16" y="64.8" width="17.28" height="17.28" />
         </mxCell>
         <mxCell id="running" value="Running" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="running" uml-kind="state">
-          <mxGeometry as="geometry" x="360.0" y="148.0" width="216.0" height="115.2" />
+          <mxGeometry as="geometry" x="652.0" y="144.0" width="201.6" height="72.0" />
         </mxCell>
         <mxCell id="waiting" value="Waiting" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="waiting" reason-values="decision,node_offline,budget_review" uml-kind="state">
-          <mxGeometry as="geometry" x="792.0" y="378.4" width="288.0" height="115.2" />
+          <mxGeometry as="geometry" x="652.0" y="388.8" width="201.6" height="72.0" />
         </mxCell>
         <mxCell id="ended" value="Ended" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="ended" result-values="complete,with_gaps,failed_technical,cancelled" uml-kind="state">
-          <mxGeometry as="geometry" x="288.0" y="738.4" width="288.0" height="158.4" />
+          <mxGeometry as="geometry" x="652.0" y="921.6" width="201.6" height="86.4" />
         </mxCell>
         <mxCell id="final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="421.2" y="968.8" width="21.6" height="21.6" />
+          <mxGeometry as="geometry" x="742.0" y="1087.2" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="begin" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="running" source-ref="IV 3.4.1; FR-14; FR-21" test-ref="TC-09">
+        <mxCell id="begin" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="running" source-ref="IV 3.4.1; FR-14; FR-21" test-ref="TC-09">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="decision-blocked" value="Decision blocks work [present or pinned]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.2;entryX=0.85;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="waiting" source-ref="IV 3.4.2; FR-262; no independent work; user present or pinned" test-ref="TC-16; TC-98" transition-spec="decisionBlocked [present or pinned] /&#10;reason := decision">
-          <mxGeometry as="geometry" x="-0.31034482758620685" relative="1">
-            <Array as="points">
-              <mxPoint x="1036.8" y="171.04" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="decision-blocked" value="Decision blocks work" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.2;exitY=1;entryX=0.2;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="waiting" source-ref="IV 3.4.2; FR-262; no independent work; user present or pinned" test-ref="TC-16; TC-98" transition-spec="decisionBlocked [present or pinned] /&#xa;reason := decision">
+          <mxGeometry as="geometry" x="-0.65" relative="1" />
         </mxCell>
-        <mxCell id="local-job-blocked" value="Local job blocks work [Node offline]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="waiting" source-ref="IV 3.4.2; FR-85; FR-237; FR-238; offline Node and blocking local job; independent work continues; one combined notice" test-ref="TC-31" transition-spec="localJobBlocked [Node offline] /&#10;reason := node_offline">
-          <mxGeometry as="geometry" x="-0.32432432432432434" relative="1">
-            <Array as="points">
-              <mxPoint x="936.0" y="205.6" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="monthly-limit" value="Monthly budget reaches 100%" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.8;entryX=0.15;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="waiting" source-ref="IV 3.4.2; FR-90; monthly budget 100%; create spending item" test-ref="TC-33" transition-spec="monthlyBudgetReached [usage &gt;= 100%] /&#10;reason := budget_review">
-          <mxGeometry as="geometry" x="-0.34782608695652173" relative="1">
-            <Array as="points">
-              <mxPoint x="835.2" y="240.16" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="decision-answered" value="User answers [decision]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.25;entryX=0.7;entryY=1;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="running" source-ref="IV 3.4.2; corresponding waiting reason resumes running" test-ref="TC-16" transition-spec="answerReceived [reason = decision]">
-          <mxGeometry as="geometry" x="0.38983050847457634" relative="1">
-            <Array as="points">
-              <mxPoint x="684.0" y="407.2" />
-              <mxPoint x="684.0" y="306.4" />
-              <mxPoint x="511.2" y="306.4" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="node-returned" value="Node reconnects [node offline]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=1;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="running" source-ref="IV 3.4.2; corresponding waiting reason resumes running" test-ref="TC-31" transition-spec="nodeReconnected [reason = node_offline]">
-          <mxGeometry as="geometry" x="0.37681159420289845" relative="1">
-            <Array as="points">
-              <mxPoint x="648.0" y="436.0" />
-              <mxPoint x="648.0" y="328.0" />
-              <mxPoint x="468.0" y="328.0" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="spend-approved" value="Extra spend approved [budget review]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.75;entryX=0.3;entryY=1;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="running" source-ref="IV 3.4.2; corresponding waiting reason resumes running" test-ref="TC-33" transition-spec="extraSpendApproved [reason = budget_review]">
-          <mxGeometry as="geometry" x="0.36708860759493667" relative="1">
-            <Array as="points">
-              <mxPoint x="612.0" y="464.79999999999995" />
-              <mxPoint x="612.0" y="349.59999999999997" />
-              <mxPoint x="424.8" y="349.59999999999997" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="finished" value="All stages accepted&#10;/ result := complete" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.2;entryX=0.2;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; IV 3.4.1 step 10" test-ref="TC-09" result-value="complete" transition-spec="allStagesAccepted /&#10;result := complete">
-          <mxGeometry as="geometry" x="0.6811224489795917" relative="1">
-            <Array as="points">
-              <mxPoint x="72.0" y="171.04" />
-              <mxPoint x="72.0" y="695.1999999999999" />
-              <mxPoint x="345.6" y="695.1999999999999" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="cancel-running" value="User cancels [authorized]&#10;/ result := cancelled" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.4;entryX=0.4;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; FR-22; Project Manager or creating Researcher; close pending items; audit" test-ref="TC-13" result-value="cancelled" transition-spec="cancel [authorized] /&#10;result := cancelled">
-          <mxGeometry as="geometry" x="0.5467032967032968" relative="1">
-            <Array as="points">
-              <mxPoint x="129.6" y="194.08" />
-              <mxPoint x="129.6" y="637.6" />
-              <mxPoint x="403.2" y="637.6" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="fatal-running" value="Unrecoverable technical error&#10;/ result := failed_technical" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.6;entryX=0.6;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; FR-103; unrecoverable error or missing model/credential; no sample output" test-ref="TC-12" result-value="failed_technical" transition-spec="fatalError /&#10;result := failed_technical">
-          <mxGeometry as="geometry" x="0.38988095238095233" relative="1">
-            <Array as="points">
-              <mxPoint x="187.2" y="217.12" />
-              <mxPoint x="187.2" y="580.0" />
-              <mxPoint x="460.8" y="580.0" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="budget-running" value="Run token budget exhausted&#10;/ result := with_gaps" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.8;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; FR-262; publish best output with gaps" test-ref="TC-32" result-value="with_gaps" transition-spec="tokenBudgetExhausted /&#10;result := with_gaps">
-          <mxGeometry as="geometry" x="0.20454545454545459" relative="1">
-            <Array as="points">
-              <mxPoint x="244.8" y="240.16" />
-              <mxPoint x="244.8" y="522.4" />
-              <mxPoint x="518.4" y="522.4" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="cancel-waiting" value="User cancels [authorized]&#10;/ result := cancelled" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.1;exitY=1;entryX=1;entryY=0.12;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-22" test-ref="TC-13" result-value="cancelled" transition-spec="cancel [authorized] /&#10;result := cancelled">
-          <mxGeometry as="geometry" x="0.518686296715742" relative="1">
-            <Array as="points">
-              <mxPoint x="820.8" y="757.408" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="budget-waiting" value="Run token budget exhausted&#10;/ result := with_gaps" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.30000000000000004;exitY=1;entryX=1;entryY=0.31;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-262; any waiting reason" test-ref="TC-32" result-value="with_gaps" transition-spec="tokenBudgetExhausted /&#10;result := with_gaps">
-          <mxGeometry as="geometry" x="0.4928761168799807" relative="1">
-            <Array as="points">
-              <mxPoint x="878.4" y="787.504" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="pinned-expired" value="Pinned wait expires [unanswered]&#10;/ result := with_gaps" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-262; FR-265; close pinned item unanswered" test-ref="TC-98; TC-100" result-value="with_gaps" transition-spec="waitDeadlinePassed [reason = decision and pinned item unanswered] /&#10;result := with_gaps">
-          <mxGeometry as="geometry" x="0.4736842105263157" relative="1">
-            <Array as="points">
-              <mxPoint x="936.0" y="817.6" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="spending-closed" value="Spending declined or expired [budget review]&#10;/ result := with_gaps" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.7000000000000001;exitY=1;entryX=1;entryY=0.6900000000000001;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-245; FR-91" test-ref="TC-33" result-value="with_gaps" transition-spec="spendingDeclinedOrExpired [reason = budget_review] /&#10;result := with_gaps">
-          <mxGeometry as="geometry" x="0.4588542638551969" relative="1">
-            <Array as="points">
-              <mxPoint x="993.6" y="847.696" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="fatal-waiting" value="Unrecoverable technical error&#10;/ result := failed_technical" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.9;exitY=1;entryX=1;entryY=0.88;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-103; unrecoverable error or missing model/credential" test-ref="TC-12" result-value="failed_technical" transition-spec="fatalError /&#10;result := failed_technical">
-          <mxGeometry as="geometry" x="0.44705093833780163" relative="1">
-            <Array as="points">
-              <mxPoint x="1051.2" y="877.792" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="lifecycle-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="ended" target="final" source-ref="Completion of Run lifecycle; result remains stored; no record deletion" test-ref="Design completion check">
+        <mxCell id="local-job-blocked" value="Node offline" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="waiting" source-ref="IV 3.4.2; FR-85; FR-237; FR-238; offline Node and blocking local job; independent work continues; one combined notice" test-ref="TC-31" transition-spec="localJobBlocked [Node offline] /&#xa;reason := node_offline">
           <mxGeometry as="geometry" x="0" relative="1" />
+        </mxCell>
+        <mxCell id="monthly-limit" value="Monthly budget reached" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.8;exitY=1;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="waiting" source-ref="IV 3.4.2; FR-90; monthly budget 100%; create spending item" test-ref="TC-33" transition-spec="monthlyBudgetReached [usage &gt;= 100%] /&#xa;reason := budget_review">
+          <mxGeometry as="geometry" x="0.65" relative="1" />
+        </mxCell>
+        <mxCell id="decision-answered" value="Decision answered" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.8;entryX=1;entryY=0.2;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="running" source-ref="IV 3.4.2; corresponding waiting reason resumes running" test-ref="TC-16" transition-spec="answerReceived [reason = decision]">
+          <mxGeometry as="geometry" x="-0.68" relative="1">
+            <Array as="points">
+              <mxPoint x="1156.0" y="446.4" />
+              <mxPoint x="1156.0" y="158.4" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-returned" value="Node reconnects" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="running" source-ref="IV 3.4.2; corresponding waiting reason resumes running" test-ref="TC-31" transition-spec="nodeReconnected [reason = node_offline]">
+          <mxGeometry as="geometry" x="-0.68" relative="1">
+            <Array as="points">
+              <mxPoint x="1084.0" y="424.8" />
+              <mxPoint x="1084.0" y="180.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="spend-approved" value="Extra spend approved" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.2;entryX=1;entryY=0.8;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="running" source-ref="IV 3.4.2; corresponding waiting reason resumes running" test-ref="TC-33" transition-spec="extraSpendApproved [reason = budget_review]">
+          <mxGeometry as="geometry" x="-0.68" relative="1">
+            <Array as="points">
+              <mxPoint x="1012.0" y="403.2" />
+              <mxPoint x="1012.0" y="201.6" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="finished" value="All stages accepted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.05;entryX=0;entryY=0.95;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; IV 3.4.1 step 10" test-ref="TC-09" result-value="complete" transition-spec="allStagesAccepted /&#xa;result := complete">
+          <mxGeometry as="geometry" x="0.3" relative="1">
+            <Array as="points">
+              <mxPoint x="40.0" y="147.6" />
+              <mxPoint x="40.0" y="1003.68" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pinned-expired" value="Pinned wait expires" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.95;exitY=1;entryX=1;entryY=0.7;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-262; FR-265; close pinned item unanswered" test-ref="TC-98; TC-100" result-value="with_gaps" transition-spec="waitDeadlinePassed [reason = decision and pinned item unanswered] /&#xa;result := with_gaps">
+          <mxGeometry as="geometry" x="0.45" relative="1">
+            <Array as="points">
+              <mxPoint x="843.52" y="532.8" />
+              <mxPoint x="983.2" y="532.8" />
+              <mxPoint x="983.2" y="982.08" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="spending-closed" value="Spending declined or expired" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.8;exitY=1;entryX=1;entryY=0.3;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-245; FR-91" test-ref="TC-33" result-value="with_gaps" transition-spec="spendingDeclinedOrExpired [reason = budget_review] /&#xa;result := with_gaps">
+          <mxGeometry as="geometry" x="0.45" relative="1">
+            <Array as="points">
+              <mxPoint x="813.28" y="590.4" />
+              <mxPoint x="940.0" y="590.4" />
+              <mxPoint x="940.0" y="947.52" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lifecycle-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="ended" target="final" source-ref="Completion of Run lifecycle; result remains stored; no record deletion" test-ref="Design completion check">
+          <mxGeometry as="geometry" x="0" relative="1" />
+        </mxCell>
+        <mxCell id="cancel-running-running" value="Run cancelled" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0;exitY=0.25;entryX=0;entryY=0.7;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; FR-22; Project Manager or creating Researcher; close pending items; audit; applies in Running and Waiting" test-ref="TC-13" result-value="cancelled" transition-spec="cancel [authorized] /&#xa;result := cancelled">
+          <mxGeometry as="geometry" x="0.75" relative="1">
+            <Array as="points">
+              <mxPoint x="90.4" y="162.0" />
+              <mxPoint x="90.4" y="982.08" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cancel-running-waiting" value="Run cancelled" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0.15;exitY=1;entryX=0.15;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-22; Project Manager or creating Researcher; close pending items; audit; applies in Running and Waiting" test-ref="TC-13" result-value="cancelled" transition-spec="cancel [authorized] /&#xa;result := cancelled">
+          <mxGeometry as="geometry" x="-0.65" relative="1" />
+        </mxCell>
+        <mxCell id="fatal-running-running" value="Technical failure" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=0;entryY=0.44999999999999996;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; FR-103; unrecoverable error or missing model/credential; no sample output; applies in Running and Waiting" test-ref="TC-12" result-value="failed_technical" transition-spec="fatalError /&#xa;result := failed_technical">
+          <mxGeometry as="geometry" x="0.75" relative="1">
+            <Array as="points">
+              <mxPoint x="126.4" y="180.0" />
+              <mxPoint x="126.4" y="960.48" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fatal-running-waiting" value="Technical failure" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0.35;exitY=1;entryX=0.35;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-103; unrecoverable error or missing model/credential; no sample output; applies in Running and Waiting" test-ref="TC-12" result-value="failed_technical" transition-spec="fatalError /&#xa;result := failed_technical">
+          <mxGeometry as="geometry" x="0" relative="1" />
+        </mxCell>
+        <mxCell id="budget-running-running" value="Token budget exhausted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0;exitY=0.75;entryX=0;entryY=0.19999999999999996;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="running" target="ended" source-ref="IV 3.4.2; FR-262; publish best output with gaps; applies in Running and Waiting" test-ref="TC-32" result-value="with_gaps" transition-spec="tokenBudgetExhausted /&#xa;result := with_gaps">
+          <mxGeometry as="geometry" x="0.75" relative="1">
+            <Array as="points">
+              <mxPoint x="162.4" y="198.0" />
+              <mxPoint x="162.4" y="938.88" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="budget-running-waiting" value="Token budget exhausted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0.55;exitY=1;entryX=0.55;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="waiting" target="ended" source-ref="IV 3.4.2; FR-262; publish best output with gaps; applies in Running and Waiting" test-ref="TC-32" result-value="with_gaps" transition-spec="tokenBudgetExhausted /&#xa;result := with_gaps">
+          <mxGeometry as="geometry" x="0.65" relative="1" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram name="Research Engines" id="hand-off-object" scope="One hand-off object version; seven non-stale states inside one composite; upstreamVersionChanged exits the composite to stale" reference-style="fi2m-lifecycle-v1">
-    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1600" pageHeight="1600" background="#ffffff">
+  <diagram name="Research Engines" id="hand-off-object" scope="Flat lifecycle; formerly inherited exits are explicit transitions from each applicable state" reference-style="fi2m-lifecycle-v1">
+    <mxGraphModel dx="4742" dy="1869" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="current-version" value="Current version (not stale)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;arcSize=4;container=1;collapsible=0;pointerEvents=0;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontStyle=1;whiteSpace=wrap;fontSize=14;" vertex="1" parent="1" uml-kind="composite">
-          <mxGeometry as="geometry" x="57.6" y="112.0" width="921.6" height="1072.8" />
+        <mxCell id="start" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" uml-kind="initial" value="" vertex="1">
+          <mxGeometry height="17.28" width="17.28" x="715.3599999999999" y="46.8" as="geometry" />
         </mxCell>
-        <mxCell id="start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="current-version" uml-kind="initial">
-          <mxGeometry as="geometry" x="588.96" y="46.8" width="17.28" height="17.28" />
+        <mxCell id="draft" model-state="draft" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Draft" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="644.8" y="108" as="geometry" />
         </mxCell>
-        <mxCell id="draft" value="Draft" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="draft" uml-kind="state">
-          <mxGeometry as="geometry" x="518.4" y="108.0" width="158.4" height="57.6" />
+        <mxCell id="checks" guard-no="at least one contract item red" guard-yes="all contract items green" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" uml-kind="choice" value="Are all contract&#xa;items green?" vertex="1">
+          <mxGeometry height="57.6" width="216" x="616" y="252" as="geometry" />
         </mxCell>
-        <mxCell id="checks" value="Are all contract&#10;items green?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" guard-no="at least one contract item red" guard-yes="all contract items green" uml-kind="choice">
-          <mxGeometry as="geometry" x="489.6" y="252.0" width="216.0" height="57.6" />
+        <mxCell id="red" model-state="checks_red" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Checks failed" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="184" y="252" as="geometry" />
         </mxCell>
-        <mxCell id="red" value="Checks failed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="checks_red" uml-kind="state">
-          <mxGeometry as="geometry" x="57.6" y="252.0" width="158.4" height="57.6" />
+        <mxCell id="green" model-state="checks_green" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Checks passed" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="644.8" y="396" as="geometry" />
         </mxCell>
-        <mxCell id="green" value="Checks passed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="checks_green" uml-kind="state">
-          <mxGeometry as="geometry" x="518.4" y="396.0" width="158.4" height="57.6" />
+        <mxCell id="review" model-state="in_review" parent="1" state-behavior="Includes asynchronous revision work and checks; at most two revision rounds; remaining findings become known risks or await user decision (IV 3.11)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Under review" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="644.8" y="540" as="geometry" />
         </mxCell>
-        <mxCell id="review" value="Under review" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="in_review" state-behavior="Includes asynchronous revision work and checks; at most two revision rounds; remaining findings become known risks or await user decision (IV 3.11)" uml-kind="state">
-          <mxGeometry as="geometry" x="518.4" y="540.0" width="158.4" height="57.6" />
+        <mxCell id="ready" model-state="ready" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Ready for acceptance" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="644.8" y="684" as="geometry" />
         </mxCell>
-        <mxCell id="ready" value="Ready for acceptance" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="ready" uml-kind="state">
-          <mxGeometry as="geometry" x="518.4" y="684.0" width="158.4" height="57.6" />
+        <mxCell id="accepted" model-state="accepted" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Accepted" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="644.8" y="828" as="geometry" />
         </mxCell>
-        <mxCell id="accepted" value="Accepted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="accepted" uml-kind="state">
-          <mxGeometry as="geometry" x="518.4" y="828.0" width="158.4" height="57.6" />
+        <mxCell id="locked" model-state="locked" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Locked (AnalysisPlan)" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="644.8" y="972" as="geometry" />
         </mxCell>
-        <mxCell id="locked" value="Locked (AnalysisPlan)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="current-version" model-state="locked" uml-kind="state">
-          <mxGeometry as="geometry" x="518.4" y="972.0" width="158.4" height="57.6" />
+        <mxCell id="stale" model-state="stale" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Stale" vertex="1">
+          <mxGeometry height="115.2" width="158.4" x="1292.8" y="540" as="geometry" />
         </mxCell>
-        <mxCell id="stale" value="Stale" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" model-state="stale" uml-kind="state">
-          <mxGeometry as="geometry" x="1137.6" y="652.0" width="158.4" height="57.6" />
+        <mxCell id="create" edge="1" parent="1" source="start" source-ref="IV 3.4.3" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="draft" test-ref="TC-11" transition-spec="/ revision rounds := 0" value="/ round := 0">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="create" value="/ round := 0" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="draft" source-ref="IV 3.4.3" test-ref="TC-11" transition-spec="/ revision rounds := 0">
-          <mxGeometry as="geometry" x="0" relative="1" />
-        </mxCell>
-        <mxCell id="check" value="checks completed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="draft" target="checks" source-ref="IV 3.4.3" test-ref="TC-11; TC-27" transition-spec="checks completed">
-          <mxGeometry as="geometry" x="0" relative="1">
-            <mxPoint as="offset" x="-48" y="0" />
+        <mxCell id="check" edge="1" parent="1" source="draft" source-ref="IV 3.4.3" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="checks" test-ref="TC-11; TC-27" transition-spec="checks completed" value="checks completed">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-20" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="red-branch" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="checks" target="red" source-ref="IV 3.4.3" test-ref="TC-11; TC-27" branch-answer="No" guard-expression="at least one contract item red" transition-spec="[No]">
-          <mxGeometry as="geometry" x="-0.4" relative="1" />
+        <mxCell id="red-branch" branch-answer="No" edge="1" guard-expression="at least one contract item red" parent="1" source="checks" source-ref="IV 3.4.3" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="red" test-ref="TC-11; TC-27" transition-spec="[No]" value="[No]">
+          <mxGeometry relative="1" x="-0.4" as="geometry" />
         </mxCell>
-        <mxCell id="green-branch" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="checks" target="green" source-ref="IV 3.4.3" test-ref="TC-11; TC-27" branch-answer="Yes" guard-expression="all contract items green" transition-spec="[Yes]">
-          <mxGeometry as="geometry" x="-0.65" relative="1">
+        <mxCell id="green-branch" branch-answer="Yes" edge="1" guard-expression="all contract items green" parent="1" source="checks" source-ref="IV 3.4.3" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="green" test-ref="TC-11; TC-27" transition-spec="[Yes]" value="[Yes]">
+          <mxGeometry relative="1" x="-0.65" as="geometry">
             <Array as="points">
-              <mxPoint x="813.6" y="392.8" />
-              <mxPoint x="813.6" y="464.8" />
-              <mxPoint x="702.72" y="464.8" />
+              <mxPoint x="882.4" y="280.8" />
+              <mxPoint x="882.4" y="352.8" />
+              <mxPoint x="771.52" y="352.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="repair" value="Checks rerun" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=0;entryX=0;entryY=0.25;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="red" target="checks" source-ref="IV 3.4.3; IV review loop" test-ref="TC-27" transition-spec="object revised; checks rerun">
-          <mxGeometry as="geometry" x="-0.6" relative="1">
+        <mxCell id="repair" edge="1" parent="1" source="red" source-ref="IV 3.4.3; IV review loop" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=0;entryX=0.2;entryY=0.2;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="checks" test-ref="TC-27" transition-spec="object revised; checks rerun" value="Checks rerun">
+          <mxGeometry relative="1" x="-0.6" as="geometry">
             <Array as="points">
-              <mxPoint x="194.4" y="292.0" />
-              <mxPoint x="468.0" y="292.0" />
-              <mxPoint x="468.0" y="378.4" />
+              <mxPoint x="263.19" y="180" />
+              <mxPoint x="670" y="180" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="regression" value="contract check changed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.2;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="green" target="checks" source-ref="IV 3.4.3" test-ref="TC-11; TC-27" transition-spec="contract check changed">
-          <mxGeometry as="geometry" x="0.3" relative="1">
+        <mxCell id="regression" edge="1" parent="1" source="green" source-ref="IV 3.4.3" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.2;entryX=0.8;entryY=0.2;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="checks" test-ref="TC-11; TC-27" transition-spec="contract check changed" value="contract check changed">
+          <mxGeometry relative="1" x="0.3" as="geometry">
             <Array as="points">
-              <mxPoint x="907.2" y="519.52" />
-              <mxPoint x="907.2" y="306.4" />
-              <mxPoint x="720.0" y="306.4" />
+              <mxPoint x="976" y="407.5" />
+              <mxPoint x="976" y="194.38" />
+              <mxPoint x="778" y="194.38" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="review-start" value="review started" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="green" target="review" source-ref="IV 3.4.3; IV review loop" test-ref="TC-27" transition-spec="review started">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="review-start" edge="1" parent="1" source="green" source-ref="IV 3.4.3; IV review loop" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="review" test-ref="TC-27" transition-spec="review started" value="review started">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="revise-review" value="Revision checked [round &lt; 2]&#10;/ round += 1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.65;entryY=1;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="review" target="checks" source-ref="IV 3.11 steps 6-8; FR-75; completed revision and checks, at most two revision rounds per version" test-ref="TC-27" transition-spec="revision checks completed [revision rounds &lt; 2]&#10;/ revision rounds += 1">
-          <mxGeometry as="geometry" x="-0.25" relative="1">
+        <mxCell id="revise-review" edge="1" parent="1" source="review" source-ref="IV 3.11 steps 6-8; FR-75; completed revision and checks, at most two revision rounds per version" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=1;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="checks" test-ref="TC-27" transition-spec="revision checks completed [revision rounds &lt; 2]&#xa;/ revision rounds += 1" value="Revision checked [round &lt; 2]">
+          <mxGeometry relative="1" x="-0.25" as="geometry">
             <Array as="points">
-              <mxPoint x="403.20000000000005" y="680.8" />
-              <mxPoint x="403.20000000000005" y="450.4" />
-              <mxPoint x="687.6" y="450.4" />
+              <mxPoint x="472" y="568.8" />
+              <mxPoint x="472" y="338.4" />
+              <mxPoint x="724" y="338.4" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="review-done" value="review completed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="review" target="ready" source-ref="IV 3.4.3" test-ref="TC-27" transition-spec="review completed">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="review-done" edge="1" parent="1" source="review" source-ref="IV 3.4.3" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="ready" test-ref="TC-27" transition-spec="review completed" value="review completed">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="accept" value="Object accepted" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="ready" target="accepted" source-ref="IV 3.4.3; FR-161" test-ref="TC-11" transition-spec="object accepted&#10;/ freeze version and hash">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="accept" edge="1" parent="1" source="ready" source-ref="IV 3.4.3; FR-161" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="accepted" test-ref="TC-11" transition-spec="object accepted&#xa;/ freeze version and hash" value="Object accepted">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="lock" value="Plan locked [AnalysisPlan]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="accepted" target="locked" source-ref="IV 3.4.3; IV 3.8" test-ref="TC-21" transition-spec="plan locked&#10;[AnalysisPlan only]">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="lock" edge="1" parent="1" source="accepted" source-ref="IV 3.4.3; IV 3.8" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="locked" test-ref="TC-21" transition-spec="plan locked&#xa;[AnalysisPlan only]" value="Plan locked [AnalysisPlan]">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="scope-start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="509.76" y="40.0" width="17.28" height="17.28" />
+        <mxCell id="version-invalidated-draft" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="draft" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=.5;entryY=0;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="-0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="1372" y="136.78" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="scope-entry" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="scope-start" target="current-version" source-ref="Diagram scope entry; see page source" test-ref="Design entry check">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="version-invalidated-red" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="red" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=0;exitY=.5;entryX=.5;entryY=1;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="-0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="280.8" />
+              <mxPoint x="40" y="1087.2" />
+              <mxPoint x="1372" y="1087.2" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="version-invalidated" value="New upstream version" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5302013422818792;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="current-version" target="stale" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" test-ref="TC-11" guard-expression="pinned upstream object has a new version" transition-spec="upstreamVersionChanged">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="version-invalidated-green" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="green" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=0;entryY=0.125;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="0.5" as="geometry">
+            <Array as="points">
+              <mxPoint x="846.4" y="424.8" />
+              <mxPoint x="846.4" y="554.4" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="version-invalidated-review" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="review" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=0;entryY=0.3125;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="0.5" as="geometry">
+            <Array as="points">
+              <mxPoint x="846.4" y="568.8" />
+              <mxPoint x="846.4" y="576" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="version-invalidated-ready" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="ready" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="0.5" as="geometry">
+            <Array as="points">
+              <mxPoint x="896.8" y="712.8" />
+              <mxPoint x="896.8" y="597.6" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="version-invalidated-accepted" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="accepted" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=0;entryY=0.6875;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="0.5" as="geometry">
+            <Array as="points">
+              <mxPoint x="968.8" y="856.8" />
+              <mxPoint x="968.8" y="619.2" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="version-invalidated-locked" edge="1" guard-expression="pinned upstream object has a new version" parent="1" source="locked" source-ref="IV 3.4.3; FR-19; inherited by draft, checks_red, checks_green, in_review, ready, accepted and locked when pinned upstream version changes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;exitX=1;exitY=.5;entryX=0;entryY=0.875;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="stale" test-ref="TC-11" transition-spec="upstreamVersionChanged" value="New upstream version">
+          <mxGeometry relative="1" x="0.5" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040.8" y="1000.8" />
+              <mxPoint x="1040.8" y="640.8" />
+            </Array>
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="AI Principal Investigator" id="decision-item" reference-style="fi2m-lifecycle-v1">
-    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1600" pageHeight="1600" background="#ffffff">
+    <mxGraphModel dx="1664" dy="989" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="463.36" y="72.0" width="17.28" height="17.28" />
+        <mxCell id="start" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" uml-kind="initial" value="" vertex="1">
+          <mxGeometry height="17.28" width="17.28" x="351.36" y="72" as="geometry" />
         </mxCell>
-        <mxCell id="pending" value="Pending user decision" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="371.2" y="136.8" width="201.6" height="57.6" />
+        <mxCell id="pending" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Pending user decision" vertex="1">
+          <mxGeometry height="57.6" width="201.6" x="259.2" y="136.8" as="geometry" />
         </mxCell>
-        <mxCell id="tentative" value="Tentatively decided&#10;(awaiting user review)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="767.2" y="136.8" width="230.4" height="57.6" />
+        <mxCell id="tentative" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Tentatively decided&#xa;(awaiting user review)" vertex="1">
+          <mxGeometry height="57.6" width="230.4" x="655.2" y="136.8" as="geometry" />
         </mxCell>
-        <mxCell id="confirms" value="Does the user&#10;confirm?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" guard-yes="submitted decision is confirm" guard-no="submitted decision is overturn" uml-kind="choice">
-          <mxGeometry as="geometry" x="785.2" y="331.2" width="194.4" height="79.2" />
+        <mxCell id="confirms" guard-no="submitted decision is overturn" guard-yes="submitted decision is confirm" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" uml-kind="choice" value="Does the user&#xa;confirm?" vertex="1">
+          <mxGeometry height="79.2" width="194.4" x="673.2" y="331.2" as="geometry" />
         </mxCell>
-        <mxCell id="confirmed" value="Confirmed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="860.8" y="532.8" width="158.4" height="57.6" />
+        <mxCell id="confirmed" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Confirmed" vertex="1">
+          <mxGeometry height="57.6" width="158.4" x="748.8" y="532.8" as="geometry" />
         </mxCell>
-        <mxCell id="overturned" value="Overturned" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="572.8" y="532.8" width="172.8" height="57.6" />
+        <mxCell id="overturned" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Overturned" vertex="1">
+          <mxGeometry height="57.6" width="172.8" x="460.8" y="532.8" as="geometry" />
         </mxCell>
-        <mxCell id="answered" value="Answered" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="191.2" y="374.4" width="172.8" height="57.6" />
+        <mxCell id="answered" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Answered" vertex="1">
+          <mxGeometry height="57.6" width="172.8" x="79.2" y="374.4" as="geometry" />
         </mxCell>
-        <mxCell id="unanswered" value="Closed unanswered&#10;(pinned wait deadline)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="407.2" y="374.4" width="187.2" height="57.6" />
+        <mxCell id="unanswered" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Closed unanswered&#xa;(pinned wait deadline)" vertex="1">
+          <mxGeometry height="57.6" width="187.2" x="295.2" y="374.4" as="geometry" />
         </mxCell>
-        <mxCell id="spending-expired" value="Expired unanswered&#10;(spending deadline)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="191.2" y="547.2" width="187.2" height="57.6" />
+        <mxCell id="spending-expired" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Expired unanswered&#xa;(spending deadline)" vertex="1">
+          <mxGeometry height="57.6" width="187.2" x="79.2" y="547.2" as="geometry" />
         </mxCell>
-        <mxCell id="closed-cancelled" value="Closed&#10;(run cancelled)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="486.4" y="806.4" width="230.4" height="57.6" />
+        <mxCell id="closed-cancelled" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Closed&#xa;(run cancelled)" vertex="1">
+          <mxGeometry height="57.6" width="230.4" x="1116" y="504" as="geometry" />
         </mxCell>
-        <mxCell id="create" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="pending" source-ref="IV 3.5.2; FR-28" test-ref="TC-16">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="create" edge="1" parent="1" source="start" source-ref="IV 3.5.2; FR-28" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="pending" test-ref="TC-16" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="human-answer" value="authorized user answers" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.6;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="answered" source-ref="IV 3.5.2 step 3; FR-28" test-ref="TC-16" transition-spec="authorized user answers&#10;/ record decision">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="human-answer" edge="1" parent="1" source="pending" source-ref="IV 3.5.2 step 3; FR-28" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.6;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="answered" test-ref="TC-16" transition-spec="authorized user answers&#xa;/ record decision" value="authorized user answers">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="277.6" y="171.36" />
+              <mxPoint x="165.6" y="171.36" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tentative-decision" value="AI PI decides&#10;[autopilot; away; non-pinned]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="tentative" source-ref="IV 3.5.2 step 5; FR-31" test-ref="TC-17" transition-spec="AI PI decides&#10;[autopilot; away; non-pinned]" guard-expression="autopilot and away and not pinned">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="tentative-decision" edge="1" guard-expression="autopilot and away and not pinned" parent="1" source="pending" source-ref="IV 3.5.2 step 5; FR-31" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="tentative" test-ref="TC-17" transition-spec="AI PI decides&#xa;[autopilot; away; non-pinned]" value="AI PI decides [eligible]">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="user-review" value="User confirms or overturns" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="tentative" target="confirms" source-ref="IV 3.5.2 step 6; FR-31" test-ref="TC-17" transition-spec="userDecisionSubmitted">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="user-review" edge="1" parent="1" source="tentative" source-ref="IV 3.5.2 step 6; FR-31" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="confirms" test-ref="TC-17" transition-spec="userDecisionSubmitted" value="Decision submitted">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="confirmed-branch" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="confirms" target="confirmed" source-ref="IV 3.5.2 step 6; FR-31" test-ref="TC-17" effect="record confirmation in decision log" branch-answer="Yes" guard-expression="submitted decision is confirm" transition-spec="[Yes]">
-          <mxGeometry as="geometry" x="-0.8" relative="1">
+        <mxCell id="confirmed-branch" branch-answer="Yes" edge="1" effect="record confirmation in decision log" guard-expression="submitted decision is confirm" parent="1" source="confirms" source-ref="IV 3.5.2 step 6; FR-31" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="confirmed" test-ref="TC-17" transition-spec="[Yes]" value="[Yes]">
+          <mxGeometry relative="1" x="-0.8" as="geometry">
             <Array as="points">
-              <mxPoint x="1033.6" y="370.8" />
-              <mxPoint x="1033.6" y="489.6" />
-              <mxPoint x="940.0" y="489.6" />
+              <mxPoint x="921.6" y="370.8" />
+              <mxPoint x="921.6" y="489.6" />
+              <mxPoint x="828" y="489.6" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="overturned-branch" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="confirms" target="overturned" source-ref="IV 3.5.2 step 6; FR-31" test-ref="TC-17" effect="undo dependent work; mark affected objects stale; record overturn in decision log" branch-answer="No" guard-expression="submitted decision is overturn" transition-spec="[No]">
-          <mxGeometry as="geometry" x="-0.8" relative="1">
+        <mxCell id="overturned-branch" branch-answer="No" edge="1" effect="undo dependent work; mark affected objects stale; record overturn in decision log" guard-expression="submitted decision is overturn" parent="1" source="confirms" source-ref="IV 3.5.2 step 6; FR-31" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="overturned" test-ref="TC-17" transition-spec="[No]" value="[No]">
+          <mxGeometry relative="1" x="-0.8" as="geometry">
             <Array as="points">
-              <mxPoint x="659.2" y="370.8" />
+              <mxPoint x="547.2" y="370.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="pinned-timeout" value="pinned deadline passed&#10;[no answer]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.7;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="unanswered" source-ref="IV 3.5.2 step 4; FR-265" test-ref="TC-98; TC-100" transition-spec="pinned wait deadline passed&#10;[no answer]&#10;/ end run with gaps" guard-expression="pinned item and no answer">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="pinned-timeout" edge="1" guard-expression="pinned item and no answer" parent="1" source="pending" source-ref="IV 3.5.2 step 4; FR-265" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.7;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="unanswered" test-ref="TC-98; TC-100" transition-spec="pinned wait deadline passed&#xa;[no answer]&#xa;/ end run with gaps" value="Pinned deadline expires">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="512.3199999999999" y="273.6" />
-              <mxPoint x="500.8" y="273.6" />
+              <mxPoint x="400.32" y="273.6" />
+              <mxPoint x="388.8" y="273.6" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="spending-timeout" value="spending deadline passed&#10;[no answer]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.3;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="spending-expired" source-ref="IV 3.13; FR-91" test-ref="TC-33" transition-spec="spending deadline passed&#10;[no answer]&#10;/ end run with gaps" guard-expression="spending item and no answer">
-          <mxGeometry as="geometry" x="0.75" relative="1">
+        <mxCell id="spending-timeout" edge="1" guard-expression="spending item and no answer" parent="1" source="pending" source-ref="IV 3.13; FR-91" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.3;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="spending-expired" test-ref="TC-33" transition-spec="spending deadline passed&#xa;[no answer]&#xa;/ end run with gaps" value="Spending deadline expires">
+          <mxGeometry relative="1" x="0.75" as="geometry">
             <Array as="points">
-              <mxPoint x="155.2" y="154.08" />
-              <mxPoint x="155.2" y="496.8" />
-              <mxPoint x="284.8" y="496.8" />
+              <mxPoint x="43.2" y="154.08" />
+              <mxPoint x="43.2" y="496.8" />
+              <mxPoint x="172.8" y="496.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="pending-cancelled" value="run cancelled" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.1;entryX=0.2;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="closed-cancelled" source-ref="IV 3.4.1 alternative flow; FR-22; still pending" test-ref="TC-13" transition-spec="run cancelled">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="pending-cancelled" edge="1" parent="1" source="pending" source-ref="IV 3.4.1 alternative flow; FR-22; still pending" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.85;exitY=0;entryX=0.5;entryY=0;exitPerimeter=1;fontSize=11;entryDx=0;entryDy=0;" target="closed-cancelled" test-ref="TC-13" transition-spec="run cancelled" value="run cancelled">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="40.0" y="142.56" />
-              <mxPoint x="40.0" y="792.0" />
-              <mxPoint x="532.48" y="792.0" />
+              <mxPoint x="430.59" y="110.06" />
+              <mxPoint x="1231.18" y="110.06" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="tentative-cancelled" value="run cancelled" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.3;entryX=0.8;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="tentative" target="closed-cancelled" source-ref="IV 3.4.1 alternative flow; FR-22; awaiting user review" test-ref="TC-13" transition-spec="run cancelled">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="tentative-cancelled" edge="1" parent="1" source="tentative" source-ref="IV 3.4.1 alternative flow; FR-22; awaiting user review" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.3;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="closed-cancelled" test-ref="TC-13" transition-spec="run cancelled" value="run cancelled">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1177.6" y="154.08" />
-              <mxPoint x="1177.6" y="792.0" />
-              <mxPoint x="670.72" y="792.0" />
+              <mxPoint x="1044" y="154.08" />
+              <mxPoint x="1044" y="532.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="answered-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="266.8" y="446.4" width="21.6" height="21.6" />
+        <mxCell id="decision-final" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" uml-kind="final" value="" vertex="1">
+          <mxGeometry height="21.6" width="21.6" x="536.4" y="950.4" as="geometry" />
         </mxCell>
-        <mxCell id="answered-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="answered" target="answered-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="answered-complete" edge="1" parent="1" source="answered" source-ref="Completion of Decision Item lifecycle; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="decision-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280.8" y="403.2" />
+              <mxPoint x="280.8" y="792" />
+              <mxPoint x="547.2" y="792" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="unanswered-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="490.0" y="489.6" width="21.6" height="21.6" />
+        <mxCell id="spending-expired-complete" edge="1" parent="1" source="spending-expired" source-ref="Completion of Decision Item lifecycle; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="decision-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="172.8" y="792" />
+              <mxPoint x="547.2" y="792" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="unanswered-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="unanswered" target="unanswered-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="unanswered-complete" edge="1" parent="1" source="unanswered" source-ref="Completion of Decision Item lifecycle; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="decision-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="388.8" y="792" />
+              <mxPoint x="547.2" y="792" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="spending-expired-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="274.0" y="676.8" width="21.6" height="21.6" />
+        <mxCell id="overturned-complete" edge="1" parent="1" source="overturned" source-ref="Completion of Decision Item lifecycle; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="decision-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="547.2" y="792" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="spending-expired-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="spending-expired" target="spending-expired-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="confirmed-complete" edge="1" parent="1" source="confirmed" source-ref="Completion of Decision Item lifecycle; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="decision-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="828" y="792" />
+              <mxPoint x="547.2" y="792" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="confirmed-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="929.2" y="676.8" width="21.6" height="21.6" />
-        </mxCell>
-        <mxCell id="confirmed-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="confirmed" target="confirmed-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
-        </mxCell>
-        <mxCell id="overturned-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="648.4" y="676.8" width="21.6" height="21.6" />
-        </mxCell>
-        <mxCell id="overturned-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="overturned" target="overturned-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
-        </mxCell>
-        <mxCell id="closed-cancelled-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="590.8" y="950.4" width="21.6" height="21.6" />
-        </mxCell>
-        <mxCell id="closed-cancelled-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="closed-cancelled" target="closed-cancelled-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="closed-cancelled-complete" edge="1" parent="1" source="closed-cancelled" source-ref="Completion of Decision Item lifecycle; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="decision-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1231.2" y="792" />
+              <mxPoint x="547.2" y="792" />
+            </Array>
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
@@ -588,91 +607,85 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="pending" value="Pending" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="400.0" y="155.2" width="172.8" height="57.6" />
+          <mxGeometry as="geometry" x="400.0" y="112.0" width="172.8" height="57.6" />
         </mxCell>
         <mxCell id="sending" value="Sending" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="724.0" y="407.20000000000005" width="172.8" height="57.6" />
+          <mxGeometry as="geometry" x="724.0" y="364.0" width="172.8" height="57.6" />
         </mxCell>
         <mxCell id="skipped" value="Skipped" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="140.8" y="407.20000000000005" width="172.8" height="57.6" />
+          <mxGeometry as="geometry" x="140.8" y="364.0" width="172.8" height="57.6" />
         </mxCell>
         <mxCell id="sent" value="Sent" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="918.4" y="803.2" width="172.8" height="57.6" />
+          <mxGeometry as="geometry" x="918.4" y="760.0" width="172.8" height="57.6" />
         </mxCell>
         <mxCell id="failed" value="Failed" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="522.4" y="803.2" width="172.8" height="57.6" />
+          <mxGeometry as="geometry" x="522.4" y="760.0" width="172.8" height="57.6" />
         </mxCell>
         <mxCell id="start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="477.76" y="83.2" width="17.28" height="17.28" />
+          <mxGeometry as="geometry" x="477.76" y="40.0" width="17.28" height="17.28" />
         </mxCell>
-        <mxCell id="allowed" value="Should the email&#10;be sent?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" guard-no="external notice disallowed by policy or preferences" guard-yes="external notice allowed by policy and preferences" uml-kind="choice">
-          <mxGeometry as="geometry" x="389.2" y="284.8" width="194.4" height="79.2" />
+        <mxCell id="allowed" value="Should the email&#xa;be sent?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" guard-no="external notice disallowed by policy or preferences" guard-yes="external notice allowed by policy and preferences" uml-kind="choice">
+          <mxGeometry as="geometry" x="389.2" y="241.6" width="194.4" height="79.2" />
         </mxCell>
-        <mxCell id="success" value="Was delivery&#10;successful?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" guard-no="delivery failed" guard-yes="provider accepted delivery" uml-kind="choice">
-          <mxGeometry as="geometry" x="713.2" y="594.4" width="194.4" height="79.2" />
+        <mxCell id="success" value="Was delivery&#xa;successful?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" guard-no="delivery failed" guard-yes="provider accepted delivery" uml-kind="choice">
+          <mxGeometry as="geometry" x="713.2" y="551.1999999999999" width="194.4" height="79.2" />
         </mxCell>
-        <mxCell id="queue" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="pending" source-ref="IV 2.2.16 notification_emails; IV 3.7" test-ref="TC-38">
+        <mxCell id="queue" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="pending" source-ref="IV 2.2.16 notification_emails; IV 3.7" test-ref="TC-38">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="dispatch" value="Dispatch requested" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="allowed" source-ref="IV 2.2.16; FR-100; notification settings" test-ref="TC-38" transition-spec="dispatchRequested">
+        <mxCell id="dispatch" value="Dispatch requested" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="pending" target="allowed" source-ref="IV 2.2.16; FR-100; notification settings" test-ref="TC-38" transition-spec="dispatchRequested">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="skip" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="allowed" target="skipped" source-ref="IV 2.2.16 skipped; suppression condition proposed from settings" test-ref="TC-38" branch-answer="No" guard-expression="external notice disallowed by policy or preferences" transition-spec="[No]">
+        <mxCell id="skip" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="allowed" target="skipped" source-ref="IV 2.2.16 skipped; suppression condition proposed from settings" test-ref="TC-38" branch-answer="No" guard-expression="external notice disallowed by policy or preferences" transition-spec="[No]">
           <mxGeometry as="geometry" x="-0.7" relative="1">
             <Array as="points">
-              <mxPoint x="227.2" y="324.40000000000003" />
+              <mxPoint x="227.2" y="281.2" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="send" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="allowed" target="sending" source-ref="IV 2.2.16 sending; FR-100" test-ref="TC-38" branch-answer="Yes" guard-expression="external notice allowed by policy and preferences" transition-spec="[Yes]">
+        <mxCell id="send" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="allowed" target="sending" source-ref="IV 2.2.16 sending; FR-100" test-ref="TC-38" branch-answer="Yes" guard-expression="external notice allowed by policy and preferences" transition-spec="[Yes]">
           <mxGeometry as="geometry" x="-0.7" relative="1">
             <Array as="points">
-              <mxPoint x="810.4" y="324.40000000000003" />
+              <mxPoint x="810.4" y="281.2" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="delivery-result" value="Delivery result received" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="sending" target="success" source-ref="IV 2.2.16" test-ref="TC-38" transition-spec="deliveryResultReceived">
+        <mxCell id="delivery-result" value="Delivery result received" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="sending" target="success" source-ref="IV 2.2.16" test-ref="TC-38" transition-spec="deliveryResultReceived">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="delivery-no" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="success" target="failed" source-ref="IV 2.2.16 failed" test-ref="TC-38" branch-answer="No" guard-expression="delivery failed" transition-spec="[No]">
+        <mxCell id="delivery-no" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="success" target="failed" source-ref="IV 2.2.16 failed" test-ref="TC-38" branch-answer="No" guard-expression="delivery failed" transition-spec="[No]">
           <mxGeometry as="geometry" x="-0.7" relative="1">
             <Array as="points">
-              <mxPoint x="608.8" y="634.0" />
+              <mxPoint x="608.8" y="590.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="delivery-yes" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="success" target="sent" source-ref="IV 2.2.16 sent; provider accepted, not inbox proof" test-ref="TC-38" branch-answer="Yes" guard-expression="provider accepted delivery" transition-spec="[Yes]">
+        <mxCell id="delivery-yes" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="success" target="sent" source-ref="IV 2.2.16 sent; provider accepted, not inbox proof" test-ref="TC-38" branch-answer="Yes" guard-expression="provider accepted delivery" transition-spec="[Yes]">
           <mxGeometry as="geometry" x="-0.7" relative="1">
             <Array as="points">
-              <mxPoint x="1004.8" y="634.0" />
+              <mxPoint x="1004.8" y="590.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="retry" value="retry scheduled&#10;(proposed)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="failed" target="pending" source-ref="Design proposal for notification_emails; IV 2.2.16 attempts does not establish retry policy; no confirmed retry limit or terminal failure rule" test-ref="Design retry check" transition-spec="retry scheduled&#10;(proposed)">
+        <mxCell id="retry" value="Retry scheduled (proposed)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="failed" target="pending" source-ref="Design proposal for notification_emails; IV 2.2.16 attempts does not establish retry policy; no confirmed retry limit or terminal failure rule" test-ref="Design retry check" transition-spec="retry scheduled&#xa;(proposed)">
           <mxGeometry as="geometry" x="0.3" relative="1">
             <Array as="points">
-              <mxPoint x="608.8" y="932.8000000000001" />
-              <mxPoint x="40.0" y="932.8000000000001" />
-              <mxPoint x="40.0" y="184.0" />
+              <mxPoint x="608.8" y="889.6" />
+              <mxPoint x="40.0" y="889.6" />
+              <mxPoint x="40.0" y="140.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="scope-heading" value="Notification email (proposed delivery lifecycle)" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;text;strokeColor=none;fillColor=none;fontStyle=1;align=left;fontSize=14;" vertex="1" parent="1" uml-kind="text">
-          <mxGeometry as="geometry" x="140.8" y="40.0" width="900.0" height="25.2" />
-        </mxCell>
-        <mxCell id="retry-scope" value="Email retry policy is not specified. Failed can remain failed.&#10;This view does not define webhook or integration delivery states." style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;text;strokeColor=none;fillColor=none;fontStyle=1;align=left;fontSize=14;" vertex="1" parent="1" uml-kind="text">
-          <mxGeometry as="geometry" x="140.8" y="990.4" width="900.0" height="50.4" />
-        </mxCell>
         <mxCell id="skipped-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="216.4" y="536.8" width="21.6" height="21.6" />
+          <mxGeometry as="geometry" x="216.4" y="493.59999999999997" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="skipped-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="skipped" target="skipped-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
+        <mxCell id="skipped-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="skipped" target="skipped-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
         <mxCell id="sent-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="994.0" y="911.2" width="21.6" height="21.6" />
+          <mxGeometry as="geometry" x="994.0" y="868.0" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="sent-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="sent" target="sent-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
+        <mxCell id="sent-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="sent" target="sent-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
       </root>
@@ -692,10 +705,10 @@
         <mxCell id="resolved" value="Resolved alert" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
           <mxGeometry as="geometry" x="590.4" y="486.4" width="172.8" height="57.6" />
         </mxCell>
-        <mxCell id="raised" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="active" source-ref="IV 2.2.38 monitoring_alerts active; FR-104" test-ref="TC-05">
+        <mxCell id="raised" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="start" target="active" source-ref="IV 2.2.38 monitoring_alerts active; FR-104" test-ref="TC-05">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
-        <mxCell id="acknowledged" value="acknowledged" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.3;entryX=1;entryY=0.7;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="active" source-ref="III 3.9.9; IV 2.2.38 acknowledged_at; acknowledgement does not resolve status" test-ref="TC-05" transition-spec="acknowledged">
+        <mxCell id="acknowledged" value="acknowledged" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.3;entryX=1;entryY=0.7;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="active" source-ref="III 3.9.9; IV 2.2.38 acknowledged_at; acknowledgement does not resolve status" test-ref="TC-05" transition-spec="acknowledged">
           <mxGeometry as="geometry" x="0" relative="1">
             <Array as="points">
               <mxPoint x="669.6" y="129.28" />
@@ -703,7 +716,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="resolution-reported" value="resolution reported&#10;/ record resolved_at" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="resolved" source-ref="IV 2.2.38 status resolved; resolved_at; design event abstraction, no resolver or automatic resolution algorithm specified" test-ref="TC-05" transition-spec="resolution reported&#10;/ record resolved_at">
+        <mxCell id="resolution-reported" value="Resolution reported" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="active" target="resolved" source-ref="IV 2.2.38 status resolved; resolved_at; design event abstraction, no resolver or automatic resolution algorithm specified" test-ref="TC-05" transition-spec="resolution reported&#xa;/ record resolved_at">
           <mxGeometry as="geometry" x="0" relative="1">
             <Array as="points">
               <mxPoint x="345.6" y="356.79999999999995" />
@@ -714,85 +727,82 @@
         <mxCell id="resolved-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
           <mxGeometry as="geometry" x="666.0" y="616.0" width="21.6" height="21.6" />
         </mxCell>
-        <mxCell id="resolved-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="resolved" target="resolved-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
+        <mxCell id="resolved-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="resolved" target="resolved-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
           <mxGeometry as="geometry" x="0" relative="1" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Dossier Version" id="dossier-version" reference-style="fi2m-lifecycle-v1">
-    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1600" pageHeight="1600" background="#ffffff">
+    <mxGraphModel dx="1488" dy="885" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="dossier-start" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="initial">
-          <mxGeometry as="geometry" x="869.76" y="83.2" width="17.28" height="17.28" />
+        <mxCell id="dossier-start" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;fillColor=#000000;fontSize=12;" uml-kind="initial" value="" vertex="1">
+          <mxGeometry height="17.28" width="17.28" x="869.76" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-pending" value="Not approved" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="792.0" y="155.2" width="172.8" height="57.6" />
+        <mxCell id="dossier-pending" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Not approved" vertex="1">
+          <mxGeometry height="57.6" width="172.8" x="792" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-enough" value="Enough eligible&#10;approvals?" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" guard-no="eligible approvals below requirement" guard-yes="eligible approvals meet review settings" uml-kind="choice">
-          <mxGeometry as="geometry" x="781.2" y="299.2" width="194.4" height="79.2" />
+        <mxCell id="dossier-enough" guard-no="eligible approvals below requirement" guard-yes="eligible approvals meet review settings" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rhombus;whiteSpace=wrap;fontSize=12;" uml-kind="choice" value="Enough eligible&#xa;approvals?" vertex="1">
+          <mxGeometry height="79.2" width="194.4" x="781.2" y="256" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-approved" value="Approved" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="1080.0" y="450.40000000000003" width="172.8" height="57.6" />
+        <mxCell id="dossier-approved" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Approved" vertex="1">
+          <mxGeometry height="57.6" width="172.8" x="1080" y="407.2" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-superseded" value="Superseded" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" vertex="1" parent="1" uml-kind="state">
-          <mxGeometry as="geometry" x="792.0" y="803.2" width="172.8" height="57.6" />
+        <mxCell id="dossier-superseded" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;rounded=1;absoluteArcSize=1;arcSize=10;whiteSpace=wrap;fontSize=12;" uml-kind="state" value="Superseded" vertex="1">
+          <mxGeometry height="57.6" width="172.8" x="792" y="760" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-heading" value="Dossier version N" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;text;strokeColor=none;fillColor=none;fontStyle=1;align=left;fontSize=14;" vertex="1" parent="1" uml-kind="text">
-          <mxGeometry as="geometry" x="792.0" y="40.0" width="216.0" height="21.6" />
+        <mxCell id="dossier-create" edge="1" parent="1" source="dossier-start" source-ref="IV 3.14; FR-94; FR-249; accepted PaperPack and EvidenceBundle, check hashes" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-pending" test-ref="TC-35" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-create" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-start" target="dossier-pending" source-ref="IV 3.14; FR-94; FR-249; accepted PaperPack and EvidenceBundle, check hashes" test-ref="TC-35">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="dossier-approval" edge="1" parent="1" source="dossier-pending" source-ref="IV 3.14; FR-95; eligible approver under review settings" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-enough" test-ref="TC-35" transition-spec="approval recorded" value="approval recorded">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-approval" value="approval recorded" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-pending" target="dossier-enough" source-ref="IV 3.14; FR-95; eligible approver under review settings" test-ref="TC-35" transition-spec="approval recorded">
-          <mxGeometry as="geometry" x="0" relative="1" />
-        </mxCell>
-        <mxCell id="dossier-not-enough" value="[No]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-enough" target="dossier-pending" source-ref="FR-95; fewer eligible approvals than required" test-ref="TC-35" branch-answer="No" guard-expression="eligible approvals below requirement" transition-spec="[No]">
-          <mxGeometry as="geometry" x="-0.7" relative="1">
+        <mxCell id="dossier-not-enough" branch-answer="No" edge="1" guard-expression="eligible approvals below requirement" parent="1" source="dossier-enough" source-ref="FR-95; fewer eligible approvals than required" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-pending" test-ref="TC-35" transition-spec="[No]" value="[No]">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
             <Array as="points">
-              <mxPoint x="684.0" y="338.8" />
-              <mxPoint x="684.0" y="184.0" />
+              <mxPoint x="684" y="295.59999999999997" />
+              <mxPoint x="684" y="140.8" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="dossier-approval-yes" value="[Yes]" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-enough" target="dossier-approved" source-ref="FR-95; enough eligible approvals" test-ref="TC-35" branch-answer="Yes" guard-expression="eligible approvals meet review settings" transition-spec="[Yes]">
-          <mxGeometry as="geometry" x="-0.7" relative="1">
+        <mxCell id="dossier-approval-yes" branch-answer="Yes" edge="1" guard-expression="eligible approvals meet review settings" parent="1" source="dossier-enough" source-ref="FR-95; enough eligible approvals" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.5;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-approved" test-ref="TC-35" transition-spec="[Yes]" value="[Yes]">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
             <Array as="points">
-              <mxPoint x="1166.4" y="338.8" />
+              <mxPoint x="1166.4" y="295.59999999999997" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="dossier-export" value="pinned export authorized&#10;/ export; audit version + format" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.3;exitY=1;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-approved" target="dossier-approved" source-ref="FR-97; FR-98; pinned export approval, audit version and format" test-ref="TC-36" transition-spec="pinned export authorized&#10;/ export; audit version + format">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="dossier-export" edge="1" parent="1" source="dossier-approved" source-ref="FR-97; FR-98; pinned export approval, audit version and format" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.3;exitY=1;entryX=0;entryY=0.5;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-approved" test-ref="TC-36" transition-spec="pinned export authorized&#xa;/ export; audit version + format" value="Export authorized">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1131.84" y="608.8000000000001" />
-              <mxPoint x="1029.6" y="608.8000000000001" />
-              <mxPoint x="1029.6" y="479.20000000000005" />
+              <mxPoint x="1131.84" y="565.6" />
+              <mxPoint x="1029.6" y="565.6" />
+              <mxPoint x="1029.6" y="436" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="dossier-pending-superseded" value="new accepted version" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.25;entryX=1;entryY=0.8;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-pending" target="dossier-superseded" source-ref="FR-96; FR-251; FR-252; new accepted EvidenceBundle or PaperPack; N+1 needs new approvals" test-ref="TC-35" transition-spec="new accepted version">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="dossier-pending-superseded" edge="1" parent="1" source="dossier-pending" source-ref="FR-96; FR-251; FR-252; new accepted EvidenceBundle or PaperPack; N+1 needs new approvals" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=1;exitY=0.25;entryX=1;entryY=0.8;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-superseded" test-ref="TC-35" transition-spec="new accepted version" value="new accepted version">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1324.8" y="169.6" />
-              <mxPoint x="1324.8" y="849.28" />
+              <mxPoint x="1324.8" y="126.4" />
+              <mxPoint x="1324.8" y="806.0799999999999" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="dossier-approved-superseded" value="new accepted version" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.8;exitY=1;entryX=1;entryY=0.2;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-approved" target="dossier-superseded" source-ref="FR-96; FR-251; FR-252; old approvals retained as history" test-ref="TC-35" transition-spec="new accepted version">
-          <mxGeometry as="geometry" x="0" relative="1">
+        <mxCell id="dossier-approved-superseded" edge="1" parent="1" source="dossier-approved" source-ref="FR-96; FR-251; FR-252; old approvals retained as history" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.8;exitY=1;entryX=1;entryY=0.2;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-superseded" test-ref="TC-35" transition-spec="new accepted version" value="new accepted version">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1218.24" y="814.72" />
+              <mxPoint x="1218.24" y="771.52" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="dossier-superseded-final" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" vertex="1" parent="1" uml-kind="final">
-          <mxGeometry as="geometry" x="867.6" y="940.0" width="21.6" height="21.6" />
+        <mxCell id="dossier-superseded-final" parent="1" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;ellipse;shape=endState;fillColor=#000000;fontSize=12;" uml-kind="final" value="" vertex="1">
+          <mxGeometry height="21.6" width="21.6" x="867.6" y="896.8" as="geometry" />
         </mxCell>
-        <mxCell id="dossier-superseded-complete" value="" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" edge="1" parent="1" source="dossier-superseded" target="dossier-superseded-final" source-ref="UML completion within the depicted lifecycle scope; history remains stored" test-ref="Design completion check">
-          <mxGeometry as="geometry" x="0" relative="1" />
+        <mxCell id="dossier-superseded-complete" edge="1" parent="1" source="dossier-superseded" source-ref="UML completion within the depicted lifecycle scope; history remains stored" style="html=1;fontFamily=Arial;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;dashed=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;fontSize=11;" target="dossier-superseded-final" test-ref="Design completion check" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

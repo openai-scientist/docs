@@ -36,7 +36,7 @@ Nguồn chính: `C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md`, phần III 3.2
 | ProjectRole | Project Manager, Researcher, Reviewer; literal chữ hoa là cách đặt tên đề xuất, không khẳng định enum code hiện tại. |
 | EmailDelivery / GoogleIdentityProvider | Dịch vụ ngoài hỗ trợ hai cách sign-in. Operation là contract khái niệm của view; không chốt nhà cung cấp email hoặc SDK. |
 
-User liên kết với 0..* AuthSession; mỗi session xác thực một User. Không dùng composition vì report chưa chốt vòng đời xóa dữ liệu. Các dependency nét đứt chỉ diễn tả sử dụng, không biểu diễn thứ tự gọi hoặc thứ tự xử lý.
+User liên kết với 0..* AuthSession; mỗi session xác thực một User. Theo [Mermaid](Class-Diagrams-Mermaid.md), quan hệ này được biểu diễn bằng composition với thoi đặc ở User như một lựa chọn mô hình hóa; không tự suy ra quy tắc xóa dữ liệu hoặc xác nhận toàn bộ vòng đời runtime. Các dependency nét đứt chỉ diễn tả sử dụng, không biểu diễn thứ tự gọi hoặc thứ tự xử lý.
 
 Không thêm interface/implementation hoặc repository chưa được chốt chỉ để giống ảnh mẫu. Chi tiết persistence và DTO không nằm trong bản này. Các kiểu phụ được dùng trong signature:
 

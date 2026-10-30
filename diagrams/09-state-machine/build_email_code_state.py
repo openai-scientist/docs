@@ -22,7 +22,7 @@ def build():
 
     def edge(key, source, target, text='', ports=(.5, 1, .5, 0), points=(), offset=(0, 0)):
         sx, sy, tx, ty = ports
-        style = BASE + f'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endSize=10;endFill=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX={sx};exitY={sy};entryX={tx};entryY={ty};exitPerimeter=1;entryPerimeter=1;'
+        style = BASE + f'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=classic;endSize=7;endFill=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;exitX={sx};exitY={sy};entryX={tx};entryY={ty};exitPerimeter=1;entryPerimeter=1;'
         answer = text if source == 'valid-code' and text in {'Yes', 'No'} else None
         cell = E.SubElement(root, 'mxCell', id=key, value=f'[{answer}]' if answer else text, style=style, edge='1', parent='1', source=source, target=target)
         if answer:
