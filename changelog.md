@@ -192,6 +192,29 @@
 Định dạng theo [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là đường dẫn tương đối từ repository root.
 
+## 2026-10-30 — Report 7 mục V: viết gọn theo mẫu SEP490
+
+- Viết lại mục V của [Report 7 docx](deliverables/FA26SE115_Report7.docx) theo đúng khung của template `docs/example/2_SEP490/Report7_Final Project Report.docx` và bài mẫu GSU26SE41:
+  - Mục 1–3 chỉ gồm bảng ngắn: Scope, Testing Types, Test Levels, Supporting Tools, Human Resources, Test Environment, Test Milestones.
+  - Mục 4–5 gồm tên workbook Report 5 kèm ảnh chụp sheet và caption.
+  - Mục V giảm từ khoảng 50 trang xuống 4 trang.
+  - Bỏ 101 test case thiết kế "Not run", ma trận FR và catalogue benchmark.
+- Nguồn nội dung là [S5 supplement](deliverables/supplements/S5-testing.md). Script [inject_report_v.py](deliverables/tests/inject_report_v.py) chèn nội dung vào docx và render ảnh từ workbook.
+- Mục lục: đổi tên 4.1, 4.2, 5.1 và 5.2. Số trang cần update field trong Word.
+- Không sửa [report/05-software-testing-documentation.md](report/05-software-testing-documentation.md) (leader). Mục V của docx giờ khác bản md này, cần báo leader.
+- Unit Test workbook:
+  - Sửa version Python từ 3.13 thành 3.12.
+  - Dọn các hyperlink còn sót từ template ở sheet Functions và Statistics.
+  - Thu hẹp cột N/A/B.
+- Validation: render PDF bằng LibreOffice, xem lại các trang 175–179. Không còn hyperlink trỏ tới sheet không tồn tại.
+
+## 2026-10-30 — Report 5: Unit Test và System Test Report
+
+- Thêm [Unit Test workbook](<deliverables/FA26SE115_Report5_Unit Test.xlsx>) theo template SEP490: 40 function của management service, 330 UTCID (N 125 / A 113 / B 92). Spec nằm ở [unit_spec.py](deliverables/tests/unit_spec.py) và [unit_spec_more.py](deliverables/tests/unit_spec_more.py). Thêm nhóm 20 function thứ hai gồm Google sign-in, session, import dữ liệu, live view, integration, email/stream thông báo, settings và model admin, gate, send back, accept, replay, Local Node job và monitoring. Hai biểu đồ ở sheet Statistics được trỏ lại vào dòng Sub total và dời xuống dưới bảng. Kết quả P/F lấy từ JUnit của lần chạy pytest thật: `uv run --package management pytest -n 4 -m "not live and not bench"`, 1833 passed, 50 skipped, logos commit af201866. Tất cả 330 case đều Passed.
+- Thêm [Test Report workbook](<deliverables/FA26SE115_Report5_Test Report.xlsx>): 8 feature, 58 system test case, chạy thật qua HTTP trên local docker stack 3 round (2026-10-30). Mỗi round đều ra 48 Passed, 1 Failed, 9 Pending. Hai lần chạy bị hỏng vì script không đăng nhập được (giới hạn số mã gửi cho mỗi email trong một giờ dẫn tới 401 dây chuyền). Đó là lỗi của script, không phải của app, nên không tính; kết quả được giữ ở `deliverables/tests/round*-aborted*.json`. Script đã được sửa để chờ mã mới tối đa 70 phút. Các case Pending là Research Run cần LLM provider (409 MODELS_NOT_CONFIGURED).
+- Defect DEF-01 (ST-AD-03): Platform Admin không phải member vẫn đọc được dataset (HTTP 200), do `ProjectAccess.can_read_raw_data` trả True khi `is_admin`. Điều này mâu thuẫn với BR-06 / UC-02 trong [report/03](report/03-software-requirements-specification.md). Cần báo leader.
+- Script sinh và dữ liệu ở [deliverables/tests/](deliverables/tests/). Không sửa BRD/PRD/Use Case Spec, vì đây là artifact kiểm thử.
+- Validation: render cả hai workbook bằng LibreOffice, kiểm tra công thức thống kê ra 48/1/9/58 và 139 case.
 ## 2026-10-30 — Khôi phục State Diagram Data Management
 
 - Theo yêu cầu mới, [tab Data Management](diagrams/09-state-machine/03-Data-Management.png) mô tả vòng đời một Local Node pairing với project: Unpaired, Paired online, Paired offline, Revoked. Nguồn UC-08/31 và FR-85/87/110/241/242; state là nhãn khái niệm, không khẳng định enum triển khai. Revocation từ online/offline chặn local jobs, nêu lý do và giữ published objects readable; final chỉ kết thúc pairing hiện tại, không tự thêm re-pairing.

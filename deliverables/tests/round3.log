@@ -1,0 +1,58 @@
+ST-AUTH-01   Passed   HTTP 200, code found in mail log
+ST-AUTH-02   Passed   HTTP 400
+ST-AUTH-03   Passed   verify HTTP 200, me HTTP 200
+ST-AUTH-04   Passed   HTTP 400
+ST-AUTH-05   Passed   HTTP 403
+ST-AUTH-06   Passed   HTTP 401
+ST-AUTH-07   Passed   HTTP 200
+ST-AUTH-08   Passed   logout HTTP 200, me HTTP 401
+ST-PRJ-01    Passed   HTTP 201
+ST-PRJ-02    Passed   HTTP 422
+ST-PRJ-03    Passed   HTTP 200, 0 projects
+ST-PRJ-04    Passed   HTTP 404
+ST-PRJ-05    Passed   HTTP 201
+ST-PRJ-06    Passed   HTTP 422
+ST-PRJ-07    Passed   accept HTTP 200, project HTTP 200
+ST-PRJ-08    Passed   HTTP 200, version 0->1
+ST-PRJ-09    Passed   HTTP 409
+ST-PRJ-10    Passed   HTTP 403
+ST-PRJ-11    Passed   HTTP 200, 4 entries
+ST-DS-01     Passed   HTTP 201
+ST-DS-02     Passed   HTTP 415
+ST-DS-03     Passed   HTTP 201, 2 versions
+ST-DS-04     Passed   HTTP 200
+ST-DS-05     Passed   HTTP 200, 784 bytes
+ST-DS-06     Passed   HTTP 404
+ST-DS-07     Passed   HTTP 200
+ST-CN-01     Passed   HTTP 201
+ST-CN-02     Passed   HTTP 422, connections 1->1
+ST-CN-03     Passed   HTTP 422
+ST-CN-04     Passed   HTTP 200
+ST-CN-05     Passed   HTTP 200
+ST-CN-06     Passed   HTTP 201
+ST-CN-07     Passed   HTTP 422
+ST-CN-08     Passed   HTTP 200
+ST-LN-01     Passed   HTTP 201, list HTTP 200
+ST-LN-02     Passed   HTTP 404
+ST-LN-03     Passed   HTTP 204
+ST-LN-04     Passed   HTTP 404
+ST-RUN-01    Passed   HTTP 422
+ST-RUN-02    Passed   HTTP 409 MODELS_NOT_CONFIGURED, 0 runs
+ST-RUN-03    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-04    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-05    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-06    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-07    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-08    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-09    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-10    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-RUN-11    Pending  Pending: no LLM provider is configured on the local stack (/admin/models stage and review are null), so no run can start; needs a provider key set by the Platform Admin
+ST-NT-01     Passed   HTTP 200
+ST-NT-02     Passed   200/200/200, count=0
+ST-AD-01     Passed   HTTP 200
+ST-AD-02     Passed   HTTP 403
+ST-AD-03     Failed   usage 200, dataset 200
+ST-AD-04     Passed   200/200
+ST-PRJ-12    Passed   archive 200, patch 409, restore 200
+ST-PRJ-13    Passed   HTTP 200
+ST-PRJ-14    Passed   delete 200, get 404
