@@ -18,6 +18,9 @@ Giữ một trang, actor hai bên, ellipse theo cụm như ảnh của bạn. Kh
 
 ## 2. Sửa, thêm và xóa actor
 
+**Chốt phạm vi hiện tại: 6 actor — User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider.** Không vẽ Local Node, Persona, AI PI, Google hoặc Email. Bỏ qua UC-08, UC-30, UC-31 trong lần vẽ này; giữ nguyên mã các UC khác, không đánh lại số. Còn 38 UC trong view hiện tại, cộng một helper validate. BRD/PRD/Report7 vẫn có đầy đủ phạm vi gốc, chưa bị sửa.
+
+
 | Thao tác | Actor cũ | Actor cuối cùng | Đường cần xử lý |
 |---|---|---|---|
 | Giữ | Project Manager | Project Manager | Nối theo bảng §3 và thêm generalization tại §5 |
@@ -25,14 +28,15 @@ Giữ một trang, actor hai bên, ellipse theo cụm như ảnh của bạn. Kh
 | Thêm | Chưa có | User | Người truy cập trước khi đăng nhập, bao gồm guest; chỉ nối UC-01 bằng association. Đây là actor truy cập, không phải role project mới |
 | Giữ | Reviewer | Reviewer | Nối theo bảng §3; không nối Lock/Export |
 | Đổi tên | System Administrator | Platform Admin | Xóa association cũ, nối lại đúng bảng §3 |
-| Xóa và thay vai trò | Decision Model Provider | AI PI | Xóa cả hai đường cũ tới Select Hypothesis và Evaluate Hypotheses. Tạo AI PI bên phải, chỉ nối UC-14 và UC-17 |
-| Xóa và thay vai trò | AI Provider | Persona | Xóa ba association cũ của AI Provider. Thêm actor Persona theo Report III §2.1; nối UC-18, UC-19, UC-20, UC-22, UC-25, UC-27, UC-41. Chú thích maker/guard theo từng UC |
-| Thêm | Chưa có | Local Node | Bên phải cụm dataset; nối UC-08, UC-30, UC-31 |
-| Không tạo riêng | Persona (guard) | Dùng chung actor Persona ở dòng trên | UC-27 là guard; UC-18/19/20/22/25/41 là maker của stage tương ứng. Đây không phải Reviewer là người |
+| Xóa | Decision Model Provider | Không tạo actor thay thế | Xóa actor và hai đường cũ tới Select Hypothesis/Evaluate Hypotheses; không thêm AI PI |
+| Giữ tên | AI Provider | AI Provider | Giữ actor hỗ trợ model; nối bằng association không mũi tên tới UC-19, UC-20, UC-25. Không nối Select Hypothesis/Lock/Approve/Export |
+| Không vẽ | Persona | Thành phần xử lý nội bộ | Không tạo actor hoặc association Persona; giữ chức năng stage/review trong các UC |
+| Chưa đưa vào view hiện tại | Local Node | Không vẽ | Chưa vẽ actor và UC-08/30/31; không có đường nối Local Node |
+| Không vẽ | Persona (guard) | Xử lý review nội bộ | UC-27 vẫn giữ; Reviewer là actor người, khác guard |
 
-Không thêm Google hoặc Email vào bản vẽ này. Dùng một actor `User` cho UC-01 để bao phủ cả guest; dùng các role Researcher/Reviewer cho UC-38, PM kế thừa Researcher. Không cần thêm actor Any member. Dùng chung một actor `Persona` cho các persona được liệt kê trong mô tả UC để không làm sơ đồ đông hơn. Không vẽ generalization Persona → AI PI: tài liệu chỉ cần hai actor độc lập với phạm vi hành động rõ ràng.
+Không thêm Google hoặc Email vào bản vẽ này. Dùng một actor `User` cho UC-01 để bao phủ cả guest; dùng các role Researcher/Reviewer cho UC-38, PM kế thừa Researcher. Không cần thêm actor Any member. Persona nằm trong boundary sản phẩm nên không vẽ thành actor. Không tạo actor AI PI và không chuyển quyền quyết định tạm của nó sang AI Provider.
 
-Report III §2.1 liệt kê Persona nhưng không liệt kê LLM provider như actor của Use Case. Vì vậy bỏ LLM provider khỏi phương án mặc định; nhà cung cấp model vẫn có thể xuất hiện ở context/architecture. Local Node là supporting actor bổ sung suy ra từ UC-08/30/31 và scope Local Node, không phải role quyền mới hoặc một dòng có sẵn trong bảng actor §2.1.
+Theo lựa chọn mới của người dùng, giữ AI Provider làm actor hỗ trợ thay vì dùng tên LLM provider. Đây là lựa chọn trình bày khác bảng actor Report III §2.1; không coi AI Provider là AI PI hoặc Persona. Report/BRD/PRD vẫn còn AI PI: bỏ actor khỏi diagram chỉ là lược bỏ chi tiết ở view này, không tự xóa chức năng quyết định tạm khỏi sản phẩm. Local Node và các UC riêng của nó được để ngoài phạm vi lần vẽ hiện tại theo yêu cầu người dùng.
 
 ## 3. Bảng thao tác cho từng oval và từng association
 
@@ -51,30 +55,27 @@ Project Manager kế thừa toàn bộ association của Researcher qua generali
 | UC-05 | **Đổi tên** `Monitor System` | UC-05 Review audit log, health and operating metrics | Platform Admin | Gần cụm quản trị ở trên phải |
 | UC-06 | **Đổi tên** `Upload Dataset` | UC-06 Upload a dataset | Researcher | Gần cụm dataset hiện tại |
 | UC-07 | **Thêm oval mới** | UC-07 Import from a data connection | Researcher | Gần cụm dataset hiện tại |
-| UC-08 | **Thêm oval mới** | UC-08 Pair a Local Node and register local data | Researcher; Local Node | Gần cụm dataset hiện tại |
 | UC-09 | **Đổi tên** `Manage Research Definition` | UC-09 Start a run from a research case | Researcher | Gần cụm research case/run hiện tại |
 | UC-10 | **Đổi tên** `Define Research Question` | UC-10 Amend a research case | Researcher | Gần cụm research case/run hiện tại |
 | UC-11 | **Thêm oval mới** | UC-11 Accept a hand-off object | Researcher | Gần cụm research case/run hiện tại |
 | UC-12 | **Đổi tên** `View Research State` | UC-12 Monitor and recover a run | Researcher | Gần cụm research case/run hiện tại |
 | UC-13 | **Thêm oval mới** | UC-13 Cancel a run | Researcher; Project Manager | Gần cụm research case/run hiện tại |
-| UC-14 | **Thêm oval mới** | UC-14 Choose the next step | Researcher; AI PI | Gần cụm finding/collaboration hiện tại |
+| UC-14 | **Thêm oval mới** | UC-14 Choose the next step | Researcher | Gần cụm finding/collaboration hiện tại |
 | UC-15 | **Thêm oval mới** | UC-15 Set preset and presence | Researcher | Gần cụm hypothesis/decision hiện tại |
 | UC-16 | **Đổi tên** `Review Hypothesis Decision` | UC-16 Answer a decision inbox item | Researcher | Gần cụm hypothesis/decision hiện tại |
-| UC-17 | **Thêm oval mới** | UC-17 Confirm or overturn a tentative decision | Researcher; AI PI | Gần cụm hypothesis/decision hiện tại |
-| UC-18 | **Thêm oval mới** | UC-18 Run the dataset stage | Researcher; Persona  (maker) | Gần cụm dataset hiện tại |
-| UC-19 | **Đổi tên** `Manage Hypotheses` | UC-19 Run the hypothesis stage | Researcher; Persona  (maker) | Gần cụm hypothesis/review hiện tại |
-| UC-20 | **Đổi tên** `Create Experiment Plan` | UC-20 Run the experiment_design stage | Researcher; Persona  (maker) | Gần cụm experiment hiện tại |
+| UC-17 | **Thêm oval mới** | UC-17 Confirm or overturn a tentative decision | Researcher | Gần cụm hypothesis/decision hiện tại |
+| UC-18 | **Thêm oval mới** | UC-18 Run the dataset stage | Researcher | Gần cụm dataset hiện tại |
+| UC-19 | **Đổi tên** `Manage Hypotheses` | UC-19 Run the hypothesis stage | Researcher; AI Provider | Gần cụm hypothesis/review hiện tại |
+| UC-20 | **Đổi tên** `Create Experiment Plan` | UC-20 Run the experiment_design stage | Researcher; AI Provider | Gần cụm experiment hiện tại |
 | UC-21 | **Thêm oval mới** | UC-21 Lock a plan | Researcher | Gần cụm experiment hiện tại |
-| UC-22 | **Đổi tên** `Run Experiment` | UC-22 Run the execution stage | Researcher; Persona  (maker) | Gần cụm experiment hiện tại |
+| UC-22 | **Đổi tên** `Run Experiment` | UC-22 Run the execution stage | Researcher | Gần cụm experiment hiện tại |
 | UC-23 | **Đổi tên** `Review Experiment Result` | UC-23 Read verdict, grade and claim ceiling | Researcher; Reviewer | Gần cụm experiment hiện tại |
 | UC-24 | **Thêm oval mới** | UC-24 Triage exploration candidates | Researcher | Gần cụm experiment hiện tại |
-| UC-25 | **Đổi tên** `Generate & Review Manuscript Draft` | UC-25 Run the paper stage | Researcher; Persona  (maker) | Gần cụm outputs/paper hiện tại |
+| UC-25 | **Đổi tên** `Generate & Review Manuscript Draft` | UC-25 Run the paper stage | Researcher; AI Provider | Gần cụm outputs/paper hiện tại |
 | UC-26 | **Thêm oval mới** | UC-26 Decide on submission | Researcher | Gần cụm outputs/paper hiện tại |
-| UC-27 | **Đổi tên** `Perform Automated Manuscript Review` | UC-27 Run the review loop | Researcher; Persona  (guard) | Gần cụm outputs/paper hiện tại |
+| UC-27 | **Đổi tên** `Perform Automated Manuscript Review` | UC-27 Run the review loop | Researcher | Gần cụm outputs/paper hiện tại |
 | UC-28 | **Thêm oval mới** | UC-28 Invoke a persona on an object | Researcher | Gần cụm hypothesis/review hiện tại |
 | UC-29 | **Đổi tên** `Run Benchmark` | UC-29 Run the benchmarks | Platform Admin | Gần cụm quản trị ở trên phải |
-| UC-30 | **Thêm oval mới** | UC-30 Release an aggregate from local data | Researcher; Local Node | Gần cụm dataset hiện tại |
-| UC-31 | **Thêm oval mới** | UC-31 Handle a Local Node that is offline or revoked | Researcher; Local Node | Gần cụm dataset hiện tại |
 | UC-32 | **Thêm oval mới** | UC-32 Warn on and enforce budgets | Project Manager | Gần cụm project ở trên trái |
 | UC-33 | **Thêm oval mới** | UC-33 Decide extra spend | Project Manager | Gần cụm project ở trên trái |
 | UC-34 | **Đổi tên** `View Usage & Cost` | UC-34 Set the spending ceiling and read the ledger | Platform Admin; Project Manager | Gần cụm quản trị ở trên phải |
@@ -84,14 +85,14 @@ Project Manager kế thừa toàn bộ association của Researcher qua generali
 | UC-38 | **Thêm oval mới** | UC-38 Receive notifications | Researcher; Reviewer | Gần cụm finding/collaboration hiện tại |
 | UC-39 | **Đổi tên** `Manage Users & Roles` | UC-39 Manage users, models and keys | Platform Admin | Gần cụm quản trị ở trên phải |
 | UC-40 | **Thêm oval mới** | UC-40 Build a journal profile (Could, after MVP) | Researcher | Gần cụm outputs/paper hiện tại |
-| UC-41 | **Đổi tên** `Run Ablation Study` | UC-41 Compare methods (Should, after MVP) | Researcher; Persona  (maker) | Gần cụm hypothesis/review hiện tại |
+| UC-41 | **Đổi tên** `Run Ablation Study` | UC-41 Compare methods (Should, after MVP) | Researcher | Gần cụm hypothesis/review hiện tại |
 
 Lưu ý cụ thể về các association:
 
 - UC-01: chỉ vẽ `User — UC-01` bằng association. User bao gồm người chưa đăng nhập; không dùng riêng bốn role đã được cấp quyền để thay toàn bộ actor đăng nhập. Không nối Google/Email/Persona vào UC-01.
 - UC-13: Researcher chỉ hủy run do mình tạo; PM hủy được run của project. Giữ cả hai association vì điều kiện khác nhau.
-- UC-17: đường từ AI PI chỉ nói nó tạo quyết định tạm; **chỉ Researcher/PM xác nhận hoặc lật quyết định**. AI PI không có quyền tự xác nhận.
-- UC-18/19/20/22/25/27/41: cùng nối actor `Persona`; chữ `(maker)`/`(guard)` trong bảng là ghi chú phạm vi, không yêu cầu thêm bảy actor. UC-27 có cả Researcher và Persona (guard), đúng mô tả chi tiết.
+- UC-14/17: chỉ nối Researcher (PM kế thừa). Không thêm AI PI hoặc nối AI Provider thay nó. UC-17 vẫn là người xác nhận/lật quyết định tạm đã có, không phải nhà cung cấp model tự duyệt.
+- UC-18/19/20/22/25/27/41: không vẽ actor Persona hoặc đường nối Persona; maker/guard là xử lý nội bộ. Chỉ giữ AI Provider ở UC-19/20/25 như bảng.
 - UC-23: Reviewer được đọc verdict, grade và claim ceiling, nên có association riêng.
 - UC-34: Admin đặt spending ceiling và xem ledger; PM đọc ledger của project. Không hiểu đường PM là quyền đặt system ceiling.
 - UC-35: Reviewer và PM duyệt theo review settings. Researcher không có association duyệt riêng.
@@ -100,7 +101,7 @@ Lưu ý cụ thể về các association:
 
 ## 4. Xóa những oval nào
 
-Sau khi đổi tên theo §3, **xóa toàn bộ các oval cũ dưới đây và tất cả đường chạm chúng**. Nội dung đã được gom vào UC tương ứng hoặc không còn là UC riêng trong danh mục hiện hành. Đây là phương án trình bày đủ 41 UC, không có nghĩa xóa chức năng khỏi sản phẩm.
+Sau khi đổi tên theo §3, **xóa toàn bộ các oval cũ dưới đây và tất cả đường chạm chúng**. Nội dung đã được gom vào UC tương ứng hoặc không còn là UC riêng trong danh mục hiện hành. Đây là phương án trình bày 38 UC trong phạm vi đã chốt, không có nghĩa xóa chức năng khỏi sản phẩm.
 
 - [ ] Xóa `Manage Research Project` và các đường nối vào/ra nó.
 - [ ] Xóa `Define Initial Hypothesis` và các đường nối vào/ra nó.
@@ -149,7 +150,7 @@ Sau khi đổi tên theo §3, **xóa toàn bộ các oval cũ dưới đây và 
 - [ ] Xóa `Assess Idea Novelty` và các đường nối vào/ra nó.
 - [ ] Xóa `Clean Dataset` và các đường nối vào/ra nó.
 
-**Giữ duy nhất oval phụ `Validate Dataset`** ngoài danh sách 41 UC; không gán mã UC mới. Có thể sửa nhãn thành `Validate uploaded dataset` để phân biệt kiểm tra file nhập với đánh giá fitness của dataset stage. Đây là hành vi bắt buộc trong flow UC-06 (format, size, readable table), không phải một stage mới.
+**Giữ duy nhất oval phụ `Validate Dataset`** ngoài danh sách 38 UC đang vẽ; không gán mã UC mới. Có thể sửa nhãn thành `Validate uploaded dataset` để phân biệt kiểm tra file nhập với đánh giá fitness của dataset stage. Đây là hành vi bắt buộc trong flow UC-06 (format, size, readable table), không phải một stage mới.
 
 ## 5. Nối giữa actor và giữa các oval: danh sách cuối cùng
 
@@ -235,7 +236,7 @@ Bảng sau là danh sách đường gốc cần xóa; chiều được ghi chỉ
 
 ### 5.4 Xóa các association actor cũ, vẽ lại theo §3
 
-Để không sót đường sai sau khi đổi nhãn: xóa các association actor–oval hiện tại rồi vẽ lại đúng cột actor của §3. Không giữ mặc định `Researcher — Manage Evaluation`: benchmark thuộc Platform Admin (UC-29). Không giữ `Decision Model Provider — Select Hypothesis/Evaluate Hypotheses`. Không thay ba đường của AI Provider bằng LLM provider: dùng các association của Persona theo §3.
+Để không sót đường sai sau khi đổi nhãn: xóa các association actor–oval hiện tại rồi vẽ lại đúng cột actor của §3. Không giữ mặc định `Researcher — Manage Evaluation`: benchmark thuộc Platform Admin (UC-29). Không giữ `Decision Model Provider — Select Hypothesis/Evaluate Hypotheses`. Giữ tên AI Provider, nối lại ba đường hỗ trợ model tới UC-19/20/25 theo §3; không gán quyền lựa chọn hoặc duyệt cho nhà cung cấp.
 
 Kết quả giữa các oval chỉ còn include UC-06 → Validate uploaded dataset; giữa các actor chỉ còn generalization PM → Researcher. Các đường còn lại đều là association actor–UC theo §3.
 
@@ -257,21 +258,21 @@ Chỉ dùng text/UML Note, không biến các dòng sau thành oval mới:
 
 1. `PM inherits Researcher capabilities (BR-80).`
 2. Cạnh UC-13: `Researcher: own run only; PM: any project run.`
-3. Cạnh AI PI/UC-17: `Tentative unpinned decisions only when autopilot + away; no pinned decisions or run termination.`
+3. Cạnh AI Provider: `Model service only; no hypothesis selection, plan lock, approval or export authority.`
 4. Cạnh Platform Admin: `Project metadata only unless also a project member.`
 5. Cạnh UC-35: `Approvals bind one Dossier version and follow project review settings; new version requires new approval.`
 6. Cạnh UC-34: `Admin sets system spending ceiling; PM reads project ledger.`
-7. Cạnh UC-30: `Local rows stay on Local Node; only aggregates passing release gate may leave.`
+7. Không thêm note hoặc đường nối Local Node trong view hiện tại.
 8. Cạnh UC-26: `User decides submission; no automatic publisher submission.`
 
 ## 8. Trình tự thao tác và kiểm tra cuối
 
 1. Sửa boundary và actor theo §1–2.
 2. Xóa đường UC–UC ở §5.3 và association actor cũ ở §5.4; giữ include upload–validate.
-3. Đổi tên 20 oval, thêm 21 oval theo §3; xóa các oval liệt kê ở §4. Không thêm module box.
+3. Đổi tên 20 oval, thêm 18 oval theo §3; xóa các oval liệt kê ở §4. Không thêm module box.
 4. Vẽ lại association actor–UC đúng từng dòng §3; thêm PM generalization và chỉnh include ở §5.
 5. Đặt notes §6–7; giữ UC-40/41 có nhãn sau MVP.
-6. Kiểm tra: đủ 41 mã UC duy nhất + một helper validate; actor ở ngoài, oval ở trong; không có Google/Email; đường chạm biên ellipse, không xuyên chữ/hình.
+6. Kiểm tra: đủ 38 mã UC duy nhất (bỏ UC-08/30/31, không đánh lại số) + một helper validate; actor ở ngoài, oval ở trong; không có Google/Email; đường chạm biên ellipse, không xuyên chữ/hình.
 7. Lưu editable `.drawio`, xuất PNG và kiểm tra hình sau khi tự vẽ.
 
 Phương án này không cần sửa BRD/PRD/Use Case Spec. Danh sách actor–UC là cách trình bày cụ thể dựa trên quyền và flow của tài liệu nguồn; không tạo role hoặc quyền mới.
@@ -283,14 +284,14 @@ Phương án này không cần sửa BRD/PRD/Use Case Spec. Danh sách actor–U
 | Nội dung kiểm tra | Kết quả / quyết định |
 |---|---|
 | Bảng UC-01–UC-41, tên, actor đại diện, FE và FR | Khớp 41/41 với bảng trong `report/03-software-requirements-specification.md`, sau khi chuẩn hóa escape Markdown như `experiment\_design` |
-| Actor maker của stage | Checklist trước bỏ sót Persona của UC-18/19/20/22/25/41. Đã thêm một actor Persona dùng chung; UC-27 dùng vai trò guard của cùng actor |
-| LLM provider | Là gợi ý mô hình hóa trước đó, không phải actor được liệt kê trong Report III §2.1. Bỏ khỏi phương án Use Case mặc định, dùng Persona theo report |
+| Actor maker/guard | Report liệt kê Persona; theo boundary toàn sản phẩm đã chốt, Persona là xử lý nội bộ nên không đưa thành actor của view hiện tại |
+| AI Provider / AI PI | Sau đối chiếu, người dùng chọn giữ tên AI Provider và không thể hiện AI PI trong diagram. Provider hỗ trợ model, không nhận quyền quyết định tạm của AI PI. Đây là quyết định trình bày mới; bảng actor Report7 chưa đổi |
 | UC-01 Sign in | Actor là any user; SC-01–03 cũng cho Guest truy cập. Checklist dùng một actor User để bao phủ người chưa đăng nhập; không cần Google/Email actor |
 | UC-06 Validate uploaded dataset | Kiểm tra format/size/readable table ở main flow bước 2. Include là cách tách hành vi hỗ trợ do checklist đề xuất, không phải report có thêm một UC mang mã riêng |
 | PM → Researcher | Có nguồn BR-80 và bảng actor/permission của Report III; giữ generalization |
 | UC-13, UC-23, UC-34, UC-35, UC-37 | Phải dùng actor đầy đủ trong descriptions, không chỉ cột actor đại diện của bảng tổng hợp; checklist đã thể hiện |
 | Điều kiện acceptance/export | Giữ precondition; Report không buộc phải vẽ include từ Accept tới Review hoặc Export tới Approve |
-| Số oval và đường đề xuất xóa | Là phương án tinh gọn về 41 UC + helper validate, không phải yêu cầu xóa chức năng khỏi sản phẩm. Giữ bố cục cụm, chỉ bỏ tầng Manage/hành vi con không còn là UC độc lập |
+| Số oval và đường đề xuất xóa | Là phương án tinh gọn về 38 UC đang vẽ + helper validate; UC-08/30/31 để ngoài view theo yêu cầu mới, mã nguồn vẫn giữ, không phải yêu cầu xóa chức năng khỏi sản phẩm. Giữ bố cục cụm, chỉ bỏ tầng Manage/hành vi con không còn là UC độc lập |
 
 Hai lỗi trình bày trong chính Report7 cần người dùng chỉnh khi hoàn thiện report:
 
@@ -298,3 +299,14 @@ Hai lỗi trình bày trong chính Report7 cần người dùng chỉnh khi hoà
 2. Sau permission matrix ở **III 2.1**, có ký tự `a` đứng riêng trong khi ô Approve Dossier dùng `[a]`. Nên thay bằng chú thích đầy đủ: `Approvals follow project review settings: required count, eligible approvers and whether self-approval is allowed (BR-63).`
 
 Các màn SC-19 Decision providers hoặc chức năng gửi email trong phần screen/non-screen không tự động trở thành actor/use case mới. Chúng không phải lý do phục hồi Decision Model Provider như actor quyết hypothesis, hoặc đưa Google/Email trở lại diagram.
+
+## 10. Persona là gì? Phân biệt với AI Provider
+
+- **AI Provider:** dịch vụ cung cấp model mà hệ thống gọi để sinh nội dung. Đây là hệ thống hỗ trợ bên ngoài.
+- **Persona (maker):** vai trò agent trong runtime, dùng model và công cụ để tạo object. Ví dụ agent hypothesis tạo HypothesisSet; agent paper soạn PaperPack.
+- **Persona (guard):** vai trò agent review độc lập, tìm lỗi trên object do maker tạo; dùng context độc lập theo review contract. Nó không phải Reviewer là người.
+- **AI PI:** connector persona được tài liệu hiện hành giao việc tóm tắt/đề xuất và quyết định tạm có giới hạn. Theo yêu cầu mới, không vẽ actor này; không đổi tên nó thành AI Provider vì hai trách nhiệm khác nhau.
+
+Một AI Provider có thể phục vụ nhiều persona. Persona không mặc nhiên là một model hoặc một nhà cung cấp riêng, cũng không bắt buộc là một tài khoản người dùng.
+
+Report7 đang mô hình hóa Persona thành system actor. Ở view sản phẩm mức tổng quan, cũng có thể để maker/guard là xử lý nội bộ và chỉ vẽ AI Provider; nếu chọn cách đó thì phải bỏ các association Persona khỏi §3 và ghi rõ khác biệt với Report III, không thay mọi đường Persona bằng đường AI Provider. Đã chốt để maker/guard bên trong hệ thống: checklist không còn actor hoặc association Persona. Cần đồng bộ phần actor của Report III khi chỉnh report; hiện file nguồn chưa đổi.
