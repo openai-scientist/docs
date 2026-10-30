@@ -2,6 +2,66 @@
 
 Facts from the two code repositories (`logos` and `ai-research-platform-fe`) on 2026-10-29: lock files, Dockerfiles, Compose files and CI workflows. The build places each section under the template heading named in the map.
 
+### 1.1 System Architecture
+
+Replaces the leader's 1.1.1–1.1.4 in Report 7 (two figures instead of three). Sources: `diagrams/04-system-overview/System-Architecture-Diagram.drawio` and `Deployment-Diagram-Production.drawio`.
+
+#### 1.1.1 System Architecture Diagram
+
+The system helps a Researcher move from a research question and tabular data to an evidence package that is ready for a paper. The system does the computing and drafting. The people keep the decisions that only a person can make (the pinned actions, FR-27). The system promises that no defect is hidden, every claim has a source, and every run can be replayed. It does not promise that the science is correct. The promises map to five quality goals: integrity, traceability, replayability, data privacy, and human control with progress (see section 4).
+
+*Figure IV-1: System Architecture Diagram*
+
+The diagram shows the production system in layers. Users reach the web app through a browser. Cloudflare is the public entry point (DNS, TLS, proxy). On the Linux VPS, Traefik routes each host to its container. The application tier holds the Web App, the Platform API and the Integration Worker. The data tier holds PostgreSQL 16 and Cloudflare R2 for files. The AI research tier holds the AI PI Service and the three stage engines, which share one Harness runtime. The external services the system calls are on the right, and the delivery pipeline is at the bottom. Every arrow names its protocol. The AI Principal Investigator (AI PI) is a part of the system, not an outside actor.
+
+| Actor | Role in the context | Related FE |
+|---|---|---|
+| Researcher | Creates research cases, starts runs, answers the decision inbox, accepts hand-off objects. | FE-04, FE-05 |
+| Project Manager | Manages members, settings, budget, datasets and runs. Also holds every research right of a Researcher. | FE-02, FE-13, FE-14 |
+| Reviewer | Reads and comments on every object of the project. Approves the Dossier according to the review settings. | FE-14, FE-15 |
+| Platform Admin | Operates the system: users, models, keys, engine settings, default budget, audit log and health. Does not read project content unless the person is a project member. | FE-17, FE-01 |
+
+| External system | Purpose | Data sent and received |
+|---|---|---|
+| Google Identity | Sign in with Google (OAuth 2.0). | Sign-in request out; verified email back. |
+| Google Drive | Files the user picks for import; delivery of run results to a project integration. | Files in; result files out. |
+| Resend | Email: one-time passwords and notifications. | Outbound email only. |
+| LLM providers (OpenAI, Google Gemini, OpenRouter) | Models for the stage engines and the AI PI. The Platform Admin sets model profiles and keys. | Prompts out, text back. No row of `local` data (NFR-12) and no key in a prompt (NFR-09). |
+| Literature APIs (OpenAlex, arXiv, Semantic Scholar, Crossref) | Search for papers for the Literature Base. | Queries out; metadata and abstracts back. |
+| External data sources | Databases that a user connects to a project. An import creates a dataset version. | Read-only queries out; tables back. |
+| Cloudflare R2 | Object storage for datasets, project files and produced artifacts (S3 API). | Files both ways. |
+
+Inside the system there are six building blocks: the Web App (Next.js), the Platform API (FastAPI), the Platform Database (PostgreSQL 16), the Integration Worker, the AI PI service and the stage engines `dataset`, `hypothesis` and `experiment_design`, which all run on one shared Harness (ADR-02). The `execution` and `paper` engines and the Local Node are part of the design but not of the current release.
+
+Design constraints:
+
+- The system handles tabular data only. Image data, text corpora and signals are out of scope. The `experiment_design` stage plans the analysis of existing tabular data; it does not design new data collection.
+- The pipeline is always `dataset_first`, and each project has at most one active run (FR-14, FR-16; ADR-13, ADR-14).
+- The web app holds no scientific logic. It talks to the Platform only through the REST API and the run event stream.
+- The Platform never judges scientific content (ADR-03). The engines never store people, projects or keys.
+
+#### 1.1.2 Deployment Diagram
+
+*Figure IV-2: Deployment Diagram*
+
+The diagram follows UML 2.5 deployment notation. Production runs on one Linux VPS. Cloudflare sits in front of it for DNS, proxy and TLS. Dokploy manages a Docker Engine on the VPS; every service is a Docker container (an `«executionEnvironment»` node) that runs one image (an `«artifact»`) from Docker Hub. Only Traefik, the Dokploy reverse proxy, is published on ports 80 and 443. It routes `scientist.beyond8.io.vn` to the web app and `api-scientist.beyond8.io.vn` to the API. The containers reach each other by service name on the network `capstone-net`.
+
+| Node | Contains | Notes |
+|---|---|---|
+| User browser | Web pages of the web app | Holds no long-term secret. |
+| Cloudflare | DNS, proxy, TLS | Public entry point for both domains. |
+| Linux VPS / Docker Engine (Dokploy) | `traefik`, `fe`, `api`, `migrate`, `integration-worker`, `db`, `oversight`, `dataset`, `hypothesis`, `experiment-design` | One host for all services. `fe` and `api` bind to 127.0.0.1 behind Traefik. |
+| `db` | PostgreSQL 16, volume `platform_db_data` | Reached only by `api`, `migrate` and `integration-worker` on TCP 5432. |
+| `migrate` | Image `capstone-be`, Alembic | Runs `alembic upgrade head` once per deploy, before `api` starts. |
+| Engine and AI PI containers | Images `capstone-dataset`, `-hypothesis`, `-experiment-design`, `-oversight`; one run volume each | Called by `api` over HTTP. Call LLM providers and literature APIs over HTTPS. |
+| External services | Docker Hub, Cloudflare R2, Google APIs, Resend, LLM providers, literature APIs | Reached over HTTPS from the VPS. |
+
+The build and release steps are in section 1.5. Current limits of this deployment: one VPS is a single point of failure; there is no staging stack, no scheduled database backup and no external uptime monitoring yet.
+
+#### 1.1.3 Trust boundaries and security design
+
+(Unchanged from the leader's 1.1.4: the TB1–TB5 table and the security design rules table.)
+
 ### 1.4 Technology Declaration
 
 #### Technology stack

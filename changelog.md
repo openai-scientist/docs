@@ -3,6 +3,31 @@
 Định dạng theo [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là đường dẫn tương đối từ repository root.
 
+## 2026-10-30 — Dọn khối thừa trong IV 3.4 Research Run Orchestration
+
+- Xoá trong [Report 7 docx](deliverables/FA26SE115_Report7.docx) khối nội dung cũ nằm giữa tiêu đề 3.4 và 3.4.1 Class Diagram: 3.4.1–3.4.3 viewpoint cũ, 3.13 Budget and Cost, 3.14 Dossier, 3.19 Cross-Cutting Behavior cùng Figure IV-5, IV-6, IV-7, IV-12, IV-13. Khối này trùng số với mục 3.4.1 của template SEP490. Bản prod đã được người dùng xoá tương ứng.
+- Xoá 5 dòng hình tương ứng trong mục lục. Số trang trong mục lục cần refresh trong Word.
+- Không sửa [report/04-software-design-document.md](report/04-software-design-document.md) (khung của leader) và không cần sửa BRD/PRD/Use Case Spec, vì đây là lỗi sắp xếp trong docx.
+- Validation: render PDF bằng LibreOffice, kiểm tra 3.4 nối thẳng vào 3.4.1 Class Diagram và không còn caption IV-5/6/7/12/13.
+
+## 2026-10-29 — Kiến trúc hệ thống và deployment (IV 1.1)
+
+- Vẽ lại [System Architecture Diagram](diagrams/04-system-overview/System-Architecture-Diagram.drawio) theo mẫu layered architecture: các tầng Users, Edge, Production VPS (gồm Application, Data, AI research) và External services, dải CI/CD bên dưới; dùng logo chính thức (Simple Icons), có tiêu đề, phiên bản, legend và line jump. Thay hình IV-1 cùng đoạn mô tả trong S4 và docx.
+- Thêm [System Architecture Diagram](diagrams/04-system-overview/System-Architecture-Diagram.drawio) và [Deployment Diagram](diagrams/04-system-overview/Deployment-Diagram-Production.drawio) (UML 2.5: container Docker là node `«executionEnvironment»`, image là `«artifact»`). Nguồn: compose, workflow CI/CD của hai repo sản phẩm và thông tin hạ tầng do team cung cấp (1 Linux VPS + Dokploy, Cloudflare, LLM OpenAI/Gemini/OpenRouter). Theo yêu cầu dọn folder, chỉ giữ hai file `.drawio`; bỏ builder, PNG và các bản nháp Container/Component/CI-CD.
+- Viết lại IV 1.1 trong [S4 supplement](deliverables/supplements/S4-design.md) và [Report 7 docx](deliverables/FA26SE115_Report7.docx):
+  - Thu gọn từ 3 hình còn 2 hình: IV-1 System Architecture, IV-2 Deployment.
+  - Đổi 1.1.4 thành 1.1.3.
+  - Lùi số các hình IV phía sau xuống 1, tạo lại mục lục và sửa bảng viewpoint.
+  - Không sửa `report/` (leader).
+- Ghi nhận các giới hạn hiện tại: một VPS duy nhất, chưa có staging, chưa backup DB, chưa có giám sát bên ngoài.
+- Nội dung khác với `report/` 1.1 cần báo leader:
+  - Mục 1.1 mới mô tả hệ thống như đang chạy thật.
+  - Engine `execution` và `paper` cùng Local Node chỉ được ghi là có trong thiết kế, chưa có trong bản phát hành hiện tại.
+- Validation:
+  - Builder chạy thành công.
+  - Xuất PNG 200%, viền 20 px, kiểm tra bằng mắt không còn đường cắt hộp hay nhãn chồng.
+  - Docx render qua LibreOffice; kiểm tra mục lục và các trang 115–119.
+
 ## 2026-10-29 — Hoàn tác sửa diagram, bàn giao checklist tự vẽ
 
 - Khôi phục [Use Case editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) nguyên byte từ bản trước lần sửa diagram gần nhất; gỡ PNG được tạo trong lần sửa đó. Giữ quy tắc phong cách một trang đã được người dùng chốt và các thay đổi không liên quan.
