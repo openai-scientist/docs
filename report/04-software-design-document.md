@@ -547,6 +547,8 @@ Every research pattern has a negative test, which is a seeded defect that the pa
 
 ### 3.12 Local Node (FE-12)
 
+> Current delivery scope (user clarification, 2026-10-30): Local Node has not been implemented. This section describes planned design, not delivered functionality. At the user's latest request, the current [State Diagram package](../diagrams/09-state-machine/State-Machine-Diagrams-design.md) includes the planned Local Node project-pairing lifecycle and Run's node_offline transitions. Existing requirements below remain planning references; no implementation verification is implied.
+
 Design concern: data rows never leave the machine, and every release is checked and logged.
 
 #### 3.12.1 Interaction viewpoint: a local job through the release gate
