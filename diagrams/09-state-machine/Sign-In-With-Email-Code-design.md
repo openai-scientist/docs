@@ -2,8 +2,8 @@
 
 Bản đã duyệt cũng nằm ở tab đầu [file State Diagram chung](State-Machine-Diagrams.drawio); file standalone và builder bên dưới được giữ làm nguồn gốc.
 
-- [Editable draw.io](State-Machine-Diagram-Sign-In-With-Email-Code.drawio)
-- [PNG xem trước](State-Machine-Diagram-Sign-In-With-Email-Code.png)
+- Bản standalone editable đã được loại khỏi bộ tám hình chính; ghi chú này chỉ lưu lịch sử thiết kế.
+
 - [Builder](build_email_code_state.py)
 - [Rule](rule.md)
 

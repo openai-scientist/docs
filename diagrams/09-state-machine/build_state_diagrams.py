@@ -183,6 +183,38 @@ def state(p, key, text, logical_id, x, y, w=260, h=80):
     p.root.find(f"mxCell[@id='{key}']").set('model-state', logical_id)
 
 
+def account_lifecycle():
+    p = Page('Authentication & Account', 'authentication-account')
+    p.node('start', '', 428, 30, 24, 24, 'initial')
+    state(p, 'active', 'Active account', 'active', 320, 150, 240, 80)
+    state(p, 'suspended', 'Suspended account', 'suspended', 320, 500, 240, 80)
+    p.edge('created', 'start', 'active', ref='III 3.2.1; IV 2.2.1 users; initial active is a design interpretation', test='Design entry check')
+    p.edge('suspend', 'active', 'suspended', 'admin suspends account', ports=(.3,1,.3,0), ref='III 3.9.1; IV 2.2.1 users status active/suspended', test='Design transition check')
+    p.edge('reactivate', 'suspended', 'active', 'admin reactivates account', ports=(1,.5,1,.5), points=((800,540),(800,190)), ref='III 3.9.1; IV 2.2.1 users status active/suspended', test='Design transition check')
+    return p.page
+
+
+def dataset_lifecycle():
+    p = Page('Data Management', 'data-management-dataset')
+    p.node('start', '', 428, 30, 24, 24, 'initial')
+    state(p, 'available', 'Dataset available', 'conceptual_available', 320, 180, 240, 80)
+    p.node('end', '', 428, 650, 30, 30, 'final')
+    p.edge('created', 'start', 'available', '/ create first version with hash', ref='III 3.4.1; FR-09; IV 3.3; upload or import; conceptual lifecycle not a status enum', test='Design entry check')
+    p.edge('version', 'available', 'available', 'new version\n/ retain prior versions', ports=(1,.2,1,.8), points=((900,110),(900,350)), ref='III 3.4.5; FR-09; immutable DatasetVersion', test='Design transition check')
+    p.edge('delete', 'available', 'end', 'authorized deletion confirmed', ref='III 3.4.4; deletion constraints unspecified', test='Design transition check')
+    return p.page
+
+
+def notification_lifecycle():
+    p = Page('Notifications & Integrations', 'notifications-in-app')
+    p.node('start', '', 428, 30, 24, 24, 'initial')
+    state(p, 'unread', 'Unread', 'read_at is null', 320, 160, 240, 80)
+    state(p, 'read', 'Read', 'read_at is set', 320, 500, 240, 80)
+    p.edge('created', 'start', 'unread', ref='IV 2.2.14 notifications read_at; conceptual lifecycle', test='Design entry check')
+    p.edge('mark-read', 'unread', 'read', 'recipient marks as read\n/ record read_at', ref='III 3.8.4; IV 2.2.14 notifications', test='Design transition check')
+    return p.page
+
+
 def data_management():
     """Project pairing lifecycle, independent of jobs and dataset versions."""
     p = Page('Data Management', 'data-management')
@@ -692,20 +724,12 @@ def remove_composite_frames(page):
 
 def build():
     mx = E.Element('mxfile', host='drawio', version='26.0.0')
-    sample = E.parse(OUT / 'State-Machine-Diagram-Sign-In-With-Email-Code.drawio').getroot().find('diagram')
-    sample.set('name', 'Authentication & Account')
-    mx.append(deepcopy(sample))
     combined = project_workspace()
-    dossier_page = deepcopy(combined)
-    dossier_page.set('name', 'Dossier Version')
-    dossier_page.set('id', 'dossier-version')
-    for page, keep_dossier in ((combined, False), (dossier_page, True)):
-        root = page.find('./mxGraphModel/root')
-        for cell in list(root):
-            cell_id = cell.get('id', '')
-            if cell_id not in {'0', '1'} and cell_id.startswith('dossier-') != keep_dossier:
-                root.remove(cell)
-    pages = [combined, data_management(), flat_run(), composite_handoff(), flat_decision(), notifications(), monitoring(), dossier_page]
+    root = combined.find('./mxGraphModel/root')
+    for cell in list(root):
+        if cell.get('id', '').startswith('dossier-'):
+            root.remove(cell)
+    pages = [account_lifecycle(), combined, dataset_lifecycle(), flat_run(), composite_handoff(), flat_decision(), notification_lifecycle(), monitoring()]
     for page in pages:
         page = remove_composite_frames(page)
         # Scope and explanatory notes belong in the companion design, not on the image.
@@ -786,21 +810,20 @@ def build():
 
 def write_design(mx):
     inventory = [
-        ('Authentication-Account', 'III 3.2.1; IV 3.1', 'Một lần đăng nhập email; giữ graph đã duyệt, chỉ đổi tên tab theo nhóm Class.'),
-        ('Project-Workspace', 'III 3.3.1–3.3.3; IV 3.2.14', 'Vòng đời Project gồm Active, Completed, Archived; Archived là read-only. Dossier Version được tách sang tab riêng.'),
-        ('Data-Management', 'IV 3.3.11; IV 3.12; FR-85/87/110/242', 'Theo yêu cầu mới, khôi phục thiết kế vòng đời một Local Node pairing với project: Unpaired, Paired online, Paired offline, Revoked. Đây là state khái niệm từ UC-08/31 và FR-85/87/110/241/242, không khẳng định enum implementation. Pairing hợp lệ đưa tới online; mất kết nối không mất pairing; reconnect quay online. Revocation từ cả online/offline chặn local jobs, nêu lý do và giữ published objects readable. Final kết thúc pairing hiện tại, không xóa Node/results; re-pairing ngoài view. Không biến kiểm hash, chạy job hay release gate thành state của Node.'),
+        ('Authentication-Account', 'III 3.9.1; IV 2.2.1', 'Vòng đời account active/suspended; initial active là diễn giải thiết kế, không xác nhận runtime.'),
+        ('Project-Workspace', 'III 3.3.1–3.3.3; IV 3.2.14', 'Vòng đời khái niệm Project gồm Active, Completed, Archived; Archived là read-only. Schema IV 2.2.6 dùng status draft/data_ready/researching/needs_review/completed và archived_at; quan hệ giữa hai cách biểu diễn chưa được đặc tả. Không coi Active/Archived là enum schema. Dossier không thuộc tám hình chính.'),
+        ('Data-Management', 'III 3.4.1, 3.4.4, 3.4.5; FR-09', 'Vòng đời Dataset ở mức khái niệm: tồn tại, thêm version immutable và kết thúc khi xóa được cho phép. Available không phải enum schema; điều kiện xóa chưa được đặc tả đầy đủ.'),
         ('Research-Run-Orchestration', 'IV 3.4.2, Figure IV-7; IV 3.13', 'Một state machine liền mạch, chỉ ba state Running/Waiting/Ended theo enum RunState của Class Diagram và FR-21. Waiting có reason decision/node_offline/budget_review; node_offline khi Node offline và local job chặn việc; reconnect đưa về running, independent work và một combined notice theo FR-237/238; Ended có result complete/with_gaps/failed_technical/cancelled. Đây là field của state, không phải nhiều state trùng tên. Bố cục dọc đặt Running trên Waiting; các transition sang Waiting đi thẳng xuống và các nhánh tiếp tục đi bên phải. Không dùng composite; cancel, fatal error và token exhaustion có transition riêng từ Running và Waiting. Các nhánh chỉ áp dụng Running hoặc Waiting giữ riêng. Metadata và bảng giữ đầy đủ điều kiện và phép gán reason/result. Từ running: all stages accepted, token exhaustion, cancel, technical failure; từ waiting(decision): pinned deadline unanswered, token exhaustion, cancel, technical failure; từ waiting(budget_review): spending decline/expiry, token exhaustion, cancel, technical failure. Không lặp state hay tách các cụm tình huống rời; mỗi transition là nét liền có trigger [guard] / effect khi cần. Tên event/effect là ký hiệu thiết kế từ hành vi, không chốt event/API implementation. Chỉ complete khi tất cả stage accepted. Cancel chỉ bởi Project Manager hoặc creating Researcher. Pinned item không hết hạn trước wait deadline. Khôi phục nhánh node_offline theo yêu cầu mới như thiết kế dự kiến; không khẳng định Local Node đã triển khai.'),
         ('Research-Engines', 'IV 3.4.3, Figure IV-8; IV 3.11; IV 3.8', 'Một version của Hand-off Object gồm draft, checks_red, checks_green, in_review, ready, accepted, locked và stale. Mỗi state chưa stale có transition riêng sang Stale khi pinned upstream có version mới; không dùng composite. Locked chỉ áp dụng AnalysisPlan. Revision tối đa hai vòng; Stale giữ lịch sử, không tự phục hồi. Điều kiện, effect và nguồn đầy đủ nằm trong metadata và bảng transition.'),
         ('AI-Principal-Investigator', 'IV 3.6.7; IV 3.5.2; IV 3.13; FR-22/28/31/91/265', 'Đủ nhánh human answer, AI PI tentative decision, user confirm/overturn, pinned timeout, spending timeout, cancel khi còn pending/awaiting user review. AI PI chỉ được tentative ở autopilot + away + non-pinned. Overturn undo dependent work, đánh dấu affected objects stale và ghi decision log. Confirm cũng ghi log. Timeout pinned đóng unanswered, end run with gaps, không ai quyết định thay user. Closed khi run cancelled nằm bên phải; các transition hoàn tất dùng chung đường vẽ tới một final, không có junction. Nhãn Pending/Answered/Confirmed/Overturned/Closed là thiết kế từ hành vi, không khẳng định enum implementation.'),
-        ('Notifications-Integrations', 'IV 2.2.16 notification_emails; IV 2.2.11 integration_deliveries; IV 3.7', 'Vòng đời email thông báo đủ pending, sending, sent, failed, skipped theo schema. Điều kiện send/skip và retry scheduled là đề xuất thiết kế từ notification policy/settings và attempts; không lấy lifecycle integration_deliveries làm bằng chứng cho retry email; report chưa chốt thuật toán retry hoặc chuyển tiếp của mọi status. Không tự đặt TTL/retry limit hoặc hứa luôn retry. External notices chỉ cho blocking pinned item và spending item theo policy. Sent biểu diễn kết quả gửi/chấp nhận từ nhà cung cấp, không chứng minh email đến inbox. IntegrationDelivery dùng pending/sending/sent/failed, không có skipped; không coi email và webhook là cùng một enum.'),
+        ('Notifications-Integrations', 'III 3.8.4; IV 2.2.14', 'Vòng đời notification trong ứng dụng theo read_at: unread và read là diễn giải, không phải enum. Email delivery không thuộc tám hình chính.'),
         ('Administration-Monitoring', 'III 3.9.9; IV 2.2.38 monitoring_alerts; IV 3.8; FR-104', 'Vòng đời một monitoring alert: active/resolved theo schema. Acknowledge là self-transition ghi acknowledged_at/by, không đồng nghĩa resolve. Resolution reported là event thiết kế cho việc ghi nhận resolved và resolved_at; nối trực tiếp Active tới Resolved, không thêm choice chỉ để đọc status. Không khẳng định ai hoặc thuật toán nào tự resolve. Không tự thêm reopen resolved alert; sự cố mới có thể là alert mới nhưng nguồn chưa chốt identity rule.'),
-        ('Dossier-Version', 'IV 3.14; FR-94–98, FR-249–253', 'Vòng đời một Dossier version: Not approved, Approved và Superseded. Export cần approved và pinned authorization; ghi audit version và format. Version mới cần approval riêng.'),
     ]
     lines = [
         '# State Machine Diagrams — các vòng đời theo nhóm chức năng', '',
-        '- [File draw.io chung chín tab](State-Machine-Diagrams.drawio)',
+        '- [File draw.io chung tám tab](State-Machine-Diagrams.drawio)',
         '- [Builder](build_state_diagrams.py)', '- [Rule](rule.md)', '',
-        'Nguồn: `C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md`, SHA-256 `8618eb8123e0a3d259c9e5f5ba97f9e29602534ae3503b2aaa25e0d2e5eb232d`. Cách chia tab theo [Class Diagram](../07-class/Class-Diagrams-design.md), không suy từ số entity lifecycle. Đối chiếu [Report IV](../../report/04-software-design-document.md).', '',
+        'Nguồn: `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md`. Cách chia tab theo [Class Diagram](../07-class/Class-Diagrams-design.md), không suy từ số entity lifecycle. Đối chiếu [Report IV](../../report/04-software-design-document.md).', '',
         '## Inventory', '', '| Tab | PNG | Nguồn |', '|---|---|---|',
     ]
     for i, (page, (slug, source, _)) in enumerate(zip(mx.findall('diagram'), inventory), 1):
@@ -820,17 +843,14 @@ def write_design(mx):
         'Profile áp dụng: Arial state 12/transition 11, cùng tỉ lệ bố cục compact; tiêu đề con 14. Nhãn hiển thị bằng lời như User cancels/Node reconnects/All stages accepted. transition-spec giữ trigger/guard/effect gốc; bảng bên dưới ghi cả nhãn ảnh và biểu thức đầy đủ. Không bỏ trạng thái, transition, reason/result hoặc predicate để làm hình gọn. Giữ nền trắng, state bo góc theo UML, không sao chép viền vuông/cắt ảnh/chữ quá nhỏ từ report mẫu.', '',
     ]
     lines += ['', '## Cách đọc và mức thiết kế', '',
-        'Giữ đầy đủ trạng thái và nhánh; Research Engines và Research Run dùng state phẳng, các transition chung được vẽ riêng từ từng state; các view khác giữ bố cục hiện có. Câu hỏi trong hình thoi, guard [No] trái/[Yes] phải; Yes/No là alias của biểu thức guard ở bảng dưới, không phải event. Nhãn ngắn nằm trực tiếp trên đường nối nền trắng; điều kiện, effect và reference đầy đủ ở bảng dưới. Research Engines có transition riêng từ từng state tới Stale; các nhánh revision giữ đường riêng; không dùng nhãn chung end event. Mỗi vòng đời là một graph liền mạch, mỗi state chỉ xuất hiện một lần; không tách các cụm sự kiện rồi vẽ lại state. Các transition dùng nét liền và đầu mũi tên mặc định có tô. Nhãn theo trigger [guard] / effect; choice chỉ phân nhánh tức thời theo guard; không đợi event ở đường ra. Event userDecisionSubmitted phải tới trước choice confirm/overturn. Reason/result là field context, giá trị và phép gán đầy đủ ở metadata/bảng transition; không cần ô chú thích kỹ thuật riêng trên ảnh theo profile report mẫu. model-state trong XML ánh xạ nhãn dễ đọc về state code nguồn. Đường chính/hồi tiếp vuông góc; transition tới Stale áp dụng khi pinned upstream có version mới. Mỗi điểm final chỉ có ý nghĩa hoàn tất phạm vi đang mô tả, không phải xóa bản ghi.', '',
-        'Tám nhóm chức năng được tổ chức thành chín tab: Dossier Version có tab riêng, cùng các vòng đời theo nhóm Class. Tab Data Management mô tả vòng đời một Local Node pairing theo yêu cầu mới, ở mức thiết kế dự kiến; chưa xác nhận implementation. Các lifecycle còn lại giữ nguồn và giới hạn thiết kế; Notifications/Monitoring là view đề xuất từ schema/hành vi.', '',
-        'Các status lấy từ nguồn nhưng một enum không tự xác nhận đầy đủ transition. Những nhãn hay transition diễn giải được chỉ rõ trong từng mục. Không đổi nghiệp vụ BRD/PRD/Use Case Spec; không thay placeholder Word. Final UML đánh dấu hoàn tất vòng đời/region, không hàm ý xóa record. Run có completion từ Ended tới final, result vẫn lưu; Authentication kết thúc một lần đăng nhập. Archived và Superseded kết thúc vòng đời trong phạm vi hình, không kết luận record bị xóa hoặc hệ thống không bao giờ có chức năng khôi phục. Các Decision Item đã trả lời/đóng, email Sent/Skipped và alert Resolved đều nối final. Decision Item gom đường vẽ các transition hoàn tất về một final chung; các view khác có thể dùng final riêng. Stale giữ lịch sử version; acceptance/rerun upstream-downstream không phải tự sửa version cũ. Không thêm final/transition phục hồi chưa chốt. Failed có thể giữ nguyên; retry email là đề xuất, không bảo đảm luôn retry.', '',
+        'Giữ đầy đủ trạng thái và nhánh; Research Engines và Research Run dùng state phẳng, các transition chung được vẽ riêng từ từng state; các view khác giữ bố cục hiện có. Câu hỏi trong hình thoi, guard [No] trái/[Yes] phải; Yes/No là alias của biểu thức guard ở bảng dưới, không phải event. Nhãn ngắn nằm trực tiếp trên đường nối nền trắng; điều kiện, effect và reference đầy đủ ở bảng dưới. Research Engines có transition riêng từ từng state tới Stale; các nhánh revision giữ đường riêng; không dùng nhãn chung end event. Mỗi vòng đời là một graph liền mạch, mỗi state chỉ xuất hiện một lần; không tách các cụm sự kiện rồi vẽ lại state. Các transition dùng nét liền và đầu mũi tên mặc định có tô. Nhãn theo trigger [guard] / effect; choice chỉ phân nhánh tức thời theo guard; không đợi event ở đường ra. Event userDecisionSubmitted phải tới trước choice confirm/overturn. Reason/result là field context, giá trị và phép gán đầy đủ ở metadata/bảng transition; không cần ô chú thích kỹ thuật riêng trên ảnh theo profile report mẫu. model-state trong XML ánh xạ nhãn dễ đọc về state code nguồn. Đường chính/hồi tiếp vuông góc; transition tới Stale áp dụng khi pinned upstream có version mới. Final đánh dấu kết thúc phạm vi mô tả; tác động lưu trữ phải đọc theo transition và nguồn của từng đối tượng.', '',
+        'Tám tab thể hiện một đối tượng chính cho mỗi nhóm. Dataset available và notification unread/read là cách diễn giải vòng đời, không phải enum xác nhận trong schema. Nhánh Local Node trong Run vẫn là thiết kế dự kiến.', '',
+        'Các status lấy từ nguồn nhưng một enum không tự xác nhận đầy đủ transition. Những nhãn hay transition diễn giải được chỉ rõ trong từng mục. Không đổi nghiệp vụ BRD/PRD/Use Case Spec; không thay placeholder Word. Final UML đánh dấu hoàn tất vòng đời/region; với Dataset, transition vào final là xóa được cho phép, còn ý nghĩa lưu trữ sau xóa chưa được đặc tả. Run có completion từ Ended tới final, result vẫn lưu; Email Code Sign-In kết thúc một lần đăng nhập. Archived và Superseded kết thúc vòng đời trong phạm vi hình, không kết luận record bị xóa hoặc hệ thống không bao giờ có chức năng khôi phục. Các Decision Item đã trả lời/đóng, email Sent/Skipped và alert Resolved đều nối final. Decision Item gom đường vẽ các transition hoàn tất về một final chung; các view khác có thể dùng final riêng. Stale giữ lịch sử version; acceptance/rerun upstream-downstream không phải tự sửa version cũ. Không thêm final/transition phục hồi chưa chốt. Failed có thể giữ nguyên; retry email là đề xuất, không bảo đảm luôn retry.', '',
         'Test ID trong metadata/bảng là tham chiếu kịch bản, không phải kết quả test runtime. Design routing/retry check là kiểm tra thiết kế còn cần bổ sung, không bịa TC ID.', '',
     ]
-    lines += ['## Hiệu chỉnh sau review 2026-10-30', '', 'Bảo toàn transition-spec trước khi rút gọn nhãn. Nhãn AI PI [eligible] là alias của guard autopilot and away and not pinned; guard đầy đủ, timeout và effect confirm/overturn lưu trong metadata và bảng. Result của Run và effect export/audit của Dossier được giữ trong metadata và bảng. Review bao gồm revision work; sự kiện hoàn tất checks có guard tối đa hai vòng. Phạm vi stale version được ghi trong thuyết minh; email retry ghi proposed. Monitoring dùng resolution reported trực tiếp.', '', 'Giới hạn chưa chốt: cách ưu tiên nhiều blocker đồng thời của Run; identity/liên kết item tentative; chính sách retry và kết thúc failure email. Không tự thêm thuật toán hoặc transition cho các điểm này.', '']
+    lines += ['## Hiệu chỉnh sau review 2026-10-30', '', 'Bảo toàn transition-spec trước khi rút gọn nhãn. Nhãn AI PI [eligible] là alias của guard autopilot and away and not pinned; guard đầy đủ, timeout và effect confirm/overturn lưu trong metadata và bảng. Result của Run được giữ trong metadata và bảng. Review bao gồm revision work; sự kiện hoàn tất checks có guard tối đa hai vòng. Phạm vi stale version được ghi trong thuyết minh; email retry ghi proposed. Monitoring dùng resolution reported trực tiếp.', '', 'Giới hạn chưa chốt: cách ưu tiên nhiều blocker đồng thời của Run; identity/liên kết item tentative; chính sách retry và kết thúc failure email. Không tự thêm thuật toán hoặc transition cho các điểm này.', '']
     for i, (page, (_, source, note)) in enumerate(zip(mx.findall('diagram'), inventory), 1):
         lines += [f'## {i}. {page.get("name")}', '', source + '.', '', note, '']
-        if i == 1:
-            lines += ['Xem [nguồn và truy vết bản Authentication đã duyệt](Sign-In-With-Email-Code-design.md).', '']
-            continue
         cells = {c.get('id'): c for c in page.findall('.//mxCell')}
         lines += ['| Transition | Nhãn ngắn | Điều kiện / nguồn đầy đủ | Test reference |', '|---|---|---|---|']
         for c in cells.values():

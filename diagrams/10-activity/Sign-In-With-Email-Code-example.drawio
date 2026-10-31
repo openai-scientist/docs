@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Sign In With Email Code">
+    <mxGraphModel dx="1000" dy="1100" grid="1" gridSize="10" page="1" pageWidth="900" pageHeight="1150">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" value="User" style="swimlane;horizontal=1;startSize=40;collapsible=0;container=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;swimlaneFillColor=#ffffff;strokeColor=#777777;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="300" height="860" as="geometry" />
+        </mxCell>
+        <mxCell id="sys" value="System" style="swimlane;horizontal=1;startSize=40;collapsible=0;container=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;swimlaneFillColor=#ffffff;strokeColor=#777777;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="60" width="490" height="860" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="" style="ellipse;aspect=fixed;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="user">
+          <mxGeometry x="140" y="65" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="email" value="Enter email and request code" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=14;" vertex="1" parent="user">
+          <mxGeometry x="50" y="120" width="200" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="send" value="Send sign-in code" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=14;" vertex="1" parent="sys">
+          <mxGeometry x="145" y="210" width="200" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="enter" value="Enter email code" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=14;" vertex="1" parent="user">
+          <mxGeometry x="50" y="305" width="200" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="verify" value="Verify email code" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=14;" vertex="1" parent="sys">
+          <mxGeometry x="145" y="400" width="200" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="decision" value="Code valid and&lt;br&gt;unexpired?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=13;" vertex="1" parent="sys">
+          <mxGeometry x="165" y="480" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="fail" value="Show invalid or expired code" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=14;" vertex="1" parent="sys">
+          <mxGeometry x="15" y="610" width="195" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="success" value="Open signed-in session" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=1.5;fontSize=14;" vertex="1" parent="sys">
+          <mxGeometry x="280" y="610" width="195" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" value="" style="ellipse;aspect=fixed;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="sys">
+          <mxGeometry x="99.5" y="750" width="26" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="f1i" value="" style="ellipse;aspect=fixed;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="f1">
+          <mxGeometry x="6" y="6" width="14" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="" style="ellipse;aspect=fixed;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;" vertex="1" parent="sys">
+          <mxGeometry x="364.5" y="750" width="26" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="f2i" value="" style="ellipse;aspect=fixed;html=1;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="f2">
+          <mxGeometry x="6" y="6" width="14" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="start" target="email">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="email" target="send">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="send" target="enter">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="585" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="enter" target="verify">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="verify" target="decision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="[No]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" edge="1" parent="1" source="decision" target="fail">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="453" y="585" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" value="[Yes]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" edge="1" parent="1" source="decision" target="success">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="718" y="585" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="fail" target="f1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#222222;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="success" target="f2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

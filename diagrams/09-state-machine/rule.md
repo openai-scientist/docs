@@ -5,7 +5,7 @@ Chuẩn: UML 2.5.1, §14 StateMachines (behavior state machine). Áp dụng thê
 ## 1. Mục đích và phạm vi
 
 - Thể hiện vòng đời của **một thực thể hoặc một hệ thống có phạm vi rõ ràng**: đang ở trạng thái nào, sự kiện nào làm đổi trạng thái, điều kiện và kết quả đi kèm. State biểu diễn tình trạng của đối tượng; không dùng action làm state chỉ để mô tả thứ tự thao tác.
-- Theo yêu cầu người dùng, gom toàn bộ State Diagram vào **một file draw.io nhiều tab**, gồm **tám nhóm Class Diagram và một tab Dossier Version riêng**: Authentication & Account, Project Workspace, Data Management, Research Run Orchestration, Research Engines, AI Principal Investigator, Notifications & Integrations, Administration & Monitoring. File chính là [State-Machine-Diagrams.drawio](State-Machine-Diagrams.drawio). Dossier Version được tách thành tab thứ chín để xuất hình riêng; không trộn state của nhiều đối tượng thành một lifecycle. Đây là ngoại lệ của quy tắc một file/một page chung; xem [inventory và nguồn](State-Machine-Diagrams-design.md). File standalone Authentication được giữ làm nguồn đã duyệt.
+- Gom state vào [một file draw.io](State-Machine-Diagrams.drawio): tám tab là vòng đời chính của tám nhóm. Không trộn các đối tượng độc lập thành một lifecycle; xem [inventory và nguồn](State-Machine-Diagrams-design.md).
 - Nguồn nghiệp vụ là bảng state và FR trong report được chốt. Đối chiếu implementation để phát hiện thiếu/lệch nhưng không tự thay report bằng code; ghi lại mâu thuẫn để xác nhận.
 - Không tạo state cho từng bước CRUD hoặc từng màn hình nếu nguồn không mô tả vòng đời tương ứng. Luồng thao tác thuộc Activity/Sequence/Screen Flow.
 

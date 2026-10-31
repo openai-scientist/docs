@@ -2,23 +2,17 @@
 
 Mỗi khối bên dưới là một state diagram độc lập, tương ứng một tab trong [file draw.io](State-Machine-Diagrams.drawio). Sao chép từng khối vào trình hỗ trợ Mermaid để vẽ. Mermaid tự sắp xếp nên vị trí đường nối có thể khác ảnh gốc.
 
-Các nhãn được giữ ngắn như hình; nhánh choice ghi điều kiện đầy đủ. Chi tiết guard, effect, reason/result và giới hạn thiết kế xem [thuyết minh và bảng transition](State-Machine-Diagrams-design.md). Data Management và email retry có phần thiết kế dự kiến như thuyết minh, không phải xác nhận runtime.
+Các nhãn được giữ ngắn như hình; nhánh choice ghi điều kiện đầy đủ. Chi tiết guard, effect, reason/result và giới hạn thiết kế xem [thuyết minh và bảng transition](State-Machine-Diagrams-design.md). Dataset available và notification unread/read là trạng thái khái niệm. Local Node và email retry là thiết kế dự kiến, không xác nhận runtime.
 
 ## 1. Authentication & Account
 
 ```mermaid
 stateDiagram-v2
-    direction TB
-    state "Signed out" as s_signed_out
-    state "Awaiting email code" as s_awaiting_code
-    state s_valid_code <<choice>>
-    state "Signed in" as s_signed_in
-    [*] --> s_signed_out
-    s_signed_out --> s_awaiting_code : Code requested
-    s_awaiting_code --> s_valid_code : code submitted
-    s_valid_code --> s_awaiting_code : [code incorrect or expired]
-    s_valid_code --> s_signed_in : [code correct and unexpired]
-    s_signed_in --> [*]
+    state "Active account" as active
+    state "Suspended account" as suspended
+    [*] --> active
+    active --> suspended : admin suspends account
+    suspended --> active : admin reactivates account
 ```
 
 ## 2. Project Workspace
@@ -41,18 +35,10 @@ stateDiagram-v2
 
 ```mermaid
 stateDiagram-v2
-    direction TB
-    state "Unpaired" as s_unpaired
-    state "Paired (online)" as s_online
-    state "Paired (offline)" as s_offline
-    state "Revoked" as s_revoked
-    [*] --> s_unpaired
-    s_unpaired --> s_online : Pairing succeeds
-    s_online --> s_offline : connection lost
-    s_offline --> s_online : Node reconnects
-    s_online --> s_revoked : Pairing revoked
-    s_offline --> s_revoked : Pairing revoked
-    s_revoked --> [*]
+    state "Dataset available" as available
+    [*] --> available : create first version with hash
+    available --> available : new version; retain prior versions
+    available --> [*] : authorized deletion confirmed
 ```
 
 ## 4. Research Run Orchestration
@@ -152,24 +138,10 @@ stateDiagram-v2
 
 ```mermaid
 stateDiagram-v2
-    direction TB
-    state "Pending" as s_pending
-    state "Sending" as s_sending
-    state "Skipped" as s_skipped
-    state "Sent" as s_sent
-    state "Failed" as s_failed
-    state s_allowed <<choice>>
-    state s_success <<choice>>
-    [*] --> s_pending
-    s_pending --> s_allowed : Dispatch requested
-    s_allowed --> s_skipped : [external notice disallowed by policy or preferences]
-    s_allowed --> s_sending : [external notice allowed by policy and preferences]
-    s_sending --> s_success : Delivery result received
-    s_success --> s_failed : [delivery failed]
-    s_success --> s_sent : [provider accepted delivery]
-    s_failed --> s_pending : Retry scheduled (proposed)
-    s_skipped --> [*]
-    s_sent --> [*]
+    state "Unread" as unread
+    state "Read" as read
+    [*] --> unread
+    unread --> read : recipient marks as read; record read_at
 ```
 
 ## 8. Administration & Monitoring
@@ -183,23 +155,4 @@ stateDiagram-v2
     s_active --> s_active : acknowledged
     s_active --> s_resolved : Resolution reported
     s_resolved --> [*]
-```
-
-## 9. Dossier Version
-
-```mermaid
-stateDiagram-v2
-    direction TB
-    state "Not approved" as s_dossier_pending
-    state s_dossier_enough <<choice>>
-    state "Approved" as s_dossier_approved
-    state "Superseded" as s_dossier_superseded
-    [*] --> s_dossier_pending
-    s_dossier_pending --> s_dossier_enough : approval recorded
-    s_dossier_enough --> s_dossier_pending : [eligible approvals below requirement]
-    s_dossier_enough --> s_dossier_approved : [eligible approvals meet review settings]
-    s_dossier_approved --> s_dossier_approved : Export authorized
-    s_dossier_pending --> s_dossier_superseded : new accepted version
-    s_dossier_approved --> s_dossier_superseded : new accepted version
-    s_dossier_superseded --> [*]
 ```

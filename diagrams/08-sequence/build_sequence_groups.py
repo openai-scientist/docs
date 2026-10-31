@@ -7,7 +7,7 @@ import xml.etree.ElementTree as E
 from sequence_flows import GROUPS
 
 OUT = Path(__file__).resolve().parent
-REPORT = Path('C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md')
+REPORT = Path('C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md')
 BASE = ('html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;'
         'strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;')
 ROW = 54
@@ -292,8 +292,8 @@ def build():
         '- Caption Answer Gate được ánh xạ sang Answer Decision Inbox Item (FR-28–30).',
         '- Caption Accept/Send Back/Rerun được thể hiện bằng acceptance, revision và version mới; không mở lại accepted object để sửa.',
         '- Pause/Resume/Stop/Abandon dùng Cancel and Synchronize Run theo state model IV 3.4; không tạo state paused hoặc resurrect ended run.',
-        '- Charter/Directives → Configure Action Policy; Consultations → Handle Must-Ask and Tentative Decisions; Endorse/Retry → Confirm or Overturn Tentative Decision theo IV 3.6.',
-        '- Reviewer Queue → View Actionable Decision Inbox, không khôi phục queue nghiệp vụ riêng đã bỏ.',
+        '- Charter/Directives, Stage Outcome/Failure/Close Consultations và Endorse/Retry Consultation có tab riêng theo III 3.7.1–3.7.3; không đồng nhất với action policy hoặc tentative decision.',
+        '- Reviewer Queue có tab riêng theo III 3.8.2 và SC-13; không đồng nhất với Decision Inbox. Các bước nội bộ là đề xuất thiết kế.',
         '- Execution và Paper thêm theo IV 3.5 (FE-09/10); Local Job thêm theo Figure IV-12. Experiment Design và Execution cùng đối chiếu Figure IV-10.',
         '- Các lựa chọn dùng alt riêng; không ghép Rename/Test/Delete thành một message có dấu /. Read không biến thành write, lỗi không rơi tiếp vào nhánh thành công.',
         '- Quyền project được kiểm tra trước khi đọc/ghi; Sign In/Invitation và Platform Admin dùng đúng scope. Admin project list chỉ trả metadata. Secret chỉ trả reference; không đưa khóa vào log/output.',

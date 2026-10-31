@@ -460,6 +460,26 @@ GROUPS += [
             opt('[run ended]', [call('s', 'i', 'proposeNextStep(runId)', 'Proposal from fixed allowed set'),
                 db('Read close report and remaining gaps', 'User chooses next step; PI never ends run')])],
            participants={'i': ': AIPrincipalInvestigator'}),
+        flow('Charter and Directives', 'IV 3.6.2', 'III 3.7.1; FR-31, FR-32', 'Researcher / Project Manager',
+             'DecisionController', 'DecisionService', 'Submit run goals, limits and questions', [
+                 db('Read run context and existing charter', 'Current charter'),
+                 alt(('[invalid input or unauthorized change]', []), ('[valid charter and directives]', [
+                     db('Record goals, limits and questions for this run', 'Charter and directives recorded'),
+                     db('Record user action in decision log', 'Action recorded')]))]),
+        flow('Stage Outcome Failure and Close Consultations', 'IV 3.6.3', 'III 3.7.2; NS-03; FR-31, FR-35', 'Project member',
+             'DecisionController', 'DecisionService', 'Request background consultation for stage outcome, failure or run close', [
+                 db('Record consultation and event context', 'Queued consultation'),
+                 call('s', 'i', 'Consult AI PI with authorized run context', 'Advice or consultation failure'),
+                 alt(('[consultation failed]', [db('Record failure for the consultation', 'Failure recorded')]),
+                     ('[advice returned]', [db('Record advice and notebook entry', 'Consultation result'),
+                         db('Keep pinned actions for user decision', 'No pinned decision by AI PI')]))],
+             participants={'i': ': AIPrincipalInvestigator'}, system_trigger=': RunOrchestrator'),
+        flow('Endorse or Retry Consultation', 'IV 3.6.4', 'III 3.7.3; FR-30, FR-177', 'Researcher / Project Manager',
+             'DecisionController', 'DecisionService', 'Review consultation advice(action)', [
+                 db('Read consultation and check action eligibility', 'Consultation context'),
+                 alt(('[not eligible or result unavailable]', []),
+                     ('[endorse advice]', [db('Record endorsement and user action', 'Endorsement recorded')]),
+                     ('[request new consultation]', [db('Record user override and queue new consultation', 'New consultation queued')]))]),
     ]),
     dict(folder='07-notifications-integrations', slug='Notifications-Integrations',
          title='Notifications & Integrations', flows=[
@@ -489,6 +509,12 @@ GROUPS += [
                  alt(('[not recipient]', []), ('[one notice]', [db('Mark own notification read', 'Read state')]),
                      ('[all own notices]', [db('Mark current user notices read', 'Own read states')]))],
              session_only=True),
+        flow('View Reviewer Queue', 'IV 3.7.3', 'III 3.8.2; SC-13; FE-15', 'Project member',
+             'CollaborationController', 'ReviewService', 'Read review items across projects', [
+                 db('Find projects where the user is a member', 'Authorized memberships'),
+                 db('Read items awaiting review for this user across those projects', 'Authorized review items'),
+                 db('Return project and item references', 'Reviewer queue')], session_only=True,
+             display='Show items awaiting the user review'),
     ]),
     dict(folder='08-administration-monitoring', slug='Administration-Monitoring',
          title='Administration & Monitoring', flows=[

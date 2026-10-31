@@ -84,21 +84,12 @@ Các caption cũ được ánh xạ theo nghiệp vụ hiện hành; không khô
 
 ### 09-state-machine
 
-File chung: [State-Machine-Diagrams.drawio](09-state-machine/State-Machine-Diagrams.drawio). **Tám nhóm Class Diagram và tab Dossier Version riêng**, giữ đầy đủ trạng thái/nhánh, không khối lồng, dùng junction cho các nhánh thay thế khi cần và nhãn sự kiện/guard rõ trên đường nối; [Yes]/[No] là guard alias có predicate trong thuyết minh. Mỗi vòng đời là một graph UML liền mạch, mỗi state chỉ xuất hiện một lần; không dùng nhãn end event hoặc state lặp theo cụm sự kiện. Có PNG riêng từng tab, builder và [inventory/nguồn/truy vết](09-state-machine/State-Machine-Diagrams-design.md). Chưa chèn ảnh/thay placeholder trong report.
-
-- [x] Authentication & Account — bản đăng nhập email đã duyệt.
-- [x] Project Workspace — Project; Dossier Version được tách thành tab riêng.
-- [x] Data Management — vòng đời Local Node pairing với project, thiết kế dự kiến từ UC-08/31.
-- [x] Research Run Orchestration — Research Run.
-- [x] Research Engines — Hand-off Object version: composite chứa bảy state chưa stale, một transition chung tới Stale.
-- [x] AI Principal Investigator — Decision Item.
-- [x] Notifications & Integrations — notification email delivery, đề xuất từ schema/policy.
-- [x] Administration & Monitoring — monitoring alert, đề xuất từ schema/hành vi.
-- [x] Dossier Version — approval và export theo từng version.
-
-Theo yêu cầu mới, Local Node trong Report7/Class được thể hiện trở lại trong bộ State như thiết kế dự kiến; Run khôi phục nhánh chờ/resume node_offline. Không xác nhận Local Node đã được triển khai. Các lifecycle đã hoàn tất nối final; Stale và Failed có thể còn rework/retry nên chưa kết thúc. Tám nhóm chức năng không phải tám lifecycle bắt buộc trong report. Class/Report7 nguồn chưa được thu hẹp theo implementation trong đợt sửa State này.
+[State Machine Diagram](09-state-machine/State-Machine-Diagrams.drawio) gồm tám tab, mỗi tab là một vòng đời chính: Account, Project, Dataset, Research Run, Hand-off Object Version, Decision Item, in-app Notification và Monitoring Alert. Mỗi tab có PNG riêng; xem [inventory và nguồn](09-state-machine/State-Machine-Diagrams-design.md). Dataset và in-app Notification là các trạng thái khái niệm; Project còn khác biệt giữa lifecycle và schema được ghi trong thuyết minh.
 
 ### 10-activity
+
+Theo yêu cầu tổ chức như Class Diagram, [bộ editable tám tab](10-activity/Activity-Diagrams.drawio) có mỗi nhóm một luồng đại diện; xem [nguồn, giới hạn và PNG](10-activity/Activity-Diagrams-design.md). Bộ này không thay thế danh sách main workflow Review 2 bên dưới.
+
 - [ ] `Activity-Diagram-Execute-Research-Run.drawio` (IV-6)
 - [ ] `Activity-Diagram-Handle-Decision-Request.drawio` (IV-9)
 - [ ] `Activity-Diagram-Independent-Review-Process.drawio` (IV-11)

@@ -1,24 +1,23 @@
 # State Machine Diagrams — các vòng đời theo nhóm chức năng
 
-- [File draw.io chung chín tab](State-Machine-Diagrams.drawio)
+- [File draw.io chung tám tab](State-Machine-Diagrams.drawio)
 - [Builder](build_state_diagrams.py)
 - [Rule](rule.md)
 
-Nguồn: `C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md`, SHA-256 `8618eb8123e0a3d259c9e5f5ba97f9e29602534ae3503b2aaa25e0d2e5eb232d`. Cách chia tab theo [Class Diagram](../07-class/Class-Diagrams-design.md), không suy từ số entity lifecycle. Đối chiếu [Report IV](../../report/04-software-design-document.md).
+Nguồn: `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md`. Cách chia tab theo [Class Diagram](../07-class/Class-Diagrams-design.md), không suy từ số entity lifecycle. Đối chiếu [Report IV](../../report/04-software-design-document.md).
 
 ## Inventory
 
 | Tab | PNG | Nguồn |
 |---|---|---|
-| 1. Authentication & Account | [Authentication-Account](01-Authentication-Account.png) | III 3.2.1; IV 3.1 |
+| 1. Authentication & Account | [Authentication-Account](01-Authentication-Account.png) | III 3.9.1; IV 2.2.1 |
 | 2. Project Workspace | [Project-Workspace](02-Project-Workspace.png) | III 3.3.1–3.3.3; IV 3.2.14 |
-| 3. Data Management | [Data-Management](03-Data-Management.png) | IV 3.3.11; IV 3.12; FR-85/87/110/242 |
+| 3. Data Management | [Data-Management](03-Data-Management.png) | III 3.4.1, 3.4.4, 3.4.5; FR-09 |
 | 4. Research Run Orchestration | [Research-Run-Orchestration](04-Research-Run-Orchestration.png) | IV 3.4.2, Figure IV-7; IV 3.13 |
 | 5. Research Engines | [Research-Engines](05-Research-Engines.png) | IV 3.4.3, Figure IV-8; IV 3.11; IV 3.8 |
 | 6. AI Principal Investigator | [AI-Principal-Investigator](06-AI-Principal-Investigator.png) | IV 3.6.7; IV 3.5.2; IV 3.13; FR-22/28/31/91/265 |
-| 7. Notifications & Integrations | [Notifications-Integrations](07-Notifications-Integrations.png) | IV 2.2.16 notification_emails; IV 2.2.11 integration_deliveries; IV 3.7 |
+| 7. Notifications & Integrations | [Notifications-Integrations](07-Notifications-Integrations.png) | III 3.8.4; IV 2.2.14 |
 | 8. Administration & Monitoring | [Administration-Monitoring](08-Administration-Monitoring.png) | III 3.9.9; IV 2.2.38 monitoring_alerts; IV 3.8; FR-104 |
-| 9. Dossier Version | [Dossier-Version](09-Dossier-Version.png) | IV 3.14; FR-94–98, FR-249–253 |
 
 ## Report mẫu tham khảo hình
 
@@ -41,33 +40,37 @@ Profile áp dụng: Arial state 12/transition 11, cùng tỉ lệ bố cục com
 
 ## Cách đọc và mức thiết kế
 
-Giữ đầy đủ trạng thái và nhánh; Research Engines và Research Run dùng state phẳng, các transition chung được vẽ riêng từ từng state; các view khác giữ bố cục hiện có. Câu hỏi trong hình thoi, guard [No] trái/[Yes] phải; Yes/No là alias của biểu thức guard ở bảng dưới, không phải event. Nhãn ngắn nằm trực tiếp trên đường nối nền trắng; điều kiện, effect và reference đầy đủ ở bảng dưới. Research Engines có transition riêng từ từng state tới Stale; các nhánh revision giữ đường riêng; không dùng nhãn chung end event. Mỗi vòng đời là một graph liền mạch, mỗi state chỉ xuất hiện một lần; không tách các cụm sự kiện rồi vẽ lại state. Các transition dùng nét liền và đầu mũi tên mặc định có tô. Nhãn theo trigger [guard] / effect; choice chỉ phân nhánh tức thời theo guard; không đợi event ở đường ra. Event userDecisionSubmitted phải tới trước choice confirm/overturn. Reason/result là field context, giá trị và phép gán đầy đủ ở metadata/bảng transition; không cần ô chú thích kỹ thuật riêng trên ảnh theo profile report mẫu. model-state trong XML ánh xạ nhãn dễ đọc về state code nguồn. Đường chính/hồi tiếp vuông góc; transition tới Stale áp dụng khi pinned upstream có version mới. Mỗi điểm final chỉ có ý nghĩa hoàn tất phạm vi đang mô tả, không phải xóa bản ghi.
+Giữ đầy đủ trạng thái và nhánh; Research Engines và Research Run dùng state phẳng, các transition chung được vẽ riêng từ từng state; các view khác giữ bố cục hiện có. Câu hỏi trong hình thoi, guard [No] trái/[Yes] phải; Yes/No là alias của biểu thức guard ở bảng dưới, không phải event. Nhãn ngắn nằm trực tiếp trên đường nối nền trắng; điều kiện, effect và reference đầy đủ ở bảng dưới. Research Engines có transition riêng từ từng state tới Stale; các nhánh revision giữ đường riêng; không dùng nhãn chung end event. Mỗi vòng đời là một graph liền mạch, mỗi state chỉ xuất hiện một lần; không tách các cụm sự kiện rồi vẽ lại state. Các transition dùng nét liền và đầu mũi tên mặc định có tô. Nhãn theo trigger [guard] / effect; choice chỉ phân nhánh tức thời theo guard; không đợi event ở đường ra. Event userDecisionSubmitted phải tới trước choice confirm/overturn. Reason/result là field context, giá trị và phép gán đầy đủ ở metadata/bảng transition; không cần ô chú thích kỹ thuật riêng trên ảnh theo profile report mẫu. model-state trong XML ánh xạ nhãn dễ đọc về state code nguồn. Đường chính/hồi tiếp vuông góc; transition tới Stale áp dụng khi pinned upstream có version mới. Final đánh dấu kết thúc phạm vi mô tả; tác động lưu trữ phải đọc theo transition và nguồn của từng đối tượng.
 
-Tám nhóm chức năng được tổ chức thành chín tab: Dossier Version có tab riêng, cùng các vòng đời theo nhóm Class. Tab Data Management mô tả vòng đời một Local Node pairing theo yêu cầu mới, ở mức thiết kế dự kiến; chưa xác nhận implementation. Các lifecycle còn lại giữ nguồn và giới hạn thiết kế; Notifications/Monitoring là view đề xuất từ schema/hành vi.
+Tám tab thể hiện một đối tượng chính cho mỗi nhóm. Dataset available và notification unread/read là cách diễn giải vòng đời, không phải enum xác nhận trong schema. Nhánh Local Node trong Run vẫn là thiết kế dự kiến.
 
-Các status lấy từ nguồn nhưng một enum không tự xác nhận đầy đủ transition. Những nhãn hay transition diễn giải được chỉ rõ trong từng mục. Không đổi nghiệp vụ BRD/PRD/Use Case Spec; không thay placeholder Word. Final UML đánh dấu hoàn tất vòng đời/region, không hàm ý xóa record. Run có completion từ Ended tới final, result vẫn lưu; Authentication kết thúc một lần đăng nhập. Archived và Superseded kết thúc vòng đời trong phạm vi hình, không kết luận record bị xóa hoặc hệ thống không bao giờ có chức năng khôi phục. Các Decision Item đã trả lời/đóng, email Sent/Skipped và alert Resolved đều nối final. Decision Item gom đường vẽ các transition hoàn tất về một final chung; các view khác có thể dùng final riêng. Stale giữ lịch sử version; acceptance/rerun upstream-downstream không phải tự sửa version cũ. Không thêm final/transition phục hồi chưa chốt. Failed có thể giữ nguyên; retry email là đề xuất, không bảo đảm luôn retry.
+Các status lấy từ nguồn nhưng một enum không tự xác nhận đầy đủ transition. Những nhãn hay transition diễn giải được chỉ rõ trong từng mục. Không đổi nghiệp vụ BRD/PRD/Use Case Spec; không thay placeholder Word. Final UML đánh dấu hoàn tất vòng đời/region; với Dataset, transition vào final là xóa được cho phép, còn ý nghĩa lưu trữ sau xóa chưa được đặc tả. Run có completion từ Ended tới final, result vẫn lưu; Email Code Sign-In kết thúc một lần đăng nhập. Archived và Superseded kết thúc vòng đời trong phạm vi hình, không kết luận record bị xóa hoặc hệ thống không bao giờ có chức năng khôi phục. Các Decision Item đã trả lời/đóng, email Sent/Skipped và alert Resolved đều nối final. Decision Item gom đường vẽ các transition hoàn tất về một final chung; các view khác có thể dùng final riêng. Stale giữ lịch sử version; acceptance/rerun upstream-downstream không phải tự sửa version cũ. Không thêm final/transition phục hồi chưa chốt. Failed có thể giữ nguyên; retry email là đề xuất, không bảo đảm luôn retry.
 
 Test ID trong metadata/bảng là tham chiếu kịch bản, không phải kết quả test runtime. Design routing/retry check là kiểm tra thiết kế còn cần bổ sung, không bịa TC ID.
 
 ## Hiệu chỉnh sau review 2026-10-30
 
-Bảo toàn transition-spec trước khi rút gọn nhãn. Nhãn AI PI [eligible] là alias của guard autopilot and away and not pinned; guard đầy đủ, timeout và effect confirm/overturn lưu trong metadata và bảng. Result của Run và effect export/audit của Dossier được giữ trong metadata và bảng. Review bao gồm revision work; sự kiện hoàn tất checks có guard tối đa hai vòng. Phạm vi stale version được ghi trong thuyết minh; email retry ghi proposed. Monitoring dùng resolution reported trực tiếp.
+Bảo toàn transition-spec trước khi rút gọn nhãn. Nhãn AI PI [eligible] là alias của guard autopilot and away and not pinned; guard đầy đủ, timeout và effect confirm/overturn lưu trong metadata và bảng. Result của Run được giữ trong metadata và bảng. Review bao gồm revision work; sự kiện hoàn tất checks có guard tối đa hai vòng. Phạm vi stale version được ghi trong thuyết minh; email retry ghi proposed. Monitoring dùng resolution reported trực tiếp.
 
 Giới hạn chưa chốt: cách ưu tiên nhiều blocker đồng thời của Run; identity/liên kết item tentative; chính sách retry và kết thúc failure email. Không tự thêm thuật toán hoặc transition cho các điểm này.
 
 ## 1. Authentication & Account
 
-III 3.2.1; IV 3.1.
+III 3.9.1; IV 2.2.1.
 
-Một lần đăng nhập email; giữ graph đã duyệt, chỉ đổi tên tab theo nhóm Class.
+Vòng đời account active/suspended; initial active là diễn giải thiết kế, không xác nhận runtime.
 
-Xem [nguồn và truy vết bản Authentication đã duyệt](Sign-In-With-Email-Code-design.md).
+| Transition | Nhãn ngắn | Điều kiện / nguồn đầy đủ | Test reference |
+|---|---|---|---|
+| Initial → Active account (active) | (nối đường) | III 3.2.1; IV 2.2.1 users; initial active is a design interpretation | Design entry check |
+| Active account (active) → Suspended account (suspended) | admin suspends account | UML: admin suspends account; III 3.9.1; IV 2.2.1 users status active/suspended | Design transition check |
+| Suspended account (suspended) → Active account (active) | admin reactivates account | UML: admin reactivates account; III 3.9.1; IV 2.2.1 users status active/suspended | Design transition check |
 
 ## 2. Project Workspace
 
 III 3.3.1–3.3.3; IV 3.2.14.
 
-Vòng đời Project gồm Active, Completed, Archived; Archived là read-only. Dossier Version được tách sang tab riêng.
+Vòng đời khái niệm Project gồm Active, Completed, Archived; Archived là read-only. Schema IV 2.2.6 dùng status draft/data_ready/researching/needs_review/completed và archived_at; quan hệ giữa hai cách biểu diễn chưa được đặc tả. Không coi Active/Archived là enum schema. Dossier không thuộc tám hình chính.
 
 | Transition | Nhãn ngắn | Điều kiện / nguồn đầy đủ | Test reference |
 |---|---|---|---|
@@ -80,19 +83,15 @@ Vòng đời Project gồm Active, Completed, Archived; Archived là read-only. 
 
 ## 3. Data Management
 
-IV 3.3.11; IV 3.12; FR-85/87/110/242.
+III 3.4.1, 3.4.4, 3.4.5; FR-09.
 
-Theo yêu cầu mới, khôi phục thiết kế vòng đời một Local Node pairing với project: Unpaired, Paired online, Paired offline, Revoked. Đây là state khái niệm từ UC-08/31 và FR-85/87/110/241/242, không khẳng định enum implementation. Pairing hợp lệ đưa tới online; mất kết nối không mất pairing; reconnect quay online. Revocation từ cả online/offline chặn local jobs, nêu lý do và giữ published objects readable. Final kết thúc pairing hiện tại, không xóa Node/results; re-pairing ngoài view. Không biến kiểm hash, chạy job hay release gate thành state của Node.
+Vòng đời Dataset ở mức khái niệm: tồn tại, thêm version immutable và kết thúc khi xóa được cho phép. Available không phải enum schema; điều kiện xóa chưa được đặc tả đầy đủ.
 
 | Transition | Nhãn ngắn | Điều kiện / nguồn đầy đủ | Test reference |
 |---|---|---|---|
-| Initial → Unpaired (unpaired) | (nối đường) | UC-08 precondition: installed Node before project pairing | TC-08 |
-| Unpaired (unpaired) → Paired<br>(online) (paired_online) | Pairing succeeds | UML: pairing succeeds<br>[valid project pairing code]; UC-08; FR-87; conceptual connected pairing outcome | TC-08 |
-| Paired<br>(online) (paired_online) → Paired<br>(offline) (paired_offline) | connection lost | UML: connection lost; UC-31; FR-85; connection status independent of local job status | TC-31 |
-| Paired<br>(offline) (paired_offline) → Paired<br>(online) (paired_online) | Node reconnects | UML: Node reconnects; UC-31 alternative flow; IV 3.4.2 waiting(node_offline) | TC-31 |
-| Paired<br>(online) (paired_online) → Revoked (revoked) | Pairing revoked | UML: pairing revoked<br>/ reject local jobs; explain reason;<br>keep published objects readable; UC-31; FR-110; FR-241; FR-242; end of this pairing, not deletion of Node or results | TC-31 |
-| Paired<br>(offline) (paired_offline) → Revoked (revoked) | Pairing revoked | UML: pairing revoked<br>/ reject local jobs; explain reason;<br>keep published objects readable; UC-31; FR-110; FR-241; FR-242; end of this pairing, not deletion of Node or results | TC-31 |
-| Revoked (revoked) → Final | (nối đường) | UML completion within the depicted lifecycle scope; history remains stored | Design completion check |
+| Initial → Dataset available (conceptual_available) | / create first version with hash | UML: / create first version with hash; III 3.4.1; FR-09; IV 3.3; upload or import; conceptual lifecycle not a status enum | Design entry check |
+| Dataset available (conceptual_available) → Dataset available (conceptual_available) | new version<br>/ retain prior versions | UML: new version<br>/ retain prior versions; III 3.4.5; FR-09; immutable DatasetVersion | Design transition check |
+| Dataset available (conceptual_available) → Final | authorized deletion confirmed | UML: authorized deletion confirmed; III 3.4.4; deletion constraints unspecified | Design transition check |
 
 ## 4. Research Run Orchestration
 
@@ -174,22 +173,14 @@ IV 3.6.7; IV 3.5.2; IV 3.13; FR-22/28/31/91/265.
 
 ## 7. Notifications & Integrations
 
-IV 2.2.16 notification_emails; IV 2.2.11 integration_deliveries; IV 3.7.
+III 3.8.4; IV 2.2.14.
 
-Vòng đời email thông báo đủ pending, sending, sent, failed, skipped theo schema. Điều kiện send/skip và retry scheduled là đề xuất thiết kế từ notification policy/settings và attempts; không lấy lifecycle integration_deliveries làm bằng chứng cho retry email; report chưa chốt thuật toán retry hoặc chuyển tiếp của mọi status. Không tự đặt TTL/retry limit hoặc hứa luôn retry. External notices chỉ cho blocking pinned item và spending item theo policy. Sent biểu diễn kết quả gửi/chấp nhận từ nhà cung cấp, không chứng minh email đến inbox. IntegrationDelivery dùng pending/sending/sent/failed, không có skipped; không coi email và webhook là cùng một enum.
+Vòng đời notification trong ứng dụng theo read_at: unread và read là diễn giải, không phải enum. Email delivery không thuộc tám hình chính.
 
 | Transition | Nhãn ngắn | Điều kiện / nguồn đầy đủ | Test reference |
 |---|---|---|---|
-| Initial → Pending | (nối đường) | IV 2.2.16 notification_emails; IV 3.7 | TC-38 |
-| Pending → Should the email<br>be sent? | Dispatch requested | UML: dispatchRequested; IV 2.2.16; FR-100; notification settings | TC-38 |
-| Should the email<br>be sent? → Skipped | [No] | UML: [No]; IV 2.2.16 skipped; suppression condition proposed from settings; guard: external notice disallowed by policy or preferences | TC-38 |
-| Should the email<br>be sent? → Sending | [Yes] | UML: [Yes]; IV 2.2.16 sending; FR-100; guard: external notice allowed by policy and preferences | TC-38 |
-| Sending → Was delivery<br>successful? | Delivery result received | UML: deliveryResultReceived; IV 2.2.16 | TC-38 |
-| Was delivery<br>successful? → Failed | [No] | UML: [No]; IV 2.2.16 failed; guard: delivery failed | TC-38 |
-| Was delivery<br>successful? → Sent | [Yes] | UML: [Yes]; IV 2.2.16 sent; provider accepted, not inbox proof; guard: provider accepted delivery | TC-38 |
-| Failed → Pending | Retry scheduled (proposed) | UML: retry scheduled<br>(proposed); Design proposal for notification_emails; IV 2.2.16 attempts does not establish retry policy; no confirmed retry limit or terminal failure rule | Design retry check |
-| Skipped → Final | (nối đường) | UML completion within the depicted lifecycle scope; history remains stored | Design completion check |
-| Sent → Final | (nối đường) | UML completion within the depicted lifecycle scope; history remains stored | Design completion check |
+| Initial → Unread (read_at is null) | (nối đường) | IV 2.2.14 notifications read_at; conceptual lifecycle | Design entry check |
+| Unread (read_at is null) → Read (read_at is set) | recipient marks as read<br>/ record read_at | UML: recipient marks as read<br>/ record read_at; III 3.8.4; IV 2.2.14 notifications | Design transition check |
 
 ## 8. Administration & Monitoring
 
@@ -204,23 +195,6 @@ Vòng đời một monitoring alert: active/resolved theo schema. Acknowledge l�
 | Active alert → Resolved alert | Resolution reported | UML: resolution reported<br>/ record resolved_at; IV 2.2.38 status resolved; resolved_at; design event abstraction, no resolver or automatic resolution algorithm specified | TC-05 |
 | Resolved alert → Final | (nối đường) | UML completion within the depicted lifecycle scope; history remains stored | Design completion check |
 
-## 9. Dossier Version
-
-IV 3.14; FR-94–98, FR-249–253.
-
-Vòng đời một Dossier version: Not approved, Approved và Superseded. Export cần approved và pinned authorization; ghi audit version và format. Version mới cần approval riêng.
-
-| Transition | Nhãn ngắn | Điều kiện / nguồn đầy đủ | Test reference |
-|---|---|---|---|
-| Initial → Not approved | (nối đường) | IV 3.14; FR-94; FR-249; accepted PaperPack and EvidenceBundle, check hashes | TC-35 |
-| Not approved → Enough eligible<br>approvals? | approval recorded | UML: approval recorded; IV 3.14; FR-95; eligible approver under review settings | TC-35 |
-| Enough eligible<br>approvals? → Not approved | [No] | UML: [No]; FR-95; fewer eligible approvals than required; guard: eligible approvals below requirement | TC-35 |
-| Enough eligible<br>approvals? → Approved | [Yes] | UML: [Yes]; FR-95; enough eligible approvals; guard: eligible approvals meet review settings | TC-35 |
-| Approved → Approved | Export authorized | UML: pinned export authorized<br>/ export; audit version + format; FR-97; FR-98; pinned export approval, audit version and format | TC-36 |
-| Not approved → Superseded | new accepted version | UML: new accepted version; FR-96; FR-251; FR-252; new accepted EvidenceBundle or PaperPack; N+1 needs new approvals | TC-35 |
-| Approved → Superseded | new accepted version | UML: new accepted version; FR-96; FR-251; FR-252; old approvals retained as history | TC-35 |
-| Superseded → Final | (nối đường) | UML completion within the depicted lifecycle scope; history remains stored | Design completion check |
-
 ## Review UML theo hai hướng dẫn
 
 Đối chiếu [Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/about-state-diagrams/) về trạng thái đối tượng, sự kiện và guard; đối chiếu [draw.io](https://www.drawio.com/docs/diagram-types/uml/state-diagrams/) về shape, initial/final/choice và nhãn transition.
@@ -229,12 +203,8 @@ Vòng đời một Dossier version: Not approved, Approved và Superseded. Expor
 
 | Tab / choice | [Yes] tương ứng | [No] tương ứng |
 |---|---|---|
-| Authentication & Account / Is code correct<br>and unexpired? | code correct and unexpired | code incorrect or expired |
 | Research Engines / Are all contract<br>items green? | all contract items green | at least one contract item red |
 | AI Principal Investigator / Does the user<br>confirm? | submitted decision is confirm | submitted decision is overturn |
-| Notifications & Integrations / Should the email<br>be sent? | external notice allowed by policy and preferences | external notice disallowed by policy or preferences |
-| Notifications & Integrations / Was delivery<br>successful? | provider accepted delivery | delivery failed |
-| Dossier Version / Enough eligible<br>approvals? | eligible approvals meet review settings | eligible approvals below requirement |
 
 Các hướng dẫn là nguồn ký pháp, không xác nhận nghiệp vụ project. Notifications/Monitoring và các transition đề xuất vẫn có giới hạn nguồn như từng mục; validator XML không phải chứng nhận formal UML hoặc runtime test.
 

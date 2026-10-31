@@ -2,7 +2,7 @@
 
 Mỗi folder có một file draw.io chính; mỗi tab là một sequence riêng. PNG được xuất theo tab.
 
-Nguồn: `C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md`, SHA256 `8618eb8123e0a3d259c9e5f5ba97f9e29602534ae3503b2aaa25e0d2e5eb232d`. Nội dung theo III và IV của snapshot này; đối chiếu [Report III](../../report/03-software-requirements-specification.md), [Report IV](../../report/04-software-design-document.md) và [thiết kế class](../07-class/Class-Diagrams-design.md).
+Nguồn: `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md`, SHA256 `0fe3f9ff2670805d4cd41d279f19fc25fe72536fbad4fc58e7d98c4b092c5a3a`. Nội dung theo III và IV của snapshot này; đối chiếu [Report III](../../report/03-software-requirements-specification.md), [Report IV](../../report/04-software-design-document.md) và [thiết kế class](../07-class/Class-Diagrams-design.md).
 
 Đây là thiết kế đề xuất để duyệt, không phải reverse-engineering hoặc xác nhận runtime. Operation có trên Class Diagram được dùng lại; nhãn hành vi chưa có operation được giữ ở mức khái niệm, không tự tạo endpoint, DTO hoặc HTTP status. Theo yêu cầu người dùng, mọi tương tác dữ liệu đi qua Repository: Service → Repository → Database, reply theo chiều ngược lại. Repository là phân tách trách nhiệm thiết kế của bộ sequence này, không khẳng định đã có trong BE hoặc Class Diagram hiện tại. Không đổi Class Diagram hay BE trong đợt sửa này.
 
@@ -13,8 +13,8 @@ Email Code trong tab đầu Authentication và bản standalone dùng cùng mode
 - Caption Answer Gate được ánh xạ sang Answer Decision Inbox Item (FR-28–30).
 - Caption Accept/Send Back/Rerun được thể hiện bằng acceptance, revision và version mới; không mở lại accepted object để sửa.
 - Pause/Resume/Stop/Abandon dùng Cancel and Synchronize Run theo state model IV 3.4; không tạo state paused hoặc resurrect ended run.
-- Charter/Directives → Configure Action Policy; Consultations → Handle Must-Ask and Tentative Decisions; Endorse/Retry → Confirm or Overturn Tentative Decision theo IV 3.6.
-- Reviewer Queue → View Actionable Decision Inbox, không khôi phục queue nghiệp vụ riêng đã bỏ.
+- Charter/Directives, Stage Outcome/Failure/Close Consultations và Endorse/Retry Consultation có tab riêng theo III 3.7.1–3.7.3; không đồng nhất với action policy hoặc tentative decision.
+- Reviewer Queue có tab riêng theo III 3.8.2 và SC-13; không đồng nhất với Decision Inbox. Các bước nội bộ là đề xuất thiết kế.
 - Execution và Paper thêm theo IV 3.5 (FE-09/10); Local Job thêm theo Figure IV-12. Experiment Design và Execution cùng đối chiếu Figure IV-10.
 - Các lựa chọn dùng alt riêng; không ghép Rename/Test/Delete thành một message có dấu /. Read không biến thành write, lỗi không rơi tiếp vào nhánh thành công.
 - Quyền project được kiểm tra trước khi đọc/ghi; Sign In/Invitation và Platform Admin dùng đúng scope. Admin project list chỉ trả metadata. Secret chỉ trả reference; không đưa khóa vào log/output.
@@ -83,10 +83,14 @@ Ngoại lệ export: Execute Local Job and Release Aggregate, Hypothesis Stage, 
 | [AI Principal Investigator](06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) | 3 | [Confirm or Overturn Tentative Decision](06-ai-principal-investigator/03-Confirm-or-Overturn-Tentative-Decision.png) | IV 3.6.4; IV 3.6; FR-25–36, FR-262–266 |
 | [AI Principal Investigator](06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) | 4 | [View Lab Notebook](06-ai-principal-investigator/04-View-Lab-Notebook.png) | IV 3.6.5; IV 3.6; FR-25–36, FR-262–266 |
 | [AI Principal Investigator](06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) | 5 | [View PI Overview and Close Report](06-ai-principal-investigator/05-View-PI-Overview-and-Close-Report.png) | IV 3.6.6; IV 3.6; FR-25–36, FR-262–266 |
+| [AI Principal Investigator](06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) | 6 | [Charter and Directives](06-ai-principal-investigator/06-Charter-and-Directives.png) | IV 3.6.2; III 3.7.1; FR-31, FR-32 |
+| [AI Principal Investigator](06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) | 7 | [Stage Outcome Failure and Close Consultations](06-ai-principal-investigator/07-Stage-Outcome-Failure-and-Close-Consultations.png) | IV 3.6.3; III 3.7.2; NS-03; FR-31, FR-35 |
+| [AI Principal Investigator](06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) | 8 | [Endorse or Retry Consultation](06-ai-principal-investigator/08-Endorse-or-Retry-Consultation.png) | IV 3.6.4; III 3.7.3; FR-30, FR-177 |
 | [Notifications & Integrations](07-notifications-integrations/Sequence-Diagrams-Notifications-Integrations.drawio) | 1 | [Receive Notifications](07-notifications-integrations/01-Receive-Notifications.png) | IV 3.7.2; IV 3.7; FR-29, FR-100, FR-255, FR-264 |
 | [Notifications & Integrations](07-notifications-integrations/Sequence-Diagrams-Notifications-Integrations.drawio) | 2 | [View Actionable Decision Inbox](07-notifications-integrations/02-View-Actionable-Decision-Inbox.png) | IV 3.7.3; IV 3.6; FR-28; ADR-05 |
 | [Notifications & Integrations](07-notifications-integrations/Sequence-Diagrams-Notifications-Integrations.drawio) | 3 | [Set Notification Preferences](07-notifications-integrations/03-Set-Notification-Preferences.png) | IV 3.7.4; III 3.8.3; IV 3.7 |
 | [Notifications & Integrations](07-notifications-integrations/Sequence-Diagrams-Notifications-Integrations.drawio) | 4 | [Mark Notifications as Read](07-notifications-integrations/04-Mark-Notifications-as-Read.png) | IV 3.7.5; III 3.8.4 |
+| [Notifications & Integrations](07-notifications-integrations/Sequence-Diagrams-Notifications-Integrations.drawio) | 5 | [View Reviewer Queue](07-notifications-integrations/05-View-Reviewer-Queue.png) | IV 3.7.3; III 3.8.2; SC-13; FE-15 |
 | [Administration & Monitoring](08-administration-monitoring/Sequence-Diagrams-Administration-Monitoring.drawio) | 1 | [Manage Users](08-administration-monitoring/01-Manage-Users.png) | IV 3.8.2; III 3.9; IV 3.8; FE-17 |
 | [Administration & Monitoring](08-administration-monitoring/Sequence-Diagrams-Administration-Monitoring.drawio) | 2 | [Configure Models and Decision Provider](08-administration-monitoring/02-Configure-Models-and-Decision-Provider.png) | IV 3.8.3; III 3.9; IV 3.8; FE-17 |
 | [Administration & Monitoring](08-administration-monitoring/Sequence-Diagrams-Administration-Monitoring.drawio) | 3 | [Edit Platform and Engine Settings](08-administration-monitoring/03-Edit-Platform-and-Engine-Settings.png) | IV 3.8.4; III 3.9; IV 3.8; FE-17 |
