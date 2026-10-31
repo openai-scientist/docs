@@ -1,5 +1,186 @@
 # Changelog
 
+## 2026-10-30 — Slide Review 2
+
+- 2026-10-31: Sửa icon node Dokploy trong
+  [`diagrams/04-system-overview/System-Architecture-Diagram.drawio`](diagrams/04-system-overview/System-Architecture-Diagram.drawio):
+  node này trước đó dùng nhầm logo Docker. Thay bằng logo chính thức của Dokploy
+  (dokploy.com/icon.svg), tô màu `#111827` cho đọc được trên nền thẻ trắng và
+  thêm `<title>Dokploy</title>` theo cách các icon khác trong file đang làm.
+  Logo nhúng inline dạng data URI trong chính file `.drawio`, không có file ảnh
+  rời. Regenerate `System-Architecture-Diagram.png` bằng draw.io CLI (`-x -f png
+  -s 2`).
+  Validation: xem lại vùng Delivery pipeline trong PNG, icon hiển thị đúng.
+
+- 2026-10-31: Bỏ cột MoSCoW khỏi bảng trang Main features 2/2, chia lại độ rộng
+  ba cột còn lại cho kín khổ. Thông tin ngoài phạm vi MVP vẫn giữ ở dòng cuối và
+  ở dòng ghi chú dưới bảng.
+  File: [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  `docs/slides/FA26SE115_Review2.pptx`.
+  Validation: `validate.py` PASSED, render PDF kiểm tra trang 12 bằng mắt.
+
+- 2026-10-31: Làm lại trang Proposed solution cho dễ đọc khi thuyết trình: mỗi
+  stage kèm nghĩa tiếng Việt (hiểu dữ liệu, đặt giả thuyết, lập kế hoạch, chạy
+  phân tích, viết bài) và có mũi tên nối; bỏ đánh số ở bốn thẻ ràng buộc để
+  không lẫn với số stage; thay nhãn "Dossier: duyệt rồi mới được export" bằng
+  câu đầy đủ; đưa Row, Lock/envelope/unseal, Local Node, verdict xuống speaker
+  notes; rút tiêu đề còn một dòng. Nội dung nghiệp vụ không đổi.
+  File: [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  `docs/slides/FA26SE115_Review2.pptx`.
+  Validation: `validate.py` PASSED, render PDF kiểm tra trang 5 bằng mắt.
+
+- 2026-10-31: Chỉnh văn trên slide theo bộ quy tắc humanizer
+  (github.com/blader/humanizer): bỏ câu mở đầu đếm số ý ("Ba chuyện lặp đi lặp
+  lại:") ở trang Problem, tách thành ba câu nêu thẳng sự việc; bỏ lặp "không ai"
+  trong ý 1; sửa câu callout trang Proposed solution về cấu trúc tiếng Việt
+  tự nhiên ("Không hệ nào trong năm hệ thống đã khảo sát có đủ cả..."). Nội dung
+  nghiệp vụ không đổi, chỉ đổi cách diễn đạt.
+  File: [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  `docs/slides/FA26SE115_Review2.pptx`.
+  Validation: `validate.py` PASSED, đối chiếu lại chữ trang 3 bằng
+  `slide_text.py`.
+
+- 2026-10-31: Viết lại chữ trên hai trang Problem và Context bằng ngôn ngữ đời
+  thường, bỏ mọi mã tài liệu (BRD, BP-01…BP-16) và thuật ngữ nội bộ khỏi mặt
+  slide; phần ánh xạ sang mã BP, Lock/envelope, Local Node, Dossier chuyển hết
+  vào speaker notes để trả lời khi hội đồng hỏi.
+  Validation: `validate.py` PASSED, render PDF kiểm tra trang 3 và 4 bằng mắt.
+
+- 2026-10-31: Rút gọn hai trang Problem và Context về dạng danh sách ba ý đánh
+  số (theo mẫu slide tham chiếu), thay cho lưới card và hàng
+  Input–Process–Output–Control. Nội dung lấy từ
+  [`report/00-front-and-I-introduction.md`](report/00-front-and-I-introduction.md)
+  §1.3, §2, §3.6, §4, §5. Thêm helper `numbered()` trong builder.
+  Validation: `validate.py` PASSED, render PDF kiểm tra trang 3 và 4 bằng mắt.
+
+- 2026-10-31: Cập nhật phiếu đăng ký thành
+  `docs/1.2/register/FA26SE115_Phieu-dang-ky_v1.3.docx` cho khớp thiết kế hiện
+  hành; bản v1.2 giữ nguyên làm baseline. Thay đổi: mục b bổ sung năm stage và
+  hand-off object, Literature Base, Lock–envelope–unseal, claim ceiling, Local
+  Node với release gate, Dossier và approval trước export; cấu trúc dữ liệu rút
+  từ 5 xuống 4 loại, Type 5 chuyển sang mục ngoài phạm vi (EX-01, EX-08);
+  mục c đổi vai trò theo Report I §1.3 (Platform Admin, Project Manager,
+  Researcher, Reviewer, AI PI và personas); mục d bổ sung NFR về data
+  residency, run luôn kết thúc, truy vết số liệu và trích dẫn; mục e, f cập
+  nhật theo task family `binary`/`multiclass`/`regression`/`rare-event`;
+  RQ3 bỏ so sánh với single-prompt LLM baseline vì trái EX-09; mục 4 ghi lại
+  phạm vi, exclusion và quan hệ với baseline (workstream R4–R7 của Report II).
+  Validation: `validate.py --original` PASSED, render PDF 7 trang kiểm tra bằng
+  mắt. Không sửa `report/*.md`.
+
+- 2026-10-31: Bỏ callout cuối trang Problems (phần diễn giải ngoài phạm vi đặc
+  tả vấn đề) và bỏ hẳn trang "Data design · Conceptual ERD" theo yêu cầu của
+  người dùng. Deck còn 19 slide; section "Workflow và demo" được khai báo lại
+  tại trang Demo workflows vì khai báo cũ nằm trong khối đã xoá.
+  Validation: `validate.py` PASSED, render PDF kiểm tra trang 3 và các trang
+  sau vị trí xoá.
+
+- 2026-10-31: Viết lại nội dung hai trang Problems và Context theo Report I
+  ([`report/00-front-and-I-introduction.md`](report/00-front-and-I-introduction.md)
+  §2 Product Background, §3.6 Comparison and Research Gap, §4 Business
+  Opportunity) vì bản cũ viết tắt tới mức không hiểu được. Problems: mỗi ô nêu
+  đủ hiện tượng và hệ quả thay vì nhãn cụt; callout nói rõ bốn nhóm rút từ 16
+  business problem BP-01…BP-16. Context: ba cột đổi thành "Việc cần làm / Chỗ
+  dễ sai / Khoảng trống của công cụ hiện có", khoảng trống mô tả theo bảng so
+  sánh §3.6; hàng Input–Process–Output–Control viết thành câu đủ nghĩa và có
+  nhãn dẫn. Speaker notes bổ sung nguồn và các BP chưa lên slide.
+  Validation: `validate.py` PASSED, render PDF kiểm tra trang 3 và 4 bằng mắt.
+
+- 2026-10-31: Slide bìa — vẽ lại panel "Pipeline 5 stage": spine dọc nối năm
+  badge số, mỗi stage kèm hand-off object (DatasetSnapshot, HypothesisSet,
+  AnalysisPlan + Lock, EvidenceBundle, PaperPack). Thanh cuối nói rõ ràng buộc
+  phát hành thay vì chỉ gắn nhãn: "Dossier chốt kết quả của run / duyệt xong
+  mới xuất ra ngoài project" (FE-14, BP-16, SM-15, ADR-12), có mũi tên cam từ
+  stage `paper` xuống thanh gate để thể hiện pipeline kết thúc ở Dossier. Bỏ chip "Phiếu
+  đăng ký baseline v1.x" ở hàng mã đề tài. Panel dựng bằng shape gốc của
+  pptxgenjs nên sửa trực tiếp được trong PowerPoint; bản thử bằng ảnh PNG
+  (`pipeline-panel.png` và script sinh ảnh) đã bỏ để không giữ artifact phẳng.
+  Validation: `validate.py` PASSED, render PDF và kiểm tra trang bìa bằng mắt.
+
+- 2026-10-31: Đổi vị trí hai logo trên header mọi slide: lockup sản phẩm
+  (logo hệ thống + tên "OpenAI Scientist") chuyển sang mép trái, logo FPT
+  University chuyển sang mép phải. Sửa trong `chrome()` của
+  [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  build lại [`docs/slides/FA26SE115_Review2.pptx`](docs/slides/FA26SE115_Review2.pptx).
+  Validation: `validate.py` PASSED, render PDF và kiểm tra trang 2 bằng mắt
+  (không đè vào eyebrow hay hoạ tiết góc).
+
+- 2026-10-31: Thay infinity mark ở góc phải bằng lockup sản phẩm: logo hệ thống
+  cộng tên "OpenAI Scientist". Logo render từ
+  `ai-research-platform-fe/public/brand/logo-mark.svg` của repo sản phẩm ra
+  `docs/slides/assets/product-mark.png`. Validation: `validate.py` PASSED,
+  render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Theo quyết định của người dùng, bỏ bốn trang Logical ERD, State
+  machines và Business workflows 1/2, 2/2 (diagram dọc, chữ quá nhỏ khi chiếu).
+  Deck còn 20 slide; trang Agenda cập nhật theo. Lưu ý: guide §7.1 dòng 11–12,
+  13 và 14–15 vẫn liệt kê các mục này, hiện chỉ còn Conceptual ERD đại diện cho
+  Data Design. Asset `docs/slides/assets/activity/` giữ lại để dùng khi cần.
+  Validation: `validate.py` PASSED, render PDF 20/20 slide.
+
+- 2026-10-31: Trang Technology bổ sung thư viện front-end thực tế đọc từ
+  `package.json` của repo sản phẩm (shadcn/ui, Radix UI, TanStack Query, Redux
+  Toolkit, Zustand, React Hook Form, Zod, Axios) và nhóm hạ tầng · DevOps
+  (Traefik, Dokploy, Docker Hub, GitHub, GitHub Actions, Vitest, Biome, Husky,
+  Resend, Google sign-in). Logo Google thay bằng bản chính thống bốn màu;
+  `docs/slides/assets/tech/` còn 28 file. Validation: `validate.py` PASSED,
+  render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Trang Technology đổi từ bảng chữ sang lưới hạng mục và logo công
+  nghệ, theo mẫu người dùng cung cấp: sáu hàng Front-end, Back-end, Database ·
+  storage, AI · literature, DevOps · dịch vụ, Môi trường. Logo dựng từ gói
+  `simple-icons` ra `docs/slides/assets/tech/` (19 file); OpenAI, Dokploy và
+  Crossref không có trong gói nên để nhãn chữ. Danh sách công nghệ lấy theo
+  `diagrams/04-system-overview/System-Architecture-Diagram.png`. Validation:
+  `validate.py` PASSED, render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Hai trang Main features bỏ cột ID mã FE, thay bằng cột Mô tả; mã
+  FE vẫn giữ trong BRD/PRD và speaker notes. File:
+  `docs/slides/build_review2_slides.js`, `docs/slides/FA26SE115_Review2.pptx`.
+  Validation: `validate.py` PASSED, render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Bỏ hai trang actor AI PI và Persona (là engine và cơ chế bên
+  trong, không phải main actor); còn bốn main actor. Hai trang Business
+  workflows chuyển sang Activity Diagram có swimlane, export từ
+  `diagrams/11-optional/AI-Research-Experimentation-Platform-Activity-Main-Flows.drawio`
+  (trang Research Setup và Experiment Execution & Validation) ra
+  `docs/slides/assets/activity/`; bản export rút chiều cao lane thừa, file
+  diagram nguồn giữ nguyên. Deck còn 24 slide. Validation: `validate.py`
+  PASSED, render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Thêm bộ icon dựng từ react-icons (Feather) sang PNG tại
+  `docs/slides/assets/icons/`: sáu icon cho sáu trang main actor và bốn icon cho
+  hàng Input · Process · Output · Control ở trang Context. Script dựng icon nằm
+  trong scratchpad phiên làm việc, không thêm vào repo. Validation:
+  `validate.py` PASSED, render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Thêm trang Agenda (slide 2). Trang Context đổi từ context diagram
+  sang bối cảnh sản phẩm lấy từ Report I §2 Product Background và §4 Business
+  Opportunity. Trang Main actors tách thành sáu trang, mỗi actor một trang theo
+  mẫu người dùng cung cấp. Deck từ 20 lên 26 slide. File:
+  `docs/slides/build_review2_slides.js`, `docs/slides/FA26SE115_Review2.pptx`;
+  nguồn `report/00-front-and-I-introduction.md`. Validation: `validate.py`
+  PASSED, render PDF kiểm tra bằng mắt.
+
+- 2026-10-31: Bốn slide diagram (Context, System architecture, Logical ERD,
+  State machines) chuyển sang bố cục chỉ tiêu đề và sơ đồ, theo mẫu người dùng
+  cung cấp. Bỏ cột chú thích bên phải, phóng to sơ đồ và căn giữa khung nội
+  dung; toàn bộ phần giải thích chuyển vào speaker notes. File:
+  `docs/slides/build_review2_slides.js`, `docs/slides/FA26SE115_Review2.pptx`.
+  Validation: `scripts/office/validate.py` PASSED, render PDF kiểm tra bằng mắt
+  20/20 slide.
+
+- Thêm bộ slide Review 2 [FA26SE115_Review2.pptx](docs/slides/FA26SE115_Review2.pptx) (20 slide) theo đúng bảng mục 7.1 của [hướng dẫn chuẩn bị Review](docs/example/Capstone_Huong-dan-chuan-bi-Review-va-Hoi-dong_v1.3.pdf): Title, Problem, Context, Proposed Solutions, Scope updates after Review 1, Main Actors, Main Features (2 slide), System Architecture, Technology, Data Design (Conceptual ERD và Logical ERD), State Machines, Business Workflows (2 slide), Demo Workflows for Committee 1.1, Progress & Team Contribution, Risks & Open Issues, Plan to Week 14, Thank you · Q&A. Kèm [builder](docs/slides/build_review2_slides.js) để tái tạo slide từ nguồn.
+- Nội dung lấy từ [Report I](report/00-front-and-I-introduction.md), [Report II](report/02-project-management-plan.md), [Report III](report/03-software-requirements-specification.md), [Report IV](report/04-software-design-document.md), [Report V](report/05-software-testing-documentation.md) và diagram đã có ([system architecture](diagrams/04-system-overview/System-Architecture-Diagram.png), [context](diagrams/12-context/System-Context-Diagram-main-2.drawio.png), [database](diagrams/06-database/Database-Diagram.png), [state machine](diagrams/09-state-machine/04-Research-Run-Orchestration.png)). Slide chỉ trình bày lại nội dung đã có, không đặt requirement hoặc rule mới, nên không sửa BRD/PRD/Use Case Spec.
+- Danh sách Demo Workflows (WF-01..WF-05) và người demo là **đề xuất**, còn chờ leader chốt theo [review2-gaps.md](review2-gaps.md); ba câu hỏi mở cho GV phản biện (staging vs production, re-baseline 240 person-days, danh sách workflow) được ghi thẳng trên slide 10, 16 và 19.
+- Dựng lại toàn bộ slide theo style của [Review 1 - Capstone.pptx](docs/example/Review%201%20-%20Capstone.pptx): khổ 20″×11.25″, font Be Vietnam / Be Vietnam Ultra-Bold, bảng màu trung tính kèm accent cam, card bo góc, eyebrow in hoa + tiêu đề 42pt, logo FPT University và infinity mark cùng hoa văn góc trên mọi slide. Asset lấy từ chính file Review 1 và lưu tại `docs/slides/assets/`.
+- Ngôn ngữ theo đúng Review 1: eyebrow và tiêu đề slide bằng tiếng Anh, nội dung bằng tiếng Việt, thuật ngữ kỹ thuật (hand-off object, Lock, envelope, with_gaps, FE-xx, WF-xx) giữ nguyên tiếng Anh. Cấu trúc 21 slide, các con số và các điểm còn mở không đổi.
+- Bản dựng lại không thêm requirement, rule hay dữ liệu mới nên không sửa BRD/PRD/Use Case Spec.
+- Gọn lại đúng yêu cầu bảng 7.1: bỏ slide Testing & quality (bảng không có mục này), Problem rút còn bốn vấn đề cốt lõi mỗi vấn đề một dòng kèm mã BP, hai slide Data Design đổi thành Conceptual ERD và Logical ERD, và bỏ các khối card bổ trợ ở slide Scope updates, Main Features 2/2, Business Workflows 2/2, Demo Workflows, Progress và Risks để mỗi slide chỉ còn đúng nội dung bảng yêu cầu. Tổng còn 20 slide.
+- Viết lại nội dung theo hướng slide thuyết trình: mỗi slide chỉ giữ ý chốt, chữ cỡ lớn (tiêu đề 42pt, heading card 23–27pt, nội dung 17–20pt, bảng 18–19pt), bỏ câu dài và đoạn giải thích. Toàn bộ chi tiết (mã BP/FR/ADR, chuỗi bước workflow, danh sách entity planned, phân công RACI, mốc tuần) chuyển vào speaker notes của từng slide để người thuyết trình nói, không hiển thị trên màn chiếu.
+- Rà ngôn ngữ slide và speaker notes bằng bộ pattern của skill [humanizer](https://github.com/blader/humanizer) (dựa trên Wikipedia "Signs of AI writing"): bỏ em dash dùng làm liên từ ở 20 vị trí, thay bằng dấu hai chấm, chấm phẩy hoặc ngoặc đơn; bỏ cấu trúc not-X-but-Y ("không bằng quy ước làm việc", "không phải gọi API", "sinh tự động, không vẽ tay"); bỏ câu phản bác không có đối tượng ("không giấu"); thay chuỗi mũi tên trang trí bằng câu thường. Lượt rà thứ hai sửa thêm: từ thổi phồng ("cốt lõi" thành "chính"), câu mất chủ ngữ ở ghi chú đóng góp, chú thích ảnh lặp lại tiêu đề card bên cạnh, con số "12 thực thể planned" không khớp danh sách liệt kê, và dòng Môi trường trong bảng Technology mâu thuẫn với callout về staging. Giữ nguyên mọi số liệu, mã ID và nội dung nghiệp vụ.
+- Validation: `validate.py` đạt "All validations PASSED"; render toàn bộ 21 slide qua LibreOffice → PDF → ảnh và xem từng slide để kiểm tra tràn chữ, chồng lấn và lề; `slide_text.py` không còn placeholder text; sau khi đổi style đã render và xem lại toàn bộ slide, sửa các chỗ chữ tràn card và bảng bị dồn. Kiểm tra link changelog và `git diff --check`. Chưa commit/push.
+
 ## 2026-10-30 — Hợp nhất lịch sử tài liệu
 
 - Giữ các mục changelog của hai nhánh và cập nhật hai liên kết diagram đã chuyển vị trí; ghi đường dẫn tài liệu Review 2 không còn trong repository dưới dạng văn bản. Merge không thay đổi requirement hoặc workflow, nên không sửa BRD/PRD/Use Case Spec.
