@@ -180,6 +180,168 @@
 - Viết lại nội dung theo hướng slide thuyết trình: mỗi slide chỉ giữ ý chốt, chữ cỡ lớn (tiêu đề 42pt, heading card 23–27pt, nội dung 17–20pt, bảng 18–19pt), bỏ câu dài và đoạn giải thích. Toàn bộ chi tiết (mã BP/FR/ADR, chuỗi bước workflow, danh sách entity planned, phân công RACI, mốc tuần) chuyển vào speaker notes của từng slide để người thuyết trình nói, không hiển thị trên màn chiếu.
 - Rà ngôn ngữ slide và speaker notes bằng bộ pattern của skill [humanizer](https://github.com/blader/humanizer) (dựa trên Wikipedia "Signs of AI writing"): bỏ em dash dùng làm liên từ ở 20 vị trí, thay bằng dấu hai chấm, chấm phẩy hoặc ngoặc đơn; bỏ cấu trúc not-X-but-Y ("không bằng quy ước làm việc", "không phải gọi API", "sinh tự động, không vẽ tay"); bỏ câu phản bác không có đối tượng ("không giấu"); thay chuỗi mũi tên trang trí bằng câu thường. Lượt rà thứ hai sửa thêm: từ thổi phồng ("cốt lõi" thành "chính"), câu mất chủ ngữ ở ghi chú đóng góp, chú thích ảnh lặp lại tiêu đề card bên cạnh, con số "12 thực thể planned" không khớp danh sách liệt kê, và dòng Môi trường trong bảng Technology mâu thuẫn với callout về staging. Giữ nguyên mọi số liệu, mã ID và nội dung nghiệp vụ.
 - Validation: `validate.py` đạt "All validations PASSED"; render toàn bộ 21 slide qua LibreOffice → PDF → ảnh và xem từng slide để kiểm tra tràn chữ, chồng lấn và lề; `slide_text.py` không còn placeholder text; sau khi đổi style đã render và xem lại toàn bộ slide, sửa các chỗ chữ tràn card và bảng bị dồn. Kiểm tra link changelog và `git diff --check`. Chưa commit/push.
+## 2026-10-31 — Mở rộng luồng Activity theo tám nhóm
+
+- Mở rộng từng tab trong [bộ editable](diagrams/10-activity/Activity-Diagrams.drawio) và tám PNG, đối chiếu [sequence flows](diagrams/08-sequence/sequence_flows.py); cập nhật [thuyết minh và phạm vi](diagrams/10-activity/Activity-Diagrams-design.md). Bổ sung bước và nhánh nghiệp vụ; AI PI chuyển sang quyết định tạm, Notifications sang điều kiện gửi thông báo. Không thay đổi requirement, BRD/PRD/Use Case Spec; sơ đồ không xác nhận runtime.
+- Validation: validator draw.io strict 0 lỗi, 0 cảnh báo, score 0; xuất và xem tám PNG, kiểm tra cấu trúc và guard; `git diff --check`.
+
+## 2026-10-31 — Activity Diagram theo tám nhóm Class
+
+- Tạo [bộ editable tám tab](diagrams/10-activity/Activity-Diagrams.drawio), tám PNG và [thuyết minh phạm vi/nguồn](diagrams/10-activity/Activity-Diagrams-design.md); cập nhật [rule](diagrams/10-activity/rule.md) và [inventory](diagrams/README.md#10-activity). Mỗi nhóm chọn một luồng đại diện từ sequence; bộ này không thay thế năm main workflow Review 2. Không thay đổi requirement, BRD/PRD/Use Case Spec hoặc xác nhận runtime.
+- Validation: kiểm tra tám tab, guard và kết nối, validator draw.io strict, xuất và xem tám PNG; `git diff --check`.
+
+## 2026-10-31 — Chỉnh mẫu Activity Diagram theo góp ý
+
+- Bỏ khung ngoài của [mẫu đăng nhập editable](diagrams/10-activity/Sign-In-With-Email-Code-example.drawio), đặt câu hỏi trong decision và ghi `[No]` / `[Yes]` trên hai nhánh; xuất lại [PNG](diagrams/10-activity/Sign-In-With-Email-Code-example.png) và đồng bộ [rule](diagrams/10-activity/rule.md). Đây là thay đổi trình bày, không thay đổi requirement hay BRD/PRD/Use Case Spec.
+- Validation: validator draw.io strict, xuất và xem PNG, kiểm tra `git diff --check`.
+
+## 2026-10-31 — Điều chỉnh rule Activity Diagram và ví dụ
+
+- Cập nhật [rule](diagrams/10-activity/rule.md) theo hướng dẫn Visual Paradigm và draw.io: làm rõ decision/merge, fork/join, final, object flow và swimlane; giữ phạm vi main workflow Review 2. Thêm [ví dụ editable](diagrams/10-activity/Sign-In-With-Email-Code-example.drawio) và [PNG](diagrams/10-activity/Sign-In-With-Email-Code-example.png) dựa trên sequence và thuyết minh state hiện có. Đây là mẫu notation để duyệt, không thay đổi requirement hay xác nhận runtime; không cần sửa BRD/PRD/Use Case Spec.
+- Validation: validator draw.io strict 0 lỗi, 0 cảnh báo, score 0; xuất và xem PNG; kiểm tra link mới và `git diff --check`. Activitylint main-flow không phù hợp ví dụ hai lane và hiểu thoi decision trống là merge; không coi kết quả đó là kiểm chứng ngữ nghĩa.
+
+## 2026-10-31 — Giữ đúng tám state diagram chính
+
+- Thu gọn [file editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio), [builder](diagrams/09-state-machine/build_state_diagrams.py), [Mermaid](diagrams/09-state-machine/State-Machine-Diagrams-Mermaid.md), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md), [rule](diagrams/09-state-machine/rule.md) và [inventory](diagrams/README.md#09-state-machine) về tám vòng đời chính. Bỏ bốn tab và PNG phụ cùng ảnh/diagram đăng nhập standalone; giữ mã và ghi chú lịch sử. Các link lịch sử đến ảnh đã bỏ được ghi lại dạng văn bản.
+- Xuất tám PNG và cập nhật tám hình state tương ứng trong `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md`; mục Research Run chỉ còn hình Run. Không đổi BRD/PRD/Use Case Spec, vì thay đổi phạm vi trình bày. Các giới hạn về state khái niệm và khác biệt Project trong thuyết minh vẫn còn.
+- Validation: tái tạo builder; validator draw.io 0 lỗi, 0 cảnh báo, score 0; xuất và xem tám ảnh; kiểm tra số tab, hình trong report, liên kết và `git diff --check`.
+
+## 2026-10-31 — Chọn vòng đời chính cho tám nhóm State Diagram
+
+- Cập nhật [builder](diagrams/09-state-machine/build_state_diagrams.py), [draw.io](diagrams/09-state-machine/State-Machine-Diagrams.drawio), [Mermaid](diagrams/09-state-machine/State-Machine-Diagrams-Mermaid.md), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và [rule](diagrams/09-state-machine/rule.md): tám tab đầu lần lượt dùng Account, Project, Dataset, Run, Hand-off Object, Decision Item, in-app Notification và Monitoring Alert. Giữ Dossier, Email Code, Local Node pairing và notification email ở bốn tab riêng. Xuất PNG cho ba tab mới và ba tab được chuyển sang vị trí riêng.
+- Cập nhật ảnh Account, Dataset, in-app Notification và bổ sung ảnh Run trong `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md`, giữ ảnh Dossier. Không đổi BRD/PRD/Use Case Spec: đây là cách trình bày vòng đời, không thay đổi requirement. Dataset available và unread/read là trạng thái khái niệm, không phải enum mới; Local Node và email retry vẫn là thiết kế dự kiến. Schema Project có status và archived_at khác với view lifecycle; chưa có quy tắc ánh xạ đầy đủ.
+- Validation: chạy builder, validator draw.io score 0, xem PNG, kiểm tra ảnh nhúng và `git diff --check`; chưa xác nhận runtime.
+
+## 2026-10-31 — Bổ sung sequence khớp nội dung report
+
+- Đối chiếu Report7 mục III 3.7.1–3.7.3, III 3.8.2 và IV 3.6.2–3.6.4, 3.7.3. Bổ sung bốn tab và PNG trong [AI Principal Investigator](diagrams/08-sequence/06-ai-principal-investigator/Sequence-Diagrams-AI-Principal-Investigator.drawio) và [Notifications & Integrations](diagrams/08-sequence/07-notifications-integrations/Sequence-Diagrams-Notifications-Integrations.drawio); giữ các tab action policy, decision và inbox hiện hữu. Đồng bộ [flow source](diagrams/08-sequence/sequence_flows.py), [builder](diagrams/08-sequence/build_sequence_groups.py) và [inventory](diagrams/08-sequence/Sequence-Groups-design.md). Bốn ảnh được nhúng vào `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md` đúng caption; các bước nội bộ là đề xuất thiết kế, không xác nhận runtime. Không đổi BRD/PRD hoặc use case; report nêu mô tả màn hình tương ứng.
+- Chưa giải quyết mâu thuẫn caption Pause/Resume/Stop/Abandon với FR-21/22 và mô hình state; không thêm hành vi chưa được thống nhất.
+- Validation: tái tạo tám nhóm; validator hai file thay đổi 0 lỗi, 0 cảnh báo, score 0; xuất và xem bốn PNG; kiểm tra reference ảnh trong report và `git diff --check`.
+
+
+
+
+
+
+
+## 2026-10-30 — Đồng bộ chỉnh sửa tay State Diagram
+
+- Đồng bộ đường nối do người dùng chỉnh ở [Research Engines](diagrams/09-state-machine/05-Research-Engines.png) và [AI Principal Investigator](diagrams/09-state-machine/06-AI-Principal-Investigator.png) vào [builder](diagrams/09-state-machine/build_state_diagrams.py), xuất lại PNG từ [draw.io](diagrams/09-state-machine/State-Machine-Diagrams.drawio) hiện tại. Đây là điều chỉnh bố cục, không thay đổi requirement hoặc nội dung nghiệp vụ.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; chạy builder trong thư mục tạm và đối chiếu cell, style và geometry cả chín tab với file đã chỉnh; xem hai PNG; `git diff --check`.
+
+## 2026-10-30 — Gom đường kết thúc AI Principal Investigator
+
+- Bỏ các junction hiển thị trong [AI Principal Investigator](diagrams/09-state-machine/06-AI-Principal-Investigator.png); các transition hoàn tất dùng chung đường vẽ đến một final. Trong [draw.io](diagrams/09-state-machine/State-Machine-Diagrams.drawio), mỗi transition vẫn có source và target riêng. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và [rule](diagrams/09-state-machine/rule.md); không thay đổi requirement.
+- Validation: builder chạy thành công; validator strict 0 lỗi, 0 cảnh báo; đã xem PNG, kiểm tra tái tạo và `git diff --check`. Các đoạn đường trùng nhau là chủ ý để tạo đường chung.
+
+## 2026-10-30 — Gom final của AI Principal Investigator
+
+- Chuyển trạng thái Closed do huỷ run sang bên phải, gom các nhánh hoàn tất bằng junction tới một final trong [AI Principal Investigator](diagrams/09-state-machine/06-AI-Principal-Investigator.png). Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [draw.io](diagrams/09-state-machine/State-Machine-Diagrams.drawio), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và [rule](diagrams/09-state-machine/rule.md). Đây là thay đổi trình bày, không thay đổi requirement.
+- Validation: builder, validator strict 0 lỗi 0 cảnh báo, xuất và xem PNG, kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Giảm kích thước mũi tên State Diagram
+
+- Giảm kích thước đầu mũi tên từ 10 xuống 7 trong [diagram chín tab](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và diagram đăng nhập (đã loại khỏi bộ hiện hành); cập nhật builder và xuất lại PNG. Đây là thay đổi trình bày, không đổi requirement.
+- Validation: chạy hai builder; validator strict 0 lỗi, 0 cảnh báo cho cả hai file; xuất PNG từng tab và xem Research Engines, AI PI; `git diff --check`.
+
+## 2026-10-30 — Chạy lại builder State Diagram
+
+- Theo yêu cầu chạy builder, tái tạo [State Machine Diagram](diagrams/09-state-machine/State-Machine-Diagrams.drawio), bản đăng nhập (đã loại khỏi bộ hiện hành), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và PNG từ builder. Các chỉnh sửa thủ công chưa có trong builder không còn trong bản tái tạo; đã lưu bản trước khi chạy vào thư mục tạm. Không thay đổi requirement.
+- Validation: hai builder chạy thành công; validator strict 0 lỗi, 0 cảnh báo cho hai draw.io; xuất và xem tổng quan chín PNG; `git diff --check`.
+
+## 2026-10-30 — Đổi kiểu đầu mũi tên State Diagram
+
+- Đổi transition sang đầu mũi tên mặc định có tô trong [diagram chín tab](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và bản đăng nhập riêng (đã loại khỏi bộ hiện hành); xuất lại PNG và cập nhật kiểu trong builder cùng [rule](diagrams/09-state-machine/rule.md). Đây là thay đổi trình bày, không đổi requirement. Giữ nguyên chỉnh sửa thủ công hiện có; builder chưa đồng bộ các chỉnh sửa tay đó.
+- Validation: so sánh XML xác nhận chỉ đổi thuộc tính kiểu đầu mũi tên; validator strict cho cả hai file 0 lỗi, 0 cảnh báo; xuất PNG và xem tab AI PI, Research Engines; `git diff --check`. Không chạy generator để tránh ghi đè chỉnh sửa tay.
+
+## 2026-10-30 — Đồng bộ Mermaid vào tám tab Class Diagram
+
+- Đối chiếu [tám khối Mermaid](diagrams/07-class/Class-Diagrams-Mermaid.md) với [diagram editable](diagrams/07-class/Class-Diagram-Authentication-Account.drawio); bổ sung năm composition User–AuthSession, Dataset–DatasetVersion, Run–StageRun, Dossier–Approval và Lock–Envelope vào [builder Authentication](diagrams/07-class/build_authentication_account.py) và [builder các nhóm](diagrams/07-class/class_diagram_pages.py). Project–ProjectSettings đã có sẵn; thoi đặc đặt phía toàn thể. Đồng bộ [thuyết minh](diagrams/07-class/Class-Diagrams-design.md), [Authentication](diagrams/07-class/Authentication-Account-design.md) và PNG bốn tab. Các composition bổ sung là lựa chọn thiết kế theo Mermaid, chưa xác nhận lifecycle khi xóa; không đổi requirement, BRD/PRD hay Use Case Spec.
+- Validation: đối chiếu tám tab với Mermaid về 101 classifier, thành viên, 100 quan hệ, nhãn, multiplicity, loại và chiều; so sánh trước/sau chỉ năm style quan hệ đổi; Mermaid parse tám khối thành công, builder tái tạo byte-identical, validator 0 lỗi/0 cảnh báo, score 0; xuất và xem bốn PNG ảnh hưởng; `git diff --check`. Chưa xác nhận runtime hoặc in/chèn Word.
+
+
+
+
+
+## 2026-10-30 — Thêm Mermaid cho State Diagram
+
+- Thêm [Markdown Mermaid chín state diagram](diagrams/09-state-machine/State-Machine-Diagrams-Mermaid.md), dựa trên [draw.io](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và liên kết tới [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md). Đây là định dạng trình bày bổ sung, không đổi requirement hoặc diagram gốc.
+- Validation: Mermaid parse thành công cả chín khối; đối chiếu số transition từng tab với draw.io; kiểm tra `git diff --check`. Chưa kiểm tra ảnh render của từng Mermaid.
+
+## 2026-10-30 — Tách mũi tên vào Stale
+
+- Sắp xếp các transition vào Stale trong [Research Engines](diagrams/09-state-machine/05-Research-Engines.png) theo các hành lang vuông góc, tách điểm vào và nhãn. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md); không đổi state hay requirement.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; xuất và xem PNG; kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Tách đường nối State Diagram
+
+- Đi lại các transition trong [Research Run](diagrams/09-state-machine/04-Research-Run-Orchestration.png) và [Research Engines](diagrams/09-state-machine/05-Research-Engines.png), tách các nhánh hạn chờ/chi tiêu và nhánh từ Draft sang Stale; giữ nguyên sự kiện, state và điều kiện trong metadata. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md). Không thay đổi requirement.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; xuất và xem hai PNG, xem tổng quan chín tab; kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Bỏ khung composite State Diagram
+
+- Bỏ composite trong [Research Run](diagrams/09-state-machine/04-Research-Run-Orchestration.png) và [Research Engines](diagrams/09-state-machine/05-Research-Engines.png); thay transition kế thừa bằng transition riêng từ từng state tương ứng. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram](diagrams/09-state-machine/State-Machine-Diagrams.drawio), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và [rule](diagrams/09-state-machine/rule.md). Không đổi requirement.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; xuất và xem hai PNG, kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Bố cục Class Diagram trên xuống
+
+- Sắp lại cả tám tab trong [Class Diagram editable](diagrams/07-class/Class-Diagram-Authentication-Account.drawio): controller ở trên khi có, các service/interface trải ngang, entity và enum ở dưới theo cụm; đồng bộ [builder](diagrams/07-class/class_diagram_pages.py), [rule](diagrams/07-class/rule.md), [thuyết minh](diagrams/07-class/Class-Diagrams-design.md) và tám PNG. Chuyển Project–ProjectSettings thành composition dựa trên thiết kế cấu hình riêng project và code ProjectSetting; các cặp khác giữ nguyên do chưa đủ căn cứ lifecycle. Không đổi requirement, BRD/PRD hoặc Use Case Spec.
+- Validation: so sánh tám tab giữ ID, text và source/target, chỉ thay loại quan hệ Project–ProjectSettings; builder tái tạo byte-identical, validator 0 errors/0 warnings, score 0; xuất và xem tám PNG, sửa đường xuyên hộp phát hiện khi xem; kiểm tra `git diff --check`. Chưa kiểm tra in/chèn Word hoặc runtime.
+
+
+
+
+## 2026-10-30 — Rút gọn luồng chính Research Run
+
+- Điều chỉnh [Research Run](diagrams/09-state-machine/04-Research-Run-Orchestration.png): đặt các transition sang Waiting trực tiếp trên trục dọc, giữ nhánh quay lại ở phải và transition chung từ composite. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md). Không đổi requirement; các guard/effect đầy đủ vẫn lưu trong metadata.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; đã xuất và xem PNG; kiểm tra tái tạo và `git diff --check`. Validator hình học không chứng nhận đầy đủ ngữ nghĩa UML.
+
+## 2026-10-30 — Bố cục dọc Research Run
+
+- Sắp [Research Run](diagrams/09-state-machine/04-Research-Run-Orchestration.png) theo trục dọc; các nhánh chờ và tiếp tục đi hai bên, các nhánh kết thúc có hành lang riêng. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio) và [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md); không thay đổi requirement hoặc transition.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; xuất và xem PNG, kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Gom transition chung của Research Run
+
+- Theo đính chính của người dùng, thay khung ngoài ở [Research Run](diagrams/09-state-machine/04-Research-Run-Orchestration.png) bằng composite Active run chứa Running và Waiting. Ba transition cancel, technical failure và token exhaustion đi từ composite đến Ended; các nhánh theo từng state vẫn riêng. Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và [rule](diagrams/09-state-machine/rule.md). Không đổi requirement.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; xuất và xem PNG, kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Rút ngắn đường gấp Class Diagram
+
+- Chuyển sáu đường gấp thành đường chéo trong [Class Diagram editable](diagrams/07-class/Class-Diagram-Authentication-Account.drawio), gồm `checks platform rights`; cập nhật [builder](diagrams/07-class/class_diagram_pages.py), [thuyết minh](diagrams/07-class/Class-Diagrams-design.md) và PNG Authentication, Data, Administration. Điều chỉnh nhãn multiplicity của association chéo; ba tuyến gấp còn lại tránh class/đường trung gian. Đây là chỉnh trình bày, không đổi requirement hoặc BRD/PRD/Use Case Spec.
+- Validation: so sánh nội dung và loại/chiều connector trước/sau, builder tái tạo ổn định, validator 0 errors/0 warnings, score 0; đã export và xem ba PNG, kiểm tra `git diff --check`. Chưa kiểm tra in hoặc chèn Word.
+
+
+## 2026-10-30 — Sửa đường nối và thêm khung Research Run
+
+- Đi lại các mũi tên vào choice trong [Research Engines](diagrams/09-state-machine/05-Research-Engines.png), thêm khung bao cho [Research Run](diagrams/09-state-machine/04-Research-Run-Orchestration.png); đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [diagram editable](diagrams/09-state-machine/State-Machine-Diagrams.drawio), [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md) và [rule](diagrams/09-state-machine/rule.md). Khung là ranh giới trình bày, không thay đổi quan hệ state hay requirement.
+- Validation: validator strict 0 lỗi, 0 cảnh báo; xuất và xem lại hai ảnh; kiểm tra tái tạo và `git diff --check`.
+
+## 2026-10-30 — Đi dây Class Diagram tự nhiên hơn
+
+- Đối chiếu trực tiếp bốn tab Class trong mẫu GreenLens và chỉnh 24 dependency thành các đường thẳng tỏa nhánh trên bảy tab của [diagram editable](diagrams/07-class/Class-Diagram-Authentication-Account.drawio); giữ tuyến gấp khúc nơi cần tránh hộp và giữ nguyên tab Research Engines. Đồng bộ [builder](diagrams/07-class/class_diagram_pages.py), [rule](diagrams/07-class/rule.md), [thuyết minh](diagrams/07-class/Class-Diagrams-design.md) và PNG bảy tab. Đây là thay đổi trình bày, không đổi requirement hay BRD/PRD/Use Case Spec.
+- Validation: so sánh XML trước/sau giữ ID, nội dung, source/target, loại và chiều connector; builder tái tạo byte-identical; validator 0 errors/0 warnings, score 0; export và xem bảy PNG bị ảnh hưởng; `git diff --check` sạch. Chưa kiểm tra kích thước khi chèn Word.
+
+## 2026-10-30 — Bổ sung contract connector cho Data Management
+
+- Bổ sung `ConnectorFactory`, `Connector` và `GoogleSheetsConnector` vào [Class Diagram editable](diagrams/07-class/Class-Diagram-Authentication-Account.drawio), kèm dependency và realization; đồng bộ [builder](diagrams/07-class/class_diagram_pages.py), [PNG Data Management](diagrams/07-class/Class-Diagram-Data-Management.png) và [thuyết minh](diagrams/07-class/Class-Diagrams-design.md). Contract dựa trên code backend và flow import trong [Report IV](report/04-software-design-document.md); không bổ sung repository khi chưa có căn cứ. Đây là chi tiết thiết kế, không đổi requirement nên không sửa BRD/PRD/Use Case Spec.
+- Validation: builder tái tạo ổn định, validator 0 errors/0 warnings, score 0; export và xem PNG tab Data Management; kiểm tra link nguồn và `git diff --check`. Các class hiện tại còn lại không bị thay nội dung. Chưa xác nhận runtime hoặc khả năng đọc khi chèn Word.
+
+## 2026-10-30 — Rà soát quan hệ Class Diagram
+
+- [Builder Class](diagrams/07-class/class_diagram_pages.py) và [builder Authentication](diagrams/07-class/build_authentication_account.py) khai báo loại connector tường minh, hỗ trợ các ký hiệu UML trong [rule](diagrams/07-class/rule.md); giữ dependency/association khi nguồn chưa chứng minh loại khác. Trong [editable tám tab](diagrams/07-class/Class-Diagram-Authentication-Account.drawio), sửa multiplicity đầu DecisionInboxItem thành `1` theo [Report IV §2.1.3](report/04-software-design-document.md), cập nhật [PNG AI PI](diagrams/07-class/Class-Diagram-AI-Principal-Investigator.png) và [thuyết minh](diagrams/07-class/Class-Diagrams-design.md). Không thay requirement hay BRD/PRD/Use Case Spec.
+- Validation: builder tái tạo byte-identical; so sánh tám tab xác nhận giữ IDs, source/target và text ngoại trừ multiplicity nêu trên; validator 0 errors/0 warnings, score 0; xuất và xem PNG tab AI PI; kiểm tra `git diff --check`. Ký hiệu không đồng nghĩa xác nhận implementation/runtime.
+
+## 2026-10-30 — Làm rõ cách chọn quan hệ Class Diagram
+
+- Cập nhật [rule Class Diagram](diagrams/07-class/rule.md) để chọn loại quan hệ theo ngữ nghĩa và nguồn, quy định ký hiệu/chiều, và yêu cầu builder nhận loại tường minh thay vì suy từ multiplicity. Đối chiếu 33 tab Class trong file draw.io GreenLens do người dùng cung cấp và phần class specification trong report mẫu; phân biệt style trong mẫu với ngữ nghĩa cần xác minh. Đây là thay đổi quy tắc, không đổi requirement, BRD/PRD, nội dung diagram hoặc builder hiện tại.
+- Kiểm kê 80 tab và thống kê style của 356 connector trong 33 tab Class từ XML; kiểm tra link nội bộ mới và `git diff --check`. Chưa render mẫu, chạy generator hay render diagram dự án vì không sửa diagram/builder.
+
+
+## 2026-10-30 — Làm gọn State Machine Diagram
+
+- Chỉnh ngăn tên composite Research Engines, rút gọn nhãn transition và bỏ tiêu đề/chú thích rời ngoài graph; giữ guard, effect, kết quả và phạm vi trong metadata và [thuyết minh](diagrams/09-state-machine/State-Machine-Diagrams-design.md). Đồng bộ [builder](diagrams/09-state-machine/build_state_diagrams.py), [quy tắc](diagrams/09-state-machine/rule.md), [diagram chín tab](diagrams/09-state-machine/State-Machine-Diagrams.drawio), bản đăng nhập riêng và PNG. Đây là thay đổi trình bày, không đổi requirement.
+- Kiểm tra: validator draw.io strict cho cả hai file đạt 0 lỗi, 0 cảnh báo; xuất và xem chín tab, kiểm tra tái tạo và `git diff --check`. Không xác nhận runtime hoặc khả năng đọc khi chèn Word.
 
 ## 2026-10-30 — Hợp nhất lịch sử tài liệu
 
@@ -242,7 +404,7 @@
 ## 2026-10-30 — Tách vòng đời Dossier trong State Diagram
 
 - Tách Dossier Version khỏi Project Workspace thành tab thứ chín trong [State Machine Diagram](diagrams/09-state-machine/State-Machine-Diagrams.drawio), giữ tám tab nhóm hiện có và graph/guard gốc. [Builder](diagrams/09-state-machine/build_state_diagrams.py), [inventory](diagrams/09-state-machine/State-Machine-Diagrams-design.md), [rule](diagrams/09-state-machine/rule.md) và [diagrams README](diagrams/README.md) được đồng bộ. ResearchRun và Hand-off Object Version đã có sẵn ở tab tương ứng.
-- Xuất và xem [Project](diagrams/09-state-machine/02-Project-Workspace.png) và [Dossier Version](diagrams/09-state-machine/09-Dossier-Version.png). Validator draw.io `--strict --score`: 0 errors, 0 warnings, score 0. Không đổi BRD, PRD hoặc report: thay đổi chỉ tách view diagram, không đổi requirement.
+- Xuất và xem [Project](diagrams/09-state-machine/02-Project-Workspace.png) và Dossier Version (đã loại khỏi bộ hiện hành). Validator draw.io `--strict --score`: 0 errors, 0 warnings, score 0. Không đổi BRD, PRD hoặc report: thay đổi chỉ tách view diagram, không đổi requirement.
 
 
 Định dạng theo [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
@@ -347,23 +509,23 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 
 ## 2026-10-30 — Bỏ khung ngoài State Diagram
 
-- Bỏ frame và tiêu đề `stm` ngoài cùng theo yêu cầu người dùng; giữ graph, nội dung và bố cục tương đối. Đồng bộ [builder](diagrams/09-state-machine/build_email_code_state.py), [editable](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.drawio), [PNG](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.png), [rule](diagrams/09-state-machine/rule.md) và [thuyết minh](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md).
+- Bỏ frame và tiêu đề `stm` ngoài cùng theo yêu cầu người dùng; giữ graph, nội dung và bố cục tương đối. Đồng bộ [builder](diagrams/09-state-machine/build_email_code_state.py), editable (đã loại khỏi bộ hiện hành), PNG (đã loại khỏi bộ hiện hành), [rule](diagrams/09-state-machine/rule.md) và [thuyết minh](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md).
 - Chỉ chỉnh trình bày, không đổi nghiệp vụ nên không sửa BRD/PRD/Use Case Spec. Validation: regenerate; validator `--strict --score`: 0 errors/0 warnings, score 0; export PNG scale 2/border 20 và đã xem trực quan. Doclint rule/thuyết minh: 0 errors, 1 warning đường dẫn builder; `git diff --check` sạch.
 
 ## 2026-10-30 — Đặt nhãn State Diagram trên đường mũi tên
 
-- Theo yêu cầu người dùng, đặt text transition (gồm Yes/No) trực tiếp trên đường nối, dùng nền trắng phía sau chữ; giữ node và hướng nhánh. Đồng bộ [builder](diagrams/09-state-machine/build_email_code_state.py), [editable](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.drawio), [PNG](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.png), [rule](diagrams/09-state-machine/rule.md) và [thuyết minh](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md).
+- Theo yêu cầu người dùng, đặt text transition (gồm Yes/No) trực tiếp trên đường nối, dùng nền trắng phía sau chữ; giữ node và hướng nhánh. Đồng bộ [builder](diagrams/09-state-machine/build_email_code_state.py), editable (đã loại khỏi bộ hiện hành), PNG (đã loại khỏi bộ hiện hành), [rule](diagrams/09-state-machine/rule.md) và [thuyết minh](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md).
 - Chỉ chỉnh vị trí nhãn, không đổi nghiệp vụ nên không sửa BRD/PRD/Use Case Spec. Validation: regenerate; validator `--strict --score`: 0 errors/0 warnings, score 0; PNG scale 2/border 20 đã export và xem trực quan. Doclint rule/thuyết minh: 0 errors, 1 warning đường dẫn builder; `git diff --check` sạch.
 
 ## 2026-10-30 — Chốt hình thoi có câu hỏi và nhánh Yes/No
 
 - Theo yêu cầu người dùng, sửa [rule State Diagram](diagrams/09-state-machine/rule.md): câu hỏi bắt buộc nằm trong hình thoi, hai nhánh `No`/`Yes` tách trái/phải; bỏ hướng dẫn cũ thay Yes/No bằng guard bên ngoài.
-- Đồng bộ [builder bản thử](diagrams/09-state-machine/build_email_code_state.py), [editable](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.drawio), [PNG](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.png) và [thuyết minh](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md). Câu hỏi là `Is code correct and unexpired?`; No quay lại chờ mã, Yes sang Signed in. Effect được giải thích trong thuyết minh để nhãn nhánh gọn như mẫu.
+- Đồng bộ [builder bản thử](diagrams/09-state-machine/build_email_code_state.py), editable (đã loại khỏi bộ hiện hành), PNG (đã loại khỏi bộ hiện hành) và [thuyết minh](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md). Câu hỏi là `Is code correct and unexpired?`; No quay lại chờ mã, Yes sang Signed in. Effect được giải thích trong thuyết minh để nhãn nhánh gọn như mẫu.
 - Chỉ đổi quy ước trình bày, không đổi điều kiện hoặc nghiệp vụ nên không sửa BRD/PRD/Use Case Spec. Validation: regenerate; validator `--strict --score`: 0 errors/0 warnings, score 0; xuất PNG scale 2/border 20 và kiểm tra trực quan; doclint và `git diff --check` kiểm tra sau lần sửa cuối.
 
 ## 2026-10-30 — Vẽ thử State Diagram Sign In With Email Code
 
-- Thêm [editable](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.drawio), [PNG](diagrams/09-state-machine/State-Machine-Diagram-Sign-In-With-Email-Code.png), [builder](diagrams/09-state-machine/build_email_code_state.py) và [thuyết minh/truy vết](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md), cập nhật [inventory](diagrams/README.md#09-state-machine). Nguồn là Report7 người dùng gửi, III §3.2.1 và IV §3.1/§2.2.4.
+- Thêm editable (đã loại khỏi bộ hiện hành), PNG (đã loại khỏi bộ hiện hành), [builder](diagrams/09-state-machine/build_email_code_state.py) và [thuyết minh/truy vết](diagrams/09-state-machine/Sign-In-With-Email-Code-design.md), cập nhật [inventory](diagrams/README.md#09-state-machine). Nguồn là Report7 người dùng gửi, III §3.2.1 và IV §3.1/§2.2.4.
 - Bản thử mô hình hóa một lần đăng nhập: Signed out → Awaiting email code → choice mã đúng/chưa hết hạn → Signed in → final. Mã sai/hết hạn quay lại chờ mã; account tạo lần đầu nằm trong effect resolve account. Final chỉ kết thúc lần đăng nhập, không đóng session. Nhãn state là thiết kế khái niệm từ mô tả report, không xác nhận enum triển khai.
 - Không đổi requirement hoặc flow nghiệp vụ nên không sửa BRD/PRD/Use Case Spec; chưa thay placeholder/chèn ảnh vào report. Google, sign-out, session expiry và resend ngoài phạm vi bản thử.
 - Validation: builder chạy; validator `--strict --score` đạt 0 errors/0 warnings, score 0; export PNG scale 2/border 20 nền trắng và xem trực quan. Builder tái tạo byte-identical; lint thuyết minh/inventory/rule: 0 errors, 1 warning do link builder là đường dẫn source. Link entry mới hợp lệ; `git diff --check` sạch. Không kiểm tra runtime hoặc in A4.

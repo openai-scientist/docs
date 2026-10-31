@@ -1,6 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as E
 from html import escape
+from class_diagram_pages import add_feature_pages, fit_class_widths, straighten_controller_fanout, top_down_project, top_down_remaining, top_down_engines, space_endpoint_labels, relation_style
 
 OUT = Path(__file__).resolve().parent
 NAME = 'Class-Diagram-Authentication-Account'
@@ -70,11 +71,10 @@ cls('session','AuthSession','entity',1080,1080,400,attrs=[
 cls('role','ProjectRole','enumeration',560,1280,420,literals=[
  'PROJECT_MANAGER','RESEARCHER','REVIEWER'])
 
-def edge(id, source, target, label='', points=(), ports=(1,.5,0,.5), dashed=True, mult=None):
+def edge(id, source, target, label='', points=(), ports=(1,.5,0,.5), mult=None, *, kind):
     ex,ey,ix,iy=ports
-    style = BASE+'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;endSize=16;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;spacing=5;'
-    if dashed: style+='dashed=1;'
-    if mult: style+='endArrow=none;'
+    style = BASE+'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endSize=16;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;spacing=5;'
+    style += relation_style(kind, mult)
     style+=f'exitX={ex};exitY={ey};entryX={ix};entryY={iy};entryPerimeter=0;exitPerimeter=0;'
     cell=E.SubElement(root,'mxCell',id=id,value=label,style=style,edge='1',parent='1',source=source,target=target)
     geo=E.SubElement(cell,'mxGeometry',relative='1',attrib={'as':'geometry'})
@@ -92,25 +92,27 @@ def edge(id, source, target, label='', points=(), ports=(1,.5,0,.5), dashed=True
             g=E.SubElement(child,'mxGeometry',x=str(pos),y='-15',relative='1',attrib={'as':'geometry'})
             E.SubElement(g,'mxPoint',x='0',y='0',attrib={'as':'offset'})
 
-edge('controller-auth','controller','auth','uses',ports=(1,28/264,0,28/264))
-edge('controller-account','controller','account','updates profile',ports=(.5,1,.5,0))
-edge('controller-access','controller','access','checks access',points=[(40,234),(40,861)],ports=(0,.5,0,28/180))
-edge('auth-google','auth','google','verifies identity',ports=(1,28/264,0,28/124))
-edge('auth-email','auth','email','sends code',points=[(1550,256),(1550,359.5)],ports=(1,154/264,0,28/124))
-edge('auth-user','auth','user','resolves verified email',ports=(.35,1,.35,0))
-edge('auth-challenge','auth','challenge','issues / consumes',points=[(1500,326),(1500,606)],ports=(1,224/264,0,28/202))
-edge('auth-session','auth','session','manages sessions',points=[(1180.2,60),(2140,60),(2140,946)],ports=(.81,0,1,28/150))
-edge('account-user','account','user','updates',ports=(1,28/152,0,28/202))
-edge('access-user','access','user','checks platform rights',points=[(720,861),(720,654.6)],ports=(1,28/180,0,.8))
-edge('access-membership','access','membership','checks project role',ports=(1,.5,0,90/124))
-edge('user-membership','user','membership','memberships',ports=(.5,1,.5,0),dashed=False,mult=('1','0..*'))
-edge('user-session','user','session','sessions',points=[(1500,664.7),(1500,1038)],ports=(1,.85,0,.8),dashed=False,mult=('1','0..*'))
-edge('membership-role','membership','role','uses type',ports=(.5,1,.5,0))
-
-from class_diagram_pages import add_feature_pages, fit_class_widths, space_endpoint_labels
+edge('controller-auth','controller','auth','uses',ports=(1,28/264,0,28/264), kind='dependency')
+edge('controller-account','controller','account','updates profile',ports=(.5,1,.5,0), kind='dependency')
+edge('controller-access','controller','access','checks access',points=[(40,234),(40,861)],ports=(0,.5,0,28/180), kind='dependency')
+edge('auth-google','auth','google','verifies identity',ports=(1,28/264,0,28/124), kind='dependency')
+edge('auth-email','auth','email','sends code',points=[(1550,256),(1550,359.5)],ports=(1,154/264,0,28/124), kind='dependency')
+edge('auth-user','auth','user','resolves verified email',ports=(.35,1,.35,0), kind='dependency')
+edge('auth-challenge','auth','challenge','issues / consumes',points=[(1500,326),(1500,606)],ports=(1,224/264,0,28/202), kind='dependency')
+edge('auth-session','auth','session','manages sessions',points=[(1180.2,60),(2140,60),(2140,946)],ports=(.81,0,1,28/150), kind='dependency')
+edge('account-user','account','user','updates',ports=(1,28/152,0,28/202), kind='dependency')
+edge('access-user','access','user','checks platform rights',points=[(720,861),(720,654.6)],ports=(1,28/180,0,.8), kind='dependency')
+edge('access-membership','access','membership','checks project role',ports=(1,.5,0,90/124), kind='dependency')
+edge('user-membership','user','membership','memberships',ports=(.5,1,.5,0),mult=('1','0..*'), kind='association')
+edge('user-session','user','session','sessions',points=[(1500,664.7),(1500,1038)],ports=(1,.85,0,.8),mult=('1','0..*'), kind='composition')
+edge('membership-role','membership','role','uses type',ports=(.5,1,.5,0), kind='dependency')
 
 add_feature_pages(mx)
 fit_class_widths(mx)
+straighten_controller_fanout(mx)
+top_down_project(mx)
+top_down_remaining(mx)
+top_down_engines(mx)
 space_endpoint_labels(mx)
 access_label = root.find("mxCell[@id='controller-access']/mxGeometry")
 access_label.find("mxPoint[@as='offset']").set('x','-90')

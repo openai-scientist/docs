@@ -1,12 +1,29 @@
 """Proposed FE-group class views, based on Report7 III/IV (not code extraction)."""
 
 from html import escape, unescape
-from math import ceil
+from math import ceil, hypot
 import re
 import textwrap
 import xml.etree.ElementTree as E
 
 BASE = 'html=1;fontFamily=Arial;fontSize=17;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;'
+
+RELATION_STYLES = {
+    'dependency': 'dashed=1;endArrow=open;endFill=0;',
+    'association': 'endArrow=none;',
+    'navigable_association': 'endArrow=open;endFill=0;',
+    'aggregation': 'startArrow=diamondThin;startFill=0;endArrow=none;',
+    'composition': 'startArrow=diamondThin;startFill=1;startSize=16;endArrow=none;',
+    'generalization': 'endArrow=block;endFill=0;',
+    'realization': 'dashed=1;endArrow=block;endFill=0;',
+}
+
+def relation_style(kind, mult):
+    if kind not in RELATION_STYLES:
+        raise ValueError(f'Unknown relation kind: {kind}')
+    if mult and kind not in ('association', 'navigable_association', 'aggregation', 'composition'):
+        raise ValueError(f'{kind} cannot have multiplicity')
+    return RELATION_STYLES[kind]
 
 
 def fit_class_widths(mx):
@@ -64,6 +81,219 @@ def fit_class_widths(mx):
                 geometry.set('x',str(1-lengths[-1]/sum(lengths)))
 
 
+def straighten_controller_fanout(mx):
+    """Use direct rays for selected unobstructed dependencies."""
+    extra = {
+        'authentication-account': {'auth-email', 'auth-challenge', 'access-user', 'user-session'},
+        'data-management': {'edge-9'},
+        'administration-monitoring': {'edge-5', 'edge-9', 'edge-10'},
+    }
+    for diagram in mx.findall('diagram'):
+        if diagram.get('id') == 'research-engines':
+            continue
+        root = diagram.find('mxGraphModel/root')
+        for edge in root.findall('mxCell'):
+            selected = (edge.get('id') in extra.get(diagram.get('id'), set())
+                        or (diagram.get('id') != 'authentication-account'
+                            and edge.get('source', '').endswith('Controller')))
+            if edge.get('edge') != '1' or not selected:
+                continue
+            geometry = edge.find('mxGeometry')
+            points = geometry.find('Array')
+            if points is None:
+                continue
+            geometry.remove(points)
+            geometry.attrib.pop('x', None)
+            geometry.attrib.pop('y', None)
+            offset = geometry.find("mxPoint[@as='offset']")
+            offset.set('x', '0')
+            offset.set('y', '-18')
+            style = edge.get('style').replace('edgeStyle=orthogonalEdgeStyle;', 'edgeStyle=none;')
+            edge.set('style', style)
+
+
+def top_down_project(mx):
+    """Spread the Project view horizontally and read its layers top to bottom."""
+    diagram = next(d for d in mx.findall('diagram') if d.get('id') == 'project-workspace')
+    cells = {c.get('id'): c for c in diagram.find('mxGraphModel/root').findall('mxCell')}
+    for cell in cells.values():
+        if cell.get('vertex') != '1' or cell.get('parent') != '1':
+            continue
+        g = cell.find('mxGeometry')
+        x, y, w, h = (float(g.get(k)) for k in ('x', 'y', 'width', 'height'))
+        g.set('x', str((y+h/2)*1.7-w/2+100))
+        g.set('y', str((x+w/2)*.85-h/2+100))
+    for cell in cells.values():
+        if cell.get('edge') != '1':
+            continue
+        style = cell.get('style')
+        props = dict(v.split('=', 1) for v in style.split(';') if '=' in v)
+        for prop, value in [('exitX', props['exitY']), ('exitY', props['exitX']),
+                            ('entryX', props['entryY']), ('entryY', props['entryX'])]:
+            style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+        cell.set('style', style)
+        for point in cell.findall('mxGeometry/Array/mxPoint'):
+            x, y = float(point.get('x')), float(point.get('y'))
+            point.set('x', str(y*1.7+100))
+            point.set('y', str(x*.85+100))
+    # Keep the audit entity with the other entities, outside the service fan-out.
+    audit = cells['AuditLogEntry'].find('mxGeometry')
+    audit.set('x', '2580')
+    audit.set('y', '1620')
+    edge = next(c for c in cells.values() if c.get('edge') == '1'
+                and c.get('source') == 'ProjectController' and c.get('target') == 'AuditLogEntry')
+    style = edge.get('style').replace('edgeStyle=none;', 'edgeStyle=orthogonalEdgeStyle;')
+    for prop, value in [('exitX', 1), ('exitY', .5), ('entryX', .5), ('entryY', 0)]:
+        style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+    edge.set('style', style)
+    geo = edge.find('mxGeometry')
+    for child in list(geo):
+        geo.remove(child)
+    points = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+    for x, y in [(2685, 372), (2685, 1570)]:
+        E.SubElement(points, 'mxPoint', x=str(x), y=str(y))
+    E.SubElement(geo, 'mxPoint', x='0', y='-15', attrib={'as': 'offset'})
+    diagram.find('mxGraphModel').set('pageWidth', '2900')
+    diagram.find('mxGraphModel').set('pageHeight', '2500')
+
+
+def top_down_remaining(mx):
+    """Transpose the established feature layouts while keeping text horizontal."""
+    for diagram in mx.findall('diagram'):
+        slug = diagram.get('id')
+        if slug in ('project-workspace', 'research-engines'):
+            continue
+        cells = {c.get('id'): c for c in diagram.find('mxGraphModel/root').findall('mxCell')}
+        for cell in cells.values():
+            if cell.get('vertex') != '1' or cell.get('parent') != '1':
+                continue
+            g = cell.find('mxGeometry')
+            x, y, w, h = (float(g.get(k)) for k in ('x', 'y', 'width', 'height'))
+            g.set('x', str((y+h/2)*1.7-w/2+100))
+            g.set('y', str((x+w/2)*.85-h/2+250))
+        for cell in cells.values():
+            if cell.get('edge') != '1':
+                continue
+            style = cell.get('style')
+            props = dict(v.split('=', 1) for v in style.split(';') if '=' in v)
+            for prop, value in [('exitX', props['exitY']), ('exitY', props['exitX']),
+                                ('entryX', props['entryY']), ('entryY', props['entryX'])]:
+                style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+            cell.set('style', style)
+            for point in cell.findall('mxGeometry/Array/mxPoint'):
+                x, y = float(point.get('x')), float(point.get('y'))
+                point.set('x', str(y*1.7+100))
+                point.set('y', str(x*.85+250))
+        if slug == 'authentication-account':
+            controller = cells['controller'].find('mxGeometry')
+            controller.set('y', str(float(controller.get('y'))-220))
+            for name in ('account', 'access'):
+                g = cells[name].find('mxGeometry')
+                g.set('y', str(float(g.get('y'))+200))
+            edge = cells['controller-access']
+            style = edge.get('style').replace('edgeStyle=orthogonalEdgeStyle;', 'edgeStyle=none;')
+            for prop, value in [('exitX', .8), ('exitY', 1), ('entryX', .5), ('entryY', 0)]:
+                style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+            edge.set('style', style)
+            geo = edge.find('mxGeometry')
+            points = geo.find('Array')
+            if points is not None:
+                geo.remove(points)
+            edge = cells['controller-account']
+            style = edge.get('style').replace('edgeStyle=orthogonalEdgeStyle;', 'edgeStyle=none;')
+            for prop, value in [('exitX', .45), ('exitY', 1), ('entryX', .5), ('entryY', 0)]:
+                style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+            edge.set('style', style)
+        elif slug == 'notifications-integrations':
+            g = cells['NotificationChannel'].find('mxGeometry')
+            g.set('x', str(float(g.get('x'))+100))
+            g.set('y', str(float(g.get('y'))+210))
+        elif slug == 'research-run-orchestration':
+            g = cells['BudgetLedger'].find('mxGeometry')
+            g.set('x', str(float(g.get('x'))+140))
+            g.set('y', '1900')
+            for source, target in [('BudgetService', 'BudgetLedger'), ('Dossier', 'HandOffObject')]:
+                edge = next(c for c in cells.values() if c.get('edge') == '1'
+                            and c.get('source') == source and c.get('target') == target)
+                geo = edge.find('mxGeometry')
+                geo.attrib.pop('x', None)
+                geo.find("mxPoint[@as='offset']").set('y', '-25')
+            edge = next(c for c in cells.values() if c.get('edge') == '1'
+                        and c.get('source') == 'BudgetService' and c.get('target') == 'BudgetLedger')
+            style = edge.get('style').replace('edgeStyle=orthogonalEdgeStyle;', 'edgeStyle=none;')
+            for prop, value in [('exitX', .85), ('exitY', 1), ('entryX', .5), ('entryY', 0)]:
+                style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+            edge.set('style', style)
+        elif slug == 'data-management':
+            g = cells['ConnectorFactory'].find('mxGeometry')
+            g.set('y', '800')
+            edge = next(c for c in cells.values() if c.get('edge') == '1'
+                        and c.get('source') == 'DataService' and c.get('target') == 'ConnectorFactory')
+            edge.findall('mxGeometry/Array/mxPoint')[-1].set('y', str(800+float(g.get('height'))/2))
+        if slug in ('research-run-orchestration', 'administration-monitoring'):
+            source, target, target_y = (('RunController', 'ResearchCase', 2100)
+                                        if slug == 'research-run-orchestration'
+                                        else ('AdministrationController', 'User', 2300))
+            g = cells[target].find('mxGeometry')
+            if target == 'ResearchCase':
+                g.set('x', '20')
+            g.set('y', str(target_y))
+            edge = next(c for c in cells.values() if c.get('edge') == '1'
+                        and c.get('source') == source and c.get('target') == target)
+            style = edge.get('style').replace('edgeStyle=none;', 'edgeStyle=orthogonalEdgeStyle;')
+            for prop, value in [('exitX', 0), ('exitY', .5), ('entryX', .5), ('entryY', 0)]:
+                style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+            edge.set('style', style)
+            geo = edge.find('mxGeometry')
+            for child in list(geo):
+                geo.remove(child)
+            src = cells[source].find('mxGeometry')
+            source_y = float(src.get('y'))+float(src.get('height'))/2
+            target_x = float(g.get('x'))+float(g.get('width'))/2
+            points = E.SubElement(geo, 'Array', attrib={'as': 'points'})
+            for x, y in [(40, source_y), (40, target_y-50), (target_x, target_y-50)]:
+                E.SubElement(points, 'mxPoint', x=str(x), y=str(y))
+            E.SubElement(geo, 'mxPoint', x='0', y='-15', attrib={'as': 'offset'})
+        diagram.find('mxGraphModel').set('pageWidth', '4500')
+        diagram.find('mxGraphModel').set('pageHeight', '3200')
+
+
+def top_down_engines(mx):
+    """Place engine services in a row above their output classifiers."""
+    diagram = next(d for d in mx.findall('diagram') if d.get('id') == 'research-engines')
+    cells = {c.get('id'): c for c in diagram.find('mxGraphModel/root').findall('mxCell')}
+    services = ['DatasetEngine', 'HypothesisEngine', 'ExperimentDesignEngine', 'ExecutionEngine',
+                'IndependentReviewService', 'PaperEngine', 'Harness']
+    entities = ['DatasetSnapshot', 'HypothesisSet', 'AnalysisPlan', 'EvidenceBundle',
+                'Finding', 'PaperPack', 'Lock', 'Envelope']
+    for row, names in enumerate((services, entities)):
+        for i, name in enumerate(names):
+            g = cells[name].find('mxGeometry')
+            g.set('x', str(100+i*500))
+            g.set('y', str(100 if row == 0 else 820))
+    for edge in cells.values():
+        if edge.get('edge') != '1':
+            continue
+        source, target = edge.get('source'), edge.get('target')
+        sg, tg = cells[source].find('mxGeometry'), cells[target].find('mxGeometry')
+        sx, sy = float(sg.get('x')), float(sg.get('y'))
+        tx, ty = float(tg.get('x')), float(tg.get('y'))
+        ports = (1, .5, 0, .5) if sy == ty and sx < tx else ((0, .5, 1, .5) if sy == ty else (.5, 1, .5, 0))
+        style = edge.get('style').replace('edgeStyle=orthogonalEdgeStyle;', 'edgeStyle=none;')
+        for prop, value in zip(('exitX', 'exitY', 'entryX', 'entryY'), ports):
+            style = re.sub(rf'{prop}=[^;]*;', f'{prop}={value};', style)
+        edge.set('style', style)
+        geo = edge.find('mxGeometry')
+        for child in list(geo):
+            geo.remove(child)
+        geo.attrib.pop('x', None)
+        geo.attrib.pop('y', None)
+        label_y = '-130' if sy == ty and source in ('ExecutionEngine', 'PaperEngine') else '-18'
+        E.SubElement(geo, 'mxPoint', x='0', y=label_y, attrib={'as': 'offset'})
+    diagram.find('mxGraphModel').set('pageWidth', '4300')
+    diagram.find('mxGraphModel').set('pageHeight', '1400')
+
+
 def space_endpoint_labels(mx):
     """Keep multiplicities a fixed distance from the box, independent of edge length."""
     for diagram in mx.findall('diagram'):
@@ -96,13 +326,17 @@ def space_endpoint_labels(mx):
                 if label is None:
                     continue
                 geometry = label.find('mxGeometry')
-                geometry.set('x',str(-1+40/total if suffix=='source' else 1-40/total))
+                dx, dy = last[0]-first[0], last[1]-first[1]
+                diagonal = len(path) == 2 and abs(dx) > .01 and abs(dy) > .01
+                length = hypot(dx, dy) if diagonal else total
+                geometry.set('x',str(-1+40/length if suffix=='source' else 1-40/length))
                 geometry.set('y','0')
                 for child in list(geometry):
                     geometry.remove(child)
                 horizontal = abs(first[1]-last[1]) < .01
-                E.SubElement(geometry,'mxPoint',x='0' if horizontal else '-20',
-                             y='10' if horizontal else '0',attrib={'as':'offset'})
+                x_offset = -dy/length*12 if diagonal else (0 if horizontal else -20)
+                y_offset = dx/length*12 if diagonal else (10 if horizontal else 0)
+                E.SubElement(geometry,'mxPoint',x=str(x_offset), y=str(y_offset),attrib={'as':'offset'})
 
 
 class Page:
@@ -136,7 +370,7 @@ class Page:
             self.vertex(name+'-operations', '<br>'.join(escape(s) for s in ml), 0, 56+ah, w, mh,
                         'rounded=0;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;', name)
 
-    def link(self, source, target, label, mult=None, route=None):
+    def link(self, source, target, label, mult=None, route=None, *, kind):
         sx, sy, sw, sh, sc, sr = self.boxes[source]
         tx, ty, tw, th, tc, tr = self.boxes[target]
         self.edges += 1
@@ -160,7 +394,7 @@ class Page:
             label_x = -80
         ex, ey, ix, iy = ports
         style = BASE+'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;strokeWidth=1.5;endSize=16;labelBackgroundColor=#FFFFFF;spacing=5;'
-        style += 'endArrow=none;' if mult else 'dashed=1;endArrow=open;endFill=0;'
+        style += relation_style(kind, mult)
         style += f'exitX={ex};exitY={ey};entryX={ix};entryY={iy};exitPerimeter=0;entryPerimeter=0;'
         cell = E.SubElement(self.root, 'mxCell', id=key, value=label, style=style, edge='1', parent='1', source=source, target=target)
         g = E.SubElement(cell, 'mxGeometry', relative='1', attrib={'as': 'geometry'})
@@ -195,6 +429,7 @@ class Page:
                 'DatasetVersionService': (880,408), 'DatasetVersion': (1640,408),
                 'LocalNodeService': (1020,760), 'LocalNode': (1760,792), 'ReleaseLog': (2460,856),
                 'ReleaseGate': (860,1096), 'Release': (1600,1144),
+                'ConnectorFactory': (60,1510), 'Connector': (880,1510), 'GoogleSheetsConnector': (1640,1510),
             },
             'research-run-orchestration': {
                 'RunController': (60,456), 'ResearchCase': (60,48),
@@ -253,6 +488,9 @@ class Page:
                 corridor = 700 if abs(ty-source_y)<350 else 650
                 ports = (1,fraction,0,28/th)
                 points = [(corridor,source_y),(corridor,ty+28)]
+            elif source == 'DataService' and target == 'ConnectorFactory':
+                ports = (.5,0,.5,0)
+                points = [(sx+sw*.5,20),(20,20),(20,ty-60),(tx+tw*.5,ty-60)]
             elif sx == tx:
                 ports = (.5,1,.5,0) if sy < ty else (.5,0,.5,1)
             elif source == 'Dataset' and target == 'DataLocation':
@@ -389,14 +627,14 @@ def add_feature_pages(mx):
     p.node('Document', 'entity', 2, 3, attrs=['- id : UUID', '- projectId : UUID', '- name : String', '- version : Integer'])
     p.node('AuditLogEntry', 'entity', 0, 3, attrs=['- action : String', '- actorId : UUID', '- projectId : UUID [0..1]', '- time : DateTime'])
     for service, label in [('ProjectService','uses'), ('MembershipService','manages members'), ('InvitationService','manages invitations'), ('DocumentService','manages documents')]:
-        p.link('ProjectController', service, label)
+        p.link('ProjectController', service, label, kind='dependency')
     for service, entity, label in [('ProjectService','Project','manages'), ('MembershipService','Membership','maintains'),
         ('InvitationService','Invitation','issues / resolves'), ('DocumentService','Document','versions')]:
-        p.link(service, entity, label)
-    p.link('Project','ProjectSettings','settings', ('1','1'))
-    p.link('Membership','User','member', ('0..*','1'))
-    p.link('Project','Membership','memberships', ('1','0..*'))
-    p.link('ProjectController','AuditLogEntry','reads project activity')
+        p.link(service, entity, label, kind='dependency')
+    p.link('Project','ProjectSettings','settings', ('1','1'), kind='composition')
+    p.link('Membership','User','member', ('0..*','1'), kind='association')
+    p.link('Project','Membership','memberships', ('1','0..*'), kind='association')
+    p.link('ProjectController','AuditLogEntry','reads project activity', kind='dependency')
 
     p = Page(mx, 'data-management', 'Data Management')
     pages.append(p)
@@ -420,16 +658,24 @@ def add_feature_pages(mx):
         '- applyFirewall(result : Aggregate) : void','- round(result : Aggregate) : Aggregate',
         '- checkDisclosure(result : Aggregate) : void','- checkDifferencing(result : Aggregate) : void','- checkProbeBudget(versionId : UUID) : void'])
     p.node('Release','entity',2,3,attrs=['- id : UUID','- jobId : UUID','- kind : String','- reason : String','- time : DateTime'])
+    p.node('ConnectorFactory','interface',0,4,methods=['+ __call__(kind : String, config : Map, secret : Map) : Connector'])
+    p.node('Connector','interface',1,4,methods=['+ test() : void','+ listTables(schema : String, search : String [0..1], limit : Integer) : TableRef [0..*]',
+        '+ listColumns(schema : String, table : String) : Column [0..*]', '+ openRows(source : AnySource, maxRows : Integer [0..1]) : AsyncContext<RowStream>'])
+    p.node('GoogleSheetsConnector','service',2,4,methods=['+ test() : void','+ listTables(schema : String, search : String [0..1], limit : Integer) : TableRef [0..*]',
+        '+ listColumns(schema : String, table : String) : Column [0..*]', '+ openRows(source : AnySource, maxRows : Integer [0..1]) : AsyncContext<RowStream>'])
     for service, label in [('DataService','uses'),('DatasetVersionService','versions data'),('LocalNodeService','routes local work'),('ReleaseGate','checks aggregates')]:
-        p.link('DataController',service,label)
-    p.link('DataService','Dataset','manages')
-    p.link('Dataset','DataConnection','imports from',('0..*','0..1'))
-    p.link('Dataset','DatasetVersion','versions',('1','0..*'))
-    p.link('DatasetVersionService','DatasetVersion','creates / verifies')
-    p.link('Dataset','DataLocation','uses location type', route=((.8,1,.5,0),[(1996,540),(2600,540)]))
-    p.link('LocalNodeService','LocalNode','pairs / revokes')
-    p.link('LocalNode','ReleaseLog','appends locally')
-    p.link('ReleaseGate','Release','approves release')
+        p.link('DataController',service,label, kind='dependency')
+    p.link('DataService','Dataset','manages', kind='dependency')
+    p.link('Dataset','DataConnection','imports from',('0..*','0..1'), kind='association')
+    p.link('Dataset','DatasetVersion','versions',('1','0..*'), kind='composition')
+    p.link('DatasetVersionService','DatasetVersion','creates / verifies', kind='dependency')
+    p.link('Dataset','DataLocation','uses location type', route=((.8,1,.5,0),[(1996,540),(2600,540)]), kind='dependency')
+    p.link('LocalNodeService','LocalNode','pairs / revokes', kind='dependency')
+    p.link('LocalNode','ReleaseLog','appends locally', kind='dependency')
+    p.link('ReleaseGate','Release','approves release', kind='dependency')
+    p.link('DataService','ConnectorFactory','uses factory', kind='dependency')
+    p.link('ConnectorFactory','Connector','creates connector', kind='dependency')
+    p.link('GoogleSheetsConnector','Connector','implements', kind='realization')
 
     p = Page(mx,'research-run-orchestration','Research Run Orchestration')
     pages.append(p)
@@ -458,19 +704,19 @@ def add_feature_pages(mx):
     p.node('HandOffObject','entity',2,3,attrs=['- id : UUID','- version : Integer','- contentHash : String',
         '- state : String','- upstreamRefs : VersionRef [0..*]'])
     p.node('Export','entity',3,3,attrs=['- dossierVersion : Integer','- format : String','- approvedActionRef : UUID','- auditEntryRef : UUID'])
-    p.link('RunController','RunOrchestrator','uses')
-    p.link('RunController','BudgetService','reviews spending')
-    p.link('RunController','DossierService','approves / exports')
-    p.link('RunOrchestrator','Run','orchestrates')
-    p.link('Run','RunState','uses state type')
-    p.link('RunController','ResearchCase','amends case version')
-    p.link('Run','StageRun','stages',('1','0..*'))
-    p.link('BudgetService','StageRun','checks stage share')
-    p.link('BudgetService','BudgetLedger','records usage',route=((.5,1,.5,1),[(1080,1000),(2600,1000)]))
-    p.link('DossierService','Dossier','versions / checks')
-    p.link('Dossier','Approval','approvals',('1','0..*'))
-    p.link('Dossier','HandOffObject','references accepted versions')
-    p.link('Export','HandOffObject','reads accepted references')
+    p.link('RunController','RunOrchestrator','uses', kind='dependency')
+    p.link('RunController','BudgetService','reviews spending', kind='dependency')
+    p.link('RunController','DossierService','approves / exports', kind='dependency')
+    p.link('RunOrchestrator','Run','orchestrates', kind='dependency')
+    p.link('Run','RunState','uses state type', kind='dependency')
+    p.link('RunController','ResearchCase','amends case version', kind='dependency')
+    p.link('Run','StageRun','stages',('1','0..*'), kind='composition')
+    p.link('BudgetService','StageRun','checks stage share', kind='dependency')
+    p.link('BudgetService','BudgetLedger','records usage',route=((.5,1,.5,1),[(1080,1000),(2600,1000)]), kind='dependency')
+    p.link('DossierService','Dossier','versions / checks', kind='dependency')
+    p.link('Dossier','Approval','approvals',('1','0..*'), kind='composition')
+    p.link('Dossier','HandOffObject','references accepted versions', kind='dependency')
+    p.link('Export','HandOffObject','reads accepted references', kind='dependency')
 
     p = Page(mx,'research-engines','Research Engines')
     pages.append(p)
@@ -508,14 +754,14 @@ def add_feature_pages(mx):
     for a,b,label in [('DatasetEngine','DatasetSnapshot','publishes'),('HypothesisEngine','HypothesisSet','publishes'),
         ('ExperimentDesignEngine','AnalysisPlan','publishes'),('ExecutionEngine','EvidenceBundle','publishes'),
         ('PaperEngine','PaperPack','publishes'),('IndependentReviewService','Finding','verifies')]:
-        p.link(a,b,label)
-    p.link('HypothesisEngine','DatasetSnapshot','reads pinned snapshot')
-    p.link('ExecutionEngine','AnalysisPlan','reads locked plan')
-    p.link('IndependentReviewService','PaperPack','reviews object version')
-    p.link('PaperEngine','Harness','runs checks')
-    p.link('ExecutionEngine','IndependentReviewService','reviews evidence')
-    p.link('Harness','Lock','checks locked plan')
-    p.link('Lock','Envelope','sealed results',('1','1'))
+        p.link(a,b,label, kind='dependency')
+    p.link('HypothesisEngine','DatasetSnapshot','reads pinned snapshot', kind='dependency')
+    p.link('ExecutionEngine','AnalysisPlan','reads locked plan', kind='dependency')
+    p.link('IndependentReviewService','PaperPack','reviews object version', kind='dependency')
+    p.link('PaperEngine','Harness','runs checks', kind='dependency')
+    p.link('ExecutionEngine','IndependentReviewService','reviews evidence', kind='dependency')
+    p.link('Harness','Lock','checks locked plan', kind='dependency')
+    p.link('Lock','Envelope','sealed results',('1','1'), kind='composition')
 
     p = Page(mx,'ai-principal-investigator','AI Principal Investigator')
     pages.append(p)
@@ -545,15 +791,15 @@ def add_feature_pages(mx):
         '+ proposeHigherLevel(actionType : String) : ActionLevel'])
     p.node('Run','entity',2,3,attrs=['- id : UUID','- state : RunState','- endingOutcome : String [0..1]'])
     for s,l in [('DecisionService','answers / overturns'),('ActionPolicyService','sets policy'),('AIPrincipalInvestigator','requests proposals'),('OverturnMetricService','reads measured outcomes')]:
-        p.link('DecisionController',s,l)
-    p.link('DecisionService','DecisionInboxItem','creates / resolves')
-    p.link('DecisionInboxItem','DecisionLogEntry','decided record',('0..1','0..1'))
-    p.link('ActionPolicyService','ActionPolicy','versions')
-    p.link('ActionPolicy','ActionLevel','uses level type')
-    p.link('AIPrincipalInvestigator','LabNotebookEntry','writes proposals')
-    p.link('LabNotebookEntry','Presence','records context type')
-    p.link('OverturnMetricService','Run','measures decisions by run')
-    p.link('DecisionInboxItem','ActionPolicy','evaluated under')
+        p.link('DecisionController',s,l, kind='dependency')
+    p.link('DecisionService','DecisionInboxItem','creates / resolves', kind='dependency')
+    p.link('DecisionInboxItem','DecisionLogEntry','decided record',('1','0..1'), kind='association')
+    p.link('ActionPolicyService','ActionPolicy','versions', kind='dependency')
+    p.link('ActionPolicy','ActionLevel','uses level type', kind='dependency')
+    p.link('AIPrincipalInvestigator','LabNotebookEntry','writes proposals', kind='dependency')
+    p.link('LabNotebookEntry','Presence','records context type', kind='dependency')
+    p.link('OverturnMetricService','Run','measures decisions by run', kind='dependency')
+    p.link('DecisionInboxItem','ActionPolicy','evaluated under', kind='dependency')
 
     p = Page(mx,'notifications-integrations','Notifications & Integrations')
     pages.append(p)
@@ -577,14 +823,14 @@ def add_feature_pages(mx):
         '+ resolveForProject(projectId : UUID) : NotificationPreference'])
     p.node('NotificationPreference','entity',2,3,attrs=['- projectId : UUID','- userId : UUID','- eventChoices : Map','- channels : String [0..*]'])
     for s,l in [('NotificationService','receives / reads'),('IntegrationService','configures channels'),('CommentService','comments on objects'),('NotificationPreferenceService','sets preferences')]:
-        p.link('CollaborationController',s,l)
-    p.link('NotificationService','Notification','creates / marks read')
-    p.link('Notification','DecisionInboxItem','decision context',('0..*','0..1'))
-    p.link('IntegrationService','ProjectIntegration','configures')
-    p.link('IntegrationService','NotificationChannel','delivers through',route=((.5,0,.5,0),[(1080,560),(2600,560)]))
-    p.link('CommentService','Comment','anchors comments')
-    p.link('Comment','Membership','author',('0..*','1'))
-    p.link('NotificationPreferenceService','NotificationPreference','updates')
+        p.link('CollaborationController',s,l, kind='dependency')
+    p.link('NotificationService','Notification','creates / marks read', kind='dependency')
+    p.link('Notification','DecisionInboxItem','decision context',('0..*','0..1'), kind='association')
+    p.link('IntegrationService','ProjectIntegration','configures', kind='dependency')
+    p.link('IntegrationService','NotificationChannel','delivers through',route=((.5,0,.5,0),[(1080,560),(2600,560)]), kind='dependency')
+    p.link('CommentService','Comment','anchors comments', kind='dependency')
+    p.link('Comment','Membership','author',('0..*','1'), kind='association')
+    p.link('NotificationPreferenceService','NotificationPreference','updates', kind='dependency')
 
     p = Page(mx,'administration-monitoring','Administration & Monitoring')
     pages.append(p)
@@ -609,14 +855,14 @@ def add_feature_pages(mx):
     p.node('OperatingMetrics','entity',2,3,attrs=['- runId : UUID','- questionCount : Integer','- blockedTime : Duration',
         '- overturnRates : Map','- personaPrecision : Map'])
     for s,l in [('AdministrationService','configures platform'),('SecretService','manages sealed secrets'),('MonitoringService','reads operation')]:
-        p.link('AdministrationController',s,l)
-    p.link('AdministrationService','ModelProfile','configures model roles')
-    p.link('AdministrationService','EngineSettings','configures engines',route=((.6,0,.5,0),[(1132,40),(2600,40)]))
-    p.link('AdministrationController','User','manages user accounts')
-    p.link('SecretService','SealedSecret','seals / rotates')
-    p.link('MonitoringService','AuditLogEntry','reads append-only log')
-    p.link('MonitoringService','HealthSnapshot','reads component health',route=((.5,0,.5,0),[(1080,1080),(2600,1080)]))
-    p.link('MonitoringService','OperatingMetrics','computes run metrics')
+        p.link('AdministrationController',s,l, kind='dependency')
+    p.link('AdministrationService','ModelProfile','configures model roles', kind='dependency')
+    p.link('AdministrationService','EngineSettings','configures engines',route=((.6,0,.5,0),[(1132,40),(2600,40)]), kind='dependency')
+    p.link('AdministrationController','User','manages user accounts', kind='dependency')
+    p.link('SecretService','SealedSecret','seals / rotates', kind='dependency')
+    p.link('MonitoringService','AuditLogEntry','reads append-only log', kind='dependency')
+    p.link('MonitoringService','HealthSnapshot','reads component health',route=((.5,0,.5,0),[(1080,1080),(2600,1080)]), kind='dependency')
+    p.link('MonitoringService','OperatingMetrics','computes run metrics', kind='dependency')
 
     for page in pages:
         page.compact_left_to_right()

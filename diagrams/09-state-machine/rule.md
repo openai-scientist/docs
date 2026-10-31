@@ -5,7 +5,7 @@ Chuẩn: UML 2.5.1, §14 StateMachines (behavior state machine). Áp dụng thê
 ## 1. Mục đích và phạm vi
 
 - Thể hiện vòng đời của **một thực thể hoặc một hệ thống có phạm vi rõ ràng**: đang ở trạng thái nào, sự kiện nào làm đổi trạng thái, điều kiện và kết quả đi kèm. State biểu diễn tình trạng của đối tượng; không dùng action làm state chỉ để mô tả thứ tự thao tác.
-- Theo yêu cầu người dùng, gom toàn bộ State Diagram vào **một file draw.io nhiều tab**, gồm **tám nhóm Class Diagram và một tab Dossier Version riêng**: Authentication & Account, Project Workspace, Data Management, Research Run Orchestration, Research Engines, AI Principal Investigator, Notifications & Integrations, Administration & Monitoring. File chính là [State-Machine-Diagrams.drawio](State-Machine-Diagrams.drawio). Dossier Version được tách thành tab thứ chín để xuất hình riêng; không trộn state của nhiều đối tượng thành một lifecycle. Đây là ngoại lệ của quy tắc một file/một page chung; xem [inventory và nguồn](State-Machine-Diagrams-design.md). File standalone Authentication được giữ làm nguồn đã duyệt.
+- Gom state vào [một file draw.io](State-Machine-Diagrams.drawio): tám tab là vòng đời chính của tám nhóm. Không trộn các đối tượng độc lập thành một lifecycle; xem [inventory và nguồn](State-Machine-Diagrams-design.md).
 - Nguồn nghiệp vụ là bảng state và FR trong report được chốt. Đối chiếu implementation để phát hiện thiếu/lệch nhưng không tự thay report bằng code; ghi lại mâu thuẫn để xác nhận.
 - Không tạo state cho từng bước CRUD hoặc từng màn hình nếu nguồn không mô tả vòng đời tương ứng. Luồng thao tác thuộc Activity/Sequence/Screen Flow.
 
@@ -26,14 +26,14 @@ Các yêu cầu về cách tổ chức tab, mỗi state một hình, câu hỏi 
 
 | Element | Ký hiệu / nội dung | Quy tắc áp dụng |
 |---|---|---|
-| Khung ngoài | Không vẽ frame hoặc tiêu đề `stm` ngoài cùng | Theo yêu cầu người dùng, State Diagram không dùng khung bao; đây là ngoại lệ của quy tắc frame chung. Phạm vi thể hiện trong tên file/page và thuyết minh. |
+| Khung ngoài | Khung bao trình bày tùy chọn | Không dùng khung bao riêng cho Research Run; composite Active run là một state thực sự chứa Running và Waiting. Phạm vi thể hiện trong tên page và thuyết minh. |
 | Initial pseudostate | Chấm tròn đen | Một initial cho region cần khởi tạo, đặt phía trên trục chính. Không có đường vào, đúng một đường ra; đường ra không có trigger hoặc guard, có thể có effect khởi tạo. |
 | Simple state | Chữ nhật bo góc | Tên ngắn, đúng nguồn/report, kể cả `waiting(decision)` hay `ended(with_gaps)`. |
 | State behavior | Ngăn nội dung tùy chọn | `entry / ...`, `do / ...`, `exit / ...`; không cần thì chỉ để tên state. |
-| Transition | Đường liền, đầu mũi tên mở chỉ về đích | Gắn đúng source/target; nhãn theo mục 4. Self-transition được phép khi có sự kiện và ý nghĩa rõ ràng. |
+| Transition | Đường liền, đầu mũi tên mặc định có tô chỉ về đích | Gắn đúng source/target; nhãn theo mục 4. Self-transition được phép khi có sự kiện và ý nghĩa rõ ràng. |
 | Choice | Hình thoi | Câu hỏi nằm trong hình thoi, ví dụ `Is code correct and unexpired?`; hai guard `[Yes]` / `[No]` của profile này sang hai bên. Đây là quy ước trình bày người dùng chốt; choice không phải state chờ. |
 | Junction | Chấm tròn đen nhỏ | Được dùng để nối các nhánh thay thế có cùng phần tiếp theo; giữ trigger, guard và effect trên từng nhánh. Không dùng như join đồng bộ hay nhãn chung `end event`. |
-| Composite state | Chữ nhật bo góc chứa state con | Research Engines dùng Current version (not stale) theo yêu cầu mới. Bảy state chưa stale nằm trong một region; Stale ở ngoài. Transition từ biên state cha áp dụng cho mọi state con tương ứng; không hiểu là bảy state đồng thời. |
+| Composite state | Chữ nhật bo góc chứa state con | Research Engines dùng Current version (not stale), gồm bảy state chưa stale và Stale ở ngoài. Research Run dùng Active run chứa Running và Waiting; Ended ở ngoài. Transition từ biên state cha áp dụng cho mọi state con tương ứng; không hiểu là bảy state đồng thời. |
 | Final state | Chấm đen trong vòng tròn rỗng | Region bao nó đã hoàn tất; không đồng nghĩa xóa object/record; không có đường ra. Không bắt buộc thêm final cho hệ thống hoạt động liên tục hoặc vòng đời chưa kết thúc trong phạm vi. |
 | Fork / Join | Thanh đen | Hợp lệ trong state machine cho các region đồng thời; không dùng để chia các nhánh điều kiện loại trừ nhau. |
 | History / Regions | `H`, `H*` / vùng phân cách nét đứt trong composite | Chỉ dùng khi nguồn yêu cầu nhớ cấu hình con hoặc hoạt động đồng thời; phải giải thích trong legend. |
@@ -63,7 +63,7 @@ Nhãn minh họa là mô tả sự kiện nghiệp vụ, không xác nhận tên
 
 ## 5. Bố cục và draw.io
 
-- Không thêm khung bao ngoài diagram; riêng Research Engines dùng composite theo yêu cầu mới, các tab khác giữ cấu trúc hiện tại. Trải state theo trục dễ theo dõi, có thể dùng junction khi các nhánh thay thế có cùng phần tiếp theo. Mỗi vòng đời phải là một graph liền mạch; không lặp state hoặc tách thành các cụm minh họa sự kiện rời. Nếu source quy định field reason/result thì giữ là field, không tự nhân thành state mới. Không cắt bớt trạng thái hoặc nhánh để làm gọn. Nhãn trên ảnh ngắn; giữ điều kiện/effect và nguồn đầy đủ trong metadata/thuyết minh.
+- Research Run và Research Engines dùng composite; các tab khác giữ cấu trúc hiện tại. Trải state theo trục dễ theo dõi, có thể dùng junction khi các nhánh thay thế có cùng phần tiếp theo. Mỗi vòng đời phải là một graph liền mạch; không lặp state hoặc tách thành các cụm minh họa sự kiện rời. Nếu source quy định field reason/result thì giữ là field, không tự nhân thành state mới. Không cắt bớt trạng thái hoặc nhánh để làm gọn. Nhãn trên ảnh ngắn; giữ điều kiện/effect và nguồn đầy đủ trong metadata/thuyết minh.
 - Các field context như reason/result giữ trong metadata/thuyết minh; profile compact không đặt ô context dài bên cạnh state. Nếu thực sự cần note, note gắn bằng nét đứt không mũi tên và không được hiểu là transition. Không trộn danh sách field vào tên state hoặc coi là entry/do/exit.
 - Export PNG riêng từng tab với tiền tố số thứ tự và tên tab, cùng folder với file chính.
 - Bật thư viện **UML 2.5** trong More Shapes; dùng state/pseudostate đúng loại. Giữ element editable, không thay bằng ảnh.
@@ -107,11 +107,20 @@ Nhãn minh họa là mô tả sự kiện nghiệp vụ, không xác nhận tên
 
 - Theo yêu cầu mới, Research Engines dùng composite Current version (not stale) chứa bảy state chưa stale, Stale nằm ngoài; một transition upstreamVersionChanged kế thừa cho mọi state con thay thế các đường lặp/junction invalidation. Có initial ngoài vào composite và initial trong vào Draft. State/choice trên trục chính cao 80, bước hàng 200, khoảng trống dọc 120 trước scale. Giữ đầy đủ guard/effect và source-ref.
 
-- Hiệu chỉnh sau review: rút gọn nhãn chỉ thay nội dung hiển thị; lưu `transition-spec` trước khi đổi nhãn, không ghi đè đặc tả gốc ở bước style. Guard/effect quan trọng phải xuất được trong bảng transition; guard giới hạn AI PI và result kết thúc Run phải đọc được trên ảnh.
+- Hiệu chỉnh sau review: rút gọn nhãn chỉ thay nội dung hiển thị; lưu `transition-spec` trước khi đổi nhãn, không ghi đè đặc tả gốc ở bước style. Guard/effect quan trọng phải xuất được trong bảng transition; guard giới hạn AI PI và result kết thúc Run được giữ đầy đủ trong metadata và bảng transition; ảnh dùng nhãn ngắn.
 - Under review bao gồm công việc revision và chạy lại checks; nhánh tới choice chỉ xảy ra khi checks đã hoàn tất, không dùng event yêu cầu sửa để phân nhánh theo kết quả chưa có. Giới hạn hai vòng revision theo IV 3.11, findings còn lại thành known risks hoặc chờ người dùng; không tự kết luận mọi finding đều được chấp nhận sau hai vòng.
-- Hand-off view theo một version; Stale giữ lịch sử và không tự refresh. Cho phép ghi chú phạm vi ngắn bên dưới hình để giải thích công việc/version mới, không tạo state hoặc đường phục hồi chưa chốt. Email retry phải ghi proposed ngay trên ảnh; Failed có thể giữ nguyên khi chưa có policy. Monitoring có thể nối Active → Resolved bằng sự kiện ghi nhận resolution; không bắt buộc thêm choice đọc status.
+- Hand-off view theo một version; Stale giữ lịch sử và không tự refresh. Giải thích phạm vi version trong thuyết minh; không đặt chú thích rời ngoài hình hoặc tạo state/đường phục hồi chưa chốt. Email retry phải ghi proposed ngay trên ảnh; Failed có thể giữ nguyên khi chưa có policy. Monitoring có thể nối Active → Resolved bằng sự kiện ghi nhận resolution; không bắt buộc thêm choice đọc status.
 
 - Theo yêu cầu mới của người dùng: khôi phục Local Node pairing trong Data Management và reason/transition node_offline của Run theo UC-08/31, FR-85/87/110/241/242. Đây là thiết kế dự kiến, không coi là bằng chứng implementation. Scope một pairing với project: Unpaired → Paired online, online ↔ offline, revocation từ cả hai trạng thái paired → Revoked → final. Final kết thúc pairing này; không tự thêm re-pairing/restore chưa chốt hoặc biến job/release thành state Node.
-- Vòng đời trong phạm vi hình hoàn tất tại Archived (Project), Superseded (Dossier version), Answered/Confirmed/Overturned/Closed/Expired (Decision Item), Sent/Skipped (email delivery), Resolved (alert); nối tới final bằng completion transition không nhãn, final không có đường ra. Lịch sử vẫn được lưu. Mỗi nhánh có thể có final riêng để tránh gom dây; không cần chấm junction.
+- Vòng đời trong phạm vi hình hoàn tất tại Archived (Project), Superseded (Dossier version), Answered/Confirmed/Overturned/Closed/Expired (Decision Item), Sent/Skipped (email delivery), Resolved (alert); nối tới final bằng completion transition không nhãn, final không có đường ra. Lịch sử vẫn được lưu. Decision Item vẽ các transition hoàn tất chung đường đến một final, không dùng junction; các view khác có thể dùng final riêng.
 - Accepted/Locked còn có thể stale; Stale còn acceptance/rework; Failed còn retry. Không gắn final khiến mất các khả năng đó. Nếu report chưa chốt đường phục hồi, nêu giới hạn thay vì tự thêm transition.
 - IV 3.4.3 cho phép mọi state object chuyển sang stale khi pinned upstream có version mới: trong Research Engines, quy tắc này được mô hình bằng transition từ composite chứa bảy state chưa stale tới Stale. Không cần bảy mũi tên riêng hoặc junction, không phải join đồng bộ.
+
+## 10. Trình bày compact (2026-10-30)
+
+- Composite dùng ngăn tên riêng và chứa region tuần tự; transition từ biên cha áp dụng cho các state con theo guard trong metadata.
+- Bỏ các tiêu đề và chú thích rời ngoài graph; phạm vi và giả định nằm trong thuyết minh. Nhãn mũi tên dùng từ ngắn để phân biệt sự kiện; guard, effect, result và nguồn đầy đủ vẫn được lưu trong XML và bảng transition. Alias `eligible` của AI PI phải được đọc cùng guard đầy đủ trong bảng.
+
+## 11. Cập nhật theo yêu cầu bỏ khung
+
+Không dùng composite hoặc frame bao trong bộ hiện tại. Các transition trước đây kế thừa từ state cha được vẽ riêng từ từng state áp dụng; xem bảng transition trong thuyết minh.
