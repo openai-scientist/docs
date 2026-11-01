@@ -1,5 +1,9 @@
 # Các thao tác sửa Use Case — thêm, sửa, xóa và nối đường
 
+> **Bổ sung theo yêu cầu người dùng:** View có thêm `Register account (first sign-in)`, `Sign out` và `Update profile` nối với User. Theo Report 7 §III 3.2.1–3.2.4, tài khoản được tạo ở lần đăng nhập đầu tiên; đăng xuất và cập nhật hồ sơ là chức năng tài khoản. Ba ellipse bổ sung chưa có mã riêng trong danh mục 41 UC và không được tự gán mã.
+
+> **Đối chiếu 2026-11-01:** Các bảng bên dưới là hướng dẫn trước đó; view hiện tại ưu tiên ghi chú này. FR-71/BR-35 yêu cầu review loop sau khi các kiểm tra đạt, nhưng chưa đủ để kết luận mọi lần chạy stage luôn bao gồm UC-27; bỏ hai include và giữ một ellipse UC-27. Bỏ extend UC-33 → UC-32 vì chưa có extension point được đặc tả; ghi tình huống đạt 100% budget trong luồng UC-33 (MSG-25). Tài khoản được tạo khi đăng nhập lần đầu, không có UC đăng ký độc lập. UC-29 là benchmark reviewer/persona, không phải so sánh toàn nền tảng (EX-08). UC-35 nối Reviewer và Project Manager theo policy; UC-38 hiển thị `View notifications` dựa trên notification panel. AI Provider là actor hỗ trợ trả inference response, không khởi tạo stage; cần ghi rõ vai trò này trong Use Case Specification khi đặc tả được điền.
+
 Đối chiếu lại ngày 2026-10-29 với bản người dùng gửi `C:/Users/ADMIN/Downloads/xFA26SE115_Report7.md` (§III 2.1, 2.2.1–2.2.2, 3.1.3) và [BRD v3.0](../../BRD.md), [PRD v3.0](../../PRD.md) và [Report III §2.2](../../report/03-software-requirements-specification.md). Đây là phương án vẽ cụ thể; **chỉ cập nhật hướng dẫn, chưa sửa [diagram gốc](AI-Research-Experimentation-Platform-Use-Case.drawio)**.
 
 ## 1. Chốt cách đọc và loại đường
@@ -14,7 +18,7 @@ Giữ một trang, actor hai bên, ellipse theo cụm như ảnh của bạn. Kh
 | `UC X - -> UC A «extend»` | Nét đứt; Start Arrow = None, End Arrow = Open | Mũi tên chạm UC A; nhãn `«extend»` và điều kiện |
 | `Note …` | Hộp UML Note hoặc ghi chú text | Là điều kiện, không phải oval/use case mới; không vẽ thành mũi tên hành vi |
 
-**Phương án bên dưới chỉ dùng association, một generalization actor và một include giữ lại. Không thêm extend.** Không cần cố thêm include/extend để sơ đồ trông giống hình mẫu.
+**Quan hệ actor hiện tại:** Project Manager kế thừa Researcher; Researcher, Reviewer và Platform Admin kế thừa User. Các quan hệ include/extend được xét riêng theo ngữ nghĩa và mô tả UC.
 
 ## 2. Sửa, thêm và xóa actor
 
@@ -154,12 +158,12 @@ Sau khi đổi tên theo §3, **xóa toàn bộ các oval cũ dưới đây và 
 
 ## 5. Nối giữa actor và giữa các oval: danh sách cuối cùng
 
-### 5.1 Thêm đúng một generalization actor
+### 5.1 Generalization giữa các actor
 
-`Project Manager —▷ Researcher`
+`Project Manager —▷ Researcher` và `Researcher / Reviewer / Platform Admin —▷ User`.
 
-- Nét liền, tam giác **rỗng** ở phía Researcher; không phải mũi tên Open của include/extend.
-- Không nối ngược chiều. Không nối Reviewer hoặc Platform Admin kế thừa Researcher.
+- Nét liền, tam giác **rỗng** ở phía actor tổng quát; không phải mũi tên Open của include/extend. Project Manager kế thừa User gián tiếp qua Researcher.
+- Không nối ngược chiều. Reviewer và Platform Admin kế thừa User, không kế thừa Researcher.
 - Trong XML hiện có một đường generalization tới Researcher bị thiếu source. Xóa đường lỗi này, vẽ đường mới có đủ hai đầu PM và Researcher.
 
 ### 5.2 Giữ đúng một include

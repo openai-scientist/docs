@@ -11,7 +11,7 @@ Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, v
 | Actor người | `UML > Actor` (stick figure) | Tên là **danh từ số ít chỉ vai trò**, không phải chức danh hay tên người. Đúng tên trong III 2.1 (Researcher, Project Manager, Reviewer, Platform Admin). |
 | Actor hệ thống ngoài | Hình chữ nhật có stereotype `«system»` hoặc stick figure | Ví dụ AI PI, Local Node, Google, LLM provider. Đặt bên phải system boundary. |
 | System boundary | Hình chữ nhật, tên `OpenAI-Scientist` ở trên | Mọi use case nằm trong; mọi actor nằm ngoài. |
-| Use case | Ellipse | Tên **bắt đầu bằng động từ mạnh** + danh từ, dùng thuật ngữ nghiệp vụ, có mã: `UC-09 Start a run from a research case`. Đúng tên trong III 2.2. |
+| Use case | Ellipse | Tên **bắt đầu bằng động từ mạnh** + danh từ, dùng thuật ngữ nghiệp vụ: `Start a run from a research case`. Không hiển thị mã UC trong ellipse; giữ mã trong metadata `data-uc-id` để truy vết danh mục. |
 | Association | Đường liền, không mũi tên | Nối actor với use case họ khởi động. Spec cho phép mũi tên mở chỉ hướng khởi động, nhưng bộ diagram này không dùng. |
 | Include | Mũi tên nét đứt, đầu mở, nhãn `«include»`, **từ use case gốc chỉ tới use case được include** | Chỉ dùng khi use case gốc **luôn** gọi use case kia. Use case được include đặt bên phải use case gốc. |
 | Extend | Mũi tên nét đứt, đầu mở, nhãn `«extend»`, **từ use case mở rộng chỉ về use case gốc** | Chỉ dùng cho hành vi tuỳ chọn có điều kiện. Use case mở rộng đặt bên dưới use case gốc. |

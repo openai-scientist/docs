@@ -7,7 +7,7 @@ Chuẩn: C4 model mức 1 System Context.
 - Tiêu đề `System Context diagram for OpenAI-Scientist`. Bắt buộc có legend.
 - Hệ thống `OpenAI-Scientist` là **một** hộp duy nhất ở giữa, nền `#DAE8FC`, ghi `[Software System]` cùng mô tả.
 - Xung quanh: người dùng (`C4 > Person`, ghi `[Person]`) và hệ thống ngoài (hộp nền xám, ghi `[Software System]`). Mỗi element có mô tả 1 câu.
-- Mũi tên một chiều có nhãn cụ thể dạng động từ + dữ liệu, ví dụ `Submits research case`, `Returns model completion`. Không dùng nhãn "Uses".
+- Mũi tên một chiều có nhãn là danh từ hoặc cụm danh từ chỉ dữ liệu, yêu cầu hoặc quyết định được trao đổi, ví dụ `Research cases`, `Model inference requests`, `Model responses`. Không dùng nhãn mơ hồ như `Data` hoặc `Uses`.
 - Không vẽ thành phần bên trong hệ thống (đó là System Overview Diagram).
 
 ## Business Process Diagram – Research Pipeline (I 1.2)
