@@ -29,12 +29,12 @@ Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, v
 
 ## Không được
 - Vẽ luồng, thứ tự bước, hoặc nối use case với use case bằng đường liền.
-- Dùng `«include»`/`«extend»` để chia nhỏ chức năng thành bước.
+- Dùng `«include»`/`«extend»` chỉ để biểu diễn thứ tự bước. Có thể tách hành vi bắt buộc dùng chung thành included use case khi có yêu cầu và luồng rõ ràng; included use case không bắt buộc có actor khởi động riêng.
 - Đặt màn hình, bảng dữ liệu hay tên API vào use case.
 
 ## Checklist
-- [ ] View hiện tại có 38 UC trong danh mục UC-01 … UC-41, tạm bỏ UC-08, UC-30, UC-31 (Local Node) theo yêu cầu người dùng; không đánh lại số. Giữ nhãn `(after MVP)` cho UC-40/41. Xem [checklist](use-case-update-checklist.md).
-- [ ] Chỉ có 6 actor: User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider. Persona/AI PI là nội bộ; không vẽ Local Node, Google hoặc Email trong view này.
+- [ ] View giữ 38 UC trong danh mục UC-01 … UC-41, tạm bỏ UC-08, UC-30, UC-31 (Local Node); không đánh lại số. Các ellipse hỗ trợ bổ sung theo report không tự gán mã UC chính thức. Giữ nhãn `(after MVP)` cho UC-40/41. Đối chiếu danh mục trong [Report III](../../report/03-software-requirements-specification.md).
+- [ ] Có 8 actor: User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider, Literature & Evidence Sources và External Data Sources. Hai nguồn dữ liệu là supporting actor; Persona/AI PI là nội bộ; không vẽ Local Node, Google hoặc Email trong view này.
 - [ ] Mỗi use case có ít nhất một actor.
 - [ ] Hướng mũi tên include/extend đúng.
 

@@ -1,0 +1,1467 @@
+{
+  "source": "FA26SE115_Report7.md, 31/10; I section 6.1 and II section 1.1",
+  "modules": [
+    {
+      "id": "FE-01",
+      "name": "Account and Access Management",
+      "wbs": "2.1–2.2",
+      "functions": [
+        {
+          "id": "FE-01.1",
+          "text": "Sign in using passwordless email authentication or a Google account.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Email / Google sign-in requests"
+        },
+        {
+          "id": "FE-01.2",
+          "text": "Manage access permissions based on Platform Admin, Project Manager, Researcher, and Reviewer roles.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Account and project role requests"
+        },
+        {
+          "id": "FE-01.3",
+          "text": "Restrict project access to authorized members and limit Platform Admin visibility to project metadata unless granted membership.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Authorized project access requests"
+        }
+      ]
+    },
+    {
+      "id": "FE-02",
+      "name": "Project Workspace and Member Management",
+      "wbs": "2.3–2.4",
+      "functions": [
+        {
+          "id": "FE-02.1",
+          "text": "Create, manage, and archive research project workspaces.",
+          "actor": "Project Manager",
+          "direction": "in",
+          "label": "Project creation, update and archive requests"
+        },
+        {
+          "id": "FE-02.2",
+          "text": "Invite members, assign project roles, and manage access permissions.",
+          "actor": "Project Manager",
+          "direction": "in",
+          "label": "Member invitations and role assignments"
+        },
+        {
+          "id": "FE-02.3",
+          "text": "Configure project budgets, approval policies, AI autonomy settings, and notifications.",
+          "actor": "Project Manager",
+          "direction": "in",
+          "label": "Budget, approval, autonomy and notification settings"
+        },
+        {
+          "id": "FE-02.4",
+          "text": "Maintain project activity logs and provide read-only access to archived projects.",
+          "actor": "Project Manager",
+          "direction": "out",
+          "label": "Project activity logs and archived workspace views"
+        }
+      ]
+    },
+    {
+      "id": "FE-03",
+      "name": "Research Data Management",
+      "wbs": "3.1–3.2",
+      "functions": [
+        {
+          "id": "FE-03.1",
+          "text": "Upload and import tabular datasets from files and authorized external data sources.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Uploaded files and authorized import requests"
+        },
+        {
+          "id": "FE-03.2",
+          "text": "Manage dataset versions and associate specific versions with research analyses.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Dataset version selections"
+        },
+        {
+          "id": "FE-03.3",
+          "text": "Manage data connections and storage locations, including platform-hosted and local datasets.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Data connection and storage settings"
+        },
+        {
+          "id": "FE-03.4",
+          "text": "Control dataset access and protect data connection credentials.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Dataset access and connection credentials"
+        }
+      ]
+    },
+    {
+      "id": "FE-04",
+      "name": "Research Case and Run Management",
+      "wbs": "4.1–4.4",
+      "functions": [
+        {
+          "id": "FE-04.1",
+          "text": "Create Research Cases with objectives, context, constraints, and references, with optional initial datasets.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Research cases, objectives, constraints and references"
+        },
+        {
+          "id": "FE-04.2",
+          "text": "Coordinate Research Runs across five stages: Dataset, Hypothesis, Experiment Design, Execution, and Paper.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Five-stage research run requests"
+        },
+        {
+          "id": "FE-04.3",
+          "text": "Discover available project or public datasets and enforce one active Research Run per project.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Dataset discovery and run availability requests"
+        },
+        {
+          "id": "FE-04.4",
+          "text": "Track research progress, stage outcomes, artifact versions, and changes affecting subsequent stages.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Stage progress, artifact versions and change history"
+        },
+        {
+          "id": "FE-04.5",
+          "text": "Support run cancellation, completion tracking, and recommendations for subsequent research activities.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Run cancellation requests and completion recommendations"
+        }
+      ]
+    },
+    {
+      "id": "FE-05",
+      "name": "Human Control and AI Decision Management",
+      "wbs": "5.1–5.2",
+      "functions": [
+        {
+          "id": "FE-05.1",
+          "text": "Configure AI autonomy using Co-work, Milestones, and Autopilot modes.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Co-work, Milestones and Autopilot selections"
+        },
+        {
+          "id": "FE-05.2",
+          "text": "Require Researcher approval for critical decisions, including hypothesis selection, data structure confirmation, and analysis plan locking.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Critical hypothesis, data structure and plan approvals"
+        },
+        {
+          "id": "FE-05.3",
+          "text": "Manage research questions, approval requests, and pending decisions through a centralized Decision Inbox.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Decision Inbox questions and approval requests"
+        },
+        {
+          "id": "FE-05.4",
+          "text": "Enable AI PI to recommend actions and make provisional decisions on permitted tasks during unattended Autopilot operation.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "AI PI proposals and permitted provisional decisions"
+        },
+        {
+          "id": "FE-05.5",
+          "text": "Allow Researchers to confirm or override AI decisions and review decision histories through the Decision Log.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "AI decision confirmations, overrides and Decision Log requests"
+        }
+      ]
+    },
+    {
+      "id": "FE-06",
+      "name": "Dataset Analysis and Assessment",
+      "wbs": "6.1–6.2",
+      "functions": [
+        {
+          "id": "FE-06.1",
+          "text": "Analyze dataset structure, characteristics, and overall data quality.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Dataset structure, characteristics and quality profiles"
+        },
+        {
+          "id": "FE-06.2",
+          "text": "Detects missing values, duplicates, class imbalance, dataset shifts, and potential data leakage.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Missing-value, duplicate, imbalance, shift and leakage risks"
+        },
+        {
+          "id": "FE-06.3",
+          "text": "Recommend data cleaning and partitioning strategies based on dataset structure, sample size, and research objectives.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Cleaning and data partitioning recommendations"
+        },
+        {
+          "id": "FE-06.4",
+          "text": "Assess dataset suitability for research questions and suggest feasible research directions.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Dataset fitness and feasible research directions"
+        },
+        {
+          "id": "FE-06.5",
+          "text": "Generate a DatasetSnapshot containing data profiles, preparation strategies, and identified limitations.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "DatasetSnapshot profiles, strategies and limitations"
+        }
+      ]
+    },
+    {
+      "id": "FE-07",
+      "name": "Literature Review and Hypothesis Generation",
+      "wbs": "6.3–6.4",
+      "functions": [
+        {
+          "id": "FE-07.1",
+          "text": "Search, screen, and organize scientific literature from accessible academic sources within the Literature Base.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Literature search, screening and Literature Base records"
+        },
+        {
+          "id": "FE-07.2",
+          "text": "Synthesize scientific evidence, analyze related studies, and identify research gaps.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Evidence synthesis, related studies and research gaps"
+        },
+        {
+          "id": "FE-07.3",
+          "text": "Generate testable hypotheses with defined variables, comparators, evaluation metrics, and falsification criteria.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Hypotheses, variables, comparators, metrics and falsifiers"
+        },
+        {
+          "id": "FE-07.4",
+          "text": "Evaluate hypothesis testability and allow researchers to select primary and secondary hypotheses.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Testability assessments and hypothesis selection requests"
+        },
+        {
+          "id": "FE-07.5",
+          "text": "Generate a HypothesisSet linking selected hypotheses to their supporting scientific evidence.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "HypothesisSet and supporting evidence links"
+        }
+      ]
+    },
+    {
+      "id": "FE-08",
+      "name": "Experiment Design and Analysis Planning",
+      "wbs": "7.1–7.3",
+      "functions": [
+        {
+          "id": "FE-08.1",
+          "text": "Develop an AnalysisPlan based on accepted research hypotheses and dataset information.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "AnalysisPlan from accepted hypotheses and dataset"
+        },
+        {
+          "id": "FE-08.2",
+          "text": "Recommend analytical methods, models, baselines, and evaluation metrics appropriate to the research objectives.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Method, model, baseline and metric recommendations"
+        },
+        {
+          "id": "FE-08.3",
+          "text": "Define data processing procedures, hypothesis testing methods, and robustness assessments.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Data processing, testing and robustness procedures"
+        },
+        {
+          "id": "FE-08.4",
+          "text": "Identify methodological risks and validate analysis plans through preliminary testing before execution.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Methodological risks and preliminary validation results"
+        },
+        {
+          "id": "FE-08.5",
+          "text": "Allow Researchers to review and lock analysis plans while tracking subsequent methodological changes.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "AnalysisPlan review, lock and change approval requests"
+        }
+      ]
+    },
+    {
+      "id": "FE-09",
+      "name": "Experiment Execution and Evidence Evaluation",
+      "wbs": "8.1–8.5",
+      "functions": [
+        {
+          "id": "FE-09.1",
+          "text": "Execute experiments according to locked AnalysisPlans within a controlled environment.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Locked-plan experiment execution records"
+        },
+        {
+          "id": "FE-09.2",
+          "text": "Enforce analysis procedures and separate exploratory findings from confirmatory results until authorized disclosure.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Exploratory / confirmatory result disclosure requests"
+        },
+        {
+          "id": "FE-09.3",
+          "text": "Evaluate hypotheses through statistical verdicts, evidence grades, and permitted claim levels.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Statistical verdicts, evidence grades and claim ceilings"
+        },
+        {
+          "id": "FE-09.4",
+          "text": "Track additional analyses, methodological deviations, and experimental exploration history.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Additional analyses, deviations and exploration history"
+        },
+        {
+          "id": "FE-09.5",
+          "text": "Verify result reproducibility and compile findings, tables, figures, and supporting records into an EvidenceBundle.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Reproducibility checks and EvidenceBundle"
+        }
+      ]
+    },
+    {
+      "id": "FE-10",
+      "name": "Scientific Paper Development",
+      "wbs": "9.3",
+      "functions": [
+        {
+          "id": "FE-10.1",
+          "text": "Generate scientific manuscripts following the IMRaD structure using verified research outputs.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "IMRaD scientific manuscript drafts"
+        },
+        {
+          "id": "FE-10.2",
+          "text": "Integrate validated statistics, tables, and figures from the EvidenceBundle.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Evidence-linked statistics, tables and figures"
+        },
+        {
+          "id": "FE-10.3",
+          "text": "Manage citations and verify consistency between scientific claims, conclusions, and supporting evidence.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Citation and claim-evidence consistency checks"
+        },
+        {
+          "id": "FE-10.4",
+          "text": "Check claim limitations, study limitations, and compliance with relevant reporting checklists.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Claim limits, study limitations and reporting checks"
+        },
+        {
+          "id": "FE-10.5",
+          "text": "Generate a PaperPack containing the manuscript, references, figures, tables, and supporting review information.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "PaperPack manuscripts, references and review records"
+        }
+      ]
+    },
+    {
+      "id": "FE-11",
+      "name": "Independent Review and Quality Assurance",
+      "wbs": "9.1–9.2",
+      "functions": [
+        {
+          "id": "FE-11.1",
+          "text": "Conduct independent reviews of research artifacts at each research stage.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Research artifact versions for independent review"
+        },
+        {
+          "id": "FE-11.2",
+          "text": "Use specialized AI reviewers to assess data quality, methodologies, evidence, and scientific reasoning.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Data, method, evidence and reasoning assessments"
+        },
+        {
+          "id": "FE-11.3",
+          "text": "Detect, classify, and verify review findings before requesting corrections.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Classified findings and verified correction requests"
+        },
+        {
+          "id": "FE-11.4",
+          "text": "Manage revision cycles, document unresolved risks, and evaluate reviewer performance through benchmarks.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Revision cycles, unresolved risks and reviewer benchmarks"
+        }
+      ]
+    },
+    {
+      "id": "FE-12",
+      "name": "Local Data Processing and Privacy Protection",
+      "wbs": "3.3–3.4",
+      "functions": [
+        {
+          "id": "FE-12.1",
+          "text": "Connect Local Nodes to research projects for data analysis at their original storage locations.",
+          "actor": "Local Node",
+          "direction": "in",
+          "label": "Project pairing and local analysis requests"
+        },
+        {
+          "id": "FE-12.2",
+          "text": "Restrict data sharing to approved aggregate statistics without transferring raw data.",
+          "actor": "Local Node",
+          "direction": "out",
+          "label": "Approved aggregate statistics without raw data"
+        },
+        {
+          "id": "FE-12.3",
+          "text": "Manage disclosure policies, release approvals, and data release histories.",
+          "actor": "Local Node",
+          "direction": "in",
+          "label": "Disclosure policies, Release Gate approvals and logs"
+        },
+        {
+          "id": "FE-12.4",
+          "text": "Monitor Local Node connectivity and support access revocation.",
+          "actor": "Local Node",
+          "direction": "out",
+          "label": "Node connectivity status and access revocations"
+        }
+      ]
+    },
+    {
+      "id": "FE-13",
+      "name": "Budget and Cost Management",
+      "wbs": "5.3",
+      "functions": [
+        {
+          "id": "FE-13.1",
+          "text": "Set AI token budgets for individual Research Runs and monthly project budgets.",
+          "actor": "Project Manager",
+          "direction": "in",
+          "label": "Run token budgets and monthly project budgets"
+        },
+        {
+          "id": "FE-13.2",
+          "text": "Monitor resource consumption, track costs, and issue budget threshold alerts.",
+          "actor": "Project Manager",
+          "direction": "out",
+          "label": "Resource usage, costs and threshold alerts"
+        },
+        {
+          "id": "FE-13.3",
+          "text": "Require Project Manager approval for additional spending when project budget limits are reached.",
+          "actor": "Project Manager",
+          "direction": "in",
+          "label": "Additional-spending approval decisions"
+        },
+        {
+          "id": "FE-13.4",
+          "text": "Maintain cost histories and enforce AI resource usage limits.",
+          "actor": "Project Manager",
+          "direction": "out",
+          "label": "Cost histories and enforced resource limits"
+        }
+      ]
+    },
+    {
+      "id": "FE-14",
+      "name": "Research Dossier and Approval Management",
+      "wbs": "10.1",
+      "functions": [
+        {
+          "id": "FE-14.1",
+          "text": "Generate Research Dossiers from accepted EvidenceBundles and PaperPacks.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Research Dossiers from EvidenceBundle and PaperPack"
+        },
+        {
+          "id": "FE-14.2",
+          "text": "Allow Reviewers or Project Managers to approve Dossiers according to project approval policies.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Dossier approval requests under project policy"
+        },
+        {
+          "id": "FE-14.3",
+          "text": "Manage Dossier versions and require renewed approval when accepted research content changes.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Dossier versions and renewed-approval requests"
+        },
+        {
+          "id": "FE-14.4",
+          "text": "Enable authorized export of approved Dossiers and maintain export histories.",
+          "actor": "Reviewer",
+          "direction": "out",
+          "label": "Approved Dossier exports and export histories"
+        }
+      ]
+    },
+    {
+      "id": "FE-15",
+      "name": "Collaboration and Notification Management",
+      "wbs": "2.4; 12.3",
+      "functions": [
+        {
+          "id": "FE-15.1",
+          "text": "Allow project members to comment on research artifacts according to their access permissions.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Research artifact comments"
+        },
+        {
+          "id": "FE-15.2",
+          "text": "Notify members about project activities and pending research tasks.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Project activity and pending-task notifications"
+        },
+        {
+          "id": "FE-15.3",
+          "text": "Send reminders for blocking critical decisions and spending approval requests.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Critical-decision and spending-approval reminders"
+        }
+      ]
+    },
+    {
+      "id": "FE-17",
+      "name": "System Administration and Monitoring",
+      "wbs": "12.1–12.2",
+      "functions": [
+        {
+          "id": "FE-17.1",
+          "text": "Manage user accounts, AI model configurations, and system settings.",
+          "actor": "Platform Admin",
+          "direction": "in",
+          "label": "User account, AI model and system settings"
+        },
+        {
+          "id": "FE-17.2",
+          "text": "Manage AI service connections, access credentials, and default resource limits.",
+          "actor": "Platform Admin",
+          "direction": "in",
+          "label": "AI service connections, credentials and default limits"
+        },
+        {
+          "id": "FE-17.3",
+          "text": "Monitor system health, audit logs, and resource usage.",
+          "actor": "Platform Admin",
+          "direction": "out",
+          "label": "System health, audit logs and resource usage"
+        },
+        {
+          "id": "FE-17.4",
+          "text": "Track Research Run operational metrics and AI reviewer performance.",
+          "actor": "Platform Admin",
+          "direction": "out",
+          "label": "Run operational metrics and reviewer performance"
+        }
+      ]
+    },
+    {
+      "id": "FE-18",
+      "name": "Journal Fingerprint Extraction",
+      "wbs": "10.2",
+      "functions": [
+        {
+          "id": "FE-18.1",
+          "text": "Analyze authorized sample articles to identify journal structures, writing styles, and presentation characteristics.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Journal structures, writing styles and sample analysis"
+        },
+        {
+          "id": "FE-18.2",
+          "text": "Generate versioned Journal Profiles with source references, distinguishing observed conventions from publisher requirements.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Versioned Journal Profiles, sources and observed conventions"
+        },
+        {
+          "id": "FE-18.3",
+          "text": "Allow Researchers to approve and apply Journal Profiles during manuscript preparation without altering scientific claims.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Journal Profile approval and application requests"
+        }
+      ]
+    },
+    {
+      "id": "FE-19",
+      "name": "Machine Learning Method Comparison",
+      "wbs": "10.3",
+      "functions": [
+        {
+          "id": "FE-19.1",
+          "text": "Design comparative studies of Machine Learning methods using the same dataset.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Same-dataset ML comparison study requests"
+        },
+        {
+          "id": "FE-19.2",
+          "text": "Support hyperparameter optimization, ensemble learning, stacking, ablation studies, and budget-aware evaluations.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Tuning, ensemble, stacking and ablation study settings"
+        },
+        {
+          "id": "FE-19.3",
+          "text": "Enforce fair comparison conditions through consistent data partitions, repeated trials, and comparable tuning budgets.",
+          "actor": "Researcher",
+          "direction": "in",
+          "label": "Shared partitions, repeated trials and tuning budgets"
+        },
+        {
+          "id": "FE-19.4",
+          "text": "Evaluate performance, stability, and reliability while preserving results that do not demonstrate methodological superiority.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Performance, stability and non-superiority results"
+        }
+      ]
+    },
+    {
+      "id": "FE-20",
+      "name": "Claim Ledger, Forecast and Replication",
+      "wbs": "10.4",
+      "functions": [
+        {
+          "id": "FE-20.1",
+          "text": "Track the testing history and evidence status of scientific claims across multiple Research Runs.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Claim testing history and evidence status across runs"
+        },
+        {
+          "id": "FE-20.2",
+          "text": "Aggregate evidence from independent datasets while preventing duplicate evidence from shared observations.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Independent-dataset evidence and duplicate checks"
+        },
+        {
+          "id": "FE-20.3",
+          "text": "Record AI forecasts before analysis plan locking and evaluate forecast accuracy after experimental results become available.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Pre-lock AI forecasts and post-result accuracy scores"
+        },
+        {
+          "id": "FE-20.4",
+          "text": "Support replication studies using independent datasets to assess the consistency of research conclusions.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Independent-dataset replication study results"
+        },
+        {
+          "id": "FE-20.5",
+          "text": "Evaluate error detection and evidence reliability through research benchmarks with known outcomes.",
+          "actor": "Researcher",
+          "direction": "out",
+          "label": "Known-outcome benchmark and error-detection results"
+        }
+      ]
+    }
+  ],
+  "extra_flows": [
+    {
+      "actor": "Reviewer",
+      "direction": "in",
+      "label": "Review comments, correction findings and research dossier approval decisions",
+      "id": "support-0"
+    },
+    {
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Hypothesis selections, plan locking and methodological change decisions",
+      "id": "support-1"
+    },
+    {
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Journal profile approvals and research dossier export requests",
+      "id": "support-2"
+    },
+    {
+      "actor": "AI / LLM Provider",
+      "direction": "out",
+      "label": "Research coordination inference requests",
+      "id": "support-3-1",
+      "text": "Model inference requests for research coordination and research stages"
+    },
+    {
+      "actor": "AI / LLM Provider",
+      "direction": "out",
+      "label": "Research stage generation requests",
+      "id": "support-3-2",
+      "text": "Model inference requests for research coordination and research stages"
+    },
+    {
+      "actor": "AI / LLM Provider",
+      "direction": "out",
+      "label": "Independent model review requests",
+      "id": "support-3-3",
+      "text": "Model inference requests for research coordination and research stages"
+    },
+    {
+      "actor": "AI / LLM Provider",
+      "direction": "in",
+      "label": "Research coordination responses",
+      "id": "support-4-1",
+      "text": "Model responses, generated proposals and review findings"
+    },
+    {
+      "actor": "AI / LLM Provider",
+      "direction": "in",
+      "label": "Generated research stage proposals",
+      "id": "support-4-2",
+      "text": "Model responses, generated proposals and review findings"
+    },
+    {
+      "actor": "AI / LLM Provider",
+      "direction": "in",
+      "label": "Independent model review findings",
+      "id": "support-4-3",
+      "text": "Model responses, generated proposals and review findings"
+    },
+    {
+      "actor": "Literature & Evidence Sources",
+      "direction": "out",
+      "label": "Literature discovery queries",
+      "id": "support-5-1",
+      "text": "Literature discovery, evidence and citation-verification queries"
+    },
+    {
+      "actor": "Literature & Evidence Sources",
+      "direction": "out",
+      "label": "Evidence and citation verification queries",
+      "id": "support-5-2",
+      "text": "Literature discovery, evidence and citation-verification queries"
+    },
+    {
+      "actor": "Literature & Evidence Sources",
+      "direction": "in",
+      "label": "Permitted references and bibliographic metadata",
+      "id": "support-6-1",
+      "text": "Permitted references, metadata and supporting evidence"
+    },
+    {
+      "actor": "Literature & Evidence Sources",
+      "direction": "in",
+      "label": "Supporting evidence and citation verification results",
+      "id": "support-6-2",
+      "text": "Permitted references, metadata and supporting evidence"
+    },
+    {
+      "actor": "External Data Sources",
+      "direction": "out",
+      "label": "Authorized source browsing requests",
+      "id": "support-7-1",
+      "text": "Authorized source browsing, preview and dataset import requests"
+    },
+    {
+      "actor": "External Data Sources",
+      "direction": "out",
+      "label": "Dataset preview requests",
+      "id": "support-7-2",
+      "text": "Authorized source browsing, preview and dataset import requests"
+    },
+    {
+      "actor": "External Data Sources",
+      "direction": "out",
+      "label": "Dataset import requests",
+      "id": "support-7-3",
+      "text": "Authorized source browsing, preview and dataset import requests"
+    },
+    {
+      "actor": "External Data Sources",
+      "direction": "in",
+      "label": "Source listings and metadata",
+      "id": "support-8-1",
+      "text": "Dataset content, versions, schema and source metadata"
+    },
+    {
+      "actor": "External Data Sources",
+      "direction": "in",
+      "label": "Dataset previews and schema",
+      "id": "support-8-2",
+      "text": "Dataset content, versions, schema and source metadata"
+    },
+    {
+      "actor": "External Data Sources",
+      "direction": "in",
+      "label": "Dataset content and version metadata",
+      "id": "support-8-3",
+      "text": "Dataset content, versions, schema and source metadata"
+    },
+    {
+      "actor": "Project Manager",
+      "direction": "in",
+      "label": "Research dossier approval decisions",
+      "source_ids": [
+        "FE-14.2"
+      ],
+      "text": "Allow Reviewers or Project Managers to approve Dossiers according to project approval policies.",
+      "wbs": "10.1",
+      "id": "support-9"
+    }
+  ],
+  "compact_flows": [
+    {
+      "id": "FE-01.2",
+      "source_ids": [
+        "FE-01.2",
+        "FE-01.3"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Account and project access management requests",
+      "text": "Manage access permissions based on Platform Admin, Project Manager, Researcher, and Reviewer roles. | Restrict project access to authorized members and limit Platform Admin visibility to project metadata unless granted membership.",
+      "wbs": "2.1–2.2"
+    },
+    {
+      "id": "FE-02.1",
+      "source_ids": [
+        "FE-02.1"
+      ],
+      "actor": "Project Manager",
+      "direction": "in",
+      "label": "Project management requests",
+      "text": "Create, manage, and archive research project workspaces.",
+      "wbs": "2.3–2.4"
+    },
+    {
+      "id": "FE-02.2",
+      "source_ids": [
+        "FE-02.2"
+      ],
+      "actor": "Project Manager",
+      "direction": "in",
+      "label": "Member and invitation management requests",
+      "text": "Invite members, assign project roles, and manage access permissions.",
+      "wbs": "2.3–2.4"
+    },
+    {
+      "id": "FE-02.3",
+      "source_ids": [
+        "FE-02.3"
+      ],
+      "actor": "Project Manager",
+      "direction": "in",
+      "label": "Project governance and notification settings",
+      "text": "Configure project budgets, approval policies, AI autonomy settings, and notifications.",
+      "wbs": "2.3–2.4"
+    },
+    {
+      "id": "FE-02.4",
+      "source_ids": [
+        "FE-02.4"
+      ],
+      "actor": "Project Manager",
+      "direction": "out",
+      "label": "Project activity records and archived workspaces",
+      "text": "Maintain project activity logs and provide read-only access to archived projects.",
+      "wbs": "2.3–2.4"
+    },
+    {
+      "id": "FE-03.1",
+      "source_ids": [
+        "FE-03.1",
+        "FE-03.2",
+        "FE-03.3",
+        "FE-03.4"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Dataset, source and version management requests",
+      "text": "Upload and import tabular datasets from files and authorized external data sources. | Manage dataset versions and associate specific versions with research analyses. | Manage data connections and storage locations, including platform-hosted and local datasets. | Control dataset access and protect data connection credentials.",
+      "wbs": "3.1–3.2"
+    },
+    {
+      "id": "FE-04.1",
+      "source_ids": [
+        "FE-04.1"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Research cases and research objectives",
+      "text": "Create Research Cases with objectives, context, constraints, and references, with optional initial datasets.",
+      "wbs": "4.1–4.4"
+    },
+    {
+      "id": "FE-04.2",
+      "source_ids": [
+        "FE-04.2",
+        "FE-04.3"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Run control and dataset selection requests",
+      "text": "Coordinate Research Runs across five stages: Dataset, Hypothesis, Experiment Design, Execution, and Paper. | Discover available project or public datasets and enforce one active Research Run per project.",
+      "wbs": "4.1–4.4"
+    },
+    {
+      "id": "FE-04.4",
+      "source_ids": [
+        "FE-04.4",
+        "FE-04.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Run progress, artifacts and completion recommendations",
+      "text": "Track research progress, stage outcomes, artifact versions, and changes affecting subsequent stages. | Support run cancellation, completion tracking, and recommendations for subsequent research activities.",
+      "wbs": "4.1–4.4"
+    },
+    {
+      "id": "FE-05.1",
+      "source_ids": [
+        "FE-05.1"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Research automation settings",
+      "text": "Configure AI autonomy using Co-work, Milestones, and Autopilot modes.",
+      "wbs": "5.1–5.2"
+    },
+    {
+      "id": "FE-05.2",
+      "source_ids": [
+        "FE-05.2",
+        "FE-05.5"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Research approvals and automated decision overrides",
+      "text": "Require Researcher approval for critical decisions, including hypothesis selection, data structure confirmation, and analysis plan locking. | Allow Researchers to confirm or override AI decisions and review decision histories through the Decision Log.",
+      "wbs": "5.1–5.2"
+    },
+    {
+      "id": "FE-05.3",
+      "source_ids": [
+        "FE-05.3",
+        "FE-05.4"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Pending decisions and automated research recommendations",
+      "text": "Manage research questions, approval requests, and pending decisions through a centralized Decision Inbox. | Enable AI PI to recommend actions and make provisional decisions on permitted tasks during unattended Autopilot operation.",
+      "wbs": "5.1–5.2"
+    },
+    {
+      "id": "FE-06.1",
+      "source_ids": [
+        "FE-06.1",
+        "FE-06.2",
+        "FE-06.3",
+        "FE-06.4",
+        "FE-06.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Dataset quality assessments and preparation recommendations",
+      "text": "Analyze dataset structure, characteristics, and overall data quality. | Detects missing values, duplicates, class imbalance, dataset shifts, and potential data leakage. | Recommend data cleaning and partitioning strategies based on dataset structure, sample size, and research objectives. | Assess dataset suitability for research questions and suggest feasible research directions. | Generate a DatasetSnapshot containing data profiles, preparation strategies, and identified limitations.",
+      "wbs": "6.1–6.2"
+    },
+    {
+      "id": "FE-07.1",
+      "source_ids": [
+        "FE-07.1",
+        "FE-07.2"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Literature collection, evidence synthesis and research gaps",
+      "text": "Search, screen, and organize scientific literature from accessible academic sources within the Literature Base. | Synthesize scientific evidence, analyze related studies, and identify research gaps.",
+      "wbs": "6.3–6.4"
+    },
+    {
+      "id": "FE-07.3",
+      "source_ids": [
+        "FE-07.3",
+        "FE-07.4",
+        "FE-07.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Testable hypotheses, selection requests and evidence links",
+      "text": "Generate testable hypotheses with defined variables, comparators, evaluation metrics, and falsification criteria. | Evaluate hypothesis testability and allow researchers to select primary and secondary hypotheses. | Generate a HypothesisSet linking selected hypotheses to their supporting scientific evidence.",
+      "wbs": "6.3–6.4"
+    },
+    {
+      "id": "FE-08.1",
+      "source_ids": [
+        "FE-08.1",
+        "FE-08.2",
+        "FE-08.3",
+        "FE-08.4"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Analysis plans, methods and validation results",
+      "text": "Develop an AnalysisPlan based on accepted research hypotheses and dataset information. | Recommend analytical methods, models, baselines, and evaluation metrics appropriate to the research objectives. | Define data processing procedures, hypothesis testing methods, and robustness assessments. | Identify methodological risks and validate analysis plans through preliminary testing before execution.",
+      "wbs": "7.1–7.3"
+    },
+    {
+      "id": "FE-08.5",
+      "source_ids": [
+        "FE-08.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Plan review, locking and change approval requests",
+      "text": "Allow Researchers to review and lock analysis plans while tracking subsequent methodological changes.",
+      "wbs": "7.1–7.3"
+    },
+    {
+      "id": "FE-09.1",
+      "source_ids": [
+        "FE-09.1",
+        "FE-09.4"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Execution records, additional analyses and deviations",
+      "text": "Execute experiments according to locked AnalysisPlans within a controlled environment. | Track additional analyses, methodological deviations, and experimental exploration history.",
+      "wbs": "8.1–8.5"
+    },
+    {
+      "id": "FE-09.2",
+      "source_ids": [
+        "FE-09.2"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Confirmatory results and disclosure status",
+      "text": "Enforce analysis procedures and separate exploratory findings from confirmatory results until authorized disclosure.",
+      "wbs": "8.1–8.5"
+    },
+    {
+      "id": "FE-09.3",
+      "source_ids": [
+        "FE-09.3",
+        "FE-09.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Research evidence packages, verdicts and reproducibility results",
+      "text": "Evaluate hypotheses through statistical verdicts, evidence grades, and permitted claim levels. | Verify result reproducibility and compile findings, tables, figures, and supporting records into an EvidenceBundle.",
+      "wbs": "8.1–8.5"
+    },
+    {
+      "id": "FE-10.1",
+      "source_ids": [
+        "FE-10.1",
+        "FE-10.2",
+        "FE-10.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Manuscript packages with tables, figures and references",
+      "text": "Generate scientific manuscripts following the IMRaD structure using verified research outputs. | Integrate validated statistics, tables, and figures from the EvidenceBundle. | Generate a PaperPack containing the manuscript, references, figures, tables, and supporting review information.",
+      "wbs": "9.3"
+    },
+    {
+      "id": "FE-10.3",
+      "source_ids": [
+        "FE-10.3",
+        "FE-10.4"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Citation, claim and reporting check results",
+      "text": "Manage citations and verify consistency between scientific claims, conclusions, and supporting evidence. | Check claim limitations, study limitations, and compliance with relevant reporting checklists.",
+      "wbs": "9.3"
+    },
+    {
+      "id": "FE-11.1",
+      "source_ids": [
+        "FE-11.1",
+        "FE-11.2"
+      ],
+      "actor": "Reviewer",
+      "direction": "out",
+      "label": "Independent review reports",
+      "text": "Conduct independent reviews of research artifacts at each research stage. | Use specialized AI reviewers to assess data quality, methodologies, evidence, and scientific reasoning.",
+      "wbs": "9.1–9.2"
+    },
+    {
+      "id": "FE-11.3",
+      "source_ids": [
+        "FE-11.3",
+        "FE-11.4"
+      ],
+      "actor": "Reviewer",
+      "direction": "out",
+      "label": "Review findings, revision history and unresolved risks",
+      "text": "Detect, classify, and verify review findings before requesting corrections. | Manage revision cycles, document unresolved risks, and evaluate reviewer performance through benchmarks.",
+      "wbs": "9.1–9.2"
+    },
+    {
+      "id": "FE-12.1",
+      "source_ids": [
+        "FE-12.1"
+      ],
+      "actor": "Local Node",
+      "direction": "out",
+      "label": "Project pairing and local analysis requests",
+      "text": "Connect Local Nodes to research projects for data analysis at their original storage locations.",
+      "wbs": "3.3–3.4"
+    },
+    {
+      "id": "FE-12.2",
+      "source_ids": [
+        "FE-12.2"
+      ],
+      "actor": "Local Node",
+      "direction": "in",
+      "label": "Approved aggregate results",
+      "text": "Restrict data sharing to approved aggregate statistics without transferring raw data.",
+      "wbs": "3.3–3.4"
+    },
+    {
+      "id": "FE-12.3",
+      "source_ids": [
+        "FE-12.3"
+      ],
+      "actor": "Local Node",
+      "direction": "out",
+      "label": "Disclosure policies and aggregate release decisions",
+      "text": "Manage disclosure policies, release approvals, and data release histories.",
+      "wbs": "3.3–3.4"
+    },
+    {
+      "id": "FE-12.4",
+      "source_ids": [
+        "FE-12.4"
+      ],
+      "actor": "Local Node",
+      "direction": "out",
+      "label": "Node connectivity checks and access revocations",
+      "text": "Monitor Local Node connectivity and support access revocation.",
+      "wbs": "3.3–3.4"
+    },
+    {
+      "id": "FE-13.1",
+      "source_ids": [
+        "FE-13.1"
+      ],
+      "actor": "Project Manager",
+      "direction": "in",
+      "label": "Run and project budget settings",
+      "text": "Set AI token budgets for individual Research Runs and monthly project budgets.",
+      "wbs": "5.3"
+    },
+    {
+      "id": "FE-13.2",
+      "source_ids": [
+        "FE-13.2",
+        "FE-13.4"
+      ],
+      "actor": "Project Manager",
+      "direction": "out",
+      "label": "Resource usage, cost history and budget alerts",
+      "text": "Monitor resource consumption, track costs, and issue budget threshold alerts. | Maintain cost histories and enforce AI resource usage limits.",
+      "wbs": "5.3"
+    },
+    {
+      "id": "FE-13.3",
+      "source_ids": [
+        "FE-13.3"
+      ],
+      "actor": "Project Manager",
+      "direction": "in",
+      "label": "Additional spending approval decisions",
+      "text": "Require Project Manager approval for additional spending when project budget limits are reached.",
+      "wbs": "5.3"
+    },
+    {
+      "id": "FE-14.1",
+      "source_ids": [
+        "FE-14.1",
+        "FE-14.3"
+      ],
+      "actor": "Reviewer",
+      "direction": "out",
+      "label": "Research dossiers, versions and approval status",
+      "text": "Generate Research Dossiers from accepted EvidenceBundles and PaperPacks. | Manage Dossier versions and require renewed approval when accepted research content changes.",
+      "wbs": "10.1"
+    },
+    {
+      "id": "FE-14.2",
+      "source_ids": [
+        "FE-14.2"
+      ],
+      "actor": "Reviewer",
+      "direction": "out",
+      "label": "Research dossier approval requests",
+      "text": "Allow Reviewers or Project Managers to approve Dossiers according to project approval policies.",
+      "wbs": "10.1"
+    },
+    {
+      "id": "FE-14.4",
+      "source_ids": [
+        "FE-14.4"
+      ],
+      "actor": "Reviewer",
+      "direction": "out",
+      "label": "Approved research dossier exports and export history",
+      "text": "Enable authorized export of approved Dossiers and maintain export histories.",
+      "wbs": "10.1"
+    },
+    {
+      "id": "FE-15.1",
+      "source_ids": [
+        "FE-15.1"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Research comment management requests",
+      "text": "Allow project members to comment on research artifacts according to their access permissions.",
+      "wbs": "2.4; 12.3"
+    },
+    {
+      "id": "FE-15.2",
+      "source_ids": [
+        "FE-15.2",
+        "FE-15.3"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Activity notifications and blocking-task reminders",
+      "text": "Notify members about project activities and pending research tasks. | Send reminders for blocking critical decisions and spending approval requests.",
+      "wbs": "2.4; 12.3"
+    },
+    {
+      "id": "FE-17.1-1",
+      "source_ids": [
+        "FE-17.1"
+      ],
+      "actor": "Platform Admin",
+      "direction": "in",
+      "label": "User account administration requests",
+      "text": "Manage user accounts, AI model configurations, and system settings.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.1-2",
+      "source_ids": [
+        "FE-17.1"
+      ],
+      "actor": "Platform Admin",
+      "direction": "in",
+      "label": "Language model configuration requests",
+      "text": "Manage user accounts, AI model configurations, and system settings.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.1-3",
+      "source_ids": [
+        "FE-17.2"
+      ],
+      "actor": "Platform Admin",
+      "direction": "in",
+      "label": "Service connection and access credential settings",
+      "text": "Manage AI service connections, access credentials, and default resource limits.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.1-4",
+      "source_ids": [
+        "FE-17.1",
+        "FE-17.2"
+      ],
+      "actor": "Platform Admin",
+      "direction": "in",
+      "label": "Platform settings and default resource limits",
+      "text": "Manage user accounts, AI model configurations, and system settings. | Manage AI service connections, access credentials, and default resource limits.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.3-1",
+      "source_ids": [
+        "FE-17.3"
+      ],
+      "actor": "Platform Admin",
+      "direction": "out",
+      "label": "System health status",
+      "text": "Monitor system health, audit logs, and resource usage.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.3-2",
+      "source_ids": [
+        "FE-17.3"
+      ],
+      "actor": "Platform Admin",
+      "direction": "out",
+      "label": "System audit logs",
+      "text": "Monitor system health, audit logs, and resource usage.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.3-3",
+      "source_ids": [
+        "FE-17.3"
+      ],
+      "actor": "Platform Admin",
+      "direction": "out",
+      "label": "Resource usage reports",
+      "text": "Monitor system health, audit logs, and resource usage.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-17.3-4",
+      "source_ids": [
+        "FE-17.4"
+      ],
+      "actor": "Platform Admin",
+      "direction": "out",
+      "label": "Research run metrics and model reviewer performance",
+      "text": "Track Research Run operational metrics and AI reviewer performance.",
+      "wbs": "12.1–12.2"
+    },
+    {
+      "id": "FE-18.1",
+      "source_ids": [
+        "FE-18.1",
+        "FE-18.2"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Journal style analysis and versioned journal profiles",
+      "text": "Analyze authorized sample articles to identify journal structures, writing styles, and presentation characteristics. | Generate versioned Journal Profiles with source references, distinguishing observed conventions from publisher requirements.",
+      "wbs": "10.2"
+    },
+    {
+      "id": "FE-18.3",
+      "source_ids": [
+        "FE-18.3"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Journal profile approval requests",
+      "text": "Allow Researchers to approve and apply Journal Profiles during manuscript preparation without altering scientific claims.",
+      "wbs": "10.2"
+    },
+    {
+      "id": "FE-19.1",
+      "source_ids": [
+        "FE-19.1",
+        "FE-19.2",
+        "FE-19.3"
+      ],
+      "actor": "Researcher",
+      "direction": "in",
+      "label": "Machine learning comparison requests and evaluation settings",
+      "text": "Design comparative studies of Machine Learning methods using the same dataset. | Support hyperparameter optimization, ensemble learning, stacking, ablation studies, and budget-aware evaluations. | Enforce fair comparison conditions through consistent data partitions, repeated trials, and comparable tuning budgets.",
+      "wbs": "10.3"
+    },
+    {
+      "id": "FE-19.4",
+      "source_ids": [
+        "FE-19.4"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Machine learning performance, stability and comparison results",
+      "text": "Evaluate performance, stability, and reliability while preserving results that do not demonstrate methodological superiority.",
+      "wbs": "10.3"
+    },
+    {
+      "id": "FE-20.1",
+      "source_ids": [
+        "FE-20.1",
+        "FE-20.2"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Scientific claim records and independent evidence history",
+      "text": "Track the testing history and evidence status of scientific claims across multiple Research Runs. | Aggregate evidence from independent datasets while preventing duplicate evidence from shared observations.",
+      "wbs": "10.4"
+    },
+    {
+      "id": "FE-20.3",
+      "source_ids": [
+        "FE-20.3"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Automated forecasts and accuracy evaluation",
+      "text": "Record AI forecasts before analysis plan locking and evaluate forecast accuracy after experimental results become available.",
+      "wbs": "10.4"
+    },
+    {
+      "id": "FE-20.4",
+      "source_ids": [
+        "FE-20.4"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Independent replication results",
+      "text": "Support replication studies using independent datasets to assess the consistency of research conclusions.",
+      "wbs": "10.4"
+    },
+    {
+      "id": "FE-20.5",
+      "source_ids": [
+        "FE-20.5"
+      ],
+      "actor": "Researcher",
+      "direction": "out",
+      "label": "Known-outcome benchmark results",
+      "text": "Evaluate error detection and evidence reliability through research benchmarks with known outcomes.",
+      "wbs": "10.4"
+    }
+  ],
+  "display_excluded_source_ids": [
+    "FE-01.1",
+    "FE-01.2",
+    "FE-01.3",
+    "FE-15.1",
+    "FE-15.2",
+    "FE-15.3"
+  ],
+  "actor_display_names": {
+    "AI / LLM Provider": "Large Language Model Provider",
+    "Platform Admin": "Platform Administrator"
+  }
+}

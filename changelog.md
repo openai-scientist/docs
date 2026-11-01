@@ -1,5 +1,363 @@
 # Changelog
 
+## 2026-11-02 — Generate và commit toàn bộ cập nhật diagram
+
+- Generate lại [System Context](diagrams/12-context/System-Context-Diagram.drawio)
+  từ [snapshot](diagrams/12-context/functional_scope.json) bằng
+  [builder](diagrams/12-context/build_context_diagram.py); export lại
+  [PNG editable context](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
+  và [PNG editable Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png).
+- Ghi nhận toàn bộ chỉnh sửa [Use Case editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio):
+  thêm hai supporting actor nguồn tài liệu/dữ liệu, các ellipse hỗ trợ và
+  quan hệ include/extend cho tài liệu, thông báo, review, dataset version
+  và ghi nhận quyết định. Đồng bộ [quy tắc Use Case](diagrams/01-use-case/rule.md)
+  và [quy tắc context](diagrams/12-context/rule.md). Các view trình bày chi tiết
+  chức năng đã có trong [Report III](report/03-software-requirements-specification.md),
+  không thêm requirement hay đổi quyền/flow nghiệp vụ; không cần sửa BRD/PRD/Use Case Spec.
+- Giữ việc xóa HTML bố cục thử và checklist Use Case cũ; thay liên kết checklist
+  bằng tài liệu đang tồn tại. Chuyển 9 liên kết lịch sử tới slide/tài liệu ngoài
+  repository thành tham chiếu văn bản để không còn liên kết file hỏng.
+- Validation: builder idempotent; ba tab context còn lại giữ nguyên so với HEAD.
+  Validator context `main-2`: 0 errors/0 warnings; toàn file: 0 errors/23 warnings
+  ở tab cũ. Use Case: 0 errors/125 warnings (19 through-vertex, 1 crossing,
+  105 overlaps, gồm boundary chứa các ellipse); giữ bố cục editable hiện có.
+  Export PNG bằng draw.io CLI, chạy `repair_png.py` và xem hai bản render.
+  Kiểm tra cross-reference và `git diff --check` trước commit.
+  Doclint còn lỗi thuật ngữ lịch sử trong changelog; không coi toàn bộ doclint là đạt.
+
+## 2026-11-02 — Căn LLM ngang Local Node và tách cụm mũi tên khỏi Admin
+
+- Đưa Large Language Model Provider tới x=2700, y=1680: hạ thêm 80 px
+  để cùng hàng Local Node và kéo vào trong 130 px. Dời cổng trên ellipse
+  từ x=1920–1950 sang x=1850–1880 để cách cụm Admin; giữ sáu luồng,
+  nội dung, các actor khác và ba tab còn lại.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG editable](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
+  và [quy tắc](diagrams/12-context/rule.md). Không đổi BRD/PRD/Use Case Spec
+  vì chỉ điều chỉnh geometry, không đổi nghiệp vụ.
+- Validation: chạy builder, export và xem PNG; validator tab main-2 đạt
+  0 errors/0 warnings, 0 crossings/overlaps. So sánh XML: chỉ ô LLM và
+  sáu đường nối thay đổi, hai ô dưới cùng y=1680; phần còn lại giữ nguyên.
+  Link entry hợp lệ; `git diff --check` đạt.
+
+## 2026-11-02 — Hạ Large Language Model Provider để cân bố cục
+
+- Hạ ô Large Language Model Provider 120 px (y=1480 → 1600), giữ x,
+  kích thước, nội dung và sáu luồng; giữ nguyên mọi actor khác và ba tab còn lại.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG editable](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
+  và [quy tắc](diagrams/12-context/rule.md). Không đổi BRD/PRD/Use Case Spec
+  vì chỉ điều chỉnh vị trí, không đổi nghiệp vụ.
+- Validation: chạy builder, export và xem ảnh; validator tab main-2 có
+  0 errors/0 warnings, 0 crossings/overlaps. So sánh XML: chỉ ô mô hình
+  và sáu đường nối thay đổi, nhãn và phần còn lại giữ nguyên.
+  Link entry hợp lệ; `git diff --check` đạt.
+
+## 2026-11-02 — Chuyển Local Node sang bên trái để cân bố cục
+
+- Đặt Local Node dưới bên trái (x=500, y=1680), chuyển bốn đường nối
+  sang cạnh phải và đi lên đáy ellipse qua hành lang riêng. Giữ toàn bộ
+  nội dung, chiều luồng, các actor khác và ba tab còn lại.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG editable](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
+  và [quy tắc](diagrams/12-context/rule.md). Không sửa BRD/PRD/Use Case Spec
+  vì chỉ đổi bố cục, không đổi nghiệp vụ.
+- Validation: chạy builder, export và xem PNG; validator tab main-2 đạt
+  0 errors/0 warnings, 0 crossings/overlaps. So sánh XML xác nhận chỉ đổi
+  hộp Local Node và geometry/style bốn đường nối, giữ nguyên nhãn và các
+  phần còn lại. Link entry hợp lệ; `git diff --check` đạt.
+
+## 2026-11-02 — Tách chi tiết bốn nhóm trao đổi bên phải context
+
+- Chỉ tách 8 luồng gộp của Literature & Evidence Sources, External Data
+  Sources, Platform Administrator và Large Language Model Provider thành
+  24 luồng cụ thể: tra cứu/xác minh tài liệu, browse/preview/import dữ liệu,
+  cấu hình/quản trị/giám sát, điều phối/sinh đề xuất/review bằng mô hình.
+  Tổng view 69 luồng; giữ 75 chức năng nguồn, ba tab khác và toàn bộ cell
+  ngoài bốn actor này. Không đổi BRD/PRD/Use Case Spec vì chỉ phân rã cách
+  trình bày các trao đổi đã có, không thêm requirement.
+- Đồng bộ [snapshot](diagrams/12-context/functional_scope.json),
+  [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG editable](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
+  và [quy tắc](diagrams/12-context/rule.md).
+- Validation: chạy builder, export PNG bằng draw.io và xem ảnh render;
+  tab main-2 có 0 errors/0 warnings, 0 crossings/overlaps. Toàn file có
+  0 errors và 23 cảnh báo sẵn có trên tab cũ. So sánh XML xác nhận ba tab
+  khác và 52 cell ngoài phạm vi giữ nguyên; bao phủ đủ 75 mã nguồn.
+  Kiểm tra link trong entry này và `git diff --check` đạt.
+
+## 2026-11-02 — Sửa ngữ nghĩa nhãn, bỏ viết tắt và bổ sung duyệt hồ sơ
+
+- Đổi `Manage …` thành cụm danh từ chỉ requests/settings/data; viết rõ
+  kết quả kiểm tra thay vì tên hoạt động. Thay AI/PI/ML/LLM và tên artifact
+  CamelCase bằng nhãn đầy đủ/dễ đọc; actor hiển thị Large Language Model
+  Provider và Platform Administrator, giữ key nguồn ổn định.
+- Đổi nhãn mở kết quả thành `Confirmatory results and disclosure status`
+  (Report7 I FE-09.2/LI-15); hệ thống gửi `Independent review reports`.
+  Thêm `Research dossier approval decisions` từ Project Manager vào hệ thống
+  theo FE-14.2, không tạo requirement mới. Tổng 53 luồng, bao phủ 75 chức năng
+  nguồn; FE-14.2 nay có cả tương tác Reviewer lẫn Project Manager.
+- Đồng bộ [snapshot/nhãn](diagrams/12-context/functional_scope.json),
+  [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không đổi BRD/PRD/UC vì chỉ sửa cách
+  biểu diễn cho khớp nguồn, giữ bố cục và thứ tự input/output hiện tại.
+- Validation: xem PNG nhãn mới vừa đường; 53 edge có nhãn/endpoint hợp lệ,
+  không còn acronym/tên artifact nội bộ trên view; 75 mã nguồn còn đủ,
+  ba tab khác giữ nguyên. Validator toàn file 0 errors, 23 cảnh báo tab cũ,
+  0 crossings/overlaps; tab sửa riêng 0 errors/0 warnings;
+  `git diff --check` sạch.
+
+## 2026-11-02 — Làm thẳng mũi tên cạnh phải Researcher
+
+- Căn cổng của 10 output cạnh phải Researcher cùng y với đường nối,
+  bỏ các gấp khúc nhỏ sát hộp. Giữ nhãn native giữa dây và các luồng khác.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md); không đổi BRD/PRD/UC.
+- Validation: xem ảnh crop cạnh phải Researcher, mũi tên ngang thẳng;
+  validator 0 errors, 23 cảnh báo through-vertex trên tab cũ,
+  0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-02 — Thu hẹp chiều ngang context
+
+- Kéo các actor phải vào 470 px, ellipse sang trái 230 px, PM vào 100 px;
+  rút chiều dài các nhánh ngang. Giữ kích thước hộp/ellipse, font và cách
+  tách input ở trên/output ở dưới. PNG giảm width 3765 → 3295 px (~12.5%).
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md); chỉ đổi geometry, không đổi BRD/PRD/UC.
+- Validation: xem PNG không cắt nhãn; 52 cạnh/nhãn và 75 mã nguồn còn đủ;
+  validator 0 errors, 23 through-vertex warnings trên tab cũ,
+  0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-02 — Tách input/output theo trên/dưới
+
+- Sắp lại luồng trên cả tám actor: input gửi vào hệ thống ở trên,
+  output hệ thống trả về ở dưới, không xen kẽ. Thêm khoảng đệm giữa hai nhóm.
+  Researcher: 8 input cạnh trên, 10 output cạnh phải và 9 output cạnh dưới.
+  Giữ nguyên 52 luồng, nội dung, nhãn native và hướng mũi tên.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md); không đổi BRD/PRD/UC.
+- Validation: xem PNG kiểm tra nhóm chiều trên/dưới; đủ 52 cạnh/nhãn và
+  75 chức năng nguồn; thứ tự input trước output đúng trên tám actor.
+  Validator 0 errors, 23 cảnh báo through-vertex trên tab cũ,
+  0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-02 — Kéo cụm dưới phải lên sát hơn
+
+- Kéo Platform Admin lên 260 px, AI/LLM Provider 280 px và Local Node
+  310 px, giữ vị trí so le theo chiều ngang và nguyên 52 luồng/nhãn native.
+  Chỉ đổi bố cục, không đổi BRD/PRD/UC.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md).
+- Validation: xem PNG cụm dưới đã sát hơn; validator 0 errors,
+  23 cảnh báo through-vertex trên tab cũ, 0 crossings/overlaps;
+  `git diff --check` sạch.
+
+## 2026-11-02 — Chuyển AI/LLM Provider và Local Node sang phải
+
+- Theo yêu cầu, chuyển hai ô từ dưới trái sang khoảng trống dưới phải,
+  đặt so le. Chuyển cổng sang cạnh trái, sắp lại hành lang dọc và nhãn native;
+  giữ nguyên nội dung, chiều và số lượng 52 luồng.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không đổi BRD/PRD/UC.
+- Validation: kiểm tra PNG hai ô đã ở bên phải, không cắt nhau;
+  validator 0 errors, 23 through-vertex warnings trên tab cũ,
+  0 crossings/overlaps; endpoint/nhãn và ánh xạ 75 chức năng còn đủ,
+  ba tab khác giữ nguyên; `git diff --check` sạch.
+
+## 2026-11-02 — Làm lại context theo mẫu nối vào ellipse và bố cục so le
+
+- Theo ảnh tham chiếu thứ hai của người dùng, làm lại bố cục tab `main-2`:
+  ellipse 800 × 650 px ở giữa; PM/Reviewer phía trên; AI Provider và Local
+  Node lệch dưới trái; Literature/Data và Admin bên phải lệch vị trí.
+  Không còn xếp tất cả dịch vụ cùng một cột.
+- Đổi sang đoạn ngang có nhãn và gấp vuông gần ellipse như mẫu, đầu classic
+  tô đen. Researcher giữ ba cạnh; các ô khác nối từ cạnh hướng vào hệ thống.
+  Giữ 52 luồng, nhãn native và ánh xạ 75 chức năng nguồn; không đổi BRD/PRD/UC.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md).
+- Validation: xem PNG đối chiếu ảnh mẫu và vị trí actor so le; validator
+  0 errors, 23 through-vertex warnings trên các tab cũ, 0 crossings/overlaps;
+  52 cạnh đủ endpoint/nhãn, 75 mã nguồn đầy đủ, ba tab khác không đổi;
+  `git diff --check` sạch.
+
+## 2026-11-02 — Lấp khoảng trống giữa và thống nhất cách đi dây
+
+- Dịch hình tròn sang trái 250 px, kéo Researcher lên 210 px và các cụm
+  dịch vụ lên 200 px. Cổng đơn trên/dưới đặt sát cạnh hướng vào hệ thống
+  (35 px), dùng chung cách đi dây gấp vuông và đầu mũi tên đặc với Researcher.
+  Gỡ ghi chú kỹ thuật khỏi mặt ảnh; giữ nguồn/ánh xạ trong metadata.
+  Ảnh scale 1 giảm từ 3195 × 1542 xuống 2945 × 1218 px.
+- Giữ nguyên 52 luồng và ý nghĩa nghiệp vụ; đồng bộ
+  [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không thay BRD/PRD/UC.
+- Validation: kiểm tra ảnh, nhãn native/endpoint đầy đủ, ánh xạ 75 chức năng,
+  ba tab khác không đổi; validator 0 errors, 23 through-vertex warnings,
+  0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-02 — Thu gọn và chia cổng cho các actor còn lại
+
+- Project Manager dùng cạnh trên/phải/dưới; Reviewer dùng trên/trái/dưới.
+  Các dịch vụ hai luồng dùng cạnh trên/dưới; Local Node dùng ba cạnh.
+  Thu chiều rộng hộp từ 320 xuống 280 px, giảm chiều cao phù hợp số luồng;
+  dịch cột bên phải vào 200 px. Ảnh scale 1 còn 3195 × 1542 px.
+- Giữ 52 luồng, nhãn native, hình tròn và toàn bộ ý nghĩa nghiệp vụ.
+  Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không đổi BRD/PRD/UC.
+- Validation: kiểm tra ảnh, phân bố cổng đủ tám actor, endpoint/nhãn hợp lệ,
+  ánh xạ đủ 75 chức năng, ba tab khác không đổi. Validator 0 errors,
+  23 through-vertex warnings, 0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-02 — Chia cổng Researcher sang ba cạnh, cân lại bố cục
+
+- Chia 27 luồng Researcher sang cạnh trên/phải/dưới, mỗi cạnh 9 luồng;
+  bỏ bó dây dồn ở một cạnh. Ô Researcher cao 260 px; các nhánh xếp lồng
+  theo thứ tự port. Giữ nhãn native giữa đoạn ngang, nội dung và chiều luồng.
+- Kéo các ô dịch vụ bên phải gần nhau, ảnh scale 1 giảm chiều cao từ 1788
+  xuống 1542 px (khoảng 14%), chiều rộng giữ 3435 px.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không thay BRD/PRD/UC.
+- Validation: kiểm tra ảnh cả trang; đủ 52 nhãn native và endpoint hợp lệ,
+  75 chức năng nguồn vẫn được ánh xạ, ba tab khác giữ nguyên.
+  Validator 0 errors, 23 through-vertex warnings, 0 crossings/overlaps;
+  `git diff --check` sạch.
+
+## 2026-11-02 — Gắn nhãn native giữa đường mũi tên
+
+- Chuyển cả 52 nhãn từ text box rời sang `mxCell.value` của edge; tính
+  `mxGeometry.x` relative để chữ nằm giữa đoạn ngang của chính đường nối.
+  Nhãn đi cùng edge khi chỉnh sửa trong draw.io; nền trắng chỉ vừa chữ.
+  Metadata nguồn được chuyển lên edge, giữ nguyên luồng và bố cục.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không thay nội dung nghiệp vụ.
+- Validation: kiểm tra PNG chữ nằm trên đường; cả 52 edge đều có nhãn,
+  không còn vertex nhãn rời, giữ ánh xạ 75 chức năng nguồn.
+  Validator 0 errors, 23 through-vertex warnings, 0 crossings/overlaps;
+  `git diff --check` sạch.
+
+## 2026-11-02 — Researcher tập trung vào nghiệp vụ nghiên cứu
+
+- Bỏ account/project access, bình luận và thông báo khỏi context view;
+  login tiếp tục không hiển thị. Không có luồng update profile để loại thêm.
+  Giữ nguyên requirement nguồn; cấu hình loại khỏi view nằm trong
+  `display_excluded_source_ids` của [snapshot](diagrams/12-context/functional_scope.json).
+- Gom thêm quản lý dữ liệu/nguồn/version; tiến độ/kết thúc run; DatasetSnapshot
+  và khuyến nghị; giả thuyết và evidence links; AnalysisPlan và design validation.
+  Researcher giảm từ 36 xuống 27 mũi tên. Toàn trang còn 43 luồng chức năng
+  bao phủ 75 chức năng nguồn và 9 trao đổi hỗ trợ.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không thay BRD/PRD/UC vì chỉ lọc view.
+- Validation: kiểm tra ảnh; ánh xạ đúng 75 chức năng còn trong phạm vi,
+  52 cạnh có endpoint hợp lệ, không có nhãn access/comments/notifications;
+  ba tab khác giữ nguyên. Validator 0 errors, 23 through-vertex warnings,
+  0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-02 — Làm rõ đường nối và đầu mũi tên context
+
+- Bỏ nền trắng rộng của nhãn, đặt chữ phía trên dây cách 3 px để đường
+  không bị đứt. Tăng nét lên 1.6 px và dùng đầu mũi tên block đen cỡ 10;
+  giãn cạnh nối Researcher lên 320 px. Giữ 52 luồng gom và 9 trao đổi hỗ trợ.
+- Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Chỉ đổi trình bày, không đổi BRD/PRD/UC.
+- Validation: kiểm tra PNG thấy đường nối liền và chiều mũi tên rõ;
+  validator 0 errors, 23 through-vertex warnings, 0 crossings/overlaps;
+  61 endpoint hợp lệ, ánh xạ 80 chức năng được giữ; `git diff --check` sạch.
+
+## 2026-11-02 — Gom luồng context, giảm khoảng cách và ẩn mã FE
+
+- Gom các thao tác cùng đối tượng, actor và chiều trao đổi thành `Manage …`
+  hoặc một nhóm kết quả chung: 80 chức năng nguồn còn 52 luồng nghiệp vụ;
+  giữ 9 trao đổi hỗ trợ và các quyết định lock/approval/export riêng.
+- Bỏ mã FE trên mặt sơ đồ, giữ ánh xạ đầy đủ trong metadata; thêm
+  `compact_flows` trong [snapshot](diagrams/12-context/functional_scope.json).
+  Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md).
+- Khoảng cách dòng từ 42 xuống 28 px; hình tròn 500 × 500 px, vẫn nằm trên.
+  Chỉ đổi cách trình bày, không thay requirement; không sửa BRD/PRD/UC.
+- Validation: kiểm tra PNG; ánh xạ đủ 80 mã nguồn đúng một lần, không có
+  login hoặc mã FE trên nhãn; ba tab khác giữ nguyên. Validator: 0 errors,
+  84 through-vertex warnings (nhãn trên đường và tab cũ), 0 crossings/overlaps;
+  `git diff --check` sạch.
+
+## 2026-11-01 — Bố cục context theo ảnh mẫu, vòng tròn nhỏ phía trên
+
+- Sửa [builder](diagrams/12-context/build_context_diagram.py) và tab `main-2`
+  trong [draw.io](diagrams/12-context/System-Context-Diagram.drawio):
+  vòng tròn 650 × 650 px phía trên, mũi tên Researcher đi vòng xuống dưới
+  và rẽ dọc vào nửa dưới vòng tròn. Các dịch vụ ngoài xếp bên phải.
+  Giữ 80 luồng FE và 9 trao đổi hỗ trợ, tiếp tục bỏ login.
+- Đồng bộ [quy tắc](diagrams/12-context/rule.md) và xuất lại
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png).
+  Kích thước ảnh giảm từ 6989 × 3859 xuống 3835 × 3326 px ở scale 1.
+  Không thay nội dung requirement hoặc ba tab khác.
+- Validation: xem PNG đối chiếu ảnh mẫu; XML đủ 89 luồng, endpoint hợp lệ,
+  không còn login; validator 0 errors, 112 through-vertex warnings (nhãn rời
+  trên mũi tên và tab cũ), 0 crossings/overlaps; `git diff --check` sạch.
+
+## 2026-11-01 — Cân lại ellipse context, bỏ login
+
+- Bỏ luồng `FE-01.1` (login) khỏi tab `main-2` theo yêu cầu; snapshot nguồn
+  vẫn giữ nguyên 81 chức năng để truy xuất. Còn 80 luồng FE và 9 trao đổi hỗ trợ.
+- Đổi ellipse trung tâm thành hình tròn (width = height), giảm khoảng cách
+  hàng từ 52 xuống 42 px, mở rộng cạnh kết nối Researcher để bớt dồn đường.
+  Đồng bộ [builder](diagrams/12-context/build_context_diagram.py),
+  [draw.io](diagrams/12-context/System-Context-Diagram.drawio),
+  [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png) và
+  [quy tắc](diagrams/12-context/rule.md). Không thay requirement nghiệp vụ.
+- Validation: kiểm tra ảnh export; không còn login, ellipse cân đối.
+  Validator: 0 errors, 112 through-vertex warnings (nhãn trên đường và tab cũ),
+  0 crossings, 0 overlaps; `git diff --check` sạch.
+
+## 2026-11-01 — Mở rộng mũi tên context từ Report7 I, II
+
+- Sửa trực tiếp tab `main-2` trong
+  [System-Context-Diagram.drawio](diagrams/12-context/System-Context-Diagram.drawio):
+  một ellipse hệ thống trung tâm, tám đầu mối tương tác theo hình người dùng;
+  81 luồng có mã FE bao phủ 19 nhóm chức năng, thêm 9 trao đổi hỗ trợ.
+  Tăng canvas/khoảng cách để nhãn đọc được khi zoom. Gỡ tab thẻ module.
+- [Nguồn và ánh xạ](diagrams/12-context/functional_scope.json) giữ nguyên văn
+  81 chức năng từ Report7 I §6.1 và WBS đối chiếu II §1.1;
+  [builder](diagrams/12-context/build_context_diagram.py) chỉ sửa `main-2`;
+  [quy tắc](diagrams/12-context/rule.md) ghi rõ phạm vi và ký pháp.
+  Không sửa BRD/PRD/Use Case Spec vì không đổi requirement.
+- Xuất lại [PNG](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
+  bằng draw.io CLI và kiểm tra trực quan. Đối chiếu đủ 81 mã và nguyên văn
+  nguồn, kiểm tra ba tab khác không đổi, XML/reference và `git diff --check`.
+  Validator: 0 errors, 127 cảnh báo through-vertex, 0 crossings/overlaps.
+  Cảnh báo gồm nhãn rời đặt trên chính mũi tên và tab cũ;
+  phân biệt các cảnh báo này với kiểm tra ảnh thực tế.
+
 ## 2026-10-30 — Slide Review 2
 
 - 2026-10-31: Sửa icon node Dokploy trong
@@ -15,7 +373,7 @@
 - 2026-10-31: Bỏ cột MoSCoW khỏi bảng trang Main features 2/2, chia lại độ rộng
   ba cột còn lại cho kín khổ. Thông tin ngoài phạm vi MVP vẫn giữ ở dòng cuối và
   ở dòng ghi chú dưới bảng.
-  File: [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  File: `docs/slides/build_review2_slides.js`,
   `docs/slides/FA26SE115_Review2.pptx`.
   Validation: `validate.py` PASSED, render PDF kiểm tra trang 12 bằng mắt.
 
@@ -25,7 +383,7 @@
   không lẫn với số stage; thay nhãn "Dossier: duyệt rồi mới được export" bằng
   câu đầy đủ; đưa Row, Lock/envelope/unseal, Local Node, verdict xuống speaker
   notes; rút tiêu đề còn một dòng. Nội dung nghiệp vụ không đổi.
-  File: [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  File: `docs/slides/build_review2_slides.js`,
   `docs/slides/FA26SE115_Review2.pptx`.
   Validation: `validate.py` PASSED, render PDF kiểm tra trang 5 bằng mắt.
 
@@ -35,7 +393,7 @@
   trong ý 1; sửa câu callout trang Proposed solution về cấu trúc tiếng Việt
   tự nhiên ("Không hệ nào trong năm hệ thống đã khảo sát có đủ cả..."). Nội dung
   nghiệp vụ không đổi, chỉ đổi cách diễn đạt.
-  File: [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
+  File: `docs/slides/build_review2_slides.js`,
   `docs/slides/FA26SE115_Review2.pptx`.
   Validation: `validate.py` PASSED, đối chiếu lại chữ trang 3 bằng
   `slide_text.py`.
@@ -100,8 +458,8 @@
 - 2026-10-31: Đổi vị trí hai logo trên header mọi slide: lockup sản phẩm
   (logo hệ thống + tên "OpenAI Scientist") chuyển sang mép trái, logo FPT
   University chuyển sang mép phải. Sửa trong `chrome()` của
-  [`docs/slides/build_review2_slides.js`](docs/slides/build_review2_slides.js),
-  build lại [`docs/slides/FA26SE115_Review2.pptx`](docs/slides/FA26SE115_Review2.pptx).
+  `docs/slides/build_review2_slides.js`,
+  build lại `docs/slides/FA26SE115_Review2.pptx`.
   Validation: `validate.py` PASSED, render PDF và kiểm tra trang 2 bằng mắt
   (không đè vào eyebrow hay hoạ tiết góc).
 
@@ -170,10 +528,10 @@
   Validation: `scripts/office/validate.py` PASSED, render PDF kiểm tra bằng mắt
   20/20 slide.
 
-- Thêm bộ slide Review 2 [FA26SE115_Review2.pptx](docs/slides/FA26SE115_Review2.pptx) (20 slide) theo đúng bảng mục 7.1 của [hướng dẫn chuẩn bị Review](docs/example/Capstone_Huong-dan-chuan-bi-Review-va-Hoi-dong_v1.3.pdf): Title, Problem, Context, Proposed Solutions, Scope updates after Review 1, Main Actors, Main Features (2 slide), System Architecture, Technology, Data Design (Conceptual ERD và Logical ERD), State Machines, Business Workflows (2 slide), Demo Workflows for Committee 1.1, Progress & Team Contribution, Risks & Open Issues, Plan to Week 14, Thank you · Q&A. Kèm [builder](docs/slides/build_review2_slides.js) để tái tạo slide từ nguồn.
+- Thêm bộ slide Review 2 FA26SE115_Review2.pptx (`docs/slides/FA26SE115_Review2.pptx`) (20 slide) theo đúng bảng mục 7.1 của hướng dẫn chuẩn bị Review (`docs/example/Capstone_Huong-dan-chuan-bi-Review-va-Hoi-dong_v1.3.pdf`): Title, Problem, Context, Proposed Solutions, Scope updates after Review 1, Main Actors, Main Features (2 slide), System Architecture, Technology, Data Design (Conceptual ERD và Logical ERD), State Machines, Business Workflows (2 slide), Demo Workflows for Committee 1.1, Progress & Team Contribution, Risks & Open Issues, Plan to Week 14, Thank you · Q&A. Kèm builder (`docs/slides/build_review2_slides.js`) để tái tạo slide từ nguồn.
 - Nội dung lấy từ [Report I](report/00-front-and-I-introduction.md), [Report II](report/02-project-management-plan.md), [Report III](report/03-software-requirements-specification.md), [Report IV](report/04-software-design-document.md), [Report V](report/05-software-testing-documentation.md) và diagram đã có ([system architecture](diagrams/04-system-overview/System-Architecture-Diagram.png), [context](diagrams/12-context/System-Context-Diagram-main-2.drawio.png), [database](diagrams/06-database/Database-Diagram.png), [state machine](diagrams/09-state-machine/04-Research-Run-Orchestration.png)). Slide chỉ trình bày lại nội dung đã có, không đặt requirement hoặc rule mới, nên không sửa BRD/PRD/Use Case Spec.
 - Danh sách Demo Workflows (WF-01..WF-05) và người demo là **đề xuất**, còn chờ leader chốt theo [review2-gaps.md](review2-gaps.md); ba câu hỏi mở cho GV phản biện (staging vs production, re-baseline 240 person-days, danh sách workflow) được ghi thẳng trên slide 10, 16 và 19.
-- Dựng lại toàn bộ slide theo style của [Review 1 - Capstone.pptx](docs/example/Review%201%20-%20Capstone.pptx): khổ 20″×11.25″, font Be Vietnam / Be Vietnam Ultra-Bold, bảng màu trung tính kèm accent cam, card bo góc, eyebrow in hoa + tiêu đề 42pt, logo FPT University và infinity mark cùng hoa văn góc trên mọi slide. Asset lấy từ chính file Review 1 và lưu tại `docs/slides/assets/`.
+- Dựng lại toàn bộ slide theo style của Review 1 - Capstone.pptx (`docs/example/Review%201%20-%20Capstone.pptx`): khổ 20″×11.25″, font Be Vietnam / Be Vietnam Ultra-Bold, bảng màu trung tính kèm accent cam, card bo góc, eyebrow in hoa + tiêu đề 42pt, logo FPT University và infinity mark cùng hoa văn góc trên mọi slide. Asset lấy từ chính file Review 1 và lưu tại `docs/slides/assets/`.
 - Ngôn ngữ theo đúng Review 1: eyebrow và tiêu đề slide bằng tiếng Anh, nội dung bằng tiếng Việt, thuật ngữ kỹ thuật (hand-off object, Lock, envelope, with_gaps, FE-xx, WF-xx) giữ nguyên tiếng Anh. Cấu trúc 21 slide, các con số và các điểm còn mở không đổi.
 - Bản dựng lại không thêm requirement, rule hay dữ liệu mới nên không sửa BRD/PRD/Use Case Spec.
 - Gọn lại đúng yêu cầu bảng 7.1: bỏ slide Testing & quality (bảng không có mục này), Problem rút còn bốn vấn đề cốt lõi mỗi vấn đề một dòng kèm mã BP, hai slide Data Design đổi thành Conceptual ERD và Logical ERD, và bỏ các khối card bổ trợ ở slide Scope updates, Main Features 2/2, Business Workflows 2/2, Demo Workflows, Progress và Risks để mỗi slide chỉ còn đúng nội dung bảng yêu cầu. Tổng còn 20 slide.
@@ -671,7 +1029,7 @@ Mỗi phiên bản là một mốc tài liệu theo ngày. Đường dẫn là �
 ## 2026-10-29 — Hoàn tác sửa diagram, bàn giao checklist tự vẽ
 
 - Khôi phục [Use Case editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) nguyên byte từ bản trước lần sửa diagram gần nhất; gỡ PNG được tạo trong lần sửa đó. Giữ quy tắc phong cách một trang đã được người dùng chốt và các thay đổi không liên quan.
-- Thêm [checklist cập nhật Use Case](diagrams/01-use-case/use-case-update-checklist.md): ưu tiên, actor/quyền, ánh xạ nhãn cũ, chức năng cần bổ sung, quan hệ UML và danh sách đủ 41 UC có FE/FR theo [Report III](report/03-software-requirements-specification.md), [BRD](BRD.md), [PRD](PRD.md). Người dùng tự vẽ; không sửa requirement hoặc nội dung diagram.
+- Thêm checklist cập nhật Use Case (đã xóa ngày 2026-11-02; xem [quy tắc Use Case](diagrams/01-use-case/rule.md)): ưu tiên, actor/quyền, ánh xạ nhãn cũ, chức năng cần bổ sung, quan hệ UML và danh sách đủ 41 UC có FE/FR theo [Report III](report/03-software-requirements-specification.md), [BRD](BRD.md), [PRD](PRD.md). Người dùng tự vẽ; không sửa requirement hoặc nội dung diagram.
 - Chốt phạm vi view: 6 actor (User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider); không vẽ Persona/AI PI và tạm chưa đưa Local Node vào use case. Checklist/rule bỏ UC-08/30/31 khỏi lần vẽ này, còn 38 UC, giữ nguyên ID; kiểm tra bảng đủ 38 dòng, không còn association Persona/Local Node. Diagram và BRD/PRD/Report7 không đổi.
 - Theo điều chỉnh mới của người dùng: checklist bỏ actor AI PI, giữ tên AI Provider và ba association hỗ trợ UC-19/20/25; giải thích khác biệt giữa provider, maker/guard persona và AI PI. Không chuyển quyền quyết định tạm sang provider; diagram và requirement nguồn chưa đổi.
 - Đối chiếu thêm bản `xFA26SE115_Report7.md` người dùng gửi: bảng 41 UC/FE/FR khớp nguồn repo; chỉnh checklist dùng actor Persona cho maker/guard, User cho Sign in, bỏ LLM provider khỏi phương án mặc định và sửa tham chiếu validation upload về bước 2. Ghi nhận hai lỗi trình bày trong Report7 (thiếu heading UC-01 và chú thích approval `[a]` bị rơi); không sửa file Downloads hay diagram.
