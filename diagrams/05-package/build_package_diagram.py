@@ -6,7 +6,8 @@ Sources:
 - web app: ai-research-platform-fe/src (Next.js)
 - Platform: logos/services/management/src/management; the layers follow the import-linter
   contract "Feature layering" in services/management/pyproject.toml
-- engines and shared libraries: logos/services/oversight, logos/stages/*, logos/packages/*
+- engines, data job runner and shared libraries: logos/services/oversight, logos/stages/*,
+  logos/services/runner, logos/packages/*; package dependencies from each pyproject.toml
 Dependencies point from the user to the used package. Inside a layered frame only adjacent
 layers are drawn; a higher layer may use any lower one.
 """
@@ -60,7 +61,7 @@ dep('fe_lib', 'fe_types')
 pkg('mg', 'management', 40, 610, 900, 1080, frame=True, fill='#f7fbf3', stroke='#82b366')
 layers = [
     [('mg_monitoring', 'monitoring', 'health, alerts'), ('mg_research', 'research', 'runs, stages, PI, budget, reviews')],
-    [('mg_datasets', 'datasets', 'datasets, versions')],
+    [('mg_datasets', 'datasets', 'datasets, versions'), ('mg_runners', 'runners', 'Local Node runners')],
     [('mg_connections', 'connections', 'external data sources')],
     [('mg_projects', 'projects', 'projects, members, settings')],
     [('mg_integrations', 'integrations', 'Google, project integrations')],
@@ -90,26 +91,36 @@ for i, (id_, n, note) in enumerate([('mg_core', 'core', 'config, errors, service
 for a in prev:
     dep(a, 'mg_found')
 
-# --- Engines (separate HTTP services)
-pkg('en', 'engines', 1000, 610, 500, 640, frame=True, fill='#fffaf0', stroke='#d6b656')
-for i, (id_, n, note) in enumerate([('en_oversight', 'logos_oversight', 'AI PI: consult, findings'),
-                                    ('en_dataset', 'logos_dataset', 'stage dataset'),
-                                    ('en_hypothesis', 'logos_hypothesis', 'stage hypothesis, literature'),
-                                    ('en_design', 'logos_experiment_design', 'stage experiment-design')]):
-    pkg(id_, n, 1110, 700 + i * 140, 280, BH + 10, note)
+# --- Engines: the AI PI and the five stage engines (separate HTTP services)
+pkg('en', 'engines', 1000, 610, 500, 400, frame=True)
+for i, (id_, n) in enumerate([('en_oversight', 'logos_oversight'), ('en_dataset', 'logos_dataset'),
+                              ('en_hypothesis', 'logos_hypothesis'), ('en_design', 'logos_experiment_design'),
+                              ('en_execution', 'logos_execution'), ('en_paper', 'logos_paper')]):
+    pkg(id_, n, 1025 + (i % 2) * 240, 670 + (i // 2) * 110, 210, BH)
+
+# --- Data job runner of the Local Node (runs next to the data)
+pkg('rn', 'runner', 1000, 1050, 500, 130, frame=True)
+pkg('rn_runner', 'logos_runner', 1145, 1090, 210, BH)
 
 # --- Shared libraries
-pkg('sh', 'packages', 1000, 1360, 500, 380, frame=True, fill='#f9f4fb', stroke='#9673a6')
-pkg('sh_engine', 'logos_engine', 1110, 1420, 280, BH + 10, 'Harness runtime, testing kit')
-pkg('sh_contract', 'logos_contract', 1110, 1620, 280, BH + 10, 'hand-off artifacts, activity, API paths')
-dep('sh_engine', 'sh_contract')
-dep('en', 'sh_engine', '«import»', exit_=(0.3, 1), entry=(0.2, 0))
+pkg('sh', 'packages', 1000, 1230, 500, 460, frame=True)
+pkg('sh_discovery', 'logos_discovery', 1025, 1290, 210, BH)
+pkg('sh_analysis', 'logos_analysis', 1265, 1290, 210, BH)
+pkg('sh_engine', 'logos_engine', 1025, 1420, 210, BH)
+pkg('sh_tables', 'logos_tables', 1265, 1420, 210, BH)
+pkg('sh_contract', 'logos_contract', 1145, 1570, 210, BH)
+dep('sh_discovery', 'sh_engine')
+dep('sh_analysis', 'sh_tables')
+dep('sh_engine', 'sh_contract', exit_=(0.5, 1), entry=(0.2, 0))
+dep('sh_tables', 'sh_contract', exit_=(0.5, 1), entry=(0.8, 0))
 
 # --- cross sub-system dependencies
 dep('fe_lib', 'mg', '«use» HTTP REST / SSE', exit_=(0.5, 1), entry=(0.6, 0))
-dep('mg_research', 'en', '«use» HTTP', exit_=(1, 0.25), entry=(0, 0.1))
+dep('mg_research', 'en', '«use» HTTP', exit_=(1, 0.25), entry=(0, 0.15))
+dep('mg_runners', 'rn', '«use» HTTP', exit_=(1, 0.5), entry=(0, 0.5))
 dep('mg_research', 'sh_contract', '«import»', exit_=(1, 0.8), entry=(0, 0.5))
-dep('en', 'sh_contract', '«import»', exit_=(1, 0.95), entry=(1, 0.5))
+dep('en', 'sh', '«import»', exit_=(1, 0.5), entry=(1, 0.1))
+dep('rn', 'sh', '«import»', exit_=(0.5, 1), entry=(0.5, 0))
 
 # UML frame "pkg <name>" around the whole diagram
 cells.insert(0, '<mxCell id="frame" value="pkg OpenAI-Scientist" style="shape=umlFrame;whiteSpace=wrap;html=1;'

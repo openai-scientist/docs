@@ -24,7 +24,8 @@ NAME = {
     'google_connection_grants': 'GoogleConnectionGrant', 'datasets': 'Dataset', 'dataset_versions': 'DatasetVersion',
     'research_contexts': 'ResearchContext', 'research_runs': 'ResearchRun', 'cost_entries': 'CostEntry',
     'stage_runs': 'StageRun', 'stage_decisions': 'StageDecision', 'run_gates': 'RunGate',
-    'pi_consultations': 'PIConsultation', 'pi_notes': 'PINote', 'frame_reviews': 'FrameReview',
+    'pi_consultations': 'PIConsultation', 'pi_notes': 'PINote', 'research_seals': 'Lock',
+    'research_bundle_seals': 'BundleLock', 'runners': 'LocalNodeRunner', 'runner_jobs': 'DataJob',
     'comments': 'Comment', 'run_artifacts': 'RunArtifact', 'run_events': 'RunEvent', 'model_profiles': 'ModelProfile',
 }
 TECHNICAL = {'alembic_version', 'auth_sessions', 'email_otps', 'monitoring_events', 'monitoring_alerts',
@@ -39,7 +40,8 @@ POS = {
     'dataset_versions': (6, 1.5), 'project_memberships': (1, 3), 'google_connection_grants': (2, 3),
     'notification_preferences': (3, 3), 'research_runs': (4.5, 3), 'stage_runs': (6.5, 3),
     'notifications': (3, 4.5), 'stage_decisions': (7.5, 4), 'notification_emails': (1, 4.5),
-    'frame_reviews': (0, 4.5), 'comments': (4, 4.5), 'run_artifacts': (5, 4.5), 'run_events': (6, 4.5),
+    'research_seals': (5.5, 6), 'research_bundle_seals': (7, 6), 'runners': (7, 0), 'runner_jobs': (8.5, 3),
+    'comments': (4, 4.5), 'run_artifacts': (5, 4.5), 'run_events': (6, 4.5),
     'run_gates': (8.5, 5.5), 'users': (2, 5.5), 'user_platform_roles': (1, 7), 'audit_events': (3, 7),
 }
 SKIP_COLS = {'created_by_user_id', 'updated_by_user_id', 'acknowledged_by_user_id', 'actor_user_id'}
@@ -64,7 +66,11 @@ VERB = {
     ('run_events', 'run_id'): 'emits', ('run_events', 'stage_run_id'): 'emits',
     ('run_artifacts', 'run_id'): 'produces', ('run_artifacts', 'stage_run_id'): 'produces',
     ('comments', 'run_id'): 'has', ('comments', 'artifact_id'): 'is commented in', ('comments', 'author_user_id'): 'writes',
-    ('frame_reviews', 'run_id'): 'is reviewed in', ('frame_reviews', 'submitted_by_user_id'): 'submits',
+    ('research_seals', 'research_run_id'): 'fixes', ('research_seals', 'dataset_version_id'): 'is pinned by',
+    ('research_bundle_seals', 'seal_id'): 'covers', ('research_bundle_seals', 'stage_run_id'): 'records',
+    ('runners', 'project_id'): 'registers', ('dataset_versions', 'runner_id'): 'reads',
+    ('runner_jobs', 'stage_run_id'): 'requests', ('runner_jobs', 'dataset_version_id'): 'is read by',
+    ('runner_jobs', 'replay_of_job_id'): 'replays',
     ('cost_entries', 'project_id'): 'is charged', ('cost_entries', 'run_id'): 'costs',
     ('spending_alerts', 'project_id'): 'raises', ('pi_consultations', 'research_run_id'): 'consults',
     ('pi_consultations', 'stage_run_id'): 'consults', ('pi_consultations', 'applied_decision_id'): 'is applied by',

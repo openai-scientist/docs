@@ -1,5 +1,284 @@
 # Changelog
 
+## 2026-11-02 — Report 7: viết lại III.1 và đồng bộ font III–VI theo I–II
+
+- [Report 7 docx](deliverables/FA26SE115_Report7.docx): viết lại III.1
+  Product Overview theo văn phong phần I–II (tên năm stage theo FE-04.2, tên
+  artifact theo FE-06.5–FE-10.5, Research Dossier theo FE-14/LI-20); không
+  thêm requirement mới. Phần I–II giữ nguyên (đã so khớp XML trước/sau).
+- Áp thang font của I–II cho III–VI: Calibri; Heading 1/2/3 = 18/16/14,
+  Heading 4, thân bài và bảng = 12, chú thích hình = 10.
+- Chỉ sửa docx, không sửa `report/` (leader quản lý), nên không cần sửa
+  BRD/PRD/Use Case Spec.
+- Validation: render PDF bằng LibreOffice, kiểm tra trang 45–46.
+- III.2: viết lại bảng 2.1 Actors theo văn phong I–II, giữ đúng bốn actor
+  (Platform Admin, Project Manager, Researcher, Reviewer); cột Actors của bảng
+  use case chỉ dùng bốn actor này.
+  Điền bảng 2.2.2 Use Case Descriptions: 41 UC lấy từ report III §2.2, đổi
+  tên theo thuật ngữ phần I (provisional/override, AnalysisPlan, Research
+  Dossier); thêm UC 42–44 cho FE-20 vì report III chưa có UC nào cho FE-20
+  (cần báo leader). Bổ sung 18 UC có trên [Use Case diagram](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio)
+  nhưng chưa có trong report III (sign out, profile, project CRUD, invitation,
+  activity log, documents, dataset versions, data connections, literature base,
+  AI PI advice, stage output review, artifact compare, reviewer queue, mark read).
+  Bảng hoàn chỉnh 62 UC, sắp theo nhóm chức năng, đánh số lại 01–62. UC do
+  AI thực hiện (5 stage, review loop, next step, ML comparison, forecast) ghi
+  actor `AI Engine`; bảng 2.1 vẫn chỉ 4 actor chính. Tên UC đặt đúng tên ellipse
+  trên Use Case diagram; tách Update/Archive/Complete Project và Rename/Delete
+  Dataset thành dòng riêng như diagram (65 UC). 10 UC không có trên diagram
+  (UC-08, 14, 30, 31 của report III; invitation; activity log; 3 UC FE-20) giữ
+  tên theo report III hoặc phần I.
+- III.2: rà văn phong cột Use Case Description theo I–II (humanizer). Sửa 15
+  mô tả (UC 01, 04, 17, 29, 32, 34, 40, 42, 46, 49, 52–55, 57) để thuật ngữ
+  khớp tên UC trên diagram (preset/presence, tentative/overturn, claim ceiling,
+  hand-off object, extra spend, spending ceiling/ledger); bỏ ghi chú
+  "Planned after the MVP (Could)" trùng với tên UC 57. Không thêm UC, actor
+  hay nội dung nghiệp vụ mới. Kiểm tra: dump lại bảng bằng python-docx.
+- III.3 (đoạn mở đầu và 3.1): rà văn phong theo I–II. Viết lại đoạn mở
+  chương; đoạn 3.1 nói rõ phạm vi mục và chỉ rõ quy ước dòng yêu cầu áp
+  dụng cho bảng ở 3.2–3.9; viết lại cột Description của 26 màn hình SC-01–26
+  thành câu bắt đầu bằng động từ; chỉnh câu ở 3.1.3, 3.1.5, NS-01/02/04–08/10
+  và entity CostEntry/Comment. Không đổi ID, route, quyền hay entity.
+  Bỏ mã tham chiếu chen trong văn (FR-06, FR-152, "Report IV, section 2.4"),
+  bỏ mã SC trong cột Screen của bảng 3.1.3, thay trigger kỹ thuật của NS-02/04/05
+  (lifespan loop, tên module) và "Alembic" ở NS-11 bằng lời mô tả.
+- III.3.2 Authentication & Account: rà theo checklist văn phong SRS. Bảng yêu
+  cầu: chuẩn hoá câu "shall allow", bỏ ngoặc liệt kê ở FR-03, sửa câu FR-146
+  và các Rationale. Mục 3.2.1–3.2.5: thay mã màn hình SC-xx bằng tên màn hình,
+  thêm nhãn "Description:", tách câu nối bằng dấu chấm phẩy, đổi
+  "Requirements: FE-01 (FR-..)" thành "Related Requirements: FE-01, FR-..";
+  đặt caption Figure 3.2.1 và 3.2.5 về style Heading 6 như các caption khác.
+  Không đổi ID, Source, Priority, Verification hay nội dung nghiệp vụ.
+- III.3.3 Project Workspace: cùng cách làm như 3.2. Bảng FR/SR: bỏ ngoặc
+  "(SR-08)" và liệt kê trong ngoặc ở FR-08, FR-111; chuẩn hoá "shall allow" và
+  Rationale. Mục 3.3.1–3.3.12: tên màn hình thay mã SC, nhãn "Description:",
+  "Related Requirements:" không ngoặc lồng; "System rule for FE-02" thành
+  "System Rule for Project Workspace". Không đổi nội dung nghiệp vụ.
+- III.3.4 Data Management: cùng cách làm. Viết lại Statement/Rationale của
+  FR-09–12, FR-112, FR-154–158, SR-01/02/07 và bảng Local Node (FR-79–87,
+  FR-110, FR-230–242): bỏ "waiting(node_offline)", "(releases)", ngoặc liệt
+  kê, dấu chấm phẩy; dòng lạc "3.12 FE-12 Local Node (Must)" đổi thành nhãn
+  "Local Node Requirements:"; "System rules for FE-03" thành "System Rules for
+  Data Management". Mục 3.4.1–3.4.9 theo mẫu Actor/Description/Related
+  Requirements. Không đổi ID, Source, Priority hay nội dung nghiệp vụ.
+- III.3.5 Research Run: cùng cách làm. Bảng FR-13–24, FR-159–169, FR-262: bỏ
+  ký hiệu enum/mã kỹ thuật (dataset_first, experiment_design, ended(with_gaps),
+  ended(cancelled), node_offline, budget_review, collect_more_data…) và viết
+  thành lời; tên stage theo phần I (Dataset, Hypothesis, Experiment Design,
+  Execution, Paper); "green/red" thành "passes/failed". Mục 3.5.1–3.5.13 theo
+  mẫu Actor/Description/Related Requirements. Giữ nguyên các dòng "IMAGE TO BE
+  ADDED" và mọi ID.
+- III.3.6 Research Engines (bảng Dataset stage, FR-37–42, FR-113–118,
+  FR-181–185): bỏ enum kỹ thuật (fit_with_limits, not_fit, three_way,
+  two_way), mã chen trong câu (FR-27, BR-86), ngoặc liệt kê và dấu chấm phẩy;
+  "IID" viết đầy đủ; tách FR-37, FR-42 thành nhiều câu. Không đổi ID hay
+  nội dung nghiệp vụ.
+- III.3: sửa các dòng nhãn bảng còn đánh số theo report/03 (3.7 FE-07, 3.8
+  FE-08, 3.9 FE-09, 3.10 FE-10, 3.11 FE-11, 3.17 FE-18, 3.18 FE-19, 3.19 System
+  rules summary, System rule for FE-05/FE-07) gây lệch mục lục so với heading
+  thật của docx (3.6 → 3.6.1 → 3.7 AI Principal Investigator). Đổi thành nhãn
+  không đánh số, ví dụ "Hypothesis Stage and Literature Base Requirements:".
+- III.3: đối chiếu chương 3 với phần I–II và source code sản phẩm
+  (ai-research-platform-fe @f86f175, logos @af201866).
+  - 3.1.2: route màn hình SC-01–26 khớp route frontend, không sửa.
+  - 3.1.5 ERD: bỏ entity FrameReview (bảng `frame_reviews` đã bị xoá bởi
+    migration 20261026_0052); thêm LocalNode (`runners`), LocalNodeJob
+    (`runner_jobs`), ResearchSeal (`research_seals`), CodeBundleSeal
+    (`research_bundle_seals`) có trong code. Hình ERD chưa cập nhật theo.
+  - Thêm bảng yêu cầu còn thiếu so với phần I, lấy từ report III §3.13–3.14 và
+    viết lại theo văn phong I–II: mục mới 3.10 Budget and Cost (FE-13,
+    FR-88–93, FR-243–248, SR-03/04) và 3.11 Research Dossier and Approval
+    (FE-14, FR-94–98, FR-249–253). Bảng FE-15 (3.8) và FE-17 (3.9) đã có sẵn,
+    chỉ viết lại câu và thêm nhãn bảng.
+  - 3.6: viết lại toàn bộ bảng FE-07–11, FE-18, FE-19 (bỏ enum, mã chen như
+    FR-27/FR-127/SM-17/"Open item 2", ký hiệu δ, "lane C/E"); mục 3.6.1–3.6.4
+    dùng actor AI Engine như bảng Use Case.
+  - Chưa có trong cả report III lẫn code: FE-20 (claim ledger, forecast,
+    replication); code chưa có Dossier, Journal Profile, method comparison.
+- III.4 Non-Functional Requirements, sửa nội dung theo phần I–II và code
+  (chưa sửa văn phong):
+  - 4.1: User interface trỏ FE-01 tới FE-20. Notification viết lại theo
+    FE-15.2–15.3 và code (in-app, email do Project Manager bật theo nhóm,
+    không có push). Public datasets viết rõ mục đích.
+  - 4.2: cột Source đổi sang LI/FE của phần I và mục 2.2 Quality Management
+    của phần II; bỏ SM, BO, PP vì docx không định nghĩa các mã này.
+  - Sửa nội dung NFR-03, 05, 10, 15, 20, 21, 22, 24, 25, 31: bỏ ký hiệu trạng
+    thái và thuật ngữ nội bộ, NFR-05 khớp 3.2.6 (chặn công việc AI mới khi
+    chạm ngân sách), NFR-22 trace tới BR/FE/LI, dùng "provisional" và
+    "override" theo phần I.
+  - Bỏ câu dẫn tới mục "Open items" vì docx không có mục này.
+  - Validation: đếm 58 chỗ sửa đúng dự kiến, `git diff --check`.
+- III.5 văn phong: viết lại 93 business rule (câu hoàn chỉnh, bỏ dấu `;`,
+  bỏ enum `co_work`, `must_ask`, `with_gaps`, `dataset_first` và thuật ngữ nội
+  bộ envelope, unseal, Lane E, twin, tried ledger, SESOI, AP; "object" thành
+  "artifact"; bỏ mã BR chen trong câu), CR-04, CR-05 và 13 message (MSG-18 tới
+  MSG-47). Giữ nguyên ID và ý nghĩa; BR-72 (kind H, M, G) giữ nguyên vì phần I
+  không định nghĩa ba loại này. Validation: 112 chỗ sửa, quét lại không còn
+  ký hiệu trên, `git diff --check`.
+- III.3 thống nhất thuật ngữ theo phần I: "object" thành "artifact" (FE-04.4,
+  LI-06), kể cả nhóm hành động "artifact drafting"; "seal/unseal" của kết quả
+  confirmatory thành "disclosure" (FE-09.2, LI-15), gồm FR-51, 52, 53, 59, 61,
+  147–149, 199, 200, 201. Tên bảng CodeBundleSeal giữ nguyên vì là tên bảng
+  dữ liệu. III.2: mô tả UC-46 đổi "hand-off artifact"; tên UC-17, 46, 49 còn
+  "object" để khớp Use Case diagram. Validation: 32 đoạn sửa, quét lại mục 3
+  không còn "object"/"unseal", `git diff --check`.
+- III.5 rà thuật ngữ: phần I chỉ định nghĩa disclosure, exploratory, artifact,
+  nên các thuật ngữ khác lấy theo bảng FR của chương 3: contract item, floor,
+  data twin, dry run, exploration lane, tried ledger (noise threshold), reserve
+  tier, fitness acceptance, IID, SESOI, AP. Sửa lại BR-13, 14, 25, 33, 50–53,
+  61, 84, 91, 94 và MSG-36, 46 (15 chỗ) vì đợt trước đã đổi sang từ không có
+  trong tài liệu.
+- III.5 Requirement Appendix, sửa nội dung (chưa sửa văn phong):
+  - 5.3: cột UC của 61 message đổi sang số use case của bảng III.2 (01–65);
+    trước đó dùng cách đánh số cũ nên trỏ sai (ví dụ upload trỏ UC-06 Create
+    Project, quyết định AI PI trỏ UC-17 Comment). MSG-42, MSG-43 dùng
+    "provisional" và "override".
+  - 5.1: BR-01 theo LI-01 (email code hoặc Google); BR-28 theo FE-15.2–15.3
+    (thông báo theo cài đặt, nhắc việc cho quyết định chặn run và duyệt chi
+    thêm); BR-30, BR-31 theo LI-11, bỏ "tentative" và `waiting(decision)`.
+  - Validation: 69 chỗ sửa đúng dự kiến, `git diff --check`.
+- III.4 văn phong: viết lại cột Purpose và Constraint của bảng 4.1, câu yêu
+  cầu và tiêu chí đo của 22 NFR còn lại (câu hoàn chỉnh, không dấu `;`, dùng
+  Decision Inbox, Release Gate, artifact, Research Run), và viết lại 4.2.1–4.2.6
+  thành đoạn văn ngắn, mã NFR chỉ đặt ở cuối "Related requirements". Không đổi
+  ID hay ý nghĩa. Validation: 64 chỗ sửa đúng dự kiến, render PDF,
+  `git diff --check`.
+- Nguyên tắc nguồn: code chỉ dùng để làm rõ, không làm chuẩn. Viết lại ở mức
+  phần I (FE-02.3, FE-13.2, FE-15.2) các chỗ đang mô tả cơ chế riêng của code:
+  FR-255, FR-93, dòng Notification ở 4.1 và mô tả 3.2.7.1 Receive Notifications.
+- III.3: sắp lại mục Functional Requirements theo flow leader chốt: Platform →
+  Dataset → Hypothesis → Experiment Design → Execution → Paper → Local Node.
+  Flow này khớp LI-04 (pipeline 5 stage), FE-12 và thứ tự WBS ở phần II.
+  - 3.2 Platform: Authentication & Account, Project Workspace, Research Run,
+    AI Principal Investigator, Independent Review (FE-11), Budget and Cost,
+    Notifications and Reviewer Queue, Administration. Các chức năng cũ cấp 4
+    xuống cấp 5 (3.2.x.y).
+  - 3.3 Dataset gồm Data Management và Dataset Stage. 3.4 Hypothesis.
+    3.5 Experiment Design kèm Method Comparison (FE-19). 3.6 Execution kèm
+    bảng mới FE-20 Claim Ledger, Forecast and Replication (FR-272–279, theo
+    FE-20.1–20.4 và LI-17; code chưa có). 3.7 Paper kèm Journal Fingerprint
+    (FE-18) và Research Dossier (FE-14). 3.8 Local Node (FE-12).
+  - Thêm mô tả 3.6.1 Execution Stage (FE-09) và 3.7.1 Paper Stage (FE-10,
+    FE-14) theo mẫu của các stage khác. Đánh số lại heading và chú thích hình.
+  - Sửa câu giới thiệu chương 3 và mục 3.1 theo cấu trúc mới.
+  - Chưa sửa: các chương khác còn dẫn số mục kiểu cũ của chính chương đó
+    (IV, VI), không trỏ tới mục 3 của chương III.
+  - Validation: kiểm tra outline heading, render PDF bằng LibreOffice (trang
+    67, 154), `git diff --check`.
+- Bỏ `report/` khỏi nguồn của Report 7: chỉ dùng phần I–II của docx và
+  source code (logos @af201866, ai-research-platform-fe @f86f175). Viết lại
+  các phần trước đó lấy từ report/03:
+  - 3.8: bảng Collaboration and Notification theo FE-15.1–15.3. Nhắc việc
+    (FR-246) chuyển từ 3.10 sang đây vì thuộc FE-15.3. Theo code, thành viên
+    chọn nhóm thông báo in-app, còn email do Project Manager bật cho từng nhóm.
+  - 3.9: bảng Administration and Monitoring theo FE-17.1–17.4, LI-08, LI-21.
+  - 3.10: bảng Budget and Cost theo FE-13.1–13.4 và LI-21. Code có token budget
+    cho mỗi run, ngân sách tháng của project, ngưỡng cảnh báo, chặn công việc mới
+    khi vượt ngân sách. Chưa có hạn quyết định cho yêu cầu chi thêm (FR-91).
+  - 3.11: bảng Research Dossier and Approval theo FE-14.1–14.4, LI-10, LI-20.
+    Bỏ FR-253 (trùng FR-252). Code chưa có Dossier.
+  - SR-03/04 và bảng System Rules Summary trỏ tới FR-244, FR-91.
+  - Cột Source của bốn bảng trên ghi mục FE/LI của phần I.
+  - Mô tả trong 3.8–3.9 viết lại theo mẫu Actor / Description / Related
+    Requirements. "Project member" đổi thành ba vai trò, mã SC đổi thành tên
+    màn hình.
+  - III.2: mô tả UC-34 dùng "provisional decision" và "override" theo phần I.
+    Tên UC giữ nguyên để khớp Use Case diagram.
+  - Validation: kiểm tra số dòng của từng bảng, render PDF bằng LibreOffice,
+    chạy `git diff --check`.
+- III.3.7 AI Principal Investigator: rà nội dung theo phần I (FE-05, LI-10,
+  LI-11) và code (`logos_contract/actions.py`, `logos_oversight`), rồi viết
+  lại văn phong.
+  - FR-150 giữ nội dung gốc của docx: floor Do Then Review chỉ cho object
+    drafting, pinned là Must Ask. Code `FLOORS` có thêm acceptance; phần I
+    không nêu nên không đưa vào SRS, ghi lại để báo leader.
+    Bảng mức của ba preset (FR-147–149) khớp code.
+  - Thuật ngữ theo phần I: preset Co-work/Milestones/Autopilot, Decision
+    Inbox, Decision Log, "provisional decision" và "override" (FE-05.4/05.5);
+    mức Auto/Do Then Review/Must Ask thay cho enum; bỏ mã chen (FR-263, FR-34,
+    FR-92, SR-08), ký hiệu `ready_to_<action>`, `waiting(decision)`,
+    `ended(with_gaps)`.
+  - Code chưa có, giữ theo phần I: hành động pinned "xác nhận đơn vị quan sát
+    và cấu trúc dữ liệu" (catalogue code chỉ có 8 hành động khác), Decision
+    Inbox 8 loại (code `GateKind` mới có question và artifact_review), wait
+    deadline của pinned item trong project settings.
+
+- IV. Software Design Document: rà nội dung theo phần I–II và chương III
+  (code chỉ để làm rõ chi tiết, không dùng `report/`).
+  - Thuật ngữ: object → artifact; seal/unseal/envelope → disclosure (entity
+    Envelope đổi thành "Confirmatory results"); tentative → provisional;
+    overturn → override; co_work/milestones/autopilot → Co-work/Milestones/
+    Autopilot; decision inbox/log → Decision Inbox/Decision Log; ResearchCase,
+    Run → Research Case, Research Run; bỏ Harness, needs-you, Scribe, lane C,
+    `waiting(...)`/`ended(...)` và mã SM-17/18 chưa định nghĩa, thay bằng từ
+    của chương III (AI Engine, item that requires the user, complete with
+    gaps). Sửa 83 ô bảng và 24 đoạn.
+  - Tham chiếu: 3.8 dẫn FR-257 thay FR-103 (thiếu model/credential), thêm
+    FE-17.3 cho health; bảng viewpoint "3.1 to 3.8"; "section 2"; Quality
+    Scenarios và Risks đánh lại 1.1.4, 1.1.5; chuyển 2.3 Data Ownership xuống
+    sau 2.2; câu mở 2.2 nói rõ 2.2 là bảng vật lý của database (giữ 40 bảng).
+  - Bỏ câu "execution, paper engines và Local Node không thuộc bản phát hành"
+    (trái phần I); bảng Actor: Researcher làm 5 stage, Reviewer duyệt Research
+    Dossier theo approval policy.
+  - Mục 3 Detailed Design: thay 51 placeholder "CONTENT TO BE ADDED" bằng mô
+    tả ngắn cho class diagram và sequence diagram; sửa mô tả State Diagram
+    3.4.15 thành Research Run (trước ghi nhầm Dossier). Chưa xếp lại 3.x theo
+    flow leader (người dùng chọn để sau).
+  - Validation: kiểm tra lại bằng python-docx (không còn thuật ngữ cũ ngoài
+    tên cột code), `git diff --check` sạch.
+
+- IV Figure IV-1: sửa [System Architecture Diagram](diagrams/04-system-overview/System-Architecture-Diagram.drawio)
+  theo màu trung tính (xám–navy, bỏ 27 icon logo nhiều màu, bỏ shadow);
+  thêm Execution Engine, Paper Engine và Local Node (gửi aggregates qua
+  HTTPS) cho khớp IV 1.1.1; đổi "Harness runtime" thành "AI Engine runtime";
+  cập nhật legend. Export lại PNG bằng draw.io CLI và thay ảnh trong docx.
+
+- IV Figure IV-3: cập nhật [build_package_diagram.py](diagrams/05-package/build_package_diagram.py)
+  theo code hiện tại (logos @af201866), vẫn chia theo service và giữ style UML
+  package đen trắng: thêm `runners` vào management (đúng layer import-linter),
+  engines đủ `logos_oversight` + 5 stage (thêm `logos_execution`,
+  `logos_paper`), thêm service `runner` (`logos_runner`, data job runner của
+  Local Node), packages thêm `logos_discovery`, `logos_analysis`,
+  `logos_tables` với phụ thuộc theo pyproject.toml. Sửa câu dẫn IV 1.2 cho
+  khớp hình (hình theo package code, bảng là module khái niệm). Chạy builder,
+  export PNG bằng draw.io CLI, thay ảnh trong docx.
+
+- IV Figure IV-2: thêm container `execution` (image capstone-execution,
+  volume execution_runs, gọi từ api qua HTTP) vào [Deployment Diagram](diagrams/04-system-overview/Deployment-Diagram-Production.drawio)
+  theo `deploy/docker-compose.prod.yml` (logos @af201866); export lại PNG và
+  thay ảnh trong docx. Sửa bảng node (1.1.2) và bước Deployment (1.5): thêm
+  execution, Deploy workflow build bảy image gồm capstone-execution và
+  capstone-runner (runner của Local Node, không chạy trên VPS).
+
+- IV mục 2 Database Diagram: cập nhật LAYOUT trong
+  [build_db_diagram.py](diagrams/06-database/build_db_diagram.py) theo schema
+  SQLAlchemy của `services/management` (logos @af201866): thêm `runners`,
+  `runner_jobs`, `research_seals`, `research_bundle_seals`, bỏ `frame_reviews`
+  (43 bảng, 78 khoá ngoại). Sinh lại [Database-Diagram.drawio](diagrams/06-database/Database-Diagram.drawio),
+  export PNG ở scale 1 (scale 2 bị cắt phần dưới) và thay ảnh trong docx.
+  Mục 2.2: thêm 4 bảng mới, bỏ bảng frame_reviews, đánh số lại 2.2.1–2.2.43;
+  đồng bộ cột `dataset_versions` (storage, runner_id, disclosure; storage_key
+  không bắt buộc), `research_runs.round`, `run_artifacts.primary`,
+  `platform_settings.values`, `engine_settings.values`, bỏ
+  `research_contexts.front_matter` và `stage_runs.input_refs`.
+- III 3.1.5 ERD khái niệm: cập nhật [build_erd.py](diagrams/03-conceptual-erd/build_erd.py)
+  theo cùng schema (bỏ FrameReview; thêm Lock, BundleLock, LocalNodeRunner,
+  DataJob), sinh lại [Entity-Relationship-Diagram-Conceptual.drawio](diagrams/03-conceptual-erd/Entity-Relationship-Diagram-Conceptual.drawio)
+  (33 entity, 58 quan hệ), export [PNG](diagrams/03-conceptual-erd/Entity-Relationship-Diagram-Conceptual.png) và thay ảnh Figure 3.1.5 trong docx. Câu "frame
+  reviews" ở class diagram 3.6.1 chưa sửa theo yêu cầu bỏ qua class diagram.
+- IV văn phong (113 chỗ, theo checklist đã dùng cho III): bỏ mã FR/NFR/ADR/R
+  trong câu văn và ô mô tả (giữ ở cột ID/FE/ADR), bỏ tham chiếu "section x"
+  và "Report II/III", thay `;` nối ý bằng câu hoặc dấu phẩy, viết lại câu cụt
+  ở bảng rủi ro, bỏ câu "figures are placeholders" và "drawn from … this
+  report" ở mô tả state diagram; câu dẫn IV-1 sửa "three" thành năm stage
+  engine và nhắc Local Node cho khớp hình. Không đổi nội dung nghiệp vụ nên
+  không sửa BRD/PRD/Use Case Spec.
+- V nội dung: bảng 2.2 Test Levels đổi hàng Interface/End-to-end thành
+  System/Security cho khớp bảng 2.1 Testing Types. Đã đối chiếu với code:
+  pytest 8.4.2 (uv.lock), Vitest 5.0.3 (package.json), CI GitHub Actions có
+  PostgreSQL service, script system test `deliverables/tests/run_system_test.py`
+  và hai file Excel Report5 đều đúng, không cần sửa.
+
 ## 2026-11-02 — Generate và commit toàn bộ cập nhật diagram
 
 - Generate lại [System Context](diagrams/12-context/System-Context-Diagram.drawio)
