@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-11-02 — Bổ sung Local Node vào Use Case Diagram
+
+- Khôi phục UC-08, UC-30, UC-31 theo [Report III](report/03-software-requirements-specification.md), thêm Local Node là supporting actor cho pairing và aggregate release, gom cụm Manage local data processing ở gần dataset. Khôi phục UC-14; view có đủ 41 UC chính thức và 9 actor.
+- Chỉ aggregate được phép rời node; UC-31 mô tả xử lý offline/revoked bởi người dùng/nền tảng, không gán quyền quyết định cho node. Bổ sung supporting actor vào đặc tả UC-08/30 và đồng bộ [rule](diagrams/01-use-case/rule.md).
+- Cập nhật [draw.io](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) và [PNG editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png); không thêm requirement ngoài BRD/PRD. Validation: 41 mã duy nhất, 9 actor, endpoint hợp lệ; PNG nhúng khớp source; xem render; validator 0 errors/145 warnings (còn cảnh báo bố cục); git diff --check.
+
+
+## 2026-11-02 — Gom cụm cộng tác và bình luận
+
+- Thêm Manage collaboration với View comments, Comment on an object (UC-37), Edit own comment và Delete own comment trong [Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio). Researcher/Reviewer nối vào cụm; PM kế thừa Researcher. Sửa/xóa chỉ bình luận của tác giả.
+- Đồng bộ hành vi bổ trợ trong [UC-37](report/03-software-requirements-specification.md), [rule](diagrams/01-use-case/rule.md) và [PNG editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png). Không gán mã UC mới; không thay requirement BRD/PRD.
+- Validation: kiểm endpoint, xem render, xác nhận ảnh nhúng khớp source, git diff --check. Sơ đồ vẫn còn cảnh báo đường nối/bố cục.
+
+
+## 2026-11-02 — Đưa decision log về gần từng chức năng
+
+- Thay ellipse nhận sáu đường dài bằng sáu bản hiển thị cục bộ của cùng Record research decision trong [Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio); liên kết bằng metadata, không tạo chức năng mới. Cập nhật [rule](diagrams/01-use-case/rule.md) và [PNG](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png).
+- Chỉ đổi bố cục; không cần sửa BRD/PRD/Use Case Spec. Validation: xem render, kiểm endpoint và reference, ảnh nhúng khớp source; giữ 10 include và 5 extend trong source hiện tại.
+
+
+## 2026-11-02 — Sửa quan hệ và tên Use Case theo ảnh review
+
+- Sửa Test data connection về Manage data connections; bỏ generalization của Comment on an object với Findings và nối Researcher/Reviewer trực tiếp; Project Manager kế thừa Researcher.
+- Gom Record research decision về một ellipse, giữ sáu include; bổ sung AI Provider hỗ trợ Dataset/Execution theo [Report IV](report/04-software-design-document.md).
+- Thống nhất sentence case, chuyển điều kiện owner/release khỏi tên sang metadata; làm rõ Local Node chỉ bị lược khỏi view tại [rule.md](diagrams/01-use-case/rule.md), không bị loại khỏi MVP.
+- Cập nhật [editable source](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) và [PNG editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png). Không đổi requirement BRD/PRD; giữ tập UC ID trong source người dùng hiện tại.
+- Validation: không mất endpoint; PNG nhúng khớp source; xem render; validator 0 errors/136 warnings (còn cảnh báo bố cục, gồm boundary containment); git diff --check.
+
+
 ## 2026-11-02 — Generate và commit toàn bộ cập nhật diagram
 
 - Generate lại [System Context](diagrams/12-context/System-Context-Diagram.drawio)

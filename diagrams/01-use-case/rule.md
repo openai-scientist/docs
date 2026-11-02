@@ -33,8 +33,8 @@ Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, v
 - Đặt màn hình, bảng dữ liệu hay tên API vào use case.
 
 ## Checklist
-- [ ] View giữ 38 UC trong danh mục UC-01 … UC-41, tạm bỏ UC-08, UC-30, UC-31 (Local Node); không đánh lại số. Các ellipse hỗ trợ bổ sung theo report không tự gán mã UC chính thức. Giữ nhãn `(after MVP)` cho UC-40/41. Đối chiếu danh mục trong [Report III](../../report/03-software-requirements-specification.md).
-- [ ] Có 8 actor: User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider, Literature & Evidence Sources và External Data Sources. Hai nguồn dữ liệu là supporting actor; Persona/AI PI là nội bộ; không vẽ Local Node, Google hoặc Email trong view này.
+- [ ] View giữ đầy đủ 41 UC trong danh mục UC-01 … UC-41, bao gồm UC-08, UC-30, UC-31 và UC-14; không đánh lại số. Các ellipse hỗ trợ bổ sung theo report không tự gán mã UC chính thức. Ghi phạm vi `after MVP` trong metadata `data-release` cho UC-40/41; không ghép chú thích release vào tên use case. Đối chiếu danh mục trong [Report III](../../report/03-software-requirements-specification.md).
+- [ ] Có 9 actor: User, Researcher, Project Manager, Reviewer, Platform Admin, AI Provider, Literature & Evidence Sources, External Data Sources và Local Node. Hai nguồn dữ liệu là supporting actor; Persona/AI PI là nội bộ; không vẽ Google hoặc Email trong view này.
 - [ ] Mỗi use case có ít nhất một actor.
 - [ ] Hướng mũi tên include/extend đúng.
 
@@ -42,3 +42,14 @@ Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, v
 - OMG UML 2.5.1, §18 UseCases.
 - Ambler, [UML 2 Use Case Diagramming Guidelines](https://agilemodeling.com/style/useCaseDiagram.htm).
 - [uml-diagrams.org: Use Case Diagrams](https://www.uml-diagrams.org/use-case-diagrams.html).
+
+
+## Hiệu chỉnh theo review ngày 2026-11-02
+
+- Tên ellipse dùng sentence case; giữ nguyên các tên riêng và chữ viết tắt AI, PI, Dossier. Điều kiện owner và release priority đặt trong metadata.
+- Test data connection thuộc Manage data connections. Comment on an object là chức năng cộng tác chung, nối trực tiếp với Reviewer và Researcher (PM kế thừa), không specialization của Findings.
+- Theo yêu cầu bố cục mới nhất, Record research decision dùng ellipse tham chiếu gần từng chức năng để sáu include không dồn về một ô. Các bản có chung `data-use-case-key`, `data-reference-to` liên kết về bản gốc và tooltip giải thích cùng use case; không nối các ellipse tham chiếu với nhau.
+- AI Provider hỗ trợ cả năm stage theo Report IV mô tả stage engines gọi model service. Association không ngụ ý nhà cung cấp khởi tạo stage hay sinh số liệu khoa học.
+- Local Node là supporting actor độc lập với nền tảng trung tâm, hỗ trợ pairing và aggregate release. UC-08/30/31 được khôi phục theo Report III; UC-31 là mục tiêu xử lý tình trạng node của người dùng/nền tảng, không ngụ ý node offline khởi tạo thao tác. Chỉ aggregate đã qua policy được phép rời môi trường cục bộ, không chuyển raw rows.
+
+- Cụm Manage collaboration gom View comments, Comment on an object (UC-37), Edit own comment và Delete own comment. Researcher/Reviewer nối vào cụm; Project Manager kế thừa Researcher. Sửa/xóa chỉ áp dụng bình luận của chính tác giả; không gán mã UC mới cho các ellipse bổ trợ.
