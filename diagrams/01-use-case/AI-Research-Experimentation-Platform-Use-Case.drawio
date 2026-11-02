@@ -1,11 +1,11 @@
 <mxfile host="Electron" agent="Codex drawio-skill">
   <diagram id="use-case-sample-style" name="Use Case Diagram" data-source="BRD v1.2; PRD v1.0; Use-Case Spec v1.0; AI Research Experimentation Flows v1.0">
-    <mxGraphModel dx="2796" dy="1650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3700" pageHeight="4000" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="2542" dy="1500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3700" pageHeight="4650" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="system_boundary" parent="1" style="rounded=0;html=1;whiteSpace=wrap;align=center;verticalAlign=top;spacingTop=16;fillColor=none;strokeColor=#6b7280;strokeWidth=1.5;container=0;pointerEvents=0;collapsible=0;fontColor=#111827;fontFamily=Helvetica;fontSize=20;fontStyle=1;" value="" vertex="1">
-          <mxGeometry height="3430" width="2540" x="290" y="150" as="geometry" />
+          <mxGeometry height="4250" width="2540" x="290" y="150" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-38" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry">
@@ -30,23 +30,20 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-159" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-158">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="670" y="3190" />
-            </Array>
-          </mxGeometry>
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-165" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-164">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="750" y="3130" />
+              <mxPoint x="740" y="3770" />
+              <mxPoint x="1010" y="3880" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-44" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-33">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="500" y="1840" />
+              <mxPoint x="500" y="2290" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -58,13 +55,17 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-4" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;Researcher&lt;/code&gt;&lt;/pre&gt;" vertex="1">
-          <mxGeometry height="130" width="80" x="120" y="2611.84" as="geometry" />
+          <mxGeometry height="130" width="80" x="120" y="3061.84" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-163" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-21">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-163" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="group-manage-collaboration">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2780" y="4110" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-5" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;Reviewer&lt;br&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;" vertex="1">
-          <mxGeometry height="130" width="80" x="2940" y="2914.75" as="geometry" />
+          <mxGeometry height="130" width="80" x="2940" y="3364.75" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-36" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-6" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
@@ -78,20 +79,20 @@
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-6" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;Platform Admin&lt;/code&gt;&lt;/pre&gt;" vertex="1">
           <mxGeometry height="130" width="80" x="2940" y="1151.52" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-10" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Research Project" vertex="1">
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-10" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage research project" vertex="1">
           <mxGeometry height="63.25" width="180" x="851.61" y="935.72" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-142" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.93763;entryY=0.25818;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-138">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-12" data-uc-id="UC-11" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Accept a hand-off object" vertex="1">
-          <mxGeometry height="63.25" width="180" x="1090" y="2110" as="geometry" />
+          <mxGeometry height="63.25" width="180" x="1090" y="2560" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-155" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-29" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1;entryY=1;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-150">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-29" data-uc-id="UC-23" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Read verdict, grade and claim ceiling" vertex="1">
-          <mxGeometry height="74.75" width="204" x="1177.6600000000003" y="2900" as="geometry" />
+          <mxGeometry height="74.75" width="204" x="1231.7600000000002" y="3469" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-135" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-15" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1;startSize=9;endSize=9;entryX=0.78118;entryY=0.08655;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-17">
           <mxGeometry relative="1" as="geometry" />
@@ -109,114 +110,111 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-13" data-uc-id="UC-15" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Set preset and presence" vertex="1">
-          <mxGeometry height="63.25" width="180" x="1290" y="2400" as="geometry" />
+          <mxGeometry height="63.25" width="180" x="1290" y="2850" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-141" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-26" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.71191;entryY=0.04713;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-138">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-26" data-uc-id="UC-10" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Amend a research case" vertex="1">
-          <mxGeometry height="63.25" width="156" x="903.3699999999999" y="2036.7499999999998" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="903.3699999999999" y="2486.75" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-137" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-25" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.97105;entryY=0.66765;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-17">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-25" data-uc-id="UC-18" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the dataset stage" vertex="1">
-          <mxGeometry height="63.25" width="156" x="1356.78" y="1871.75" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="1176.78" y="1980.88" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-166" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-24" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.57832;entryY=0.99383;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-164">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1604.64" y="3398.89" as="targetPoint" />
+            <mxPoint x="1604.64" y="3848.89" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-24" data-uc-id="UC-40" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Build a journal profile (Could, after MVP)" vertex="1">
-          <mxGeometry height="74.75" width="204" x="1576" y="3330.25" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-24" data-release="after MVP" data-uc-id="UC-40" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Build a journal profile" vertex="1">
+          <mxGeometry height="74.75" width="204" x="1500" y="3940" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-153" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-23" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-150">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-23" data-uc-id="UC-21" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Lock a plan" vertex="1">
-          <mxGeometry height="63.25" width="156" x="1179.2600000000002" y="2710" as="geometry" />
-        </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-160" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-21" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1.00000;entryY=0.50000;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-158">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="1210.0000000000002" y="3200" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-21" data-uc-id="UC-37" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Comment on an object" vertex="1">
-          <mxGeometry height="63.25" width="156" x="2157.29" y="3420" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="2080" y="4030" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-152" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-20" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.96641;entryY=0.68017;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-150">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-20" data-uc-id="UC-22" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the execution stage" vertex="1">
-          <mxGeometry height="63.25" width="180" x="1155.26" y="2810" as="geometry" />
+          <mxGeometry height="63.25" width="180" x="1411.7599999999998" y="3358.63" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-154" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-19" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-150">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-19" data-uc-id="UC-20" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the experiment_design stage" vertex="1">
-          <mxGeometry height="74.75" width="180" x="1425" y="2773.25" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-19" data-uc-id="UC-20" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the experiment design stage" vertex="1">
+          <mxGeometry height="74.75" width="180" x="1395" y="3240" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-17" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Dataset" vertex="1">
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-17" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage dataset" vertex="1">
           <mxGeometry height="63.25" width="156" x="824.59" y="1791.88" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-143" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.99619;entryY=0.56160;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-138">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-16" data-uc-id="UC-12" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Monitor and recover a run" vertex="1">
-          <mxGeometry height="63.25" width="180" x="878" y="2222.5" as="geometry" />
+          <mxGeometry height="63.25" width="180" x="878" y="2672.5" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-34" data-uc-id="UC-39" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Users and Keys" vertex="1">
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-34" data-uc-id="UC-39" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage users and keys" vertex="1">
           <mxGeometry height="74.75" width="180" x="2087.64" y="876.62" as="geometry" />
         </mxCell>
         <mxCell id="header" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#111827;fontFamily=Helvetica;fontSize=28;labelBackgroundColor=#ffffff;" value="&lt;b&gt;OpenAI-Scientist&lt;/b&gt;" vertex="1">
           <mxGeometry height="67.84" width="2367.5" x="480" y="160" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-138" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Research Cases and Runs" vertex="1">
-          <mxGeometry height="86.25" width="216" x="647.61" y="2180" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-138" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage research cases and runs" vertex="1">
+          <mxGeometry height="86.25" width="216" x="647.61" y="2630" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-144" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Hypotheses and Decisions" vertex="1">
-          <mxGeometry height="86.25" width="216" x="819.59" y="2426.36" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-144" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage hypotheses and decisions" vertex="1">
+          <mxGeometry height="86.25" width="216" x="819.59" y="2876.36" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-149" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-148" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.968;entryY=0.667;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-144">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-148" data-uc-id="UC-17" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Confirm or overturn a tentative decision" vertex="1">
-          <mxGeometry height="74.75" width="204" x="1168.5" y="2480" as="geometry" />
+          <mxGeometry height="74.75" width="204" x="1168.5" y="2930" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-150" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Experiments" vertex="1">
-          <mxGeometry height="80.5" width="192" x="730" y="2740" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-150" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage experiments" vertex="1">
+          <mxGeometry height="80.5" width="192" x="831.59" y="3350" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-158" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Research Findings" vertex="1">
-          <mxGeometry height="63.25" width="180" x="1392.56" y="3440.86" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-158" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage research findings" vertex="1">
+          <mxGeometry height="63.25" width="180" x="349.9999999999999" y="4136.75" as="geometry" />
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-164" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Research Outputs" vertex="1">
-          <mxGeometry height="80.5" width="210" x="1372.5" y="3160" as="geometry" />
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-164" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage research outputs" vertex="1">
+          <mxGeometry height="80.5" width="210" x="1350" y="3803.62" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-182" data-uc-id="UC-28" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Invoke a persona on an object" vertex="1">
-          <mxGeometry height="74.75" width="180" x="1155.26" y="2250" as="geometry" />
+          <mxGeometry height="74.75" width="180" x="1155.26" y="2700" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-194" data-uc-id="UC-24" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Triage exploration candidates" vertex="1">
-          <mxGeometry height="74.75" width="180" x="812.59" y="2905" as="geometry" />
+          <mxGeometry height="74.75" width="180" x="785" y="3525" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-207" data-uc-id="UC-38" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View notifications" vertex="1">
           <mxGeometry height="63.25" width="156" x="600" y="350" as="geometry" />
         </mxCell>
         <mxCell id="66kl-YEQ2Saq7FEiJOpt-211" data-uc-id="UC-26" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Decide on submission" vertex="1">
-          <mxGeometry height="63.25" width="156" x="1829.9999999999998" y="3336" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="1689.9999999999998" y="3890" as="geometry" />
         </mxCell>
         <mxCell id="4udpJa3sJD_WQBbeA3Te-8" data-uc-id="UC-25" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the paper stage" vertex="1">
-          <mxGeometry height="63.25" width="156" x="1940" y="3085" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="1890" y="3710" as="geometry" />
         </mxCell>
         <mxCell id="4udpJa3sJD_WQBbeA3Te-10" edge="1" parent="1" source="4udpJa3sJD_WQBbeA3Te-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.27310;entryY=0.94555;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-164">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="4udpJa3sJD_WQBbeA3Te-9" data-uc-id="UC-36" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Export a Dossier" vertex="1">
-          <mxGeometry height="63.25" width="156" x="1326.01" y="3310" as="geometry" />
+          <mxGeometry height="63.25" width="156" x="1300" y="3966.75" as="geometry" />
         </mxCell>
         <mxCell id="4udpJa3sJD_WQBbeA3Te-11" edge="1" parent="1" source="4udpJa3sJD_WQBbeA3Te-8" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-164">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="4udpJa3sJD_WQBbeA3Te-13" data-uc-id="UC-35" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Review and approve a Dossier" vertex="1">
-          <mxGeometry height="74.75" width="180" x="2111.6" y="3192.25" as="geometry" />
+          <mxGeometry height="74.75" width="180" x="1863.08" y="3791.75" as="geometry" />
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-23" edge="1" parent="1" source="WVejkmSw5zOM8rDy9oSy-14" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1;endSize=9;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
@@ -253,10 +251,14 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-28" data-uc-id="UC-13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Cancel a run" vertex="1">
-          <mxGeometry height="63.25" width="156" x="605" y="2285.75" as="geometry" />
+          <mxGeometry height="63.25" width="105" x="588" y="2750" as="geometry" />
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-30" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-182" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.704;entryY=0.037;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-144">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1090" y="2820" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-36" data-uc-id="UC-29" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run reviewer benchmarks" vertex="1">
           <mxGeometry height="63.25" width="156" x="1993" y="1579.9" as="geometry" />
@@ -264,13 +266,13 @@
         <mxCell id="WVejkmSw5zOM8rDy9oSy-41" edge="1" parent="1" source="WVejkmSw5zOM8rDy9oSy-38" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;endArrow=block;endFill=0;endSize=9;" target="66kl-YEQ2Saq7FEiJOpt-33">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WVejkmSw5zOM8rDy9oSy-38" data-uc-id="UC-41" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Compare methods&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="WVejkmSw5zOM8rDy9oSy-38" data-release="after MVP" data-uc-id="UC-41" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Compare methods&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="74.75" width="204" x="680" y="1462.8500000000001" as="geometry" />
         </mxCell>
-        <mxCell id="WVejkmSw5zOM8rDy9oSy-45" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage AI Configuration" vertex="1">
+        <mxCell id="WVejkmSw5zOM8rDy9oSy-45" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage AI configuration" vertex="1">
           <mxGeometry height="63.25" width="180" x="2142.92" y="1268.06" as="geometry" />
         </mxCell>
-        <mxCell id="WVejkmSw5zOM8rDy9oSy-46" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Monitor System" vertex="1">
+        <mxCell id="WVejkmSw5zOM8rDy9oSy-46" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Monitor system" vertex="1">
           <mxGeometry height="63.25" width="156" x="2291.6" y="1666.86" as="geometry" />
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-48" data-uc-id="UC-02" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View project metadata" vertex="1">
@@ -280,10 +282,10 @@
           <mxGeometry height="82.8" width="204" x="1659.08" y="593.25" as="geometry" />
         </mxCell>
         <mxCell id="WVejkmSw5zOM8rDy9oSy-93" data-uc-id="UC-16" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Answer a decision inbox item" vertex="1">
-          <mxGeometry height="74.75" width="180" x="1031.6100000000001" y="2556.91" as="geometry" />
+          <mxGeometry height="74.75" width="180" x="1031.6100000000001" y="3006.91" as="geometry" />
         </mxCell>
         <mxCell id="rHZvI0T3yJn9gufK5sou-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;pre dir=&quot;ltr&quot;&gt;&lt;code&gt;AI Provider&lt;br/&gt;(supporting)&lt;/code&gt;&lt;/pre&gt;" vertex="1">
-          <mxGeometry height="130" width="80" x="2920" y="2531.9300000000003" as="geometry" />
+          <mxGeometry height="130" width="80" x="2920" y="2981.93" as="geometry" />
         </mxCell>
         <mxCell id="OyqQ0CZ4WInBxrJQR5up-1" edge="1" parent="1" source="actor-user" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-207">
           <mxGeometry relative="1" as="geometry" />
@@ -315,7 +317,11 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="new-assoc-reviewer-35" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="4udpJa3sJD_WQBbeA3Te-13">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2580" y="3850" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="new-assoc-reviewer-23" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-29">
           <mxGeometry relative="1" as="geometry" />
@@ -329,14 +335,14 @@
         <mxCell id="new-assoc-ai-25" edge="1" parent="1" source="rHZvI0T3yJn9gufK5sou-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="4udpJa3sJD_WQBbeA3Te-8">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="2580" y="3060" />
+              <mxPoint x="2600" y="3700" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="new-group-16" edge="1" parent="1" source="WVejkmSw5zOM8rDy9oSy-93" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.84;entryY=0.8666;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-144">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="new-group-24" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-194" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.77143;entryY=0.91991;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-150">
+        <mxCell id="new-group-24" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-194" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-150">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="new-group-26" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-211" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.85363;entryY=0.85348;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-164">
@@ -346,13 +352,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="added-uc09" data-uc-id="UC-09" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Start a run from a research case" vertex="1">
-          <mxGeometry height="74.75" width="180" x="694.37" y="2050.41" as="geometry" />
+          <mxGeometry height="74.75" width="180" x="694.37" y="2500.41" as="geometry" />
         </mxCell>
         <mxCell id="group-added-uc09" edge="1" parent="1" source="added-uc09" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.32756;entryY=0.03068;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-138">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="added-uc19" data-uc-id="UC-19" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the hypothesis stage" vertex="1">
-          <mxGeometry height="63.25" width="180" x="1320" y="2320" as="geometry" />
+          <mxGeometry height="63.25" width="180" x="1320" y="2770" as="geometry" />
         </mxCell>
         <mxCell id="group-added-uc19" edge="1" parent="1" source="added-uc19" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-144">
           <mxGeometry relative="1" as="geometry" />
@@ -363,25 +369,25 @@
         <mxCell id="group-added-uc05" edge="1" parent="1" source="added-uc05" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;" target="WVejkmSw5zOM8rDy9oSy-46">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud-create-project" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Create Project" vertex="1">
+        <mxCell id="crud-create-project" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Create project" vertex="1">
           <mxGeometry height="63.25" width="156" x="1199" y="860" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-create-project" edge="1" parent="1" source="crud-create-project" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.99881;entryY=0.46551;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud-archive-project" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Archive Project" vertex="1">
+        <mxCell id="crud-archive-project" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Archive project" vertex="1">
           <mxGeometry height="63.25" width="156" x="661.25" y="832.36" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-archive-project" edge="1" parent="1" source="crud-archive-project" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.12195;entryY=0.17277;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud-view-users" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View Users" vertex="1">
+        <mxCell id="crud-view-users" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View users" vertex="1">
           <mxGeometry height="63.25" width="156" x="1837.67" y="965.75" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-view-users" edge="1" parent="1" source="crud-view-users" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.09277;entryY=0.79011;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud-manage-roles" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Roles" vertex="1">
+        <mxCell id="crud-manage-roles" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage roles" vertex="1">
           <mxGeometry height="63.25" width="156" x="1836.25" y="1082.73" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-manage-roles" edge="1" parent="1" source="crud-manage-roles" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.28715;entryY=0.95243;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
@@ -391,19 +397,19 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="crud-assign-roles" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Assign Roles" vertex="1">
+        <mxCell id="crud-assign-roles" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Assign roles" vertex="1">
           <mxGeometry height="63.25" width="156" x="2066.28" y="1162.79" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-assign-roles" edge="1" parent="1" source="crud-assign-roles" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.48957;entryY=0.99989;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud-view-model" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View Model Configuration" vertex="1">
+        <mxCell id="crud-view-model" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View model configuration" vertex="1">
           <mxGeometry height="63.25" width="180" x="1817.75" y="1314.57" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-view-model" edge="1" parent="1" source="crud-view-model" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.03613;entryY=0.68662;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-45">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud-config-model" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Configure AI Model" vertex="1">
+        <mxCell id="crud-config-model" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Configure AI model" vertex="1">
           <mxGeometry height="63.25" width="156" x="1863.08" y="1446.04" as="geometry" />
         </mxCell>
         <mxCell id="group-crud-config-model" edge="1" parent="1" source="crud-config-model" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.24402;entryY=0.92951;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-45">
@@ -419,7 +425,7 @@
         <mxCell id="actor-researcher-user" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=0;endSize=12;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="actor-user">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="55" y="2676.84" />
+              <mxPoint x="55" y="3126.84" />
               <mxPoint x="55" y="338.5" />
             </Array>
           </mxGeometry>
@@ -435,7 +441,7 @@
         <mxCell id="actor-reviewer-user" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=0;endSize=12;exitX=1;exitY=0.5;entryX=0.2;entryY=0;" target="actor-user">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="3070" y="2979.75" />
+              <mxPoint x="3070" y="3429.75" />
               <mxPoint x="3070" y="50" />
               <mxPoint x="136" y="50" />
             </Array>
@@ -453,183 +459,179 @@
         <mxCell id="user-account-profile" edge="1" parent="1" source="actor-user" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="account-profile">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-project-view" data-source="FA26SE115_Report7 III 3.3.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View Project" vertex="1">
+        <mxCell id="crud2-project-view" data-source="FA26SE115_Report7 III 3.3.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View project" vertex="1">
           <mxGeometry height="63.25" width="156" x="638.04" y="1145" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-project-view" edge="1" parent="1" source="crud2-project-view" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.366;entryY=0.977;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-project-update" data-source="FA26SE115_Report7 III 3.3.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Update Project" vertex="1">
+        <mxCell id="crud2-project-update" data-source="FA26SE115_Report7 III 3.3.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Update project" vertex="1">
           <mxGeometry height="63.25" width="156" x="650.13" y="1029" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-project-update" edge="1" parent="1" source="crud2-project-update" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.21325;entryY=0.90960;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-project-complete" data-source="FA26SE115_Report7 III 3.3.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Complete Project" vertex="1">
+        <mxCell id="crud2-project-complete" data-source="FA26SE115_Report7 III 3.3.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Complete project" vertex="1">
           <mxGeometry height="63.25" width="156" x="1028.96" y="800" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-project-complete" edge="1" parent="1" source="crud2-project-complete" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.68783;entryY=0.03662;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-project-delete" data-source="FA26SE115_Report7 III 3.3.10" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete Project (owner)" vertex="1">
+        <mxCell id="crud2-project-delete" data-precondition="Only the project owner can delete the project." data-source="FA26SE115_Report7 III 3.3.10" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete project" vertex="1">
           <mxGeometry height="63.25" width="180" x="1187.61" y="965.75" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-project-delete" edge="1" parent="1" source="crud2-project-delete" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.93952;entryY=0.73838;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-members-view" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View Members" vertex="1">
+        <mxCell id="crud2-members-view" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View members" vertex="1">
           <mxGeometry height="63.25" width="156" x="1136.59" y="403.5" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-members-view" edge="1" parent="1" source="crud2-members-view" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.95242;entryY=0.28712;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-16">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-members-invite" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Invite Member" vertex="1">
+        <mxCell id="crud2-members-invite" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Invite member" vertex="1">
           <mxGeometry height="63.25" width="156" x="972" y="367.63" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-members-invite" edge="1" parent="1" source="crud2-members-invite" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.77203;entryY=0.08047;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-16">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-members-role" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Change Member Role" vertex="1">
+        <mxCell id="crud2-members-role" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Change member role" vertex="1">
           <mxGeometry height="63.25" width="156" x="807" y="403.5" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-members-role" edge="1" parent="1" source="crud2-members-role" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.57787;entryY=0.00610;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-16">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-dataset-view" data-source="FA26SE115_Report7 III 3.4.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View Dataset and Versions" vertex="1">
-          <mxGeometry height="63.25" width="180" x="1110" y="1929.9999999999998" as="geometry" />
+        <mxCell id="crud2-dataset-view" data-source="FA26SE115_Report7 III 3.4.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View dataset and versions" vertex="1">
+          <mxGeometry height="63.25" width="180" x="1000" y="2056.75" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-dataset-view" edge="1" parent="1" source="crud2-dataset-view" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.76733;entryY=0.92254;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-17">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-dataset-rename" data-source="FA26SE115_Report7 III 3.4.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Rename Dataset" vertex="1">
+        <mxCell id="crud2-dataset-rename" data-source="FA26SE115_Report7 III 3.4.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Rename dataset" vertex="1">
           <mxGeometry height="63.25" width="156" x="1255.76" y="1791.88" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-dataset-rename" edge="1" parent="1" source="crud2-dataset-rename" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.99852;entryY=0.46156;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-17">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-dataset-delete" data-source="FA26SE115_Report7 III 3.4.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete Dataset" vertex="1">
-          <mxGeometry height="63.25" width="156" x="890" y="1935" as="geometry" />
+        <mxCell id="crud2-dataset-delete" data-source="FA26SE115_Report7 III 3.4.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete dataset" vertex="1">
+          <mxGeometry height="63.25" width="156" x="824.59" y="2055" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-dataset-delete" edge="1" parent="1" source="crud2-dataset-delete" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-17">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-admin-invite" data-source="FA26SE115_Report7 III 3.9.1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Invite User" vertex="1">
+        <mxCell id="crud2-admin-invite" data-source="FA26SE115_Report7 III 3.9.1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Invite user" vertex="1">
           <mxGeometry height="63.25" width="156" x="2305.01" y="1014.27" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-admin-invite" edge="1" parent="1" source="crud2-admin-invite" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.77200;entryY=0.91954;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-admin-edit" data-source="FA26SE115_Report7 III 3.9.6" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Edit User Profile" vertex="1">
+        <mxCell id="crud2-admin-edit" data-source="FA26SE115_Report7 III 3.9.6" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Edit user profile" vertex="1">
           <mxGeometry height="63.25" width="156" x="2386.69" y="815.88" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-admin-edit" edge="1" parent="1" source="crud2-admin-edit" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1.00000;entryY=0.49973;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-admin-suspend" data-source="FA26SE115_Report7 III 3.9.1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Suspend User" vertex="1">
+        <mxCell id="crud2-admin-suspend" data-source="FA26SE115_Report7 III 3.9.1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Suspend user" vertex="1">
           <mxGeometry height="63.25" width="156" x="1830.97" y="832.36" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-admin-suspend" edge="1" parent="1" source="crud2-admin-suspend" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.04551;entryY=0.29158;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-admin-reactivate" data-source="FA26SE115_Report7 III 3.9.1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Reactivate User" vertex="1">
+        <mxCell id="crud2-admin-reactivate" data-source="FA26SE115_Report7 III 3.9.1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Reactivate user" vertex="1">
           <mxGeometry height="63.25" width="156" x="2339.34" y="734.27" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-admin-reactivate" edge="1" parent="1" source="crud2-admin-reactivate" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.77205;entryY=0.08049;entryDx=0;entryDy=0;entryPerimeter=0;" target="66kl-YEQ2Saq7FEiJOpt-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-model-test" data-source="FA26SE115_Report7 III 3.9.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Test AI Model" vertex="1">
+        <mxCell id="crud2-model-test" data-source="FA26SE115_Report7 III 3.9.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Test AI model" vertex="1">
           <mxGeometry height="63.25" width="156" x="2360.29" y="1139.23" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-model-test" edge="1" parent="1" source="crud2-model-test" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.74060;entryY=0.06169;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-45">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-engine-settings" data-source="FA26SE115_Report7 III 3.9.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Edit Engine Settings" vertex="1">
+        <mxCell id="crud2-engine-settings" data-source="FA26SE115_Report7 III 3.9.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Edit engine settings" vertex="1">
           <mxGeometry height="63.25" width="180" x="2423.46" y="1345.88" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-engine-settings" edge="1" parent="1" source="crud2-engine-settings" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=1.00000;entryY=0.49992;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-45">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-connections" data-source="FA26SE115_Report7 III 3.4.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Data Connections" vertex="1">
+        <mxCell id="crud2-connections" data-source="FA26SE115_Report7 III 3.4.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage data connections" vertex="1">
           <mxGeometry height="63.25" width="180" x="806.13" y="1559.88" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-connections" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="crud2-connections">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="630" y="1880" />
-            </Array>
-          </mxGeometry>
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-conn-create" data-source="FA26SE115_Report7 III 3.4.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Create Data Connection" vertex="1">
+        <mxCell id="crud2-conn-create" data-source="FA26SE115_Report7 III 3.4.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Create data connection" vertex="1">
           <mxGeometry height="63.25" width="180" x="975.26" y="1395.88" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-conn-create" edge="1" parent="1" source="crud2-conn-create" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.64665;entryY=0.02199;entryDx=0;entryDy=0;entryPerimeter=0;" target="crud2-connections">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-conn-view" data-source="FA26SE115_Report7 III 3.4.7" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Browse Connection Source" vertex="1">
+        <mxCell id="crud2-conn-view" data-source="FA26SE115_Report7 III 3.4.7" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Browse connection source" vertex="1">
           <mxGeometry height="63.25" width="180" x="1189.66" y="1382.79" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-conn-view" edge="1" parent="1" source="crud2-conn-view" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.82840;entryY=0.12296;entryDx=0;entryDy=0;entryPerimeter=0;" target="crud2-connections">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-conn-test" data-source="FA26SE115_Report7 III 3.4.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Test Data Connection" vertex="1">
-          <mxGeometry height="63.25" width="180" x="560" y="1382.79" as="geometry" />
+        <mxCell id="crud2-conn-test" data-source="FA26SE115_Report7 III 3.4.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Test data connection" vertex="1">
+          <mxGeometry height="63.25" width="180" x="866" y="1667.6" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-conn-rename" data-source="FA26SE115_Report7 III 3.4.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Rename Data Connection" vertex="1">
+        <mxCell id="crud2-conn-rename" data-source="FA26SE115_Report7 III 3.4.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Rename data connection" vertex="1">
           <mxGeometry height="63.25" width="180" x="1332.78" y="1459.13" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-conn-rename" edge="1" parent="1" source="crud2-conn-rename" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.95336;entryY=0.28913;entryDx=0;entryDy=0;entryPerimeter=0;" target="crud2-connections">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-conn-delete" data-source="FA26SE115_Report7 III 3.4.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete Data Connection" vertex="1">
+        <mxCell id="crud2-conn-delete" data-source="FA26SE115_Report7 III 3.4.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete data connection" vertex="1">
           <mxGeometry height="63.25" width="180" x="812.59" y="1345.88" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-conn-delete" edge="1" parent="1" source="crud2-conn-delete" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="crud2-connections">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-members-remove" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Remove Member" vertex="1">
+        <mxCell id="crud2-members-remove" data-source="FA26SE115_Report7 III 3.3.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Remove member" vertex="1">
           <mxGeometry height="63.25" width="180" x="1129.24" y="500" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-members-remove" edge="1" parent="1" source="crud2-members-remove" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.98331;entryY=0.62810;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-16">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="crud2-members-invite-manage" data-source="FA26SE115_Report7 III 3.3.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Resend / Cancel Invitation" vertex="1">
+        <mxCell id="crud2-members-invite-manage" data-source="FA26SE115_Report7 III 3.3.8" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Resend / cancel invitation" vertex="1">
           <mxGeometry height="63.25" width="180" x="1099.73" y="593.2500000000001" as="geometry" />
         </mxCell>
         <mxCell id="crud2-edge-members-invite-manage" edge="1" parent="1" source="crud2-members-invite-manage" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.69801;entryY=0.95912;entryDx=0;entryDy=0;entryPerimeter=0;" target="WVejkmSw5zOM8rDy9oSy-16">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="YdL4UmRWSWX4QitS5lwM-1" edge="1" parent="1" source="crud2-conn-test" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="66kl-YEQ2Saq7FEiJOpt-33" value="">
+        <mxCell id="YdL4UmRWSWX4QitS5lwM-1" edge="1" parent="1" source="crud2-conn-test" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=9;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="crud2-connections" value="">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="515" y="1693" as="sourcePoint" />
             <mxPoint x="836" y="1615" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="66kl-YEQ2Saq7FEiJOpt-33" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Evaluation" vertex="1">
+        <mxCell id="66kl-YEQ2Saq7FEiJOpt-33" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage evaluation" vertex="1">
           <mxGeometry height="63.25" width="156" x="600" y="1559.8799999999999" as="geometry" />
         </mxCell>
         <mxCell id="actor-scholarly-sources" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Literature &amp; Evidence Sources" vertex="1">
-          <mxGeometry height="130" width="80" x="2940" y="2100" as="geometry" />
+          <mxGeometry height="130" width="80" x="2940" y="2550" as="geometry" />
         </mxCell>
         <mxCell id="actor-public-data" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="External Data Sources" vertex="1">
-          <mxGeometry height="130" width="80" x="2940" y="1810" as="geometry" />
+          <mxGeometry height="130" width="80" x="2930" y="1802.5" as="geometry" />
         </mxCell>
         <mxCell id="support-public-discovery" data-source="Report III FE-04 FR-15" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Discover public datasets" vertex="1">
-          <mxGeometry height="65" width="190" x="1830" y="1870" as="geometry" />
+          <mxGeometry height="65" width="190" x="1680" y="1810" as="geometry" />
         </mxCell>
-        <mxCell id="support-literature-base" data-source="Report I FE-07.1; Report III FR-43" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Build Literature Base&lt;br&gt;from Search" vertex="1">
-          <mxGeometry height="65" width="185" x="1582.5" y="1993.25" as="geometry" />
+        <mxCell id="support-literature-base" data-source="Report I FE-07.1; Report III FR-43" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Build Literature base&lt;br&gt;from search" vertex="1">
+          <mxGeometry height="65" width="185" x="1740" y="2443.25" as="geometry" />
         </mxCell>
         <mxCell id="support-search-literature" data-source="Report I FE-07.1; Report III FR-43 FR-186" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Search scholarly literature" vertex="1">
-          <mxGeometry height="65" width="190" x="1850" y="1993.25" as="geometry" />
+          <mxGeometry height="65" width="190" x="2222.2799999999997" y="2470" as="geometry" />
         </mxCell>
         <mxCell id="support-review-pi" data-source="Report III 3.7.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Review AI PI advice" vertex="1">
-          <mxGeometry height="65" width="190" x="369.9999999999999" y="2620" as="geometry" />
+          <mxGeometry height="65" width="190" x="587.9999999999999" y="3126.84" as="geometry" />
         </mxCell>
         <mxCell id="support-retry-pi" data-source="Report III 3.7.3" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Retry AI PI consultation" vertex="1">
-          <mxGeometry height="65" width="190" x="719.9999999999999" y="2541.84" as="geometry" />
+          <mxGeometry height="65" width="190" x="1046" y="3126.84" as="geometry" />
         </mxCell>
         <mxCell id="restore-uc27-review" data-source="Report III FR-71 BR-35" data-uc-id="UC-27" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Run the review loop" vertex="1">
-          <mxGeometry height="65" width="180" x="1863.08" y="2556.91" as="geometry" />
+          <mxGeometry height="65" width="180" x="940" y="3790" as="geometry" />
         </mxCell>
         <mxCell id="assoc-public-repository" edge="1" parent="1" source="actor-public-data" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="support-public-discovery">
           <mxGeometry relative="1" as="geometry" />
@@ -638,7 +640,11 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="assoc-researcher-literature" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="support-literature-base">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="2760" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="assoc-researcher-advice" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="support-review-pi">
           <mxGeometry relative="1" as="geometry" />
@@ -653,16 +659,16 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="support-manage-documents" data-source="Report III 3.3.5" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage project documents" vertex="1">
-          <mxGeometry height="65" width="195" x="668.67" y="3330.25" as="geometry" />
+          <mxGeometry height="65" width="180" x="605" y="3910" as="geometry" />
         </mxCell>
         <mxCell id="support-upload-document" data-source="Report III 3.3.5" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Upload project document" vertex="1">
-          <mxGeometry height="65" width="190" x="980" y="3360" as="geometry" />
+          <mxGeometry height="65" width="190" x="802.59" y="4028.25" as="geometry" />
         </mxCell>
         <mxCell id="support-download-document" data-source="Report III 3.3.5" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Download project document" vertex="1">
-          <mxGeometry height="65" width="190" x="940" y="3450" as="geometry" />
+          <mxGeometry height="65" width="190" x="732" y="4135" as="geometry" />
         </mxCell>
         <mxCell id="support-delete-document" data-source="Report III 3.3.5" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete project document" vertex="1">
-          <mxGeometry height="65" width="190" x="730" y="3460" as="geometry" />
+          <mxGeometry height="65" width="190" x="571" y="4070" as="geometry" />
         </mxCell>
         <mxCell id="group-upload-document" edge="1" parent="1" source="support-upload-document" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="support-manage-documents">
           <mxGeometry relative="1" as="geometry" />
@@ -683,36 +689,42 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="support-view-review-queue" data-source="Report III 3.8.2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View reviewer queue" vertex="1">
-          <mxGeometry height="65" width="185" x="1750" y="2850" as="geometry" />
+          <mxGeometry height="65" width="185" x="1575" y="3690" as="geometry" />
         </mxCell>
         <mxCell id="assoc-reviewer-queue" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="rounded=0;html=1;endArrow=none;endFill=0;" target="support-view-review-queue">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="2400" y="3000" />
+              <mxPoint x="2480" y="3660" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="support-artifact-compare" data-source="Report III 3.5.11" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Download or compare artifacts" vertex="1">
-          <mxGeometry height="65" width="205" x="1400" y="3070" as="geometry" />
+          <mxGeometry height="65" width="205" x="1370" y="4060" as="geometry" />
         </mxCell>
         <mxCell id="assoc-researcher-compare" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;html=1;endArrow=none;endFill=0;" target="support-artifact-compare">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="790" y="3080" />
+              <mxPoint x="690" y="3790" />
+              <mxPoint x="1080" y="4080" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="assoc-reviewer-compare" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-5" style="rounded=0;html=1;endArrow=none;endFill=0;" target="support-artifact-compare">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2720" y="3890" />
+              <mxPoint x="2360" y="3950" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="support-review-stage-output" data-extension-point="After inspecting stage output, before completing the review; user may request changes or a rerun." data-source="FA26SE115 Report III 3.5.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Review stage output" vertex="1">
-          <mxGeometry height="65" width="190" x="2320" y="2700" as="geometry" />
+          <mxGeometry height="65" width="190" x="1322.78" y="3590" as="geometry" />
         </mxCell>
         <mxCell id="support-rerun-stage" data-source="FA26SE115 Report III 3.5.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Rerun stage" vertex="1">
-          <mxGeometry height="65" width="190" x="2140" y="2870" as="geometry" />
+          <mxGeometry height="65" width="190" x="1880" y="3525" as="geometry" />
         </mxCell>
         <mxCell id="support-send-back-stage" data-source="FA26SE115 Report III 3.5.4" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Send back stage output" vertex="1">
-          <mxGeometry height="65" width="200" x="2410" y="2870" as="geometry" />
+          <mxGeometry height="65" width="200" x="1853.08" y="3620" as="geometry" />
         </mxCell>
         <mxCell id="extend-rerun-stage" edge="1" parent="1" source="support-rerun-stage" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="support-review-stage-output" value="«extend»&lt;br&gt;[rerun requested]">
           <mxGeometry relative="1" as="geometry" />
@@ -733,24 +745,26 @@
         <mxCell id="include-import-version" data-source="Report III FR-09; successful ingestion commits a new immutable version with hash" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-14" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="shared-create-dataset-version" value="«include»">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="include-inbox-log" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="WVejkmSw5zOM8rDy9oSy-93" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="local-copy-include-inbox-log" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="include-accept-log" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-12" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="local-copy-include-accept-log" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="include-lock-log" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-23" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="local-copy-include-inbox-log" value="«include»">
+        <mxCell id="include-inbox-log" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="WVejkmSw5zOM8rDy9oSy-93" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="decision-ref-NB4wLd9mYmOQnJUFIbAR-1" value="«include»">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1526.5382288378833" y="2705.5260708930427" as="targetPoint" />
+            <mxPoint x="916.2399617869137" y="3099.63" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="group-manage-research-review" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage Research Review" vertex="1">
-          <mxGeometry height="75" width="195" x="1960" y="2700" as="geometry" />
+        <mxCell id="include-accept-log" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-12" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="decision-ref-include-accept-log" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="include-lock-log" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-23" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="decision-ref-NB4wLd9mYmOQnJUFIbAR-1" value="«include»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1450" y="3163.72" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="group-manage-research-review" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage research review" vertex="1">
+          <mxGeometry height="75" width="195" x="1210" y="3720" as="geometry" />
         </mxCell>
         <mxCell id="assoc-researcher-review-group" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;html=1;endArrow=none;endFill=0;" target="group-manage-research-review">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1700" y="2635" />
+              <mxPoint x="790" y="3720" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -772,26 +786,110 @@
         <mxCell id="include-spending-log" data-source="BRD BR-29; PRD FR-30; completed decision must be recorded" edge="1" parent="1" source="WVejkmSw5zOM8rDy9oSy-18" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="shared-record-decision" value="«include»">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="include-submission-log" data-source="BRD BR-29; PRD FR-30; completed decision must be recorded" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-211" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="local-copy-include-submission-log" value="«include»">
+        <mxCell id="include-submission-log" data-source="BRD BR-29; PRD FR-30; completed decision must be recorded" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-211" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;" target="decision-ref-include-submission-log" value="«include»">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="local-copy-include-inbox-log" data-reference-to="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Reference view of the same use case: Record research decision" value="Record research decision" vertex="1">
-          <mxGeometry height="75" width="210" x="1555" y="2536.84" as="geometry" />
+        <mxCell id="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Same use case: Record research decision; local reference for Decide extra spend" value="Record research decision" vertex="1">
+          <mxGeometry height="75" width="210" x="1170.97" y="1214.23" as="geometry" />
         </mxCell>
-        <mxCell id="local-copy-include-accept-log" data-reference-to="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Reference view of the same use case: Record research decision" value="Record research decision" vertex="1">
-          <mxGeometry height="75" width="210" x="1305" y="2010" as="geometry" />
-        </mxCell>
-        <mxCell id="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Reference view of the same use case: Record research decision" value="Record research decision" vertex="1">
-          <mxGeometry height="75" width="210" x="1148.83" y="1280.64" as="geometry" />
-        </mxCell>
-        <mxCell id="local-copy-include-submission-log" data-reference-to="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Reference view of the same use case: Record research decision" value="Record research decision" vertex="1">
-          <mxGeometry height="75" width="210" x="2103.29" y="3320.25" as="geometry" />
-        </mxCell>
-        <mxCell id="NB4wLd9mYmOQnJUFIbAR-1" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-148" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="local-copy-include-inbox-log" value="«include»">
+        <mxCell id="NB4wLd9mYmOQnJUFIbAR-1" data-source="Report III FR-30; completed human decision is recorded with policy, actor and action type" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-148" style="rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="decision-ref-NB4wLd9mYmOQnJUFIbAR-1" value="«include»">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1500" y="2513" as="sourcePoint" />
-            <mxPoint x="1844" y="2500" as="targetPoint" />
+            <mxPoint x="1500" y="2963" as="sourcePoint" />
+            <mxPoint x="1844" y="2950" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="assoc-ai-dataset" data-role="Supporting inference only; numerical results computed by code." data-source="Report IV section 2: stage engines call model service; model roles stage/review/vision" edge="1" parent="1" source="rHZvI0T3yJn9gufK5sou-1" style="rounded=0;html=1;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1565.5" y="2525.2" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="assoc-ai-execution" data-role="Supporting inference only; numerical results computed by code." data-source="Report IV section 2: stage engines call model service; model roles stage/review/vision" edge="1" parent="1" source="rHZvI0T3yJn9gufK5sou-1" style="rounded=0;html=1;endArrow=none;endFill=0;" target="66kl-YEQ2Saq7FEiJOpt-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="assoc-researcher-comment" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;html=1;endArrow=none;endFill=0;" target="group-manage-collaboration">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="590" y="4250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="decision-ref-include-accept-log" data-reference-to="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Same use case: Record research decision; local reference for Accept a hand-off object" value="Record research decision" vertex="1">
+          <mxGeometry height="75" width="210" x="1275" y="2460" as="geometry" />
+        </mxCell>
+        <mxCell id="decision-ref-include-submission-log" data-reference-to="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Same use case: Record research decision; local reference for Decide on submission" value="Record research decision" vertex="1">
+          <mxGeometry height="75" width="210" x="2026" y="3884.12" as="geometry" />
+        </mxCell>
+        <mxCell id="decision-ref-NB4wLd9mYmOQnJUFIbAR-1" data-reference-to="shared-record-decision" data-use-case-key="shared-record-decision" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" tooltip="Same use case: Record research decision; local reference for Confirm or overturn a tentative decision" value="Record research decision" vertex="1">
+          <mxGeometry height="75" width="210" x="1480" y="2970" as="geometry" />
+        </mxCell>
+        <mxCell id="group-manage-collaboration" data-source="Report III UC-37; Report7 III 3.5.13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage collaboration" vertex="1">
+          <mxGeometry height="75" width="205" x="1930" y="4170" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-view-comments" data-source="Report III UC-37; Report7 III 3.5.13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="View comments" vertex="1">
+          <mxGeometry height="65" width="190" x="1730" y="4050" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-edit-comment" data-precondition="Project member with comment rights; current user is the comment author." data-source="Report III UC-37; Report7 III 3.5.13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Edit own comment" vertex="1">
+          <mxGeometry height="65" width="190" x="2260" y="4060" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-delete-comment" data-precondition="Project member with comment rights; current user is the comment author." data-source="Report III UC-37; Report7 III 3.5.13" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Delete own comment" vertex="1">
+          <mxGeometry height="65" width="190" x="1997.75" y="4280" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-group-0" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-21" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="group-manage-collaboration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-group-1" edge="1" parent="1" source="collaboration-view-comments" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="group-manage-collaboration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-group-2" edge="1" parent="1" source="collaboration-edit-comment" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="group-manage-collaboration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="collaboration-group-3" edge="1" parent="1" source="collaboration-delete-comment" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="group-manage-collaboration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-local-node" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Local Node" vertex="1">
+          <mxGeometry height="130" width="80" x="2940" y="2152.5" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-local-processing" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Manage local data processing" vertex="1">
+          <mxGeometry height="80" width="220" x="1617.67" y="2150" as="geometry" />
+        </mxCell>
+        <mxCell id="uc08-local-pair" data-uc-id="UC-08" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Pair a Local Node and register local data" vertex="1">
+          <mxGeometry height="85" width="235" x="1953.5" y="2020" as="geometry" />
+        </mxCell>
+        <mxCell id="uc30-local-release" data-uc-id="UC-30" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Release an aggregate from local data" vertex="1">
+          <mxGeometry height="85" width="235" x="2160" y="2175" as="geometry" />
+        </mxCell>
+        <mxCell id="uc31-local-status" data-uc-id="UC-31" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Handle a Local Node that is offline or revoked" vertex="1">
+          <mxGeometry height="85" width="245" x="1910" y="2260" as="geometry" />
+        </mxCell>
+        <mxCell id="group-uc08-local-pair" edge="1" parent="1" source="uc08-local-pair" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="manage-local-processing">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="group-uc30-local-release" edge="1" parent="1" source="uc30-local-release" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="manage-local-processing">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="group-uc31-local-status" edge="1" parent="1" source="uc31-local-status" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="manage-local-processing">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="assoc-researcher-local-processing" edge="1" parent="1" source="66kl-YEQ2Saq7FEiJOpt-4" style="rounded=0;html=1;endArrow=none;endFill=0;" target="manage-local-processing">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="2390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="assoc-local-node-pair" edge="1" parent="1" source="actor-local-node" style="rounded=0;html=1;endArrow=none;endFill=0;" target="uc08-local-pair">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="assoc-local-node-release" edge="1" parent="1" source="actor-local-node" style="rounded=0;html=1;endArrow=none;endFill=0;" target="uc30-local-release">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="restore-uc14-next-step" data-uc-id="UC-14" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fontSize=14;" value="Choose the next step" vertex="1">
+          <mxGeometry height="65" width="141.59" x="761" y="2734" as="geometry" />
+        </mxCell>
+        <mxCell id="group-uc14-next-step" edge="1" parent="1" source="restore-uc14-next-step" style="rounded=0;html=1;endArrow=block;endFill=0;endSize=9;" target="66kl-YEQ2Saq7FEiJOpt-138">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

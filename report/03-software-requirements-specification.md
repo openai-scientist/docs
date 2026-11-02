@@ -213,7 +213,7 @@ In every UC, an action by a member without the needed role fails with MSG-01. A 
 
 #### UC-08 Pair a Local Node and register local data
 - Goal: the user keeps data on the own machine and uses it in a project.
-- Actors: Researcher, Project Manager.
+- Actors: Researcher, Project Manager; Local Node (supporting software system).
 - Preconditions: the user installed the Local Node. No Docker is needed.
 - Trigger: the user enters a pairing code in the Local Node.
 - Main flow: 1. The user pairs the Local Node with the project by a pairing code (MSG-17). 2. The Local Node proposes datasets from the folder it watches. 3. The user accepts a dataset. 4. The system records a dataset version with data location `local`. 5. Before a job, the Local Node checks the hash of the version.
@@ -455,7 +455,7 @@ In every UC, an action by a member without the needed role fails with MSG-01. A 
 
 #### UC-30 Release an aggregate from local data
 - Goal: an aggregate leaves the data holder while rows stay.
-- Actors: Researcher, Project Manager.
+- Actors: Researcher, Project Manager; Local Node (supporting software system).
 - Preconditions: a `local` dataset version and a paired Local Node.
 - Trigger: a job on `local` data returns a result.
 - Main flow: 1. The result passes the one release gate: small-cell threshold, rounding, differencing check and probe budget (a limit that stops many aggregates from revealing individual rows). 2. The release enters the append-only release log. The Platform copy matches the Local Node log. 3. With disclosure `standard`, the release is automatic within policy. With `strict`, only approved kinds of numbers pass; others create a release review item (MSG-22). 4. The Researcher or Project Manager answers. 5. Models and published objects receive only aggregates and code-computed profiles. An exception from real data returns only error type, column and affected row count.
@@ -537,6 +537,7 @@ In every UC, an action by a member without the needed role fails with MSG-01. A 
 - Trigger: the user opens an object.
 - Main flow: 1. The user writes a comment on the object. 2. The system shows it to the members.
 - Alternative and exception flows: a user without comment rights (MSG-01).
+- Supporting comment actions: project members with comment rights can view comments; an author can edit or delete their own comment (Report7 III 3.5.13). These are supporting actions of collaboration, without new official UC IDs.
 - Postconditions: the comment is stored with its author.
 - Business rules: BR-05, BR-06.
 - FR traced: FR-99, FR-254.
