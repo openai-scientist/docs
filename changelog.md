@@ -1,5 +1,57 @@
 # Changelog
 
+## 2026-11-02 — Bỏ dòng example preview trên ô Writing
+
+- Bỏ dòng [example preview] khỏi Writing workspace Page và Manuscript Page trên các tab [draw.io](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio); đồng bộ [builder](diagrams/02-screen-flow/build_navigation_detail.py), các PNG liên quan, README và rule. Giữ nội dung màn hình, endpoint và bố cục; giải thích dữ liệu ví dụ giữ ở tài liệu. Không đổi requirement/nghiệp vụ.
+- Kiểm nhãn XML, validator các tab Navigation và Research Run, xuất lại PNG, xem render và git diff --check.
+
+## 2026-11-02 — Cụ thể hóa nhãn thao tác screen flow
+
+- Thay nhãn Select chung chung bằng thao tác đúng đối tượng: duyệt run, mở run hiện tại/đã lưu, xem kết quả sàng lọc, đọc evidence card, xem chi tiết dataset/user/project, theo dõi event và đọc manuscript. Giữ endpoint, màn hình, bố cục và quyền; không thêm hành vi mới.
+- Đồng bộ [builder](diagrams/02-screen-flow/build_navigation_detail.py), [draw.io](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio), [bản màu có nhãn](diagrams/02-screen-flow/Screen-Flow-Diagram-Navigation-Detail.png), [B&W có nhãn](diagrams/02-screen-flow/Screen-Flow-Diagram-Navigation-Detail-BW.png), [Research Run](diagrams/02-screen-flow/Screen-Flow-Diagram-Research-Run.png), README/rule và metadata các bản không nhãn. Không cần sửa BRD/PRD/Use Case Spec. Validation riêng các bản có nhãn: 0 errors/0 warnings; xem render và git diff --check.
+
+## 2026-11-02 — Thu gọn cả các phiên bản screen flow còn lại
+
+- Thu khoảng cột 480 → 360 px và khoảng hàng 40 → 20 px cho các bản Navigation màu/B&W/có nhãn/không nhãn; wrap nhãn 240 px, giữ chữ và nội dung. Bỏ khoảng trống dọc dư ở ba tab gốc; xuất lại toàn bộ PNG cùng ảnh Research Run trong [folder screen flow](diagrams/02-screen-flow/README.md).
+- Đồng bộ [builder](diagrams/02-screen-flow/build_navigation_detail.py), [rule](diagrams/02-screen-flow/rule.md) và draw.io. Chỉ đổi bố cục, không đổi nghiệp vụ/requirement. Kiểm render, validator riêng các bản Navigation và git diff --check.
+
+## 2026-11-02 — Gom khoảng trống bản vertical screen flow
+
+- Gom cột 540 → 440 px, hàng 160 → 140 px; đưa 7 stage vào vùng giữa và chia Admin thành hai cột trong [Vertical B&W](diagrams/02-screen-flow/Screen-Flow-Diagram-Vertical-BW.png). Giữ 35 Page/34 cạnh, cỡ chữ và các tab khác; đồng bộ [builder](diagrams/02-screen-flow/build_navigation_detail.py), [README](diagrams/02-screen-flow/README.md), [rule](diagrams/02-screen-flow/rule.md) và draw.io. Không đổi requirement/nghiệp vụ.
+- Validation: 0 errors/0 warnings; xem PNG, kiểm nội dung/endpoint giữ nguyên, idempotence, các tab khác không đổi và git diff --check.
+
+## 2026-11-02 — Bỏ dialog và thêm hậu tố Page cho screen flow
+
+- Bỏ toàn bộ dialog/nhánh nội dung dialog trên tám tab của [screen flow](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio), thêm Page vào từng ô màn hình. Các bản Navigation còn 35 màn hình/34 cạnh; giữ 7 stage và Writing preview. Đồng bộ [builder](diagrams/02-screen-flow/build_navigation_detail.py), [README](diagrams/02-screen-flow/README.md), [rule](diagrams/02-screen-flow/rule.md) và toàn bộ PNG trong cùng folder.
+- Chỉ rút gọn trình bày; không thay requirement hay quyền nên không sửa BRD/PRD/Use Case Spec. Kiểm endpoint, không còn node dialog, hậu tố Page và git diff --check; export lại các tab.
+
+
+## 2026-11-02 — Thêm screen flow đen trắng theo bố cục cột dọc
+
+- Thêm tab **Screen Flow - Vertical B&W** vào [draw.io](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio) và [PNG riêng](diagrams/02-screen-flow/Screen-Flow-Diagram-Vertical-BW.png) theo ảnh mẫu: xác thực trên cùng, phân nhánh xuống 5 cột, màn con xếp dọc; Members/Project Settings ở hàng dưới. Giữ 42 ô, 41 quan hệ, màn/dialog thật, chữ 28 px và metadata của bản B&W không nhãn; chỉ đổi bố cục/cổng/đường nối. Bảy tab trước đó giữ nguyên.
+- Thêm `--vertical` vào [builder](diagrams/02-screen-flow/build_navigation_detail.py); dùng chung helper ghi tab biến thể. Cập nhật [README](diagrams/02-screen-flow/README.md) và [rule](diagrams/02-screen-flow/rule.md). Không đổi requirement/nghiệp vụ nên không sửa BRD/PRD/Use Case Spec.
+- Validation riêng tab mới: 0 errors/0 warnings (0 through-vertex, 0 crossings, 0 overlaps). Đối chiếu inventory/endpoint/nội dung với source, kiểm các tab cũ và idempotence; export PNG bằng draw.io CLI và xem render; kiểm cross-reference và `git diff --check`.
+
+## 2026-11-02 — Thêm hai phiên bản screen flow đen trắng
+
+- Thêm **Navigation Detail - B&W** và **Navigation No Labels - B&W** trong [draw.io](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio), cùng [PNG có nhãn](diagrams/02-screen-flow/Screen-Flow-Diagram-Navigation-Detail-BW.png) và [PNG không nhãn](diagrams/02-screen-flow/Screen-Flow-Diagram-Navigation-No-Labels-BW.png). Mỗi bản giữ 42 ô/41 cạnh, nội dung, hình học và cỡ chữ của bản màu; chỉ chuyển nền trắng, chữ/viền/mũi tên đen. Năm tab trước đó không thay đổi.
+- Dùng chung helper clone trong [builder](diagrams/02-screen-flow/build_navigation_detail.py), thêm `--black-white`; đồng bộ [README](diagrams/02-screen-flow/README.md) và [rule](diagrams/02-screen-flow/rule.md). Chỉ đổi trình bày, không đổi requirement/nghiệp vụ nên không sửa BRD/PRD/Use Case Spec.
+- Validation: mỗi tab mới 0 errors/0 warnings; đối chiếu node/edge, nội dung và geometry với bản màu; kiểm palette grayscale của PNG, generator idempotent; export SVG bằng draw.io rồi raster PNG và xem cả hai bản; kiểm link và `git diff --check`.
+
+## 2026-11-02 — Thêm phiên bản screen flow không có nhãn mũi tên
+
+- Thêm tab **Navigation - No Labels** trong [draw.io](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio) và [PNG riêng](diagrams/02-screen-flow/Screen-Flow-Diagram-Navigation-No-Labels.png). Clone đúng 42 ô/41 cạnh của Navigation Detail, giữ bố cục/cỡ chữ; chỉ ẩn nhãn cạnh, giữ hành động trong metadata. Bốn tab cũ không thay đổi.
+- Cập nhật [builder](diagrams/02-screen-flow/build_navigation_detail.py), [README](diagrams/02-screen-flow/README.md) và [rule](diagrams/02-screen-flow/rule.md). Chỉ thêm biến thể trình bày; không đổi requirement hoặc nghiệp vụ nên không sửa BRD/PRD/Use Case Spec.
+- Validation: riêng tab mới 0 errors/0 warnings; kiểm node/edge geometry khớp bản có nhãn, mọi nhãn cạnh rỗng, các tab cũ giữ nguyên, generate idempotent; export SVG bằng draw.io rồi raster PNG, xem render, kiểm link và `git diff --check`.
+
+## 2026-11-02 — Screen flow theo ảnh tham khảo và rút gọn nội dung
+
+- Thêm **Navigation Detail** vào [Screen Flow editable](diagrams/02-screen-flow/Screen-Flow-Diagram.drawio); rút từ 78 xuống 42 ô (35 màn hình/view, 7 dialog), 41 đường điều hướng. Giữ nguyên XML ba tab Access, Project Workspace và Admin. Mỗi ô vuông là màn hình thực, dialog bo góc; nguồn truy vết qua `data-kind`/`data-source-file` trong [builder](diagrams/02-screen-flow/build_navigation_detail.py).
+- Giữ 7 stage của Research Run; gộp 12 tab Writing vào Writing workspace, giữ Manuscript riêng và nhãn example preview. Lược review/activity/stop confirmation, các mode graph/canvas riêng, CRUD/xác nhận xóa, nhánh version/preview phụ, chi tiết event và vòng lặp tại chỗ. Source connection setup đại diện các bước trong cùng dialog. Giữ các màn danh sách/chi tiết và dialog chính, không tạo ô nhóm chức năng giả hay đổi quyền/nghiệp vụ; không cần sửa BRD/PRD/Use Case Spec.
+- Giữ nền kem/viền cam; chữ ô 28 px, nhãn 22 px căn giữa nét nối như Context Diagram. Ô 340 × 120 px, khoảng trống dọc 40 px. Chiều cao [PNG toàn tab](diagrams/02-screen-flow/Screen-Flow-Diagram-Navigation-Detail.png) giảm 9.062 → 4.763 px (khoảng 47%); đồng bộ [PNG Research Run](diagrams/02-screen-flow/Screen-Flow-Diagram-Research-Run.png), [README](diagrams/02-screen-flow/README.md) và [rule](diagrams/02-screen-flow/rule.md).
+- Bỏ đoạn scope-note phía trên ảnh theo review; giải thích scope vẫn nằm trong README. Tăng chữ ô 22 → 28 px, nhãn 18 → 22 px, nới chiều rộng ô 300 → 340 px để giữ tên đọc được; giữ 42 ô và 41 đường điều hướng.
+- Validation riêng tab mới: 0 errors/0 warnings. Export SVG bằng draw.io, raster từng vùng bằng Chromium cho PNG đầy đủ; Research Run export scale 1; xem render. Kiểm inventory nguồn, giữ nguyên tab cũ, builder idempotent, liên kết tài liệu và `git diff --check`.
+
 ## 2026-11-02 — Bổ sung Local Node vào Use Case Diagram
 
 - Khôi phục UC-08, UC-30, UC-31 theo [Report III](report/03-software-requirements-specification.md), thêm Local Node là supporting actor cho pairing và aggregate release, gom cụm Manage local data processing ở gần dataset. Khôi phục UC-14; view có đủ 41 UC chính thức và 9 actor.
