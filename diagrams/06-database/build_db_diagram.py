@@ -34,11 +34,11 @@ LAYOUT = [  # four tall columns, so the page is portrait like the report
      'platform_settings', 'integration_secrets', 'engine_settings', 'model_profiles',
      'monitoring_events', 'monitoring_alerts', 'monitoring_capture_gaps', 'monitoring_worker_states'],
     ['projects', 'project_memberships', 'project_settings', 'notification_preferences', 'spending_alerts',
-     'datasets', 'dataset_versions', 'data_connections', 'project_files', 'project_integrations', 'integration_deliveries'],
+     'datasets', 'dataset_versions', 'data_connections', 'project_files', 'project_integrations', 'integration_deliveries', 'runners', 'runner_jobs'],
     ['users', 'research_contexts', 'research_runs', 'comments', 'cost_entries', 'cost_ledger_start',
      'notifications', 'notification_emails'],
-    ['stage_runs', 'stage_decisions', 'run_gates', 'frame_reviews', 'run_events', 'run_artifacts',
-     'pi_consultations', 'pi_notes'],
+    ['stage_runs', 'stage_decisions', 'run_gates', 'research_seals', 'research_bundle_seals', 'run_events',
+     'run_artifacts', 'pi_consultations', 'pi_notes'],
 ]
 placed = [t for c in LAYOUT for t in c]
 missing = set(tables) ^ set(placed)
