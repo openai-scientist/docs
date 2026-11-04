@@ -1,64 +1,49 @@
-# Class Diagram — Mermaid (8 nhóm feature)
+# Class Diagrams — Mermaid
 
-Mỗi khối là một sơ đồ độc lập. Dán khối `mermaid` vào trình hỗ trợ Mermaid hoặc diagrams.net để tiếp tục chỉnh bố cục. `direction TB` đặt hướng từ trên xuống; Mermaid tự quyết định vị trí thực tế nên có thể cần di chuyển thủ công sau khi import.
-
-Nguồn nội dung: [diagram editable hiện tại](Class-Diagram-Authentication-Account.drawio), [thuyết minh](Class-Diagrams-design.md), [Report IV](../../report/04-software-design-document.md) và [Report III](../../report/03-software-requirements-specification.md). Controller/service, một số class, thành viên và chữ ký là thiết kế đề xuất, không mặc định là code/API thực tế. Local Node là thiết kế dự kiến, chưa triển khai.
-
-Ký hiệu: `..>` dependency (mũi tên mở tới bên được dùng); `--` association; `*--` composition (thoi đặc ở bên toàn thể); `..|>` realization (tam giác rỗng tại interface). Số trong dấu nháy nằm ở đúng đầu quan hệ. Chỉ dùng composition khi có căn cứ về sở hữu và vòng đời; không đổi các association khác chỉ để đủ loại.
-
-Các composition sau là **lựa chọn mô hình hóa đề xuất** cho sơ đồ vẽ tay; thoi đặc luôn đặt ở phía toàn thể:
-
-| Toàn thể | Thành phần | Cách hiểu trong sơ đồ và căn cứ |
-|---|---|---|
-| `User` | `AuthSession` | Session thuộc một user; model backend gắn session với user. |
-| `Project` | `ProjectSettings` | Cấu hình riêng của project; đối chiếu thiết kế và model backend. |
-| `Dataset` | `DatasetVersion` | Mỗi version là thành phần thuộc một dataset; version cũ vẫn được giữ bất biến. |
-| `Run` | `StageRun` | Mỗi stage run là một phần của lần chạy tương ứng. |
-| `Dossier` | `Approval` | Approval thuộc đúng một phiên bản Dossier và không chuyển sang phiên bản mới. |
-| `Lock` | `Envelope` | Envelope gắn với một Lock; mô hình này coi envelope là thành phần của lock. |
-
-Các dấu thoi trên thể hiện giả định sở hữu/vòng đời ở mức thiết kế, **không tự khẳng định database phải xóa dây chuyền** hoặc xóa lịch sử. Report mô tả quan hệ và việc lưu giữ, nhưng chưa xác định đầy đủ vòng đời khi xóa cho mọi cặp; cần người phụ trách thiết kế xác nhận, đặc biệt với DatasetVersion, StageRun, Approval và Envelope. Hiện `DatasetVersion` và `StageRun` trong backend có `RESTRICT`, nên không diễn giải composition là xóa cascade. Sáu quan hệ composition đã được đồng bộ sang [file draw.io](Class-Diagram-Authentication-Account.drawio).
-
-`DecisionInboxItem`–`DecisionLogEntry` giữ association vì log còn liên quan lịch sử/audit và chưa rõ có được sở hữu độc quyền bởi item hay không. `GoogleSheetsConnector ..|> Connector` mô tả sự phù hợp cấu trúc với Python Protocol; signature connector đã rút gọn ở mức UML. Xem [thuyết minh](Class-Diagrams-design.md) để phân biệt đề xuất thiết kế và implementation.
+Xuất từ [class_model.py](class_model.py) bằng [build_class_diagrams.py](build_class_diagrams.py), cùng nội dung với file draw.io; mỗi khối đặt nền trắng, chữ và nét đen. Class chỉ có tên (không ngăn thành viên) thuộc nhóm khác và được vẽ lại để thể hiện phụ thuộc. Chạy lại builder sẽ ghi đè các chỉnh tay trong file này.
 
 ## 1. Authentication & Account
 
-11 classifier; 14 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class AuthenticationController {
         <<controller>>
-        + requestEmailCode(email : String) : void
-        + signInWithCode(input : EmailCode) : AuthSession
-        + signInWithGoogle(code : String) : AuthSession
-        + completeOnboarding(input : ProfileInput) : User
-        + updateProfile(input : ProfileInput) : User
-        + signOut(sessionId : UUID) : void
+        +requestEmailCode(email : String) void
+        +signInWithCode(input : EmailCode) AuthSession
+        +signInWithGoogle(code : String) AuthSession
+        +currentSession(token : String) User
+        +completeOnboarding(input : ProfileInput) User
+        +updateProfile(input : ProfileInput) User
+        +signOut(sessionId : UUID) void
     }
     class AuthenticationService {
         <<service>>
-        + requestCode(email : String) : void
-        + verifyCode(input : EmailCode) : AuthSession
-        + signInGoogle(code : String) : AuthSession
-        + validateSession(token : String) : User
-        + revokeSession(sessionId : UUID) : void
-        - resolveUser(email : String) : User
-    }
-    class GoogleIdentityProvider {
-        <<external>>
-        + verifyIdentity(code : String) : Identity
-    }
-    class EmailDelivery {
-        <<external>>
-        + sendCode(email : String, code : String) : void
+        +requestCode(email : String) void
+        +verifyCode(input : EmailCode) AuthSession
+        +signInGoogle(code : String) AuthSession
+        +validateSession(token : String) User
+        +revokeSession(sessionId : UUID) void
+        -resolveUser(email : String) User
     }
     class AccountService {
         <<service>>
-        + completeOnboarding(input : ProfileInput) : User
-        + updateProfile(input : ProfileInput) : User
+        +completeOnboarding(input : ProfileInput) User
+        +updateProfile(input : ProfileInput) User
+    }
+    class AuthorizationService {
+        <<service>>
+        +requireRole(user : User, projectId : UUID, action : Action) void
+        +canReadMetadata(user : User) Boolean
+    }
+    class GoogleIdentityProvider {
+        <<external>>
+        +authorize(clientId : String, scope : String) AuthorizationCode
+        +verifyIdentity(code : String) Identity
+    }
+    class EmailDelivery {
+        <<external>>
+        +sendCode(email : String, code : String) void
     }
     class User {
         <<entity>>
@@ -76,38 +61,32 @@ classDiagram
         - expiresAt : DateTime
         - consumedAt : DateTime [0..1]
     }
-    class AuthorizationService {
-        <<service>>
-        + requireRole(user : User, projectId : UUID, action : Action) : void
-        + canReadMetadata(user : User) : Boolean
-    }
-    class Membership {
-        <<entity>>
-        - projectId : UUID
-        - role : ProjectRole
-    }
     class AuthSession {
         <<entity>>
         - id : UUID
         - expiresAt : DateTime
         - revokedAt : DateTime [0..1]
     }
+    class Membership {
+        <<entity>>
+        - projectId : UUID
+        - role : ProjectRole
+    }
     class ProjectRole {
         <<enumeration>>
-        PROJECT_MANAGER
+        PROJECT#95;MANAGER
         RESEARCHER
         REVIEWER
     }
-    AuthenticationController ..> AuthenticationService : uses
+    AuthenticationController ..> AuthenticationService : signs in / out
     AuthenticationController ..> AccountService : updates profile
     AuthenticationController ..> AuthorizationService : checks access
     AuthenticationService ..> GoogleIdentityProvider : verifies identity
     AuthenticationService ..> EmailDelivery : sends code
-    AuthenticationService ..> User : resolves verified email
     AuthenticationService ..> EmailChallenge : issues / consumes
     AuthenticationService ..> AuthSession : manages sessions
+    AuthenticationService ..> User : resolves verified email
     AccountService ..> User : updates
-    AuthorizationService ..> User : checks platform rights
     AuthorizationService ..> Membership : checks project role
     User "1" -- "0..*" Membership : memberships
     User "1" *-- "0..*" AuthSession : sessions
@@ -116,50 +95,109 @@ classDiagram
 
 ## 2. Project Workspace
 
-12 classifier; 12 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class ProjectController {
         <<controller>>
-        + create(input : ProjectInput) : Project
-        + update(projectId : UUID, input : ProjectInput) : void
-        + archive(projectId : UUID) : void
-        + manageMembers(projectId : UUID) : void
-        + manageInvitations(projectId : UUID) : void
-        + manageDocuments(projectId : UUID) : void
-        + configure(projectId : UUID, settings : ProjectSettings) : void
+        +create(input : ProjectInput) Project
+        +listProjects() Project [0..∗]
+        +getOverview(projectId : UUID) ProjectOverview
+        +update(projectId : UUID, input : ProjectInput) void
+        +archive(projectId : UUID) void
+        +complete(projectId : UUID) void
+        +deleteProject(projectId : UUID, confirmation : String) void
+        +transferOwnership(projectId : UUID, userId : UUID) void
+        +inviteMember(projectId : UUID, email : String, role : ProjectRole) Invitation
+        +changeRole(memberId : UUID, role : ProjectRole) void
+        +removeMember(memberId : UUID) void
+        +acceptInvitation(invitationId : UUID) Membership
+        +declineInvitation(invitationId : UUID) void
+        +resendInvitation(invitationId : UUID) void
+        +cancelInvitation(invitationId : UUID) void
+        +uploadDocument(projectId : UUID, input : DocumentInput) Document
+        +listDocuments(projectId : UUID) Document [0..∗]
+        +downloadDocument(documentId : UUID) File
+        +deleteDocument(documentId : UUID) void
+        +configure(projectId : UUID, settings : ProjectSettings) void
+        +configureIntegration(projectId : UUID, input : IntegrationInput) void
+        +testIntegration(integrationId : UUID) CheckResult
+        +removeIntegration(integrationId : UUID) void
+        +setNotificationPreferences(projectId : UUID, input : PreferencesInput) void
+        +listActivity(projectId : UUID, filter : ActivityFilter) AuditLogEntry [0..∗]
     }
     class ProjectService {
         <<service>>
-        + create(input : ProjectInput) : Project
-        + update(projectId : UUID, input : ProjectInput) : void
-        + archive(projectId : UUID) : void
-        + configure(settings : ProjectSettings) : void
-        + recordChange(action : String) : void
+        +create(input : ProjectInput) Project
+        +listForUser(userId : UUID) Project [0..∗]
+        +getOverview(projectId : UUID) ProjectOverview
+        +update(projectId : UUID, input : ProjectInput) void
+        +archive(projectId : UUID) void
+        +complete(projectId : UUID) void
+        +delete(projectId : UUID) void
+        +configure(settings : ProjectSettings) void
+        +listActivity(projectId : UUID, filter : ActivityFilter) AuditLogEntry [0..∗]
+        -recordChange(action : String) void
+    }
+    class MembershipService {
+        <<service>>
+        +changeRole(memberId : UUID, role : ProjectRole) void
+        +remove(memberId : UUID) void
+        +transferOwnership(projectId : UUID, userId : UUID) void
+        -requireActiveManager(projectId : UUID) void
+    }
+    class InvitationService {
+        <<service>>
+        +invite(projectId : UUID, email : String, role : ProjectRole) Invitation
+        +accept(invitationId : UUID) Membership
+        +decline(invitationId : UUID) void
+        +resend(invitationId : UUID) void
+        +cancel(invitationId : UUID) void
+        -rejectExpired(invitation : Invitation) void
+    }
+    class DocumentService {
+        <<service>>
+        +add(projectId : UUID, input : DocumentInput) Document
+        +list(projectId : UUID) Document [0..∗]
+        +download(documentId : UUID) File
+        +delete(documentId : UUID) void
+    }
+    class AuthorizationService {
+        <<service>>
+    }
+    class AuthenticationService {
+        <<service>>
+    }
+    class IntegrationService {
+        <<service>>
+    }
+    class NotificationPreferenceService {
+        <<service>>
+    }
+    class ActionPolicyService {
+        <<service>>
     }
     class Project {
         <<entity>>
         - id : UUID
         - name : String
-        - status : String
+        - status : ProjectStatus
+        - ownerId : UUID
+    }
+    class ProjectStatus {
+        <<enumeration>>
+        active
+        completed
+        archived
     }
     class ProjectSettings {
         <<entity>>
         - monthlyBudget : Decimal
+        - warningThresholds : Decimal [0..∗]
         - defaultPresetPerStage : Map
         - reviewSettings : ReviewSettings
         - notificationChoices : Map
         - pinnedWaitDeadline : Duration
-    }
-    class MembershipService {
-        <<service>>
-        + changeRole(memberId : UUID, role : ProjectRole) : void
-        + remove(memberId : UUID) : void
-        + transferOwnership(projectId : UUID, userId : UUID) : void
-        - requireActiveManager(projectId : UUID) : void
     }
     class Membership {
         <<entity>>
@@ -172,15 +210,6 @@ classDiagram
         - id : UUID
         - email : String
     }
-    class InvitationService {
-        <<service>>
-        + invite(projectId : UUID, email : String) : Invitation
-        + accept(invitationId : UUID) : Membership
-        + decline(invitationId : UUID) : void
-        + resend(invitationId : UUID) : void
-        + cancel(invitationId : UUID) : void
-        - rejectExpired(invitation : Invitation) : void
-    }
     class Invitation {
         <<entity>>
         - id : UUID
@@ -189,12 +218,6 @@ classDiagram
         - role : ProjectRole
         - expiresAt : DateTime
         - status : String
-    }
-    class DocumentService {
-        <<service>>
-        + add(projectId : UUID, input : DocumentInput) : Document
-        + update(documentId : UUID, input : DocumentInput) : void
-        + list(projectId : UUID) : Document [0..*]
     }
     class Document {
         <<entity>>
@@ -210,43 +233,137 @@ classDiagram
         - projectId : UUID [0..1]
         - time : DateTime
     }
-    ProjectController ..> ProjectService : uses
+    ProjectController ..> ProjectService : manages projects
     ProjectController ..> MembershipService : manages members
     ProjectController ..> InvitationService : manages invitations
     ProjectController ..> DocumentService : manages documents
+    ProjectController ..> AuthorizationService : checks access
+    ProjectController ..> AuthenticationService : validates session
+    ProjectController ..> IntegrationService : configures delivery
+    ProjectController ..> NotificationPreferenceService : sets preferences
+    ProjectService ..> ActionPolicyService : sets stage presets
     ProjectService ..> Project : manages
+    ProjectService ..> AuditLogEntry : records changes
     MembershipService ..> Membership : maintains
     InvitationService ..> Invitation : issues / resolves
-    DocumentService ..> Document : versions
+    DocumentService ..> Document : stores
+    Project ..> ProjectStatus : uses type
     Project "1" *-- "1" ProjectSettings : settings
-    Membership "0..*" -- "1" User : member
     Project "1" -- "0..*" Membership : memberships
-    ProjectController ..> AuditLogEntry : reads project activity
+    Membership "0..*" -- "1" User : member
 ```
 
 ## 3. Data Management
 
-15 classifier; 15 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class DataController {
         <<controller>>
-        + upload(input : UploadInput) : DatasetVersion
-        + importData(connectionId : UUID) : DatasetVersion
-        + preview(versionId : UUID) : TablePreview
-        + pairNode(code : String) : LocalNode
-        + runLocal(job : LocalJob) : Release
+        +upload(input : UploadInput) DatasetVersion
+        +getDataset(datasetId : UUID) DatasetDetail
+        +renameDataset(datasetId : UUID, name : String) void
+        +deleteDataset(datasetId : UUID) void
+        +uploadVersion(datasetId : UUID, input : UploadInput) DatasetVersion
+        +preview(versionId : UUID) TablePreview
+        +download(versionId : UUID) File
+        +importData(connectionId : UUID) DatasetVersion
+        +browseConnection(connectionId : UUID, schema : String) TableRef [0..∗]
+        +previewSource(connectionId : UUID, source : AnySource) TablePreview
+        +renameConnection(connectionId : UUID, name : String) void
+        +testConnection(connectionId : UUID) CheckResult
+        +deleteConnection(connectionId : UUID) void
+        +connectGoogle(projectId : UUID) DataConnection
+        +requestPairingCode(projectId : UUID) PairingCode
+        +pairNode(code : String) LocalNode
+        +proposeDatasets(nodeId : UUID, manifests : Manifest [1..∗]) void
+        +revokeNode(nodeId : UUID) void
+        +pushUpdate(event : DomainEvent) void
     }
     class DataService {
         <<service>>
-        + createDataset(input : DatasetInput) : Dataset
-        + importData(connection : DataConnection) : DatasetVersion
-        - requireAuthorizedSource(uri : String) : void
-        - blockInternalHosts(uri : String) : void
-        - rejectLocalPreview(dataset : Dataset) : void
+        +createDataset(input : DatasetInput) Dataset
+        +getDetail(datasetId : UUID) DatasetDetail
+        +rename(datasetId : UUID, name : String) void
+        +delete(datasetId : UUID) void
+        +addVersion(datasetId : UUID, input : UploadInput) DatasetVersion
+        +preview(versionId : UUID) TablePreview
+        +download(versionId : UUID) File
+        +importData(connection : DataConnection) DatasetVersion
+        +browse(connectionId : UUID, schema : String) TableRef [0..∗]
+        +previewSource(connectionId : UUID, source : AnySource) TablePreview
+        +renameConnection(connectionId : UUID, name : String) void
+        +testConnection(connectionId : UUID) CheckResult
+        +deleteConnection(connectionId : UUID) void
+        +authorizeGoogle(projectId : UUID) DataConnection
+        -blockInternalHosts(uri : String) void
+        -rejectLocalPreview(dataset : Dataset) void
+    }
+    class DatasetVersionService {
+        <<service>>
+        +create(datasetId : UUID, source : String) DatasetVersion
+        +verifyHash(version : DatasetVersion) Boolean
+        -preventOverwrite(versionId : UUID) void
+    }
+    class LocalNodeService {
+        <<service>>
+        +issuePairingCode(projectId : UUID) PairingCode
+        +pair(projectId : UUID, code : String) LocalNode
+        +registerDatasets(nodeId : UUID, manifests : Manifest [1..∗]) Dataset [1..∗]
+        +route(job : LocalJob) JobResult
+        +heartbeat(nodeId : UUID) void
+        +revoke(nodeId : UUID) void
+        -rejectUnavailableNode(nodeId : UUID) void
+    }
+    class AuthorizationService {
+        <<service>>
+    }
+    class SecretService {
+        <<service>>
+    }
+    class NotificationService {
+        <<service>>
+    }
+    class RunOrchestrator {
+        <<service>>
+    }
+    class ExecutionEngine {
+        <<service>>
+    }
+    class GoogleIdentityProvider {
+        <<external>>
+    }
+    class ConnectorFactory {
+        <<interface>>
+        +#95;#95;call#95;#95;(kind : String, config : Map, secret : Map) Connector
+    }
+    class Connector {
+        <<interface>>
+        +test() void
+        +listTables(schema : String, search : String [0..1], limit : Integer) TableRef [0..∗]
+        +listColumns(schema : String, table : String) Column [0..∗]
+        +openRows(source : AnySource, maxRows : Integer [0..1]) AsyncContext~RowStream~
+    }
+    class GoogleSheetsConnector {
+        <<service>>
+        +test() void
+        +listTables(schema : String, search : String [0..1], limit : Integer) TableRef [0..∗]
+        +listColumns(schema : String, table : String) Column [0..∗]
+        +openRows(source : AnySource, maxRows : Integer [0..1]) AsyncContext~RowStream~
+    }
+    class LocalNodeAgent {
+        <<external>>
+        +runJob(job : LocalJob) JobResult
+    }
+    class ReleaseGate {
+        <<service>>
+        +check(job : LocalJob, result : Aggregate) Release
+        +recordRelease(release : Release) void
+        -applyFirewall(result : Aggregate) void
+        -round(result : Aggregate) Aggregate
+        -checkDisclosure(result : Aggregate) void
+        -checkDifferencing(result : Aggregate) void
+        -checkProbeBudget(versionId : UUID) void
     }
     class Dataset {
         <<entity>>
@@ -254,19 +371,6 @@ classDiagram
         - projectId : UUID
         - name : String
         - location : DataLocation
-    }
-    class DataConnection {
-        <<entity>>
-        - id : UUID
-        - provider : String
-        - authorizationScope : String
-        - credentialRef : SecretRef
-    }
-    class DatasetVersionService {
-        <<service>>
-        + create(datasetId : UUID, source : String) : DatasetVersion
-        + verifyHash(version : DatasetVersion) : Boolean
-        - preventOverwrite(versionId : UUID) : void
     }
     class DatasetVersion {
         <<entity>>
@@ -280,33 +384,32 @@ classDiagram
         platform
         local
     }
-    class LocalNodeService {
-        <<service>>
-        + pair(projectId : UUID, code : String) : LocalNode
-        + route(job : LocalJob) : void
-        + revoke(nodeId : UUID) : void
-        - rejectUnavailableNode(nodeId : UUID) : void
+    class DataConnection {
+        <<entity>>
+        - id : UUID
+        - provider : String
+        - authorizationScope : String
+        - credentialRef : SecretRef
     }
     class LocalNode {
         <<entity>>
         - id : UUID
         - projectId : UUID
-        - status : String
-        - isolationManifest : String
+        - status : LocalNodeStatus
+        - lastSeenAt : DateTime [0..1]
+        - revokedAt : DateTime [0..1]
+    }
+    class LocalNodeStatus {
+        <<enumeration>>
+        pairing
+        online
+        offline
+        revoked
     }
     class ReleaseLog {
         <<entity>>
         - datasetVersionId : UUID
         - appendOnly : Boolean
-    }
-    class ReleaseGate {
-        <<service>>
-        + check(job : LocalJob, result : Aggregate) : Release
-        - applyFirewall(result : Aggregate) : void
-        - round(result : Aggregate) : Aggregate
-        - checkDisclosure(result : Aggregate) : void
-        - checkDifferencing(result : Aggregate) : void
-        - checkProbeBudget(versionId : UUID) : void
     }
     class Release {
         <<entity>>
@@ -316,76 +419,124 @@ classDiagram
         - reason : String
         - time : DateTime
     }
-    class ConnectorFactory {
-        <<interface>>
-        + __call__(kind : String, config : Map, secret : Map) : Connector
-    }
-    class Connector {
-        <<interface>>
-        + test() : void
-        + listTables(schema : String, search : String [0..1], limit : Integer) : TableRef [0..*]
-        + listColumns(schema : String, table : String) : Column [0..*]
-        + openRows(source : AnySource, maxRows : Integer [0..1]) : AsyncContext~RowStream~
-    }
-    class GoogleSheetsConnector {
-        <<service>>
-        + test() : void
-        + listTables(schema : String, search : String [0..1], limit : Integer) : TableRef [0..*]
-        + listColumns(schema : String, table : String) : Column [0..*]
-        + openRows(source : AnySource, maxRows : Integer [0..1]) : AsyncContext~RowStream~
-    }
-    DataController ..> DataService : uses
-    DataController ..> DatasetVersionService : versions data
-    DataController ..> LocalNodeService : routes local work
-    DataController ..> ReleaseGate : checks aggregates
-    DataService ..> Dataset : manages
-    Dataset "0..*" -- "0..1" DataConnection : imports from
-    Dataset "1" *-- "0..*" DatasetVersion : versions
-    DatasetVersionService ..> DatasetVersion : creates / verifies
-    Dataset ..> DataLocation : uses location type
-    LocalNodeService ..> LocalNode : pairs / revokes
-    LocalNode ..> ReleaseLog : appends locally
-    ReleaseGate ..> Release : approves release
+    DataController ..> DataService : manages datasets
+    DataController ..> LocalNodeService : manages Local Nodes
+    DataController ..> AuthorizationService : checks access
+    DataService ..> DatasetVersionService : creates versions
+    DataService ..> SecretService : seals credentials
     DataService ..> ConnectorFactory : uses factory
+    DataService ..> GoogleIdentityProvider : authorizes Google source
+    DataService ..> Dataset : manages
     ConnectorFactory ..> Connector : creates connector
     GoogleSheetsConnector ..|> Connector : implements
+    DatasetVersionService ..> DatasetVersion : creates / verifies
+    ExecutionEngine ..> LocalNodeService : routes local job
+    LocalNodeService ..> LocalNodeAgent : dispatches jobs
+    LocalNodeService ..> NotificationService : sends offline notice
+    LocalNodeService ..> RunOrchestrator : resumes waiting run
+    LocalNodeService ..> LocalNode : pairs / revokes
+    LocalNodeAgent ..> ReleaseGate : checks aggregates
+    ReleaseGate ..> ReleaseLog : appends
+    Dataset "1" *-- "0..*" DatasetVersion : versions
+    Dataset ..> DataLocation : uses type
+    Dataset "0..*" -- "0..1" DataConnection : imports from
+    LocalNode ..> LocalNodeStatus : uses type
+    ReleaseLog "1" *-- "0..*" Release : releases
 ```
 
 ## 4. Research Run Orchestration
 
-13 classifier; 13 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class RunController {
         <<controller>>
-        + start(caseId : UUID) : Run
-        + amendCase(input : Amendment) : ResearchCase
-        + cancel(runId : UUID) : void
-        + acceptObject(objectId : UUID) : void
-        + reviewSpending(itemId : UUID, approve : Boolean) : void
-        + approveDossier(dossierId : UUID) : Approval
-        + export(dossierId : UUID, format : String) : Export
+        +start(caseId : UUID) Run
+        +amendCase(input : Amendment) ResearchCase
+        +getRun(runId : UUID) RunSnapshot
+        +listRuns(projectId : UUID, filter : RunFilter) Run [0..∗]
+        +acceptObject(objectId : UUID) void
+        +requestRevision(objectId : UUID, reason : String) void
+        +rerunStage(stageRunId : UUID) void
+        +cancel(runId : UUID) void
+        +syncRun(runId : UUID) RunSnapshot
+        +raiseTokenBudget(runId : UUID, amount : Integer) void
+        +getReviewHistory(stageRunId : UUID) ReviewRound [0..∗]
+        +getRecoveryState(runId : UUID) RecoveryState
+        +getIterationSummary(stageRunId : UUID) IterationSummary
+        +downloadArtifact(versionId : UUID) File
+        +compareArtifacts(versionA : UUID, versionB : UUID) VersionDiff
+        +addComment(input : CommentInput) Comment
+        +editComment(commentId : UUID, text : String) void
+        +deleteComment(commentId : UUID) void
+        +lockPlan(planId : UUID) Lock
+        +requestDeviation(planId : UUID, change : String, reason : String) DecisionInboxItem
+        +reviewSpending(itemId : UUID, approve : Boolean) void
+        +approveDossier(dossierId : UUID) Approval
+        +export(dossierId : UUID, format : String) Export
+        +pushUpdate(event : DomainEvent) void
     }
     class RunOrchestrator {
         <<service>>
-        + start(caseId : UUID) : Run
-        + advance(runId : UUID) : StageRun
-        + cancel(runId : UUID) : void
-        + markDownstreamStale(objectId : UUID) : void
-        - requireNoActiveRun(projectId : UUID) : void
+        +start(caseId : UUID) Run
+        +getSnapshot(runId : UUID) RunSnapshot
+        +listRuns(projectId : UUID, filter : RunFilter) Run [0..∗]
+        +advance(runId : UUID) StageRun
+        +acceptVersion(objectId : UUID) void
+        +requestRevision(objectId : UUID, reason : String) void
+        +rerunStage(stageRunId : UUID) void
+        +cancel(runId : UUID) void
+        +syncRun(runId : UUID) RunSnapshot
+        +resume(runId : UUID) void
+        +endWithGaps(runId : UUID, reason : String) void
+        +markDownstreamStale(objectId : UUID) void
+        +onRunEvent(event : RunEvent) void
+        +getReviewHistory(stageRunId : UUID) ReviewRound [0..∗]
+        +getRecoveryState(runId : UUID) RecoveryState
+        +getIterationSummary(stageRunId : UUID) IterationSummary
+        +downloadArtifact(versionId : UUID) File
+        +compareArtifacts(versionA : UUID, versionB : UUID) VersionDiff
+        -requireNoActiveRun(projectId : UUID) void
     }
-    class Run {
-        <<entity>>
-        - id : UUID
-        - state : RunState
-        - waitingReason : String [0..1]
-        - endingOutcome : String [0..1]
-        - tokenBudget : Integer
-        - researchCaseRef : VersionRef
-        - pipeline : String = dataset_first
+    class ResearchCaseService {
+        <<service>>
+        +create(input : CaseInput) ResearchCase
+        +amend(caseId : UUID, change : CaseChange, reason : String) ResearchCase
+    }
+    class BudgetService {
+        <<service>>
+        +recordUsage(runId : UUID, amount : Decimal) void
+        +checkLimits(runId : UUID) void
+        +raiseRunBudget(runId : UUID, amount : Integer) void
+        +approveSpending(itemId : UUID) void
+        +rejectSpending(itemId : UUID) void
+        +expireSpending(itemId : UUID) void
+    }
+    class DossierService {
+        <<service>>
+        +createFromAccepted(packId : UUID) Dossier
+        +approve(dossierId : UUID) Approval
+        +exportApproved(dossierId : UUID, format : String) Export
+        -verifyReferenceHashes(dossierId : UUID) void
+        -requirePinnedExportApproval(dossierId : UUID) void
+    }
+    class AuthorizationService {
+        <<service>>
+    }
+    class LockService {
+        <<service>>
+    }
+    class CommentService {
+        <<service>>
+    }
+    class DecisionService {
+        <<service>>
+    }
+    class NotificationService {
+        <<service>>
+    }
+    class DatasetEngine {
+        <<service>>
     }
     class ResearchCase {
         <<entity>>
@@ -395,14 +546,36 @@ classDiagram
         - objective : String
         - constraints : String
         - datasetVersionId : UUID [0..1]
+        - amendmentReason : String [0..1]
     }
-    class BudgetService {
-        <<service>>
-        + recordUsage(runId : UUID, amount : Decimal) : void
-        + checkLimits(runId : UUID) : void
-        + approveSpending(itemId : UUID) : void
-        + expireSpending(itemId : UUID) : void
-        - endWithGaps(runId : UUID) : void
+    class Run {
+        <<entity>>
+        - id : UUID
+        - state : RunState
+        - waitingReason : WaitingReason [0..1]
+        - endingOutcome : EndingOutcome [0..1]
+        - tokenBudget : Integer
+        - researchCaseRef : VersionRef
+        - pipeline : String = dataset#95;first
+    }
+    class RunState {
+        <<enumeration>>
+        running
+        waiting
+        ended
+    }
+    class WaitingReason {
+        <<enumeration>>
+        decision
+        node#95;offline
+        budget#95;review
+    }
+    class EndingOutcome {
+        <<enumeration>>
+        complete
+        complete#95;with#95;gaps
+        technical#95;failure
+        cancelled
     }
     class StageRun {
         <<entity>>
@@ -412,20 +585,20 @@ classDiagram
         - presenceAtStart : String
         - contractStatus : String
     }
+    class HandOffObject {
+        <<entity>>
+        - id : UUID
+        - version : Integer
+        - contentHash : String
+        - state : String
+        - upstreamRefs : VersionRef [0..∗]
+    }
     class BudgetLedger {
         <<entity>>
         - projectId : UUID
         - month : String
         - spending : Decimal
-        - notifiedThresholds : Decimal [0..*]
-    }
-    class DossierService {
-        <<service>>
-        + createFromAccepted(packId : UUID) : Dossier
-        + approve(dossierId : UUID) : Approval
-        + exportApproved(dossierId : UUID, format : String) : Export
-        - verifyReferenceHashes(dossierId : UUID) : void
-        - requirePinnedExportApproval(dossierId : UUID) : void
+        - notifiedThresholds : Decimal [0..∗]
     }
     class Dossier {
         <<entity>>
@@ -442,20 +615,6 @@ classDiagram
         - decision : String
         - time : DateTime
     }
-    class RunState {
-        <<enumeration>>
-        running
-        waiting
-        ended
-    }
-    class HandOffObject {
-        <<entity>>
-        - id : UUID
-        - version : Integer
-        - contentHash : String
-        - state : String
-        - upstreamRefs : VersionRef [0..*]
-    }
     class Export {
         <<entity>>
         - dossierVersion : Integer
@@ -463,34 +622,125 @@ classDiagram
         - approvedActionRef : UUID
         - auditEntryRef : UUID
     }
-    RunController ..> RunOrchestrator : uses
-    RunController ..> BudgetService : reviews spending
+    RunController ..> RunOrchestrator : controls runs
+    RunController ..> ResearchCaseService : amends cases
+    RunController ..> BudgetService : raises budget / reviews spending
     RunController ..> DossierService : approves / exports
+    RunController ..> AuthorizationService : checks access
+    RunController ..> LockService : locks plan
+    RunController ..> CommentService : comments
+    RunOrchestrator ..> DatasetEngine : schedules stages
     RunOrchestrator ..> Run : orchestrates
-    Run ..> RunState : uses state type
-    RunController ..> ResearchCase : amends case version
-    Run "1" *-- "0..*" StageRun : stages
-    BudgetService ..> StageRun : checks stage share
+    ResearchCaseService ..> ResearchCase : versions
+    BudgetService ..> RunOrchestrator : resumes / ends run
+    BudgetService ..> NotificationService : alerts Project Managers
+    BudgetService ..> DecisionService : creates spending item
     BudgetService ..> BudgetLedger : records usage
     DossierService ..> Dossier : versions / checks
-    Dossier "1" *-- "0..*" Approval : approvals
+    Run "0..*" -- "1" ResearchCase : pinned case
+    Run ..> RunState : uses type
+    Run ..> WaitingReason : uses type
+    Run ..> EndingOutcome : uses type
+    Run "1" *-- "0..*" StageRun : stages
+    StageRun "1" -- "0..*" HandOffObject : outputs
     Dossier ..> HandOffObject : references accepted versions
-    Export ..> HandOffObject : reads accepted references
+    Dossier "1" *-- "0..*" Approval : approvals
+    Dossier "1" -- "0..*" Export : exports
 ```
 
 ## 5. Research Engines
 
-15 classifier; 13 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
+    class LiteratureController {
+        <<controller>>
+        +search(projectId : UUID, query : String) StudyRef [0..∗]
+        +screen(decisions : ScreeningDecision [1..∗]) LiteratureBase
+    }
+    class RunOrchestrator {
+        <<service>>
+    }
+    class DecisionService {
+        <<service>>
+    }
+    class RunController {
+        <<service>>
+    }
+    class AuthorizationService {
+        <<service>>
+    }
     class DatasetEngine {
         <<service>>
-        + profile(versionId : UUID) : DatasetSnapshot
-        + assessFitness(snapshot : DatasetSnapshot) : Fitness
-        + splitAfterConfirmation(input : SplitInput) : void
+        +profile(versionId : UUID) DatasetSnapshot
+    }
+    class HypothesisEngine {
+        <<service>>
+        +propose(snapshot : DatasetSnapshot) HypothesisSet
+    }
+    class ExperimentDesignEngine {
+        <<service>>
+        +build(set : HypothesisSet) AnalysisPlan
+    }
+    class ExecutionEngine {
+        <<service>>
+        +execute(lock : Lock) EvidenceBundle
+        +runExplorationLane(planId : UUID) void
+        +triage(itemId : UUID, decision : String) Candidate
+    }
+    class PaperEngine {
+        <<service>>
+        +draft(input : PaperInput) PaperPack
+    }
+    class LiteratureService {
+        <<service>>
+        +search(query : String) StudyRef [0..∗]
+        +screen(decisions : ScreeningDecision [1..∗]) LiteratureBase
+    }
+    class LockService {
+        <<service>>
+        +lock(planId : UUID) Lock
+        +requestDeviation(planId : UUID, change : String, reason : String) DecisionInboxItem
+    }
+    class IndependentReviewService {
+        <<service>>
+        +review(object : HandOffObject) Finding [0..∗]
+        -enforceTwoRounds(round : Integer) void
+    }
+    class ReviewerPersona {
+        <<service>>
+        +review(object : HandOffObject, fields : String [1..∗]) Finding [0..∗]
+    }
+    class MakerPersona {
+        <<service>>
+        +revise(objectId : UUID, findings : Finding [1..∗]) HandOffObject
+    }
+    class Harness {
+        <<service>>
+        +checkContract(object : HandOffObject) CheckResult
+        +enforcePipelineOrder(plan : AnalysisPlan) void
+        +renderNumbers(records : Record [0..∗]) String
+        +computeProfile(versionId : UUID) Profile
+        +createSplit(snapshotId : UUID, policy : SplitPolicy) SplitSpec
+        +validatePortfolio(set : HypothesisSet) CheckResult
+        +rehearseOnTwin(plan : AnalysisPlan) CheckResult
+        +checkDisclosureEligibility(lockId : UUID) CheckResult
+        +computeVerdicts(input : EvidenceInput) Verdict [1..∗]
+        +validateClaimsAndCitations(pack : PaperPack) CheckResult
+        +verifyFindings(findings : Finding [1..∗]) Finding [0..∗]
+        +recheckChangedFields(objectId : UUID) CheckResult
+        +scoreCase(caseId : UUID, findings : Finding [0..∗]) CaseResult
+        +computeBenchmarkMetrics(benchmarkRunId : UUID) BenchmarkMetrics
+    }
+    class ScholarlySource {
+        <<external>>
+        +search(query : String) SourceRecord [0..∗]
+    }
+    class IsolatedExecutor {
+        <<external>>
+        +runTwin(lock : Lock) Diagnostics
+        +dryRun(lock : Lock) Diagnostics
+        +runConfirmatory(lock : Lock) JobStatus
     }
     class DatasetSnapshot {
         <<entity>>
@@ -500,83 +750,29 @@ classDiagram
         - split : SplitSpec
         - fitness : Fitness
     }
-    class HypothesisEngine {
-        <<service>>
-        + updateLiterature(projectId : UUID) : LiteratureBase
-        + propose(snapshot : DatasetSnapshot) : HypothesisSet
-        + selectPrimary(input : Selection) : void
-    }
     class HypothesisSet {
         <<entity>>
         - snapshotRef : VersionRef
         - literatureVersionRef : VersionRef
-        - hypotheses : Hypothesis [2..*]
+        - hypotheses : Hypothesis [2..∗]
         - primaryClaimKey : String
     }
-    class ExperimentDesignEngine {
-        <<service>>
-        + build(set : HypothesisSet) : AnalysisPlan
-        + rehearseOnTwin(plan : AnalysisPlan) : CheckResult
-        + requestUserLock(planId : UUID) : void
+    class LiteratureBase {
+        <<entity>>
+        - projectId : UUID
+        - version : Integer
+        - searchProtocol : String
+        - searchLog : SearchEntry [0..∗]
+        - screeningDecisions : ScreeningDecision [0..∗]
+        - evidenceCards : EvidenceCard [0..∗]
     }
     class AnalysisPlan {
         <<entity>>
         - hypothesisSetRef : VersionRef
-        - patternRefs : VersionRef [0..*]
+        - patternRefs : VersionRef [0..∗]
         - taskFamily : String
-        - pipelineOrder : String [1..*]
+        - pipelineOrder : String [1..∗]
         - interpretationTable : Table
-    }
-    class ExecutionEngine {
-        <<service>>
-        + execute(lock : Lock) : EvidenceBundle
-        + dryRun(lock : Lock) : Diagnostics
-        + requestUnseal(lockId : UUID) : void
-        + computeVerdicts(input : EvidenceInput) : Verdict [1..*]
-    }
-    class EvidenceBundle {
-        <<entity>>
-        - analysisPlanRef : VersionRef
-        - verdicts : Verdict [1..*]
-        - grade : String
-        - claimCeiling : String
-        - replicationHash : String
-    }
-    class PaperEngine {
-        <<service>>
-        + draft(input : PaperInput) : PaperPack
-        + renderNumbers(bundle : EvidenceBundle) : void
-        + validateClaimsAndCitations(pack : PaperPack) : CheckResult
-    }
-    class PaperPack {
-        <<entity>>
-        - evidenceBundleRef : VersionRef
-        - manuscript : String
-        - reportingChecklist : Checklist
-        - limitations : String [0..*]
-        - authorDeclarations : Declaration [0..*]
-    }
-    class IndependentReviewService {
-        <<service>>
-        + review(object : HandOffObject) : Finding [0..*]
-        + verify(finding : Finding) : String
-        + reviseConfirmedBlockers(objectId : UUID) : void
-        - enforceTwoRounds(round : Integer) : void
-    }
-    class Finding {
-        <<entity>>
-        - anchor : ObjectFieldRef
-        - evidence : EvidenceRef
-        - severity : String
-        - verificationResult : String
-        - proposedFix : String
-    }
-    class Harness {
-        <<service>>
-        + checkContract(object : HandOffObject) : CheckResult
-        + enforcePipelineOrder(plan : AnalysisPlan) : void
-        + checkItemBudget(itemId : UUID) : void
-        + renderNumbers(records : Record [0..*]) : String
     }
     class Lock {
         <<entity>>
@@ -587,57 +783,136 @@ classDiagram
         - lockedBy : UUID
         - lockedAt : DateTime
     }
-    class Envelope {
+    class ConfirmatoryResults {
         <<entity>>
         - lockId : UUID
         - state : String
-        - sealedResults : Result [0..*]
-        - unsealedAt : DateTime [0..1]
+        - results : Result [0..∗]
+        - disclosedAt : DateTime [0..1]
     }
+    class EvidenceBundle {
+        <<entity>>
+        - analysisPlanRef : VersionRef
+        - verdicts : Verdict [1..∗]
+        - grade : String
+        - claimCeiling : String
+        - triedLedger : TriedEntry [0..∗]
+        - candidates : Candidate [0..∗]
+        - replicationHash : String
+    }
+    class PaperPack {
+        <<entity>>
+        - evidenceBundleRef : VersionRef
+        - manuscript : String
+        - reportingChecklist : Checklist
+        - limitations : String [0..∗]
+        - authorDeclarations : Declaration [0..∗]
+    }
+    class Finding {
+        <<entity>>
+        - anchor : ObjectFieldRef
+        - evidence : EvidenceRef
+        - severity : String
+        - verificationResult : String
+        - proposedFix : String
+    }
+    LiteratureController ..> LiteratureService : searches / screens
+    LiteratureController ..> AuthorizationService : checks access
+    RunOrchestrator ..> DatasetEngine : starts stage
+    DatasetEngine ..> DecisionService : asks to confirm structure
+    HypothesisEngine ..> ScholarlySource : searches literature
+    LiteratureService ..> ScholarlySource : searches literature
+    ExecutionEngine ..> IsolatedExecutor : runs jobs
+    ExecutionEngine ..> RunController : pushes update
+    LockService ..> DecisionService : requests deviation
+    LockService ..> RunOrchestrator : schedules execution
+    IndependentReviewService ..> ReviewerPersona : reviews with
+    IndependentReviewService ..> MakerPersona : revises with
+    IndependentReviewService ..> Harness : verifies findings
+    PaperEngine ..> Harness : runs checks
     DatasetEngine ..> DatasetSnapshot : publishes
     HypothesisEngine ..> HypothesisSet : publishes
+    LiteratureService ..> LiteratureBase : versions
     ExperimentDesignEngine ..> AnalysisPlan : publishes
+    LockService ..> Lock : writes
     ExecutionEngine ..> EvidenceBundle : publishes
     PaperEngine ..> PaperPack : publishes
-    IndependentReviewService ..> Finding : verifies
-    HypothesisEngine ..> DatasetSnapshot : reads pinned snapshot
-    ExecutionEngine ..> AnalysisPlan : reads locked plan
-    IndependentReviewService ..> PaperPack : reviews object version
-    PaperEngine ..> Harness : runs checks
-    ExecutionEngine ..> IndependentReviewService : reviews evidence
-    Harness ..> Lock : checks locked plan
-    Lock "1" *-- "1" Envelope : sealed results
+    IndependentReviewService ..> Finding : records
+    HypothesisSet "0..*" -- "1" LiteratureBase : pins version
+    Lock "1" *-- "1" ConfirmatoryResults : confirmatory results
 ```
 
 ## 6. AI Principal Investigator
 
-12 classifier; 12 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class DecisionController {
         <<controller>>
-        + answer(itemId : UUID, option : String) : void
-        + confirmTentative(itemId : UUID) : void
-        + overturn(itemId : UUID, reason : String) : void
-        + changePolicy(input : PolicyInput) : void
-        + setPresence(value : Presence) : void
+        +answer(itemId : UUID, option : String) void
+        +confirmTentative(itemId : UUID) void
+        +overturn(itemId : UUID, reason : String) void
+        +changePolicy(input : PolicyInput) void
+        +setPresence(value : Presence) void
+        +submitCharter(runId : UUID, input : CharterInput) Charter
+        +endorseAdvice(consultationId : UUID) void
+        +retryConsultation(consultationId : UUID) void
+        +getLabNotebook(runId : UUID) LabNotebookEntry [0..∗]
+        +getPiOverview(runId : UUID) PiOverview
+        +triage(itemId : UUID, decision : String) void
+        +pushUpdate(event : DomainEvent) void
     }
     class DecisionService {
         <<service>>
-        + createRequest(input : DecisionInput) : DecisionInboxItem
-        + answer(itemId : UUID, option : String) : void
-        + overturn(itemId : UUID, reason : String) : void
-        + expirePinnedItem(itemId : UUID) : void
-        - closeUnansweredAndEndWithGaps(itemId : UUID) : void
+        +createRequest(input : DecisionInput) DecisionInboxItem
+        +answer(itemId : UUID, option : String) void
+        +confirmTentative(itemId : UUID) void
+        +overturn(itemId : UUID, reason : String) void
+        +listActionable(userId : UUID) DecisionInboxItem [0..∗]
+        +submitCharter(runId : UUID, input : CharterInput) Charter
+        +requestConsultation(runId : UUID, trigger : String) Consultation
+        +endorseAdvice(consultationId : UUID) void
+        +retryConsultation(consultationId : UUID) Consultation
+        +getLabNotebook(runId : UUID) LabNotebookEntry [0..∗]
+        +getPiOverview(runId : UUID) PiOverview
+        +expirePinnedItem(itemId : UUID) void
+        -closeUnansweredAndEndWithGaps(itemId : UUID) void
+    }
+    class ActionPolicyService {
+        <<service>>
+        +effectiveLevel(actionType : String) ActionLevel
+        +validate(input : PolicyInput) CheckResult
+        +updatePreset(stage : String, preset : String) void
+        +setOverride(actionType : String, level : ActionLevel) void
+        +reevaluateWaitingItems() void
+        -enforceFloorAndCeiling(actionType : String) void
+    }
+    class AIPrincipalInvestigator {
+        <<service>>
+        +consult(context : RunContext) Advice
+        +decideTentatively(item : DecisionInboxItem) void
+        +proposeNextStep(runId : UUID) String
+        -rejectPinnedDecision(item : DecisionInboxItem) void
+    }
+    class OverturnMetricService {
+        <<service>>
+        +compute(actionType : String) Decimal
+        +proposeHigherLevel(actionType : String) ActionLevel
+    }
+    class AuthorizationService {
+        <<service>>
+    }
+    class RunOrchestrator {
+        <<service>>
+    }
+    class ExecutionEngine {
+        <<service>>
     }
     class DecisionInboxItem {
         <<entity>>
         - id : UUID
         - kind : String
-        - options : String [1..*]
+        - options : String [1..∗]
         - proposedOption : String
         - status : String
         - pinned : Boolean
@@ -652,14 +927,6 @@ classDiagram
         - presence : Presence
         - overturned : Boolean
     }
-    class ActionPolicyService {
-        <<service>>
-        + effectiveLevel(actionType : String) : ActionLevel
-        + updatePreset(stage : String, preset : String) : void
-        + setOverride(actionType : String, level : ActionLevel) : void
-        - enforceFloorAndCeiling(actionType : String) : void
-        - reevaluateWaitingItems() : void
-    }
     class ActionPolicy {
         <<entity>>
         - version : Integer
@@ -671,15 +938,24 @@ classDiagram
     class ActionLevel {
         <<enumeration>>
         auto
-        do_then_review
-        must_ask
+        do#95;then#95;review
+        must#95;ask
     }
-    class AIPrincipalInvestigator {
-        <<service>>
-        + propose(item : DecisionInboxItem) : String
-        + decideTentatively(item : DecisionInboxItem) : void
-        + proposeNextStep(runId : UUID) : String
-        - rejectPinnedDecision(item : DecisionInboxItem) : void
+    class Charter {
+        <<entity>>
+        - runId : UUID
+        - version : Integer
+        - goals : String
+        - limits : String
+        - mustAskMatters : String [0..∗]
+    }
+    class Consultation {
+        <<entity>>
+        - runId : UUID
+        - trigger : String
+        - status : String
+        - advice : String [0..1]
+        - endorsed : Boolean
     }
     class LabNotebookEntry {
         <<entity>>
@@ -695,54 +971,94 @@ classDiagram
         present
         away
     }
-    class OverturnMetricService {
-        <<service>>
-        + compute(actionType : String) : Decimal
-        + proposeHigherLevel(actionType : String) : ActionLevel
-    }
     class Run {
         <<entity>>
         - id : UUID
         - state : RunState
-        - endingOutcome : String [0..1]
+        - endingOutcome : EndingOutcome [0..1]
     }
-    DecisionController ..> DecisionService : answers / overturns
-    DecisionController ..> ActionPolicyService : sets policy
-    DecisionController ..> AIPrincipalInvestigator : requests proposals
-    DecisionController ..> OverturnMetricService : reads measured outcomes
+    DecisionController ..> DecisionService : answers / consults
+    DecisionController ..> ActionPolicyService : changes policy
+    DecisionController ..> AuthorizationService : checks access
+    DecisionController ..> ExecutionEngine : triages candidates
+    DecisionService ..> AIPrincipalInvestigator : consults
+    DecisionService ..> OverturnMetricService : measures overturns
+    DecisionService ..> RunOrchestrator : resumes / marks stale
     DecisionService ..> DecisionInboxItem : creates / resolves
-    DecisionInboxItem "1" -- "0..1" DecisionLogEntry : decided record
+    DecisionService ..> Charter : records
+    DecisionService ..> Consultation : records
     ActionPolicyService ..> ActionPolicy : versions
-    ActionPolicy ..> ActionLevel : uses level type
-    AIPrincipalInvestigator ..> LabNotebookEntry : writes proposals
-    LabNotebookEntry ..> Presence : records context type
-    OverturnMetricService ..> Run : measures decisions by run
-    DecisionInboxItem ..> ActionPolicy : evaluated under
+    AIPrincipalInvestigator ..> LabNotebookEntry : writes
+    OverturnMetricService ..> Run : measures by run
+    DecisionInboxItem "1" -- "0..1" DecisionLogEntry : decided record
+    ActionPolicy ..> ActionLevel : uses type
+    LabNotebookEntry ..> Presence : uses type
+    Run "1" -- "0..1" Charter : charter
+    Run "1" -- "0..*" Consultation : consultations
 ```
 
 ## 7. Notifications & Integrations
 
-12 classifier; 11 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class CollaborationController {
         <<controller>>
-        + listNotifications() : Notification [0..*]
-        + markRead(notificationId : UUID) : void
-        + setPreferences(input : PreferencesInput) : void
-        + configureIntegration(input : IntegrationInput) : void
-        + comment(input : CommentInput) : Comment
+        +listNotifications() Notification [0..∗]
+        +markRead(notificationId : UUID) void
+        +markAllRead() void
+        +setPreferences(input : PreferencesInput) void
+        +listInbox() DecisionInboxItem [0..∗]
+        +listReviewQueue() ReviewItem [0..∗]
+        +pushUpdate(event : DomainEvent) void
     }
     class NotificationService {
         <<service>>
-        + create(event : ProjectEvent) : Notification
-        + listForUser(userId : UUID) : Notification [0..*]
-        + markRead(notificationId : UUID) : void
-        - allowExternalNotice(item : DecisionInboxItem) : Boolean
-        - selectAuthorizedRecipients(item : DecisionInboxItem) : UUID [0..*]
+        +create(event : ProjectEvent) Notification
+        +listForUser(userId : UUID) Notification [0..∗]
+        +markRead(notificationId : UUID) void
+        +markAllRead(userId : UUID) void
+        +retryEmail(emailId : UUID) void
+        -allowExternalNotice(item : DecisionInboxItem) Boolean
+        -selectAuthorizedRecipients(item : DecisionInboxItem) UUID [0..∗]
+    }
+    class NotificationPreferenceService {
+        <<service>>
+        +update(input : PreferencesInput) NotificationPreference
+        +resolveForProject(projectId : UUID) NotificationPreference
+    }
+    class IntegrationService {
+        <<service>>
+        +configure(input : IntegrationInput) ProjectIntegration
+        +test(integrationId : UUID) CheckResult
+        +remove(integrationId : UUID) void
+        +deliver(notificationId : UUID, channel : String) void
+        -resolveSealedCredential(ref : SecretRef) void
+    }
+    class CommentService {
+        <<service>>
+        +add(input : CommentInput) Comment
+        +list(objectRef : ObjectRef) Comment [0..∗]
+        +edit(commentId : UUID, text : String) void
+        +delete(commentId : UUID) void
+        -requireProjectRole(actorId : UUID) void
+    }
+    class ReviewService {
+        <<service>>
+        +listQueue(userId : UUID) ReviewItem [0..∗]
+    }
+    class AuthorizationService {
+        <<service>>
+    }
+    class AuthenticationService {
+        <<service>>
+    }
+    class DecisionService {
+        <<service>>
+    }
+    class NotificationChannel {
+        <<external>>
+        +deliver(recipient : String, message : String) void
     }
     class Notification {
         <<entity>>
@@ -750,7 +1066,24 @@ classDiagram
         - recipientId : UUID
         - kind : String
         - status : String
+        - readAt : DateTime [0..1]
         - decisionItemId : UUID [0..1]
+    }
+    class NotificationEmail {
+        <<entity>>
+        - id : UUID
+        - notificationId : UUID
+        - status : EmailStatus
+        - attempts : Integer
+        - lastError : String [0..1]
+    }
+    class EmailStatus {
+        <<enumeration>>
+        pending
+        sending
+        sent
+        failed
+        skipped
     }
     class DecisionInboxItem {
         <<entity>>
@@ -760,11 +1093,12 @@ classDiagram
         - blocking : Boolean
         - waitDeadline : DateTime [0..1]
     }
-    class IntegrationService {
-        <<service>>
-        + configure(input : IntegrationInput) : ProjectIntegration
-        + deliver(notificationId : UUID, channel : String) : void
-        - resolveSealedCredential(ref : SecretRef) : void
+    class NotificationPreference {
+        <<entity>>
+        - projectId : UUID
+        - userId : UUID
+        - eventChoices : Map
+        - channels : String [0..∗]
     }
     class ProjectIntegration {
         <<entity>>
@@ -772,16 +1106,6 @@ classDiagram
         - provider : String
         - credentialRef : SecretRef
         - enabled : Boolean
-    }
-    class NotificationChannel {
-        <<external>>
-        + deliver(recipient : String, message : String) : void
-    }
-    class CommentService {
-        <<service>>
-        + add(input : CommentInput) : Comment
-        + list(objectRef : ObjectRef) : Comment [0..*]
-        - requireProjectRole(actorId : UUID) : void
     }
     class Comment {
         <<entity>>
@@ -795,55 +1119,102 @@ classDiagram
         - projectId : UUID
         - role : ProjectRole
     }
-    class NotificationPreferenceService {
-        <<service>>
-        + update(input : PreferencesInput) : NotificationPreference
-        + resolveForProject(projectId : UUID) : NotificationPreference
-    }
-    class NotificationPreference {
-        <<entity>>
-        - projectId : UUID
-        - userId : UUID
-        - eventChoices : Map
-        - channels : String [0..*]
-    }
-    CollaborationController ..> NotificationService : receives / reads
-    CollaborationController ..> IntegrationService : configures channels
-    CollaborationController ..> CommentService : comments on objects
+    CollaborationController ..> NotificationService : reads / marks read
     CollaborationController ..> NotificationPreferenceService : sets preferences
-    NotificationService ..> Notification : creates / marks read
-    Notification "0..*" -- "0..1" DecisionInboxItem : decision context
-    IntegrationService ..> ProjectIntegration : configures
+    CollaborationController ..> ReviewService : lists review queue
+    CollaborationController ..> DecisionService : lists inbox
+    CollaborationController ..> AuthorizationService : checks access
+    CollaborationController ..> AuthenticationService : validates session
+    NotificationService ..> NotificationPreferenceService : resolves settings
+    NotificationService ..> IntegrationService : delivers external notice
     IntegrationService ..> NotificationChannel : delivers through
-    CommentService ..> Comment : anchors comments
-    Comment "0..*" -- "1" Membership : author
+    NotificationService ..> Notification : creates / marks read
+    NotificationService ..> NotificationEmail : queues / retries
     NotificationPreferenceService ..> NotificationPreference : updates
+    IntegrationService ..> ProjectIntegration : configures
+    CommentService ..> Comment : anchors
+    ReviewService ..> Membership : reads memberships
+    Notification "1" -- "0..1" NotificationEmail : email
+    NotificationEmail ..> EmailStatus : uses type
+    Notification "0..*" -- "0..1" DecisionInboxItem : decision context
+    Comment "0..*" -- "1" Membership : author
 ```
 
 ## 8. Administration & Monitoring
 
-11 classifier; 10 quan hệ.
-
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#ffffff", "primaryBorderColor": "#000000", "primaryTextColor": "#000000", "secondaryColor": "#ffffff", "tertiaryColor": "#ffffff", "lineColor": "#000000", "textColor": "#000000", "background": "#ffffff"}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'background': '#ffffff', 'mainBkg': '#ffffff', 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'primaryTextColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'fontFamily': 'Arial'}}}%%
 classDiagram
-    direction TB
     class AdministrationController {
         <<controller>>
-        + manageUsers(input : UserAdminInput) : void
-        + configureModel(input : ModelInput) : void
-        + configureEngine(input : EngineInput) : void
-        + viewAudit(filter : AuditFilter) : AuditLogEntry [0..*]
-        + viewHealth() : HealthSnapshot
-        + viewMetrics(runId : UUID) : OperatingMetrics
+        +manageUsers(input : UserAdminInput) void
+        +getUserDetail(userId : UUID) UserDetail
+        +grantPlatformAdmin(userId : UUID) void
+        +revokePlatformAdmin(userId : UUID) void
+        +listAllProjects() ProjectMetadata [0..∗]
+        +configureModel(input : ModelInput) void
+        +configureEngine(input : EngineInput) void
+        +viewOverview() PlatformOverview
+        +viewUsage(filter : UsageFilter) UsageReport
+        +viewAudit(filter : AuditFilter) AuditLogEntry [0..∗]
+        +viewLogs(filter : LogFilter) LogEntry [0..∗]
+        +viewHealth() HealthSnapshot
+        +acknowledgeAlert(alertId : UUID) void
+        +viewMetrics(runId : UUID) OperatingMetrics
+        +runBenchmark(catalogueVersion : String, modelProfileId : UUID) BenchmarkRun
+        +pushUpdate(event : DomainEvent) void
     }
     class AdministrationService {
         <<service>>
-        + updateUser(input : UserAdminInput) : User
-        + configureModel(input : ModelInput) : ModelProfile
-        + configureEngine(input : EngineInput) : EngineSettings
-        + setDefaultBudget(amount : Decimal) : void
-        - requirePlatformAdmin(userId : UUID) : void
+        +updateUser(input : UserAdminInput) User
+        +getUserDetail(userId : UUID) UserDetail
+        +grantPlatformAdmin(userId : UUID) void
+        +revokePlatformAdmin(userId : UUID) void
+        +listProjectMetadata() ProjectMetadata [0..∗]
+        +configureModel(input : ModelInput) ModelProfile
+        +configureEngine(input : EngineInput) EngineSettings
+        +setDefaultBudget(amount : Decimal) void
+        +requirePlatformAdmin(userId : UUID) void
+    }
+    class SecretService {
+        <<service>>
+        +seal(value : String) SecretRef
+        +rotate(ref : SecretRef, value : String) void
+        +resolveForExecution(ref : SecretRef) Secret
+        -preventSecretDisclosure() void
+    }
+    class MonitoringService {
+        <<service>>
+        +overview() PlatformOverview
+        +usage(filter : UsageFilter) UsageReport
+        +readAudit(filter : AuditFilter) AuditLogEntry [0..∗]
+        +logs(filter : LogFilter) LogEntry [0..∗]
+        +health() HealthSnapshot
+        +acknowledgeAlert(alertId : UUID) void
+        +metrics(runId : UUID) OperatingMetrics
+        +onMonitoringEvent(event : MonitoringEvent) void
+        +requireModelsAndCredentials(runId : UUID) void
+    }
+    class BenchmarkService {
+        <<service>>
+        +runBenchmark(catalogueVersion : String, modelProfileId : UUID) BenchmarkRun
+    }
+    class ModelProvider {
+        <<external>>
+        +testModel(profileRef : SecretRef) CheckResult
+    }
+    class IndependentReviewService {
+        <<service>>
+    }
+    class Harness {
+        <<service>>
+    }
+    class User {
+        <<entity>>
+        - id : UUID
+        - email : String
+        - status : String
+        - isPlatformAdmin : Boolean
     }
     class ModelProfile {
         <<entity>>
@@ -859,33 +1230,12 @@ classDiagram
         - enabled : Boolean
         - configuration : Map
     }
-    class SecretService {
-        <<service>>
-        + seal(value : String) : SecretRef
-        + rotate(ref : SecretRef, value : String) : void
-        + resolveForExecution(ref : SecretRef) : Secret
-        - preventSecretDisclosure() : void
-    }
     class SealedSecret {
         <<entity>>
         - id : UUID
         - encryptedValue : Bytes
         - keyVersion : String
         - updatedAt : DateTime
-    }
-    class User {
-        <<entity>>
-        - id : UUID
-        - email : String
-        - status : String
-        - isPlatformAdmin : Boolean
-    }
-    class MonitoringService {
-        <<service>>
-        + readAudit(filter : AuditFilter) : AuditLogEntry [0..*]
-        + health() : HealthSnapshot
-        + metrics(runId : UUID) : OperatingMetrics
-        + requireModelsAndCredentials(runId : UUID) : void
     }
     class AuditLogEntry {
         <<entity>>
@@ -899,6 +1249,21 @@ classDiagram
         - collectedAt : DateTime
         - componentStates : Map
     }
+    class MonitoringAlert {
+        <<entity>>
+        - id : UUID
+        - component : String
+        - severity : String
+        - state : AlertState
+        - acknowledgedBy : UUID [0..1]
+        - acknowledgedAt : DateTime [0..1]
+        - resolvedAt : DateTime [0..1]
+    }
+    class AlertState {
+        <<enumeration>>
+        active
+        resolved
+    }
     class OperatingMetrics {
         <<entity>>
         - runId : UUID
@@ -907,14 +1272,32 @@ classDiagram
         - overturnRates : Map
         - personaPrecision : Map
     }
+    class BenchmarkRun {
+        <<entity>>
+        - id : UUID
+        - catalogueVersion : String
+        - modelProfileId : UUID
+        - personaPrecision : Map
+        - leakageDetectionRate : Decimal
+        - orderBlockRate : Decimal
+        - finishedAt : DateTime [0..1]
+    }
     AdministrationController ..> AdministrationService : configures platform
-    AdministrationController ..> SecretService : manages sealed secrets
     AdministrationController ..> MonitoringService : reads operation
+    AdministrationController ..> BenchmarkService : runs benchmark
+    AdministrationService ..> SecretService : seals keys
+    AdministrationService ..> ModelProvider : tests model
+    AdministrationService ..> User : manages accounts
     AdministrationService ..> ModelProfile : configures model roles
     AdministrationService ..> EngineSettings : configures engines
-    AdministrationController ..> User : manages user accounts
     SecretService ..> SealedSecret : seals / rotates
     MonitoringService ..> AuditLogEntry : reads append-only log
-    MonitoringService ..> HealthSnapshot : reads component health
-    MonitoringService ..> OperatingMetrics : computes run metrics
+    MonitoringService ..> HealthSnapshot : reads health
+    MonitoringService ..> MonitoringAlert : raises / acknowledges
+    MonitoringService ..> OperatingMetrics : computes
+    BenchmarkService ..> IndependentReviewService : runs personas
+    BenchmarkService ..> Harness : scores cases
+    BenchmarkService ..> BenchmarkRun : records
+    MonitoringAlert ..> AlertState : uses type
+    BenchmarkRun "0..*" -- "1" ModelProfile : model under test
 ```

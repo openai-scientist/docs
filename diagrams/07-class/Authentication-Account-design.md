@@ -1,5 +1,7 @@
 # Authentication & Account — bản Class Diagram đề xuất
 
+> 2026-11-03: tab này được sinh lại từ [class_model.py](class_model.py) bằng [build_class_diagrams.py](build_class_diagrams.py), thêm `currentSession(token)` cho controller và `authorize(clientId, scope)` cho GoogleIdentityProvider để khớp sequence 3.1.3 và 3.1.6. Bố cục mô tả bên dưới là bản trước đó.
+
 Bản thử để duyệt thiết kế và bố cục, chưa thay ảnh trong report. Sơ đồ thể hiện cấu trúc lớp của cả nhóm FE-01; không phải Sequence Diagram của riêng một lần sign-in.
 
 File editable hiện được mở rộng thành **8 tab** theo yêu cầu mới: Authentication là tab đầu, giữ nguyên graph đã duyệt. Xem [inventory và nguồn của cả bộ](Class-Diagrams-design.md). Các ghi nhận một page bên dưới mô tả validation của bản Authentication ban đầu; validation hiện hành cho file chung là 8 tab.

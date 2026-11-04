@@ -183,6 +183,28 @@ def state(p, key, text, logical_id, x, y, w=260, h=80):
     p.root.find(f"mxCell[@id='{key}']").set('model-state', logical_id)
 
 
+def email_code():
+    """One email-code sign-in attempt; same model as the approved build_email_code_state.py."""
+    p = Page('Authentication & Account', 'authentication-account')
+    p.node('initial', '', 368, 65, 24, 24, 'initial')
+    state(p, 'signed-out', 'Signed out', 'signed_out', 280, 130, 200, 54)
+    state(p, 'awaiting-code', 'Awaiting email code', 'awaiting_code', 280, 300, 200, 54)
+    p.node('valid-code', 'Is code correct\nand unexpired?', 260, 430, 240, 100, 'choice')
+    state(p, 'signed-in', 'Signed in', 'signed_in', 540, 640, 200, 54)
+    p.node('final', '', 365, 740, 30, 30, 'final')
+    p.edge('begin', 'initial', 'signed-out', ref='III 3.2.1.1; IV 3.1 step 1', test='Design entry check')
+    p.edge('request-code', 'signed-out', 'awaiting-code', 'email code requested\n/ send one-time code',
+           ref='III 3.2.1.1; FR-01; IV 2.2.4 email_otps', test='Design transition check')
+    p.edge('submit-code', 'awaiting-code', 'valid-code', 'code submitted', ref='III 3.2.1.1', test='Design transition check')
+    p.edge('invalid-code', 'valid-code', 'awaiting-code', 'No', ports=(0, .5, 0, .5), points=((100, 480), (100, 327)), pos=-.85,
+           ref='III 3.2.1.1; wrong or expired code keeps the user waiting for a new code', test='Design transition check')
+    p.edge('accept-code', 'valid-code', 'signed-in', 'Yes', ports=(1, .5, .5, 0), points=((640, 480),), pos=-.85,
+           ref='III 3.2.1.1; FR-01; account created at first sign-in; session opened', test='Design transition check')
+    p.edge('complete-attempt', 'signed-in', 'final', ports=(.5, 1, 1, .5), points=((640, 755),),
+           ref='Completion of one sign-in attempt; the session lives on', test='Design completion check')
+    return p.page
+
+
 def account_lifecycle():
     p = Page('Authentication & Account', 'authentication-account')
     p.node('start', '', 428, 30, 24, 24, 'initial')
@@ -273,14 +295,14 @@ def flat_run():
     for key, trigger, reason, sy, tx, x, ref, tests in [
         ('decision-blocked', 'decisionBlocked', 'decision', .2, .85, 1440, 'FR-262; no independent work; user present or pinned', 'TC-16; TC-98'),
         ('local-job-blocked', 'localJobBlocked', 'node_offline', .5, .5, 1300, 'FR-85; FR-237; FR-238; offline Node and blocking local job; independent work continues; one combined notice', 'TC-31'),
-        ('monthly-limit', 'monthlyBudgetReached', 'budget_review', .8, .15, 1160, 'FR-90; monthly budget 100%; create spending item', 'TC-33')]:
+        ('monthly-limit', 'budgetLimitReached', 'budget_review', .8, .15, 1160, 'FR-90; FR-21; monthly project budget at 100% (spending item) or run token budget used up (budget review)', 'TC-33; TC-32')]:
         y = 180 + sy * 160
-        labelled_route(p, key, 'running', 'waiting', f'{trigger}' + {'decision': ' [present or pinned]', 'node_offline': ' [Node offline]', 'budget_review': ' [usage >= 100%]'}[reason] + f' /\nreason := {reason}',
+        labelled_route(p, key, 'running', 'waiting', f'{trigger}' + {'decision': ' [present or pinned]', 'node_offline': ' [Node offline]', 'budget_review': ' [monthly or run budget used up]'}[reason] + f' /\nreason := {reason}',
                        (1, sy, tx, 0), ((x,y),), 0, 'IV 3.4.2; ' + ref, tests)
     for key, trigger, reason, sy, target_x, corridor_x, corridor_y, test in [
         ('decision-answered', 'answerReceived', 'decision', .25, .7, 950, 400, 'TC-16'),
         ('node-returned', 'nodeReconnected', 'node_offline', .5, .5, 900, 430, 'TC-31'),
-        ('spend-approved', 'extraSpendApproved', 'budget_review', .75, .3, 850, 460, 'TC-33')]:
+        ('spend-approved', 'extraSpendApprovedOrTokenBudgetRaised', 'budget_review', .75, .3, 850, 460, 'TC-33; TC-32')]:
         y = 500 + sy * 160
         x = 500 + target_x * 300
         labelled_route(p, key, 'waiting', 'running', f'{trigger} [reason = {reason}]',
@@ -301,7 +323,7 @@ def flat_run():
         ('cancel-waiting', 'cancel [authorized] /\nresult := cancelled', 'cancelled', 'FR-22', 'TC-13'),
         ('budget-waiting', 'tokenBudgetExhausted /\nresult := with_gaps', 'with_gaps', 'FR-262; any waiting reason', 'TC-32'),
         ('pinned-expired', 'waitDeadlinePassed [reason = decision and pinned item unanswered] /\nresult := with_gaps', 'with_gaps', 'FR-262; FR-265; close pinned item unanswered', 'TC-98; TC-100'),
-        ('spending-closed', 'spendingDeclinedOrExpired [reason = budget_review] /\nresult := with_gaps', 'with_gaps', 'FR-245; FR-91', 'TC-33'),
+        ('spending-closed', 'budgetReviewDeclinedOrExpired [reason = budget_review] /\nresult := with_gaps', 'with_gaps', 'FR-245; FR-91; D-5: also a token budget review without a raise', 'TC-33; TC-32'),
         ('fatal-waiting', 'fatalError /\nresult := failed_technical', 'failed_technical', 'FR-103; unrecoverable error or missing model/credential', 'TC-12'),
     ]
     for i,(key,text,result,ref,test) in enumerate(waiting_ends):
@@ -564,6 +586,7 @@ def project_workspace():
 def normalize_choice_guards(page):
     conditions = {
         'checks': ('all contract items green', 'at least one contract item red'),
+        'valid-code': ('code correct and unexpired', 'code incorrect or expired'),
         'dossier-enough': ('eligible approvals meet review settings', 'eligible approvals below requirement'),
         'confirms': ('submitted decision is confirm', 'submitted decision is overturn'),
         'allowed': ('external notice allowed by policy and preferences', 'external notice disallowed by policy or preferences'),
@@ -591,11 +614,11 @@ def apply_reference_style(page):
         'online-revoked': 'Pairing revoked',
         'offline-revoked': 'Pairing revoked',
         'decision-blocked': 'Decision blocks work',
-        'monthly-limit': 'Monthly budget reached',
+        'monthly-limit': 'Budget limit reached',
         'local-job-blocked': 'Node offline',
         'node-returned': 'Node reconnects',
         'decision-answered': 'Decision answered',
-        'spend-approved': 'Extra spend approved',
+        'spend-approved': 'Spending approved or budget raised',
         'finished': 'All stages accepted',
         'cancel-running': 'Run cancelled',
         'cancel-waiting': 'Run cancelled',
@@ -604,7 +627,7 @@ def apply_reference_style(page):
         'budget-running': 'Token budget exhausted',
         'budget-waiting': 'Token budget exhausted',
         'pinned-expired': 'Pinned wait expires',
-        'spending-closed': 'Spending declined or expired',
+        'spending-closed': 'Budget review declined or expired',
         'user-review': 'Decision submitted',
         'tentative-decision': 'AI PI decides [eligible]',
         'pinned-timeout': 'Pinned deadline expires',
@@ -654,7 +677,7 @@ def remove_composite_frames(page):
         return page
     cells = {c.get('id'): c for c in page.findall('.//mxCell')}
     if name == 'Research Run Orchestration':
-        inherited = [(deepcopy(cells[key]), source) for key in ('cancel-running', 'fatal-running', 'budget-running') for source in ('running', 'waiting')]
+        inherited = [(deepcopy(cells[key]), source) for key in ('cancel-running', 'fatal-running') for source in ('running', 'waiting')]
     else:
         inherited = [(deepcopy(cells['version-invalidated']), source) for source in ('draft', 'red', 'green', 'review', 'ready', 'accepted', 'locked')]
     p = flat_page(page, name)
@@ -668,9 +691,9 @@ def remove_composite_frames(page):
         edge.set('parent', '1')
         edge.set('transition-spec', edge.get('transition-spec', edge.get('value', '')))
         if name == 'Research Run Orchestration':
-            labels = {'cancel-running': 'Run cancelled', 'fatal-running': 'Technical failure', 'budget-running': 'Token budget exhausted'}
+            labels = {'cancel-running': 'Run cancelled', 'fatal-running': 'Technical failure'}
             edge.set('value', labels[original])
-            idx = ('cancel-running', 'fatal-running', 'budget-running').index(original)
+            idx = ('cancel-running', 'fatal-running').index(original)
             if source == 'running':
                 sx, sy, tx, ty = 0, (.25 + .25*idx), 0, (.7 - .25*idx)
                 x = (-80, -30, 20)[idx]
@@ -729,7 +752,7 @@ def build():
     for cell in list(root):
         if cell.get('id', '').startswith('dossier-'):
             root.remove(cell)
-    pages = [account_lifecycle(), combined, dataset_lifecycle(), flat_run(), composite_handoff(), flat_decision(), notification_lifecycle(), monitoring()]
+    pages = [email_code(), combined, data_management(), flat_run(), composite_handoff(), flat_decision(), notifications(), monitoring()]
     for page in pages:
         page = remove_composite_frames(page)
         # Scope and explanatory notes belong in the companion design, not on the image.
@@ -810,13 +833,13 @@ def build():
 
 def write_design(mx):
     inventory = [
-        ('Authentication-Account', 'III 3.9.1; IV 2.2.1', 'Vòng đời account active/suspended; initial active là diễn giải thiết kế, không xác nhận runtime.'),
+        ('Authentication-Account', 'III 3.2.1.1; IV 3.1.7; IV 2.2.4', 'Một lần đăng nhập bằng email code (D-1, 2026-11-03): Signed out → Awaiting email code → choice code đúng và còn hạn → Signed in; sai hoặc hết hạn quay lại chờ code. Cùng model với bản đã duyệt trong build_email_code_state.py. Trạng thái tài khoản active/suspended không còn là hình của mục này.'),
         ('Project-Workspace', 'III 3.3.1–3.3.3; IV 3.2.14', 'Vòng đời khái niệm Project gồm Active, Completed, Archived; Archived là read-only. Schema IV 2.2.6 dùng status draft/data_ready/researching/needs_review/completed và archived_at; quan hệ giữa hai cách biểu diễn chưa được đặc tả. Không coi Active/Archived là enum schema. Dossier không thuộc tám hình chính.'),
-        ('Data-Management', 'III 3.4.1, 3.4.4, 3.4.5; FR-09', 'Vòng đời Dataset ở mức khái niệm: tồn tại, thêm version immutable và kết thúc khi xóa được cho phép. Available không phải enum schema; điều kiện xóa chưa được đặc tả đầy đủ.'),
-        ('Research-Run-Orchestration', 'IV 3.4.2, Figure IV-7; IV 3.13', 'Một state machine liền mạch, chỉ ba state Running/Waiting/Ended theo enum RunState của Class Diagram và FR-21. Waiting có reason decision/node_offline/budget_review; node_offline khi Node offline và local job chặn việc; reconnect đưa về running, independent work và một combined notice theo FR-237/238; Ended có result complete/with_gaps/failed_technical/cancelled. Đây là field của state, không phải nhiều state trùng tên. Bố cục dọc đặt Running trên Waiting; các transition sang Waiting đi thẳng xuống và các nhánh tiếp tục đi bên phải. Không dùng composite; cancel, fatal error và token exhaustion có transition riêng từ Running và Waiting. Các nhánh chỉ áp dụng Running hoặc Waiting giữ riêng. Metadata và bảng giữ đầy đủ điều kiện và phép gán reason/result. Từ running: all stages accepted, token exhaustion, cancel, technical failure; từ waiting(decision): pinned deadline unanswered, token exhaustion, cancel, technical failure; từ waiting(budget_review): spending decline/expiry, token exhaustion, cancel, technical failure. Không lặp state hay tách các cụm tình huống rời; mỗi transition là nét liền có trigger [guard] / effect khi cần. Tên event/effect là ký hiệu thiết kế từ hành vi, không chốt event/API implementation. Chỉ complete khi tất cả stage accepted. Cancel chỉ bởi Project Manager hoặc creating Researcher. Pinned item không hết hạn trước wait deadline. Khôi phục nhánh node_offline theo yêu cầu mới như thiết kế dự kiến; không khẳng định Local Node đã triển khai.'),
+        ('Data-Management', 'III 3.8; IV 3.3.14; FR-85, FR-87, FR-110', 'Vòng đời ghép nối Local Node với project (D-2, 2026-11-03): Unpaired → Paired (online) ⇄ Paired (offline) → Revoked. Thay cho hình Dataset available cũ. Thiết kế dự kiến, chưa xác nhận triển khai. Ghi chú cũ: Vòng đời Dataset ở mức khái niệm: tồn tại, thêm version immutable và kết thúc khi xóa được cho phép. Available không phải enum schema; điều kiện xóa chưa được đặc tả đầy đủ.'),
+        ('Research-Run-Orchestration', 'IV 3.4.2, Figure IV-7; IV 3.13', 'Một state machine liền mạch, chỉ ba state Running/Waiting/Ended theo enum RunState của Class Diagram và FR-21. Waiting có reason decision/node_offline/budget_review; node_offline khi Node offline và local job chặn việc; reconnect đưa về running, independent work và một combined notice theo FR-237/238; Ended có result complete/with_gaps/failed_technical/cancelled. D-5 (2026-11-03): hết token budget của run không còn kết thúc run; run vào waiting(budget_review), Project Manager nâng budget thì chạy tiếp, review bị từ chối hoặc hết hạn thì kết thúc with_gaps. Đây là field của state, không phải nhiều state trùng tên. Bố cục dọc đặt Running trên Waiting; các transition sang Waiting đi thẳng xuống và các nhánh tiếp tục đi bên phải. Không dùng composite; cancel, fatal error và token exhaustion có transition riêng từ Running và Waiting. Các nhánh chỉ áp dụng Running hoặc Waiting giữ riêng. Metadata và bảng giữ đầy đủ điều kiện và phép gán reason/result. Từ running: all stages accepted, token exhaustion, cancel, technical failure; từ waiting(decision): pinned deadline unanswered, token exhaustion, cancel, technical failure; từ waiting(budget_review): spending decline/expiry, token exhaustion, cancel, technical failure. Không lặp state hay tách các cụm tình huống rời; mỗi transition là nét liền có trigger [guard] / effect khi cần. Tên event/effect là ký hiệu thiết kế từ hành vi, không chốt event/API implementation. Chỉ complete khi tất cả stage accepted. Cancel chỉ bởi Project Manager hoặc creating Researcher. Pinned item không hết hạn trước wait deadline. Khôi phục nhánh node_offline theo yêu cầu mới như thiết kế dự kiến; không khẳng định Local Node đã triển khai.'),
         ('Research-Engines', 'IV 3.4.3, Figure IV-8; IV 3.11; IV 3.8', 'Một version của Hand-off Object gồm draft, checks_red, checks_green, in_review, ready, accepted, locked và stale. Mỗi state chưa stale có transition riêng sang Stale khi pinned upstream có version mới; không dùng composite. Locked chỉ áp dụng AnalysisPlan. Revision tối đa hai vòng; Stale giữ lịch sử, không tự phục hồi. Điều kiện, effect và nguồn đầy đủ nằm trong metadata và bảng transition.'),
         ('AI-Principal-Investigator', 'IV 3.6.7; IV 3.5.2; IV 3.13; FR-22/28/31/91/265', 'Đủ nhánh human answer, AI PI tentative decision, user confirm/overturn, pinned timeout, spending timeout, cancel khi còn pending/awaiting user review. AI PI chỉ được tentative ở autopilot + away + non-pinned. Overturn undo dependent work, đánh dấu affected objects stale và ghi decision log. Confirm cũng ghi log. Timeout pinned đóng unanswered, end run with gaps, không ai quyết định thay user. Closed khi run cancelled nằm bên phải; các transition hoàn tất dùng chung đường vẽ tới một final, không có junction. Nhãn Pending/Answered/Confirmed/Overturned/Closed là thiết kế từ hành vi, không khẳng định enum implementation.'),
-        ('Notifications-Integrations', 'III 3.8.4; IV 2.2.14', 'Vòng đời notification trong ứng dụng theo read_at: unread và read là diễn giải, không phải enum. Email delivery không thuộc tám hình chính.'),
+        ('Notifications-Integrations', 'IV 3.7.7; IV 2.2.16 notification_emails; FR-100, FR-174', 'Vòng đời một notification email (D-3, 2026-11-03) theo status pending/sending/sent/failed/skipped: choice có gửi hay không, choice giao thành công hay không; retry từ failed là đề xuất. Thay cho hình unread/read cũ. Ghi chú cũ: Vòng đời notification trong ứng dụng theo read_at: unread và read là diễn giải, không phải enum. Email delivery không thuộc tám hình chính.'),
         ('Administration-Monitoring', 'III 3.9.9; IV 2.2.38 monitoring_alerts; IV 3.8; FR-104', 'Vòng đời một monitoring alert: active/resolved theo schema. Acknowledge là self-transition ghi acknowledged_at/by, không đồng nghĩa resolve. Resolution reported là event thiết kế cho việc ghi nhận resolved và resolved_at; nối trực tiếp Active tới Resolved, không thêm choice chỉ để đọc status. Không khẳng định ai hoặc thuật toán nào tự resolve. Không tự thêm reopen resolved alert; sự cố mới có thể là alert mới nhưng nguồn chưa chốt identity rule.'),
     ]
     lines = [

@@ -1,5 +1,27 @@
 # Class Diagrams — 8 tab theo nhóm feature
 
+## Cập nhật 2026-11-03 — đồng bộ với sequence IV.3
+
+Nội dung class giờ nằm ở [class_model.py](class_model.py); [build_class_diagrams.py](build_class_diagrams.py) sinh cả file draw.io và [Mermaid](Class-Diagrams-Mermaid.md) từ cùng model. Lý do: 75/78 sequence gọi operation không có trong class (130 message dạng câu mô tả, 17 operation thiếu, 8 lifeline không có class). Class phải có thêm khoảng 130 operation, hộp cao gấp 2–3 lần, nên bố cục thủ công cũ không còn dùng được. Builder mới dàn theo hàng: controller → service (kèm class của nhóm khác, chỉ vẽ tên) → helper/external → entity/enumeration. Thứ tự trong hàng theo barycentre của các quan hệ; quan hệ giữa hai hàng đi qua làn riêng trong khoảng trống; quan hệ nhảy hàng đi qua hành lang trống giữa các hộp.
+
+Quyết định đã chốt khi rà IV.3 (bước 1) được đưa vào class: Charter, Consultation (AI PI); NotificationEmail và EmailStatus (state Notification Email); MonitoringAlert và AlertState (state Monitoring Alert); LocalNodeStatus (state Local Node); WaitingReason/EndingOutcome theo FR-21 (hết token budget thì chờ budget review). Class mới cho các sequence đã vẽ: ResearchCaseService, LiteratureController/LiteratureService/LiteratureBase, LockService, ReviewerPersona, MakerPersona, ScholarlySource, IsolatedExecutor, LocalNodeAgent, ReviewService, BenchmarkService/BenchmarkRun, ModelProvider. `Envelope` đổi thành `ConfirmatoryResults` theo thuật ngữ disclosure. Thao tác `pushUpdate(event)` có ở các controller nhận cập nhật từ luồng hệ thống.
+
+| Tab | Classifier (trong đó chỉ vẽ tên) |
+|---|---:|
+| Authentication & Account | 11 (0) |
+| Project Workspace | 17 (4) |
+| Data Management | 22 (5) |
+| Research Run Orchestration | 22 (6) |
+| Research Engines | 27 (4) |
+| AI Principal Investigator | 17 (3) |
+| Notifications & Integrations | 17 (2) |
+| Administration & Monitoring | 18 (2) |
+
+**Chỉnh tay 2026-11-03:** người dùng import [Mermaid](Class-Diagrams-Mermaid.md) vào draw.io và tự sắp bố cục cho cả 8 tab; file draw.io từ đây là bản chỉnh tay (mỗi tab giữ `mermaidData` để mở lại bằng Mermaid). Sau khi import đã sửa ký hiệu UML ngay trên file, không đổi bố cục: operation ghi `name(args) : Type`, `∗`/`#95;` trả về `*`/`_`, dependency dùng mũi tên mở, realization dùng tam giác rỗng, nền nhãn quan hệ trắng; thêm lại 4 operation và 2 class tham chiếu (AuthenticationService ở Project, GoogleIdentityProvider ở Data) đã có trong model nhưng thiếu trong bản import. [build_class_diagrams.py](build_class_diagrams.py) mặc định chỉ ghi Mermaid; `--drawio` sinh lại draw.io và sẽ xoá bố cục chỉnh tay. Lưu ý: mở lại tab bằng hộp thoại Mermaid của draw.io cũng ghi đè các sửa ký hiệu trên.
+
+Các mục bên dưới là lịch sử thiết kế trước 2026-11-03; bố cục và số classifier trong đó không còn đúng với file hiện tại.
+
+
 ## Artifact
 
 File editable chung: [Class-Diagram-Authentication-Account.drawio](Class-Diagram-Authentication-Account.drawio). Giữ tên artifact đã dùng để người dùng tiếp tục mở cùng file; nội dung hiện có cả tám nhóm, không chỉ Authentication. Mỗi tab là một Class Diagram, không phải Sequence hoặc Activity Diagram.
@@ -75,20 +97,15 @@ Các caption Sequence cũ như Answer Gate/Charter/Consultations/Reviewer Queue 
 
 ## Tái tạo và export
 
-[build_authentication_account.py](build_authentication_account.py) giữ phần Authentication đã duyệt và gọi [class_diagram_pages.py](class_diagram_pages.py) để thêm bảy tab. Builder nhỏ dùng chung hàm dựng class/connector giữa các tab, không tạo thêm tầng interface/repository không cần thiết.
-
-Builder cần Python với Pillow và font Windows `C:/Windows/Fonts/arial.ttf`, `arialbd.ttf` để đo chiều rộng theo font thực tế trước khi ghi XML.
+Builder cần Python với Pillow và font Windows `C:/Windows/Fonts/arial.ttf`, `arialbd.ttf`. [build_authentication_account.py](build_authentication_account.py) chỉ còn là entry point tương thích; [class_diagram_pages.py](class_diagram_pages.py) đã ngưng dùng.
 
 ```powershell
-python diagrams/07-class/build_authentication_account.py
-python C:/Users/ADMIN/.agents/skills/drawio-skill/scripts/validate.py diagrams/07-class/Class-Diagram-Authentication-Account.drawio --score
+python diagrams/07-class/build_class_diagrams.py            # chỉ Mermaid
+python diagrams/07-class/build_class_diagrams.py --drawio   # ghi đè bố cục chỉnh tay
+python <drawio-skill>/scripts/validate.py diagrams/07-class/Class-Diagram-Authentication-Account.drawio --strict --score
 ```
 
-Để xuất một tab, dùng draw.io CLI `-p <index>` với index từ **1 đến 8** theo bảng trên; PNG scale 2, border 20, nền trắng. Ví dụ tab 2:
-
-```powershell
-Start-Process -FilePath 'C:/Program Files/draw.io/draw.io.exe' -ArgumentList @('-x','-f','png','-s','2','-b','20','-p','2','-o','C:/Users/ADMIN/Desktop/Capstone/capstone-project-docs/diagrams/07-class/Class-Diagram-Project-Workspace.png','C:/Users/ADMIN/Desktop/Capstone/capstone-project-docs/diagrams/07-class/Class-Diagram-Authentication-Account.drawio') -WindowStyle Hidden -Wait
-```
+Export từng tab bằng draw.io CLI `-x -f png -s 1 -b 20 -p <1..8>`; tên PNG theo bảng trên (`Class-Diagram-<Tab>.png`). Dùng scale 1 vì canvas rộng 2600–4400 px.
 
 ## Validation — 2026-10-29
 

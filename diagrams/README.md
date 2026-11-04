@@ -48,7 +48,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 | [05-package](05-package/) | Package Diagram | 1 | IV 1.2 (IV-4) | T |
 | [06-database](06-database/) | Database Diagram (tables, matches the database script) | 1 | IV 2.2 | T, R2 |
 | [07-class](07-class/) | Class Diagram, one tab per feature group | 1 file / 8 tabs | IV 3.1.1–3.8.1 | T |
-| [08-sequence](08-sequence/) | Sequence Diagram, one tab per sequence, grouped by feature | 8 files / 64 tabs | IV 3.x.y; IV-10/12 | T |
+| [08-sequence](08-sequence/) | Sequence Diagram, one tab per sequence, grouped by feature | 8 files / 78 tabs | IV 3.x.y; IV-10/12 | T |
 | [09-state-machine](09-state-machine/) | State Machine Diagram, grouped flat lifecycle views | 1 file / 9 tabs | IV 3.2–3.6; Authentication bổ sung | R2 |
 | [10-activity](10-activity/) | Activity Diagram (swimlanes), one per main workflow | 5 | IV 3.4–3.6, VI 3 | R2 |
 | [11-optional](11-optional/) | System Context, Business Process, Deployment, Scrum Process | 4 | I 1.2, II 2.1, III 1, IV 1.1 | report/ |
@@ -69,7 +69,7 @@ File chung: [Class-Diagram-Authentication-Account.drawio](07-class/Class-Diagram
 - [x] Administration & Monitoring
 
 ### 08-sequence
-Theo yêu cầu người dùng: tám folder, mỗi folder một file draw.io chính, mỗi sequence một tab. Bộ thiết kế đề xuất gồm 64 tab và PNG riêng; xem [inventory/nguồn/caption mapping](08-sequence/Sequence-Groups-design.md). Authentication có đủ năm sequence, không chỉ bản Email Code mẫu. Tầng dữ liệu đã bổ sung Repository theo chuỗi Service → Repository → Database; bản Email Code standalone và tab đầu Authentication được đồng bộ cùng model.
+Theo yêu cầu người dùng: tám folder, mỗi folder một file draw.io chính, mỗi sequence một tab. Bộ thiết kế đề xuất gồm 78 tab và PNG riêng (bổ sung Local Node, spending, Research Dossier và 5 use case Must còn thiếu ngày 2026-11-03); xem [inventory/nguồn/caption mapping](08-sequence/Sequence-Groups-design.md). Authentication có đủ năm sequence, không chỉ bản Email Code mẫu. Tầng dữ liệu đã bổ sung Repository theo chuỗi Service → Repository → Database; bản Email Code standalone và tab đầu Authentication được đồng bộ cùng model.
 
 - Authentication & Account: 5 tab.
 - Project Workspace: 12 tab.

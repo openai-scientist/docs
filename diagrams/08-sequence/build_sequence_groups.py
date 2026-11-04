@@ -2,6 +2,7 @@
 from html import escape
 from pathlib import Path
 import hashlib
+import re
 import textwrap
 import xml.etree.ElementTree as E
 from sequence_flows import GROUPS
@@ -10,7 +11,11 @@ OUT = Path(__file__).resolve().parent
 REPORT = Path('C:/Users/ADMIN/Downloads/FA26SE115_Report7 (1).md')
 BASE = ('html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;'
         'strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;')
-ROW = 54
+# Vertical spacing (px). NORMAL is the original layout; a tab that would exceed one
+# A4 portrait page (A4_RATIO) falls back to COMPACT.
+NORMAL = dict(ROW=54, LINE=15, GUARD=70, FRAME_TOP=26, FRAME_BOTTOM=48, DIVIDER=12, OPERAND_END=10)
+COMPACT = dict(ROW=32, LINE=15, GUARD=38, FRAME_TOP=16, FRAME_BOTTOM=26, DIVIDER=4, OPERAND_END=2)
+GAP = 290         # distance between lifelines
 
 
 def flatten(items):
@@ -21,6 +26,24 @@ def flatten(items):
         else:
             result.append(item)
     return result
+
+
+WRITE_VERBS = {'accept', 'add', 'append', 'apply', 'archive', 'ask', 'block', 'build', 'cancel',
+               'change', 'close', 'complete', 'confirm', 'consume', 'create', 'decline', 'delete',
+               'disclose', 'draft', 'end', 'grant', 'import', 'invite', 'issue', 'keep', 'lift',
+               'mark', 'overturn', 'persist', 'pin', 'publish', 'queue', 'record', 'register',
+               'remove', 'rename', 'resend', 'revoke', 'save', 'set', 'store', 'transfer',
+               'update', 'write'}
+
+
+def database_label(service_label):
+    """One unambiguous Repository -> Database action instead of a combined read/write label.
+    A clause writes when its leading verb writes ("Query append-only audit" only reads)."""
+    for clause in re.split(r';| and ', service_label):
+        verb = re.match(r'\s*([A-Za-z][a-z]*)', clause)
+        if verb and verb.group(1).lower() in WRITE_VERBS:
+            return 'Write records'
+    return 'Query records'
 
 
 def repository_interactions(items):
@@ -34,7 +57,7 @@ def repository_interactions(items):
             result.append({**item, 'body': repository_interactions(item['body'])})
         elif item.get('to') == 'd' and not item.get('reply'):
             result.extend([{**item, 'to': 'repo'},
-                           {**item, 'from': 'repo', 'label': 'Read / persist requested data'}])
+                           {**item, 'from': 'repo', 'label': database_label(item['label'])}])
         elif item.get('from') == 'd' and item.get('reply'):
             result.extend([{**item, 'to': 'repo'}, {**item, 'from': 'repo'}])
         else:
@@ -42,7 +65,27 @@ def repository_interactions(items):
     return result
 
 
-def draw_page(flow, page_id):
+def rejection(guard):
+    reason = guard.strip('[]').removeprefix('else: ')
+    return [{'from': 's', 'to': 'c', 'label': f'Rejected: {reason}', 'reply': True},
+            {'from': 'c', 'to': 'w', 'label': 'Domain validation error', 'reply': True},
+            {'from': 'w', 'to': 'u', 'label': 'Show error message', 'reply': True}]
+
+
+def distribute(items, success):
+    """Return the result inside every operand of a final alt, so an error branch never
+    ends empty and never falls through to the success reply (rule.md, Fragment và luồng lỗi)."""
+    items = flatten(items)
+    last = items[-1] if items else {}
+    if 'branches' not in last or last.get('kind', 'alt') != 'alt':
+        return items + success
+    return items[:-1] + [{**last, 'branches': [
+        (guard, distribute(body, success) if flatten(body) else rejection(guard))
+        for guard, body in last['branches']]}]
+
+
+def interaction(flow):
+    """Return (participants, interaction tree) for one flow; shared by builder and review checks."""
     repository = flow['service'].removesuffix('Service').removesuffix('Engine')
     repository = {'RunOrchestrator': 'Run', 'IndependentReview': 'Review',
                   'AIPrincipalInvestigator': 'Decision'}.get(repository, repository)
@@ -62,33 +105,43 @@ def draw_page(flow, page_id):
     else:
         prelude = [{'from': 'c', 'to': 'a', 'label': access_label},
                    {'from': 'a', 'to': 'c', 'label': 'Access check result', 'reply': True}]
-    completion = [] if flow.get('terminal_branches') else [
-        {'from': 's', 'to': 'c', 'label': flow.get('result', 'Operation result'), 'reply': True},
-        {'from': 'c', 'to': 'w', 'label': 'Result or domain validation error', 'reply': True},
-        {'from': 'w', 'to': 'u', 'label': flow.get('display', 'Show result or error'), 'reply': True},
-    ]
-    main = [
-        {'from': 'c', 'to': 's', 'label': flow['operation']},
-        *flatten(flow['steps']),
-        *completion,
-    ]
-    if prelude:
-        execution = [{'branches': [
+    def completion(to='s', result=None, display=None):
+        if flow.get('terminal_branches'):
+            return []
+        return [
+            {'from': to, 'to': 'c', 'label': result or flow.get('result', 'Operation result'), 'reply': True},
+            {'from': 'c', 'to': 'w', 'label': 'Result or domain validation error', 'reply': True},
+            {'from': 'w', 'to': 'u', 'label': display or flow.get('display', 'Show result or error'), 'reply': True},
+        ]
+
+    def run_part(operation, steps, to='s', result=None, display=None):
+        main = [{'from': 'c', 'to': to, 'label': operation},
+                *distribute(steps, completion(to, result, display))]
+        if not prelude:
+            return main
+        return [{'branches': [
             ('[access denied or session invalid]', [
                 {'from': 'c', 'to': 'w', 'label': 'Access rejected', 'reply': True},
-                {'from': 'w', 'to': 'u', 'label': 'Show unavailable / sign-in required', 'reply': True}]),
+                {'from': 'w', 'to': 'u', 'label': 'Show unavailable or sign-in required', 'reply': True}]),
             ('[else: access allowed]', main)]}]
-    else:
-        execution = main
+
+    main = run_part(flow['operation'], flow['steps'])[-1]['branches'][1][1] if prelude else         run_part(flow['operation'], flow['steps'])
     tree = [
         {'from': 'u', 'to': 'w', 'label': flow['trigger']},
         {'from': 'w', 'to': 'c', 'label': flow.get('entry', flow['operation'])},
-        *prelude, *execution,
+        *prelude, *run_part(flow['operation'], flow['steps']),
     ]
+    if flow.get('choices'):
+        # One operand per user choice; each calls its own controller and service operation.
+        tree = [{'from': 'u', 'to': 'w', 'label': flow['trigger']}, {'branches': [
+            (ch['guard'], [{'from': 'w', 'to': 'c', 'label': ch['entry']}, *prelude,
+                           *run_part(ch['operation'], ch.get('steps', []), ch.get('to', 's'),
+                                     ch.get('result'), ch.get('display'))])
+            for ch in flow['choices']]}]
     if flow.get('google_consent'):
         tree = [
             {'from': 'u', 'to': 'w', 'label': 'Choose Sign in with Google'},
-            {'from': 'w', 'to': 'g', 'label': 'Open Google account and consent screen'},
+            {'from': 'w', 'to': 'g', 'label': 'authorize(clientId, scope)'},
             {'from': 'g', 'to': 'w', 'label': 'Authorization callback: code or denial', 'reply': True},
             {'branches': [
                 ('[consent denied]', [{'from': 'w', 'to': 'u', 'label': 'Show sign-in cancelled', 'reply': True}]),
@@ -96,58 +149,84 @@ def draw_page(flow, page_id):
                     {'from': 'w', 'to': 'c', 'label': 'signInWithGoogle(code)'}, *main])]},
         ]
     if flow.get('system_trigger'):
-        names = {'t': flow['system_trigger'], **names}
+        # The actor stays leftmost; the system trigger lifeline comes right after it.
+        names = {'u': names['u'], 't': flow['system_trigger'], **names}
         tree = [
             {'from': 't', 'to': 's', 'label': flow['operation'], 'async': True},
             *flatten(flow['steps']),
             {'kind': 'opt', 'guard': '[user connected and authorized]', 'body': [
-                {'from': 's', 'to': 'c', 'label': 'Publish authorized inbox update', 'async': True},
+                {'from': 's', 'to': 'c', 'label': 'pushUpdate(event)', 'async': True},
                 {'from': 'c', 'to': 'w', 'label': 'Deliver in-app update', 'async': True},
-                {'from': 'w', 'to': 'u', 'label': 'Show notification / decision status', 'async': True}]},
+                {'from': 'w', 'to': 'u', 'label': flow.get('display', 'Show notification and decision status'),
+                 'async': True}]},
         ]
     if flow.get('custom_tree'):
         tree = flow['custom_tree']
-    tree = repository_interactions(tree)
+    return names, repository_interactions(tree)
+
+
+def walk(items):
+    for item in flatten(items):
+        if 'branches' in item:
+            for _, body in item['branches']:
+                yield from walk(body)
+        elif 'body' in item:
+            yield from walk(item['body'])
+        else:
+            yield item
+
+
+def wrap_label(text, sender, receiver, xs):
+    width = abs(xs[sender] - xs[receiver]) - 24
+    return textwrap.wrap(text, max(26, int(width / 6.6)), break_long_words=False)
+
+
+def draw_page(flow, page_id, gap=GAP, sp=NORMAL):
+    names, tree = interaction(flow)
+    if names.get('a') == names.get('s'):
+        for message in walk(tree):
+            for key in ('from', 'to'):
+                if message[key] == 'a':
+                    message[key] = 's'
+        del names['a']
+    used = {m[k] for m in walk(tree) for k in ('from', 'to')}
+    names = {k: v for k, v in names.items() if k in used}
+    # An actor figure is narrow; a box lifeline (system trigger first) needs more room.
+    origin = 80 if next(iter(names), None) == 'u' else 130
+    xs = {key: origin + i*gap for i, key in enumerate(names)}
     messages, fragments = [], []
-    cursor = 160
+    cursor = 150
 
     def layout(items, depth=0):
         nonlocal cursor
         for item in flatten(items):
             if 'branches' in item or item.get('kind') in ('loop', 'opt', 'par'):
                 start = cursor
-                cursor += 26
+                cursor += sp['FRAME_TOP']
                 branch_data = item.get('branches', [(item['guard'], item['body'])]) if 'branches' not in item else item['branches']
                 guards, dividers = [], []
                 indices = []
                 for i, (guard, body) in enumerate(branch_data):
                     if i:
                         dividers.append(cursor)
-                        cursor += 12
+                        cursor += sp['DIVIDER']
                     guards.append((cursor, guard))
-                    cursor += 70
+                    cursor += sp['GUARD']
                     before = len(messages)
                     layout(body, depth+1)
                     indices.extend(range(before, len(messages)))
-                    cursor += 10
+                    cursor += sp['OPERAND_END']
                 fragments.append({'kind': item.get('kind', 'alt'), 'top': start,
                                   'bottom': cursor, 'guards': guards, 'dividers': dividers,
                                   'indices': indices, 'depth': depth})
-                cursor += 48
+                cursor += sp['FRAME_BOTTOM']
             else:
-                messages.append({**item, 'y': cursor, 'number': len(messages)+1})
-                cursor += ROW
+                number = len(messages) + 1
+                lines = wrap_label(f"{number}: {item['label']}", item['from'], item['to'], xs)
+                cursor += sp['LINE'] * (len(lines) - 1)   # room for a wrapped label above its arrow
+                messages.append({**item, 'y': cursor, 'number': number, 'lines': lines})
+                cursor += sp['ROW']
     layout(tree)
-    if names.get('a') == names.get('s'):
-        for message in messages:
-            for key in ('from', 'to'):
-                if message[key] == 'a':
-                    message[key] = 's'
-        del names['a']
-    used = {m[k] for m in messages for k in ('from', 'to')}
-    names = {k: v for k, v in names.items() if k in used}
-    origin = 130 if flow.get('system_trigger') else 80
-    xs = {key: origin + i*290 for i, key in enumerate(names)}
     width, height = max(xs.values())+150, cursor+35
     page = E.Element('diagram', id=page_id, name=flow['title'])
     model = E.SubElement(page, 'mxGraphModel', grid='1', gridSize='10', page='1',
@@ -175,8 +254,9 @@ def draw_page(flow, page_id):
         if frame['depth'] == 0:
             left, right = 20, width-20
         else:
-            left = min(xs[k] for k in involved)-95 + frame['depth']*5
-            right = max(xs[k] for k in involved)+95 - frame['depth']*5
+            # Nested frames stay inside the outer frame (20 .. width-20).
+            left = max(20 + frame['depth']*8, min(xs[k] for k in involved)-95 + frame['depth']*5)
+            right = min(width-20 - frame['depth']*8, max(xs[k] for k in involved)+95 - frame['depth']*5)
         vertex(f'fragment_{i}', frame['kind'], left, frame['top'], right-left,
                frame['bottom']-frame['top'],
                'shape=umlFrame;fillColor=none;pointerEvents=0;container=0;'
@@ -238,11 +318,8 @@ def draw_page(flow, page_id):
         sender, receiver, y = m['from'], m['to'], m['y']
         source, ex, ey = anchor(sender, y, xs[receiver] > xs[sender])
         target, ix, iy = anchor(receiver, y, xs[sender] > xs[receiver])
-        max_width = abs(xs[sender]-xs[receiver])-24
         # Wrap long operation labels instead of hiding arrowheads or shrinking text.
-        label = f"{m['number']}: {m['label']}"
-        wrapped = '<br>'.join(escape(t) for t in textwrap.wrap(label, max(26, int(max_width/6.6)),
-                                                            break_long_words=False))
+        wrapped = '<br>'.join(escape(t) for t in m['lines'])
         arrow = ('dashed=1;endArrow=open;endFill=0;' if m.get('reply') else
                  'endArrow=open;endFill=0;' if m.get('async') else 'endArrow=block;endFill=1;')
         cell = E.SubElement(root, 'mxCell', id=f"m{m['number']}", value=wrapped,
@@ -255,6 +332,30 @@ def draw_page(flow, page_id):
     return page
 
 
+A4_RATIO = 1.41  # height / width of an A4 portrait page; every tab must fit one page
+
+
+def ratio(page):
+    model = page.find('mxGraphModel')
+    return int(model.get('pageHeight')) / int(model.get('pageWidth'))
+
+
+def tabs(group):
+    """Pages of one group in report order: (report index, flow, page, PNG name); one page per flow."""
+    out = []
+    for i, flow in enumerate(group['flows'], 1):
+        page_id = f"{group['folder']}-{i}"
+        page = draw_page(flow, page_id)
+        if ratio(page) > A4_RATIO:
+            # Only a tab taller than A4 is compacted, then widened (fewer wrapped labels) until it fits.
+            for gap in range(GAP, 481, 10):
+                page = draw_page(flow, page_id, gap, COMPACT)
+                if ratio(page) <= A4_RATIO:
+                    break
+        out.append((i, flow, page, f"{i:02d}-{flow['slug']}.png"))
+    return out
+
+
 def build():
     rows = []
     for group in GROUPS:
@@ -262,11 +363,8 @@ def build():
         folder.mkdir(exist_ok=True)
         file = folder / f"Sequence-Diagrams-{group['slug']}.drawio"
         mx = E.Element('mxfile', host='drawio', version='26.0.0')
-        for i, flow in enumerate(group['flows'], 1):
-            page = draw_page(flow, f"{group['folder']}-{i}")
-            page.set('id', f"{group['folder']}-{i}")
+        for i, flow, page, png in tabs(group):
             mx.append(page)
-            png = f"{i:02d}-{flow['slug']}.png"
             rows.append((group, i, flow, file.relative_to(OUT).as_posix(), png))
         E.indent(mx, space='  ')
         E.ElementTree(mx).write(file, encoding='utf-8', xml_declaration=True)
@@ -299,14 +397,34 @@ def build():
         '- Quyền project được kiểm tra trước khi đọc/ghi; Sign In/Invitation và Platform Admin dùng đúng scope. Admin project list chỉ trả metadata. Secret chỉ trả reference; không đưa khóa vào log/output.',
         '- Engine pages mô tả lifecycle dưới một request điều phối, không quy định giao thức HTTP chờ job hoàn thành. Run Start trả Run trước, stage chạy nền và kết quả theo dõi ở tab Monitor; event bất đồng bộ dùng đầu mở.',
         '- Handle Must-Ask và Receive Notifications bắt đầu từ event hệ thống trong context run/project đã được xác thực, không phụ thuộc user đang mở UI. UI chỉ nhận update khi connected và authorized; quyền trả lời được kiểm tra riêng trong tab answer/confirm.',
-        '- Không thêm FE-18/19 sau MVP hoặc tự giải quyết các khác biệt requirement chưa được chốt. Placeholder Report7 và requirement gốc không sửa.', '',
+        '- Không thêm FE-18/19/20 sau MVP hoặc tự giải quyết các khác biệt requirement chưa được chốt. Placeholder Report7 và requirement gốc không sửa.',
+        '- Bổ sung 2026-11-03 theo `C:/Users/ADMIN/Downloads/FA26SE115_Report7 (3).md` (Phần III đã tái cấu trúc ở bản (2)): '
+        'Pair a Local Node, Handle an Offline or Revoked Local Node, Approve Additional Spending, Review and Approve a Research Dossier, '
+        'Export a Research Dossier. Cột nguồn của các tab này ghi "Report7 (3)"; các tab khác vẫn theo snapshot hash bên trên. '
+        'Local Node và Dossier là thiết kế đề xuất, chưa có bảng tương ứng trong Database Design của report.',
+        '- Execution Stage dùng thuật ngữ disclosure của Report7 (2)/(3) thay cho unseal/envelope; nội dung luồng không đổi.',
+        '- Rà soát 2026-11-03 theo rule.md: Repository → Database ghi `Query records` hoặc `Write records` theo động từ đầu mệnh đề, '
+        'không còn nhãn ghép "Read / persist"; mỗi operand lỗi của `alt` cuối trả lỗi riêng về UI thay cho operand rỗng; '
+        'ghi log quyết định chỉ còn trong nhánh thành công (Accept/Revise/Rerun, Confirm/Overturn). '
+        'Các stage engine, Independent Review và Execute Local Job bắt đầu từ trigger hệ thống, khớp Start Research Run, FR-14, FR-71.',
+        '- Bổ sung 2026-11-03 (phương án a: FE-18/19/20 giữ sau MVP, không vẽ): 5 tab cho use case Must chưa có sequence — '
+        'Amend a Research Case (UC-28), Build Literature Base (UC-38), Lock an Analysis Plan and Request a Deviation (UC-40), '
+        'Triage Exploration Candidates (UC-43), Run Reviewer Benchmark (UC-65). Slot IV giả định report đã áp FIX-01…FIX-19.',
+        '- Đồng bộ class 2026-11-03: mọi message gọi vào controller/service là operation có trong [class model](../07-class/class_model.py). '
+        'Tab có nhiều lựa chọn dùng `choices`: mỗi operand gọi operation riêng của controller và service. Luồng hệ thống đẩy cập nhật bằng `pushUpdate(event)`. '
+        'Tab sắp theo số mục IV 3.x.y nên PNG số n ứng với mục 3.x.(n+1). Đổi tên: Answer Gate, Accept Send Back or Rerun Stage, Experiment Design Stage, '
+        'View Decision Inbox, Manage Project Integrations and Notification Preferences; AI PI thêm slot 3.6.7–3.6.9, Decision Inbox là 3.7.6.',
+        '- Vừa trang A4 2026-11-03: mỗi sequence là một hình duy nhất, tỉ lệ cao/rộng ≤ 1.41 (A4 dọc). '
+        'Sequence vừa A4 giữ khoảng dòng gốc (message 54 px, guard 70 px, viền fragment 26/48 px); chỉ 22 tab vượt A4 mới nén '
+        '(message 32 px, guard 38 px, viền fragment 16/26 px), vẫn vượt thì giãn khoảng cách lifeline (290 → tối đa 480 px). Nhãn dài xuống dòng (+15 px mỗi dòng); '
+        'không tách hình, không bỏ nhánh. Update/Archive/Complete gộp lưu và ghi audit thành một lần ghi.', '',
         '## Tái tạo', '',
         '`python diagrams/08-sequence/build_sequence_groups.py` (Python stdlib). '
         'Nguồn flow: [sequence_flows.py](sequence_flows.py); layout: [builder](build_sequence_groups.py). '
         'Export PNG bằng draw.io CLI `-x -f png -s 2 -b 20 -p <tab 1-based> -o <PNG> <drawio>`.', '',
-        'Ngoại lệ export: Execute Local Job and Release Aggregate, Hypothesis Stage, Independent Review and Revision Rounds, '
-        'Execution Stage and Unseal Results dùng `-s 1` (100%). Các ảnh này bị cắt phần cuối khi native exporter xuất '
-        'ở scale 2; scale 1 đã kiểm tra đủ nội dung. Giữ nguyên geometry/cỡ chữ trong editable.', '',
+        'Ngoại lệ export: tab có `pageHeight` lớn hơn 2700 px dùng `-s 1` (100%), vì native exporter cắt phần cuối '
+        'khi xuất trang dài ở scale 2; các tab còn lại dùng `-s 2`. Kiểm tra trực quan đến message cuối. '
+        'Giữ nguyên geometry/cỡ chữ trong editable.', '',
         '## Inventory', '',
         '| Nhóm / file | Tab | Sequence / PNG | Nguồn Report7 |',
         '|---|---:|---|---|',

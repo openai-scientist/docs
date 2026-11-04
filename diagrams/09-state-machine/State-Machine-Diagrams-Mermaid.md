@@ -8,11 +8,16 @@ Các nhãn được giữ ngắn như hình; nhánh choice ghi điều kiện đ
 
 ```mermaid
 stateDiagram-v2
-    state "Active account" as active
-    state "Suspended account" as suspended
-    [*] --> active
-    active --> suspended : admin suspends account
-    suspended --> active : admin reactivates account
+    state "Signed out" as signed_out
+    state "Awaiting email code" as awaiting
+    state valid <<choice>>
+    state "Signed in" as signed_in
+    [*] --> signed_out
+    signed_out --> awaiting : Code requested / send one-time code
+    awaiting --> valid : code submitted
+    valid --> awaiting : [No] code incorrect or expired
+    valid --> signed_in : [Yes] code correct and unexpired
+    signed_in --> [*]
 ```
 
 ## 2. Project Workspace
@@ -35,10 +40,18 @@ stateDiagram-v2
 
 ```mermaid
 stateDiagram-v2
-    state "Dataset available" as available
-    [*] --> available : create first version with hash
-    available --> available : new version; retain prior versions
-    available --> [*] : authorized deletion confirmed
+    direction TB
+    state "Unpaired" as unpaired
+    state "Paired (online)" as online
+    state "Paired (offline)" as offline
+    state "Revoked" as revoked
+    [*] --> unpaired
+    unpaired --> online : Pairing succeeds
+    online --> offline : connection lost
+    offline --> online : Node reconnects
+    online --> revoked : Pairing revoked
+    offline --> revoked : Pairing revoked
+    revoked --> [*]
 ```
 
 ## 4. Research Run Orchestration
@@ -52,20 +65,18 @@ stateDiagram-v2
     [*] --> s_running
     s_running --> s_waiting : Decision blocks work
     s_running --> s_waiting : Node offline
-    s_running --> s_waiting : Monthly budget reached
+    s_running --> s_waiting : Budget limit reached
     s_waiting --> s_running : Decision answered
     s_waiting --> s_running : Node reconnects
-    s_waiting --> s_running : Extra spend approved
+    s_waiting --> s_running : Spending approved or budget raised
     s_running --> s_ended : All stages accepted
     s_waiting --> s_ended : Pinned wait expires
-    s_waiting --> s_ended : Spending declined or expired
+    s_waiting --> s_ended : Budget review declined or expired
     s_ended --> [*]
     s_running --> s_ended : Run cancelled
     s_waiting --> s_ended : Run cancelled
     s_running --> s_ended : Technical failure
     s_waiting --> s_ended : Technical failure
-    s_running --> s_ended : Token budget exhausted
-    s_waiting --> s_ended : Token budget exhausted
 ```
 
 ## 5. Research Engines
@@ -138,10 +149,24 @@ stateDiagram-v2
 
 ```mermaid
 stateDiagram-v2
-    state "Unread" as unread
-    state "Read" as read
-    [*] --> unread
-    unread --> read : recipient marks as read; record read_at
+    direction TB
+    state "Pending" as pending
+    state allowed <<choice>>
+    state "Skipped" as skipped
+    state "Sending" as sending
+    state success <<choice>>
+    state "Sent" as sent
+    state "Failed" as failed
+    [*] --> pending
+    pending --> allowed : Dispatch requested
+    allowed --> skipped : [No] external notice disallowed
+    allowed --> sending : [Yes] external notice allowed
+    sending --> success : Delivery result received
+    success --> failed : [No] delivery failed
+    success --> sent : [Yes] provider accepted delivery
+    failed --> pending : Retry scheduled (proposed)
+    skipped --> [*]
+    sent --> [*]
 ```
 
 ## 8. Administration & Monitoring
