@@ -13,3 +13,4 @@ docs/*
 # draw.io temp files
 .$*.bkp
 .$*.dtmp
+/imageUI/

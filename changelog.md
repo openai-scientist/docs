@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-04 — Điều chỉnh bố cục mock UI và thể hiện phân trang
+
+- Mục đích: bỏ việc áp một bố cục main lớn/cột phụ nhỏ cho mọi màn; giữ layout tài khoản đã đăng nhập. [Danh mục và quy tắc bố cục](imageUI/README.md): Comment/Edit Comment chia 60/40, card căn trên; nút gửi/xóa và lưu/hủy nằm trong ô nhập bằng InputGroup dùng chung; dossier dùng các section xếp dọc; review rounds dùng dải R1/R2 phía trên, diff/findings toàn chiều ngang main và artifacts gọn 3 cột × 2 hàng với Compare/Download ở header; inbox ưu tiên vùng đọc quyết định. Sidebar và header của project được giữ nguyên, Run Studio vẫn là workspace toàn màn hình.
+- Frontend: chỉnh các component mock `studio.tsx`, `screens.tsx`, `screens2.tsx`; Run List phân trang cục bộ 3 mục/trang từ 5 bản ghi mẫu; danh sách ngắn hiện tổng số. Thêm trạng thái page riêng cho dossier, dataset và analysis plan; không sửa authentication/membership hoặc luồng nghiệp vụ. Không đổi BRD/PRD/Use Case Spec vì đây là thay đổi trình bày mock.
+- [Mapping 32 ảnh](imageUI/mock-routes.json) và [script export](tools/capture_report_mocks.cjs) chọn tab có session user/project hoặc Admin phù hợp để chụp trong layout thật. Không dùng preview độc lập; source editable nằm trong repo frontend cạnh repo docs.
+- Sửa lỗi export Dataset Stage khi còn skeleton: script chờ marker đúng màn, hết skeleton và ổn định ba lần kiểm tra liên tiếp; kiểm tra lại trước/sau chụp, không ghi đè ảnh nếu màn đang tải. Chụp lại cả trạng thái gate và page của Dataset Stage.
+- Rà soát trực quan đủ 32 ảnh mock sau khi sửa skeleton; Close Report gom kết quả thành danh sách đọc, đặt literature context cạnh open items, gộp đề xuất và nút hành động vào một khối cuối; giảm khung card và giữ đủ nhãn trục biểu đồ; Local Node Offline giảm chiều cao heartbeat và khoảng đệm các dòng node; chụp lại hai màn.
+- Validation: xem render trên Chrome, kiểm tra chuyển Run List sang trang 2 (hiện 2 bản ghi còn lại); kiểm tra layout desktop, màn hình hẹp và dark mode. Không chạy test/build/lint. Ảnh chụp là mock UI, không phải xác nhận backend hoặc khoa học.
+
+
 ## 2026-11-03 — Nén sequence để mỗi hình vừa một trang A4
 
 - Mục đích: người dùng cần mỗi sequence là một hình vừa trang A4 trong report, gọn nhưng đủ luồng. Bỏ cách tách nhiều hình đã thử trước đó (không còn tab `(k/n)` hay `split_at`).
