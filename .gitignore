@@ -9,6 +9,7 @@
 __pycache__/
 /skills/
 docs/*
+!docs/slides/
 .codex
 # draw.io temp files
 .$*.bkp
