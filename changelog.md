@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-05 — Soát văn phong SRS Report 7 mục III–VI
+
+- Mục đích: chỉ sửa văn phong và ký tự trong [Report 7](deliverables/FA26SE115_Report7.docx) mục III–VI, không đổi nội dung; mục I–II giữ nguyên.
+- Đã sửa 45 chỗ: bỏ dấu `;` và comma splice nối hai mệnh đề, thêm mạo từ, sửa thì, thống nhất viết hoa (Access tab, Release Gate), đổi gạch nối trong caption sang en dash, sửa khoảng trắng và dấu chấm thừa hoặc thiếu.
+- Bỏ 312 cụm mã tham chiếu trong ngoặc chen giữa câu văn, ví dụ (FR-245), (FR-02, BR-02), (MSG-33), ở 197 đoạn của mục III–VI. Giữ các dòng "Related requirements", các ô bảng chỉ chứa mã và các câu dùng mã thông báo MSG-xx làm nội dung.
+- Bỏ thêm mã SR-xx trong ngoặc ở cuối câu, tách các ngoặc chứa MSG-xx thành câu riêng, viết lại trạng thái dạng code trong User Guide (waiting(decision), waiting(budget_review), waiting(node_offline), ready_to_<action>) thành lời.
+- Mục lục: đổi tên heading 3.8.2 thành "Execute Local Job and Release Aggregate" theo caption hình và sequence diagram 3.3.12; đánh lại số mục 1.2–1.5 của chương IV theo thứ tự xuất hiện; đổi các mục 1.1.x, 1.2–1.5 và 2.1.x của chương IV sang style Heading 3/4 để mục lục nhận. Field TOC cần Update entire table trong Word.
+- Không sửa vì là nội dung: số caption trùng hoặc sai ở mục IV, đoạn 3.5.2 chép từ 3.5.1, heading 3.1.1 dính vào đoạn trước, "Office" có thể là "Offline" ở mục IV.
+- Không đổi BRD/PRD/Use Case Spec vì chỉ sửa văn phong.
+- Validation: so văn bản trước và sau theo từng đoạn (chỉ đổi trong mục III–VI), mở và xuất PDF bằng LibreOffice, `git diff --check`.
+
 ## 2026-11-04 — Điều chỉnh bố cục mock UI và thể hiện phân trang
 
 - Mục đích: bỏ việc áp một bố cục main lớn/cột phụ nhỏ cho mọi màn; giữ layout tài khoản đã đăng nhập. [Danh mục và quy tắc bố cục](imageUI/README.md): Comment/Edit Comment chia 60/40, card căn trên; nút gửi/xóa và lưu/hủy nằm trong ô nhập bằng InputGroup dùng chung; dossier dùng các section xếp dọc; review rounds dùng dải R1/R2 phía trên, diff/findings toàn chiều ngang main và artifacts gọn 3 cột × 2 hàng với Compare/Download ở header; inbox ưu tiên vùng đọc quyết định. Sidebar và header của project được giữ nguyên, Run Studio vẫn là workspace toàn màn hình.
