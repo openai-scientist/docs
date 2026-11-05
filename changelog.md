@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-05 — Slide Review 2: stage theo tài liệu steps và gộp Agent Harness
+
+- Mục đích: làm lại slide thuyết trình Review 2 cho dễ trình bày, bám theo tài liệu stage/step và harness do nhóm cung cấp ở `docs/example` (thư mục gitignore, không có trong repo).
+- [Builder](docs/slides/build_review2_slides.js) và [deck](docs/slides/FA26SE115_Review2.pptx): bốn slide Stage 1–4 dùng bố cục một hàng cho mỗi layer, bên phải là các step kèm mã, tên và mô tả ngắn; layer có người nghiên cứu quyết định viền cam. Stage 5 (Paper) làm lại theo engine Writing: năm khối với S00–S16, chiều cao hàng theo số step, ô mã rộng hơn khi mã dài.
+- Gộp hai slide "AI trong hệ thống" và "Harness engineering" thành một slide "Agent Harness": sáu bước Chuẩn bị, Kiểm tra, Sửa lỗi, Phản biện, Duyệt, Bàn giao dạng mũi tên, màu theo bên thực hiện, có vòng sửa giới hạn; thuật ngữ kỹ thuật chuyển xuống ghi chú người nói. Cập nhật slide Nội dung và ghi chú slide Kiến trúc cho khớp.
+- Không đổi BRD/PRD/Use Case Spec vì chỉ thay đổi cách trình bày slide.
+- Validation: build bằng pptxgenjs, xuất PDF bằng LibreOffice và xem render các slide stage và Agent Harness (không tràn chữ, deck 21 slide), `git diff --check`.
+
 ## 2026-11-05 — Soát văn phong SRS Report 7 mục III–VI
 
 - Mục đích: chỉ sửa văn phong và ký tự trong [Report 7](deliverables/FA26SE115_Report7.docx) mục III–VI, không đổi nội dung; mục I–II giữ nguyên.

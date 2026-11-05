@@ -186,9 +186,9 @@ pres.addSection({ title: "Mở đầu" });
   const s = slide("Mở đầu", "Nội dung", "Nội dung trình bày");
   [
     ["01", "Bối cảnh", "Bối cảnh, vấn đề, giải pháp, phạm vi sau Review 1"],
-    ["02", "Phương pháp", "Năm stage nghiên cứu"],
+    ["02", "Phương pháp", "Năm stage nghiên cứu và Agent Harness"],
     ["03", "Yêu cầu", "Actors, tính năng chính"],
-    ["04", "Thiết kế", "Kiến trúc tổng thể, harness, công nghệ"],
+    ["04", "Thiết kế", "Kiến trúc tổng thể và công nghệ"],
     ["05", "Demo", "Danh sách workflow demo cho Hội đồng 1.1"],
     ["06", "Tình trạng", "Tiến độ, kết quả kiểm thử, rủi ro, kế hoạch"],
   ].forEach((it, i) => {
@@ -328,148 +328,115 @@ function stageSlide(i, d) {
 
 /* Slide stage: mỗi stage chia thành các layer. Mỗi layer ghi các bước làm gì, vấn đề layer giải quyết
    và phương pháp nghiên cứu làm nền. Dải trên định vị stage, dải dưới ghi phần người nghiên cứu quyết định. */
-function stageLayers(i, d) {
+/* stage theo layer và step: mỗi hàng một layer, bên phải là các step của layer đó */
+function stagePitch(i, d) {
   const s = slide("Phương pháp", `Stage ${i + 1} · ${STAGES[i][0]}`, d.title);
-  const cw = (CW - 4 * 0.12) / 5;
-  STAGES.forEach(([en], j) => box(s, MX + j * (cw + 0.12), 2.45, cw, 0.5, `${j + 1}  ${en}`,
-    { fill: j === i ? T.orange : T.surf, color: j === i ? T.white : T.faint, size: 16.5 }));
-  /* đầu vào và bàn giao của stage */
-  const io = (x, w, lab, val, out) => {
-    s.addShape(pres.ShapeType.roundRect, { x, y: 3.1, w, h: 0.55, fill: { color: out ? T.peachSoft : T.surf }, rectRadius: 0.08, line: { color: out ? T.orange : T.surf } });
-    s.addText([{ text: lab + "   ", options: { fontSize: 16, bold: true, charSpacing: 1.5, color: out ? T.amber : T.faint, fontFace: HEAD } },
-      { text: val, options: { fontSize: 17, bold: true, color: T.ink, fontFace: HEAD } }],
-      { x: x + 0.25, y: 3.1, w: w - 0.5, h: 0.55, isTextBox: true, margin: 0, valign: "middle" });
-  };
-  const hw = (CW - 0.9) / 2;
-  io(MX, hw, "ĐẦU VÀO", d.input, false);
-  arrow(s, MX + hw + 0.15, 3.375, 0.6, 0, T.orange);
-  io(MX + hw + 0.9, hw, "BÀN GIAO", d.output || STAGES[i][2], true);
-  /* các layer */
-  const n = d.layers.length, G = 0.25, w = (CW - G * (n - 1)) / n, Y = 3.9, H = 5.3;
-  d.layers.forEach(([name, steps, prob, meth], k) => {
-    const x = MX + k * (w + G), human = d.humanLayers && d.humanLayers.includes(k);
-    s.addShape(pres.ShapeType.roundRect, { x, y: Y, w, h: H, fill: { color: T.white }, rectRadius: 0.1, line: { color: T.line, width: 1.25 }, objectName: `layer-${k}` });
-    s.addShape(pres.ShapeType.roundRect, { x, y: Y, w, h: 0.95, fill: { color: T.peach }, rectRadius: 0.1, line: { color: T.peach } });
-    s.addShape(pres.ShapeType.rect, { x, y: Y + 0.6, w, h: 0.35, fill: { color: T.peach }, line: { color: T.peach } });
-    s.addText([{ text: `LAYER ${k + 1}`, options: { fontSize: 16, bold: true, charSpacing: 1.5, color: T.amber, fontFace: HEAD, breakLine: true } },
-      { text: name, options: { fontSize: 19, bold: true, color: T.ink, fontFace: HEAD } }],
-      { x: x + 0.22, y: Y + 0.05, w: w - 0.44, h: 0.85, isTextBox: true, margin: 0, valign: "middle" });
-    const tx = x + 0.22, tw = w - 0.44, lab = (y, t, c) => s.addText(t, { x: tx, y, w: tw, h: 0.3, isTextBox: true, margin: 0, fontSize: 16, bold: true, charSpacing: 1.2, color: c || T.faint, fontFace: HEAD });
-    lab(Y + 1.1, "CÁC BƯỚC");
-    s.addText(steps.map((t, j) => ({ text: t, options: { bullet: { indent: 14 }, breakLine: j < steps.length - 1 } })),
-      { x: tx, y: Y + 1.42, w: tw, h: 1.55, isTextBox: true, margin: 0, valign: "top", fontSize: 18.5, color: T.ink2, fontFace: BODY, lineSpacingMultiple: 1.0, paraSpaceAfter: 5 });
-    s.addShape(pres.ShapeType.line, { x: tx, y: Y + 3.05, w: tw, h: 0, line: { color: T.line, width: 1 } });
-    lab(Y + 3.15, "GIẢI QUYẾT");
-    s.addText(prob, { x: tx, y: Y + 3.47, w: tw, h: 1.15, isTextBox: true, margin: 0, valign: "top", fontSize: 18, color: T.body, fontFace: BODY, lineSpacingMultiple: 1.0 });
-    lab(Y + 4.7, "PHƯƠNG PHÁP", T.amber);
-    s.addText(meth, { x: tx, y: Y + 4.98, w: tw, h: 0.3, isTextBox: true, margin: 0, valign: "top", fontSize: 17, bold: true, color: T.amber, fontFace: BODY });
+  const Y = 2.5, BOT = 10.15, n = d.layers.length, G = 0.15;
+  /* hàng có nhiều step thì cao hơn */
+  const wt = d.layers.map((L) => Math.max(2.5, L[3].length)), unit = (BOT - Y - G * (n - 1)) / wt.reduce((a, b) => a + b, 0);
+  const CHW = d.layers.some((L) => L[3].some((st) => st[0].length > 3)) ? 1.15 : 0.72;
+  d.layers.forEach(([name, line, meth, steps, human], k) => {
+    const RH = wt[k] * unit, y = Y + wt.slice(0, k).reduce((a, b) => a + b, 0) * unit + k * G, C = 0.72;
+    s.addShape(pres.ShapeType.roundRect, { x: MX, y, w: CW, h: RH, fill: { color: T.white }, rectRadius: 0.1, line: { color: human ? T.orange : T.line, width: 1.25 } });
+    s.addShape(pres.ShapeType.ellipse, { x: MX + 0.3, y: y + (RH - C) / 2, w: C, h: C, fill: { color: human ? T.orange : T.peach }, line: { color: human ? T.orange : T.peach } });
+    s.addText(String(k + 1), { x: MX + 0.3, y: y + (RH - C) / 2, w: C, h: C, align: "center", valign: "middle", margin: 0, fontSize: 24, bold: true, color: human ? T.white : T.amber, fontFace: HEAD });
+    const tx = MX + 1.3, tw = 5.6;
+    s.addText([{ text: name, options: { fontSize: 20, bold: true, color: T.ink, fontFace: HEAD, breakLine: true } },
+      { text: line, options: { fontSize: 17, color: T.body, fontFace: BODY, breakLine: true } },
+      { text: meth, options: { fontSize: 16, bold: true, color: T.amber, fontFace: BODY } }],
+      { x: tx, y, w: tw, h: RH, valign: "middle", margin: 0, paraSpaceAfter: 3 });
+    const cx = tx + tw + 0.35, cwid = MX + CW - cx - 0.3;
+    s.addShape(pres.ShapeType.line, { x: cx - 0.2, y: y + 0.2, w: 0, h: RH - 0.4, line: { color: T.line2, width: 1 } });
+    const ch = 0.36, cg = 0.07, top = y + (RH - (steps.length * ch + (steps.length - 1) * cg)) / 2;
+    steps.forEach(([code, sname, sdesc], j) => {
+      const sy = top + j * (ch + cg);
+      s.addShape(pres.ShapeType.roundRect, { x: cx, y: sy, w: CHW, h: ch, fill: { color: T.peachSoft }, rectRadius: 0.06, line: { color: T.orange, width: 1 } });
+      s.addText(code, { x: cx, y: sy, w: CHW, h: ch, align: "center", valign: "middle", margin: 0, fontSize: 16, bold: true, color: T.amber, fontFace: HEAD });
+      s.addText([{ text: sname + "   ", options: { fontSize: 16.5, bold: true, color: T.ink, fontFace: HEAD } },
+        { text: sdesc, options: { fontSize: 16, color: T.body, fontFace: BODY } }],
+        { x: cx + CHW + 0.13, y: sy, w: cwid - CHW - 0.13, h: ch, valign: "middle", margin: 0 });
+    });
   });
-  /* phần người nghiên cứu quyết định */
-  s.addShape(pres.ShapeType.roundRect, { x: MX, y: 9.4, w: CW, h: 0.7, fill: { color: T.surf }, rectRadius: 0.08, line: { color: T.surf } });
-  s.addText([{ text: "NGƯỜI NGHIÊN CỨU QUYẾT ĐỊNH   ", options: { fontSize: 16, bold: true, charSpacing: 1.5, color: T.amber, fontFace: HEAD } },
-    { text: d.decide, options: { fontSize: 17, color: T.ink2, fontFace: BODY } }],
-    { x: MX + 0.3, y: 9.4, w: CW - 0.6, h: 0.7, isTextBox: true, margin: 0, valign: "middle" });
   s.addNotes(d.notes);
 }
-const MNOTE = "Nguồn: docs/example/2026-11-03-method-design.md, thiết kế phương pháp đích cho từng stage. Mỗi layer gom các step cùng mục đích, ghi lỗi người mới hay mắc mà layer chặn và phương pháp làm nền. Tài liệu ghi rõ đây là thiết kế đích, phần dự kiến còn chờ bench kiểm tra.\n\n";
-stageLayers(0, {
-  title: "Hiểu dữ liệu trước khi đặt câu hỏi", input: "Research Case và dataset version",
-  layers: [
-    ["Đọc đúng dữ liệu", ["Xác định giá trị nào là thiếu", "Xác định mỗi dòng ứng với ai", "Xử lý dòng trùng"], "Đọc nhầm \"None\" thành giá trị thiếu hoặc xoá nhầm người thật", "Schmidt 2021, Kapoor 2023"],
-    ["Kiểm tra chất lượng", ["Tìm giá trị bất thường như mã 99 hoặc đơn vị lệch", "Tìm biến lộ thông tin của kết quả"], "Tin mọi giá trị và dùng biến sinh ra từ outcome", "Schmidt 2021, Kapoor 2023"],
-    ["Ghi lại và chia mẫu", ["Ghi lại mọi bước làm sạch", "Chia mẫu theo người, không theo dòng"], "Làm sạch không để lại dấu vết và dữ liệu rò rỉ giữa các phần", "STRATOS IDA, group split"],
-    ["Đánh giá độ phù hợp", ["Mô tả mẫu đại diện cho ai", "Ghi giới hạn khi dùng dữ liệu"], "Không biết kết luận áp dụng được cho nhóm người nào", "Datasheets for Datasets"],
-  ],
-  decide: "Giá trị nào là thiếu, mỗi dòng ứng với ai và mẫu đại diện cho ai.",
-  notes: MNOTE + "Step gốc: token thiếu, đơn vị quan sát, dòng trùng, chất lượng, leakage, recipe, chia mẫu, fitness. Phương pháp chung: STRATOS IDA (Baillie 2022), Schmidt 2021 (DQI-1003, DQI-1008), TARMOS, Datasheets, Kapoor và Narayanan 2023, group split. Audit cũ: code tự xoá người trả lời thật, 3000 dòng còn 464; \"None\" bị đọc thành missing.",
+const SNOTE = "Nguồn: docs/example/OpenAI-Scientist_Review2_Stages_Steps.md. Mỗi cột là một layer gom các step cùng mục đích. Layer viền cam có bước người nghiên cứu phải quyết định.\n\n";
+stagePitch(0, {
+  title: "Hiểu dữ liệu trước khi đặt câu hỏi", input: "Research Case và dataset version", output: "Data Card, DatasetSnapshot",
+  question: "Dữ liệu này có đủ tốt để trả lời câu hỏi nghiên cứu không?",
+  goal: "Chuyển dữ liệu ban đầu thành Data Card và DatasetSnapshot có nguồn gốc, cấu trúc và chất lượng rõ ràng.",
+  decide: "Xác nhận đơn vị phân tích và kết luận fit hoặc not fit.",
+  layers: [["Tiếp nhận dữ liệu", "Đọc dữ liệu, ghi rõ nguồn gốc và quyền sử dụng.", "STRATOS IDA, Datasheets", [["D01", "Data Intake & Profiling", "Đọc dữ liệu, đo kiểu, tỷ lệ thiếu và phân phối."], ["D02", "Source Documentation", "Lưu nguồn, license, version và hash."], ["D13", "Public Data Discovery", "Tìm nguồn công khai khi thiếu dữ liệu."]], false], ["Hiểu cấu trúc", "Xác định mỗi dòng ứng với ai và nghĩa của từng biến.", "Data Quality Framework", [["D03", "Table Structure", "Xác định đơn vị phân tích, khoá và bản ghi lặp."], ["D04", "Data Dictionary", "Mô tả nghĩa, đơn vị và thời điểm đo của biến."], ["D09", "Survey Design", "Ghi weight, cluster và strata của khảo sát."]], true], ["Làm sạch có lý do", "Làm sạch và kiểm chất lượng, thao tác nào cũng có lý do.", "STRATOS IDA, TARMOS", [["D05", "Data Cleaning Planning", "Ghi lý do cho từng thao tác làm sạch."], ["D08", "Data Quality Validation", "Kiểm miền giá trị, tính nhất quán và đầy đủ."], ["D12", "Data Harmonisation", "Ánh xạ biến và đơn vị sang nguồn đối chiếu."]], false], ["Chia mẫu và bảo mật", "Tách phần khám phá, xác nhận và giới hạn dữ liệu gửi cho AI.", "Sample Splitting, Disclosure Rules", [["D07", "Data Partitioning", "Tách khám phá, xác nhận và reserve theo đơn vị."], ["D11", "Disclosure & Privacy", "Giới hạn metadata và aggregate gửi cho model."]], false], ["Đánh giá phù hợp", "Đối chiếu câu hỏi với dữ liệu rồi kết luận fit hoặc not fit.", "Quy tắc fitness", [["D06", "Question Mapping", "Ánh xạ câu hỏi tới cột, ghi gap khi thiếu biến."], ["D10", "Dataset Fitness", "Kết luận fit hoặc not fit kèm lý do."]], true]],
+  notes: SNOTE + "Mục tiêu: chuyển dữ liệu ban đầu thành Data Card và DatasetSnapshot có nguồn gốc, cấu trúc và chất lượng rõ ràng. Không đồng nhất dữ liệu đã làm sạch với dữ liệu phù hợp cho nghiên cứu.\nPhương pháp: STRATOS IDA (hiểu dữ liệu trước khi kiểm định), Data Quality Framework (integrity, completeness, consistency, accuracy), TARMOS (missing data), Datasheets for Datasets, Sample Splitting.\nCần chốt: tiêu chí fit và not fit, quy tắc khi dataset không phù hợp, cấu trúc snapshot và versioning, phương án chia dữ liệu, giới hạn dữ liệu release cho AI, định dạng thuộc MVP.",
 });
-stageLayers(1, {
-  title: "Từ tài liệu tới giả thuyết bác bỏ được", input: "DatasetSnapshot",
-  layers: [
-    ["Đặt câu hỏi", ["Viết câu hỏi theo PECO", "Gắn mỗi khái niệm với biến có trong dữ liệu"], "Gom quá nhiều biến vào một khái niệm", "PECO (Morgan 2018)"],
-    ["Tìm tài liệu", ["Tìm ở nhiều cơ sở dữ liệu", "Dừng tìm theo tiêu chí định trước", "Loại bài đã bị rút"], "Tìm một nguồn rồi cho là đủ và trích bài đã bị rút", "PRISMA-S, Cochrane"],
-    ["Đọc và trích bằng chứng", ["Sàng lọc mỗi bài hai lần", "Trích số liệu vào thẻ bằng chứng", "Xếp mức tin cậy của bằng chứng"], "Lấy nhầm số và coi bài yếu như bài mạnh", "Cochrane 2024, GRADE"],
-    ["Chốt giả thuyết", ["Xác định khoảng trống nghiên cứu", "Kiểm logic của giả thuyết", "Ghi lại mọi thay đổi tiêu chí"], "Không tìm thấy thì cho là chưa ai làm", "PRISMA 2020"],
-  ],
-  decide: "Câu hỏi nghiên cứu và giả thuyết được chọn, kể cả khi hệ thống đã cảnh báo.",
-  notes: MNOTE + "Step gốc: câu hỏi, search, dừng search, sàng lọc, retraction, evidence card, claim, khoảng trống, certainty, kiểm logic, amendment. Phương pháp chung: Cochrane Rapid Reviews 2024 (Garritty), PRISMA 2020, PRISMA-S, PECO (Morgan 2018), GRADE. Audit cũ: dẫn 30 effect nhưng chỉ 1 effect ủng hộ claim.",
+stagePitch(1, {
+  title: "Từ tài liệu tới giả thuyết bác bỏ được", input: "DatasetSnapshot", output: "Evidence Map, HypothesisSet",
+  question: "Tài liệu đã biết gì, gap ở đâu và giả thuyết nào kiểm định được?",
+  goal: "Rapid review tài liệu để tìm research gap và đề xuất giả thuyết bác bỏ được, mỗi giả thuyết gắn với bằng chứng.",
+  decide: "Chọn tập giả thuyết và giả thuyết chính.",
+  layers: [["Lập protocol", "Viết câu hỏi PECO và chốt tiêu chí trước khi tìm.", "PECO, Cochrane Rapid Review", [["H01", "Research Protocol", "Viết câu hỏi PECO, tiêu chí chọn và search string, ghi version trước khi tìm."]], false], ["Tìm và sàng lọc", "Tìm ở nhiều nguồn và sàng lọc có kiểm chéo.", "PRISMA-S, Cohen's Kappa", [["H02", "Literature Search", "Tìm ở Semantic Scholar, OpenAlex, arXiv, ghi query và điều kiện dừng."], ["H03", "Literature Screening", "Sàng lọc theo tiêu chí, ghi lý do loại, kiểm chéo ca khó."]], false], ["Trích và đánh giá", "Trích bằng chứng, kiểm quote và lập bản đồ bằng chứng.", "Quote Verification, Evidence Mapping", [["H04", "Evidence Extraction", "Trích evidence card, kiểm quote và số liệu có trong abstract."], ["H05", "Quality Appraisal", "Đánh giá điểm mạnh, điểm yếu và giới hạn của bằng chứng."], ["H06", "Evidence Mapping", "Lập bảng exposure và outcome theo số nghiên cứu và hướng kết quả."]], false], ["Gap và giả thuyết", "Xác định gap thật rồi viết và chọn giả thuyết bác bỏ được.", "Research Gap Framework, Falsifiability", [["H07", "Research Gap", "Phân loại gap, tách true gap với search limited."], ["H08", "Hypothesis Formulation", "Viết giả thuyết kèm bằng chứng và nguồn gốc."], ["H09", "Hypothesis Selection", "Chọn giả thuyết chính sau khi xem power và số phép kiểm định."]], true]],
+  notes: SNOTE + "Mục tiêu: rapid review tài liệu để xác định điều đã biết, research gap và đề xuất giả thuyết bác bỏ được. Mỗi giả thuyết liên kết với bằng chứng và kiểm định được bằng dữ liệu hiện có.\nPhương pháp: Cochrane Rapid Review (không đồng nhất với full systematic review), PRISMA 2020 và PRISMA-S, PECO, dual screening và Cohen's Kappa, Research Gap Framework, xác minh quote ở mức abstract (không tương đương đọc toàn văn).\nNguồn gốc giả thuyết: literature, theory, student, data_suggested.\nCần chốt: mức đầy đủ của rapid review, stopping rule, tiêu chí true gap, giả thuyết hợp lệ, số giả thuyết tối đa, quyền pin và accept, cách báo cáo tài liệu chỉ có abstract.",
 });
-stageLayers(2, {
-  title: "Chốt cách phân tích trước khi thấy kết quả", input: "HypothesisSet",
-  layers: [
-    ["Xác định cần ước tính gì", ["Nói rõ đại lượng cần ước tính", "Giới hạn mức kết luận nhân quả"], "Kết luận A gây ra B khi chỉ có dữ liệu quan sát", "ICH E9(R1), target trial"],
-    ["Chọn cách phân tích", ["Chọn biến cần điều chỉnh", "Chọn phương pháp hợp với cấu trúc dữ liệu"], "Điều chỉnh nhầm biến trung gian và bỏ qua quan sát lặp lại", "VanderWeele 2019"],
-    ["Đặt ngưỡng và kiểm power", ["Đặt ngưỡng hiệu ứng có ý nghĩa", "Hiệu chỉnh khi chạy nhiều test", "Mô phỏng power"], "Ước tính power cao hơn thực tế", "Lakens 2017, ADEMP"],
-    ["Khoá kế hoạch", ["Thêm biến đối chứng âm", "Ghi lại điều đã biết trước", "Khoá kế hoạch phân tích"], "Sửa kế hoạch sau khi đã xem dữ liệu", "Van den Akker 2021"],
-  ],
-  decide: "Đại lượng cần ước tính, biến điều chỉnh, ngưỡng hiệu ứng và thời điểm khoá kế hoạch.",
-  notes: MNOTE + "Step gốc: estimand, causal claim, biến điều chỉnh, phương pháp, margin, đa kiểm định, power, negative control, kiến thức trước, khoá. Phương pháp chung: ICH E9(R1), Hernán và Robins, VanderWeele 2019, Van den Akker 2021, Gamble 2017, ADEMP (Morris 2019), Lakens 2017, Lipsitch 2010, Cameron và Miller 2015. Audit cũ: power báo 0.935 nhưng tính lại chỉ 0.388.",
+stagePitch(2, {
+  title: "Chốt cách phân tích trước khi thấy kết quả", input: "HypothesisSet", output: "AnalysisPlan + Lock",
+  question: "Phân tích bằng phương pháp nào và kết luận theo luật nào?",
+  goal: "Chốt estimand, mô hình, phép kiểm và luật diễn giải, rồi khoá kế hoạch trước khi mở kết quả.",
+  decide: "Duyệt estimand, xác nhận timing của biến và Lock kế hoạch.",
+  layers: [["Ước tính gì", "Xác định estimand và mức claim association hay causal.", "ICH E9(R1), Target Trial", [["E01", "Estimand Definition", "Xác định population, biến và contrast cần ước lượng."], ["E02", "Analysis Protocol", "Chọn association hay causal, xác định time zero."]], true], ["Biến điều chỉnh", "Dựng DAG, chọn biến điều chỉnh và xác nhận timing.", "DAG, Backdoor Criterion", [["E03", "Adjustment Planning", "Mô tả DAG, chọn adjustment set, kiểm d-separation."], ["E04", "Variable Timing", "Người xác nhận timing trước khi xem gợi ý của AI."]], true], ["Luật kết luận", "Chọn phương pháp, đặt SESOI và luật ra verdict.", "SAP, SESOI", [["E05", "Method Selection", "Chọn analysis family, main program và fallback."], ["E06", "Decision Rules", "Đặt hướng, SESOI và mức kiểm định."], ["E07", "Interpretation Rules", "Viết luật từ điều kiện ra verdict trước khi chạy."]], false], ["Kiểm thiết kế", "Mô phỏng power và bias, lập kế hoạch kiểm độ vững.", "ADEMP, Sensitivity Analysis", [["E08", "Robustness Planning", "Đặt forks, negative control và E-value."], ["E09", "Design Diagnosis", "Mô phỏng power, bias và coverage trên data twin."], ["E10", "External Validation", "Lập kế hoạch kiểm trên nguồn dữ liệu độc lập."]], false], ["Khoá kế hoạch", "Ghi dự báo rồi khoá kế hoạch với version và hash.", "Preregistration, Blind Analysis", [["E11", "Outcome Forecasting", "Ghi dự báo xác suất, không dùng để ra verdict."], ["E12", "Review & Lock", "Render SAP, khoá với version, hash và seal."]], true]],
+  notes: SNOTE + "Mục tiêu: chuyển HypothesisSet thành AnalysisPlan quy định trước estimand, mô hình, biến điều chỉnh, phép kiểm tra và luật diễn giải. Khoá kế hoạch trước khi mở kết quả confirmatory. Stage này không lập kế hoạch thu thập dữ liệu mới.\nPhương pháp: Estimand Framework, Target Trial Emulation (không đạt thì hạ về association), DAG và d-separation (DAG hợp lệ không chứng minh giả định đúng), SAP, Preregistration for Secondary Data, SESOI, ADEMP.\nLock: cố định plan, program, luật kết luận và tham số trước khi mở kết quả. Phát hiện lỗi sau đó thì dùng deviation, send-back hoặc run mới.\nCần chốt: phương pháp registry thuộc MVP, cấu trúc plan, điều kiện và quyền Lock, xử lý thay đổi sau Lock, điều kiện causal claim, cách xác nhận timing và SESOI.",
 });
-stageLayers(3, {
+stagePitch(3, {
   title: "Chạy phân tích kín, code tính verdict", input: "AnalysisPlan đã khoá",
-  layers: [
-    ["Chạy đúng kế hoạch", ["Giữ riêng một phần dữ liệu để kiểm tra", "Ghi lại mọi lần chạy lại"], "Chạy lại tới khi ra kết quả đẹp", "Blind analysis, Patel 2010"],
-    ["Kiểm định đúng cách", ["Kiểm định tương đương", "Hiệu chỉnh khi có nhiều giả thuyết", "So đúng thước đo với ngưỡng"], "Nhầm có ý nghĩa thống kê với hiệu ứng đủ lớn", "TOST, Holm"],
-    ["Kiểm độ vững", ["Hoán vị dữ liệu để loại tín hiệu giả", "Xếp mức tin cậy của kết quả", "Kiểm power sau khi mở dữ liệu"], "Tin cả tín hiệu giả do nhiễu", "Phipson và Smyth 2010"],
-    ["Ra kết luận", ["Code tính verdict", "Kèm câu giải thích cho người đọc"], "Hiểu supported là hiệu ứng đủ lớn", "Lakens 2017"],
-  ],
-  decide: "Đọc verdict kèm giải thích và duyệt mọi thay đổi lệch khỏi kế hoạch đã khoá.",
-  notes: MNOTE + "Step gốc: verdict, trivial, tương đương, sai metric, không reserve, chạy lại, tier, permutation, grade, sau khi mở. Phương pháp chung: blind analysis (Klein và Roodman 2005), Holm, TOST, ICEMAN v1.1, Patel 2010, Phipson và Smyth 2010, Sterne 2009. Audit cũ: test tương đương nằm ngoài Holm, sai 34% ở 8 giả thuyết.",
+  question: "Kết quả thực tế là gì và có đáng tin không?",
+  goal: "Chạy kế hoạch đã khoá, ra verdict theo luật định sẵn và đóng gói bằng chứng cho Writing.",
+  decide: "Chấp nhận stage hoặc gửi lại, duyệt mọi deviation.",
+  layers: [["Kiểm trước khi chạy", "Đối chiếu hash và chạy thử khi chưa có estimate.", "Integrity Verification", [["X01", "Lock Integrity", "Đối chiếu hash của plan, program, snapshot và split."], ["X02", "Analysis Rehearsal", "Dựng lại twin và so với golden output."], ["X03", "Dry Run", "Kiểm bản ghi, missingness và drift khi chưa có estimate."]], false], ["Chạy và mở kết quả", "Chạy trên phần xác nhận, chỉ mở khi đủ điều kiện.", "Blind Analysis, Permutation", [["X04", "Confirmatory Analysis", "Chạy main và robustness program trên confirmation set."], ["X05", "Result Unsealing", "Chỉ mở kết quả khi đủ điều kiện và lưu audit."]], false], ["Ra verdict", "Áp Holm và bảng diễn giải để ra một trong sáu verdict.", "Holm, TOST", [["X06", "Statistical Judging", "Áp Holm và bảng diễn giải để ra verdict, flag và grade."]], false], ["Khám phá có kiểm soát", "Quét quan hệ bổ sung, kiểm trên reserve, gắn nhãn post hoc.", "EWAS, FDR, ICEMAN", [["X07", "Exposure Screening", "Quét quan hệ bổ sung theo luật cố định, kiểm soát FDR."], ["X08", "Exploration & Validation", "Kiểm candidate trên reserve, luôn gắn nhãn post hoc."]], false], ["Tái lập và đóng gói", "Chạy lại để so hash rồi đóng gói EvidenceBundle.", "Reproducibility", [["X09", "Independent Replication", "Chạy lại chương trình, so kết quả và hash."], ["X10", "Evidence Packaging", "Gom số liệu, verdict, giới hạn, nguồn gốc và giải thích."]], true]],
+  notes: SNOTE + "Mục tiêu: thực thi kế hoạch đã khoá trên dữ liệu thật, đưa ra verdict theo luật định sẵn, lưu bằng chứng và giới hạn để bàn giao cho Writing. Kết quả không có ý nghĩa thống kê không chứng minh không có hiệu ứng.\nVerdict: supported (đạt tiêu chí định trước), contradicted (ngược hướng dự đoán), equivalent (nằm trong biên tương đương), trivial (dưới ngưỡng có ý nghĩa thực tế), inconclusive (chưa đủ bằng chứng), not_computed (không tính được). Không dùng một mình p > 0.05 để kết luận tương đương.\nPhương pháp: Blind Analysis, Holm Bonferroni, TOST, Permutation Test, cluster robust và survey analysis, multiple imputation, E-value và negative control, EWAS và FDR, ICEMAN, replication.\nCần chốt: điều kiện unseal, luật tính verdict và grade, xử lý failure, phân biệt confirmatory và exploratory, giới hạn statistical families, cách ghi known risk và deviation.",
 });
-stageLayers(4, {
-  title: "Viết bài báo từ bằng chứng đã kiểm", input: "Kết quả thực nghiệm, references",
-  layers: [
-    ["Kiểm nguồn và số liệu", ["Xác nhận từng reference", "Tính lại mọi con số"], "Trích nguồn không có thật hoặc số không kiểm được", "Crossref, DataCite"],
-    ["Dựng lập luận", ["Tranh luận từng claim", "Chỉ giữ claim thắng phản biện"], "Viết claim chưa qua phản biện thành kết luận", "Toulmin, ASPIC+"],
-    ["Viết bài", ["Lập dàn ý", "Viết từng phần từ claim đã khoá"], "Model tự gõ con số vào bài", "IMRaD"],
-    ["Kiểm bản thảo", ["Đọc ngược từ bài về lập luận", "Review và sửa theo góp ý"], "Câu kết luận mạnh hơn bằng chứng", "Đọc ngược, rubric"],
-    ["Ký và xuất", ["Tác giả ký bản thảo", "Ghi rõ bản nháp hay bản hoàn chỉnh"], "AI tự điền phần của tác giả", "REFORMS, TRIPOD+AI"],
-  ],
-  decide: "Claim được giữ lại, bản viết của từng phần và chữ ký trên bản thảo cuối.",
-  notes: "Nguồn: code writing engine nhánh feat/writing (repo logos, stages/writing): engine.py (24 bước chia năm pha Data, Argue, Write, Verify, Export, tương ứng năm layer; gate G1 khoá claim, gate G3 người ký), tokens.py (mark {{A1}}), sources.py (tra DOI ở Crossref, DataCite, OpenAlex), package/reporting.py (REFORMS, TRIPOD+AI), steps/readback.py, steps/journal_fit.py, steps/draft.py, steps/review.py. Step gốc: intake, data report, evidence ledger, gán nhãn, tranh luận, Toulmin, argument graph, khoá claim, journal merge, outline, contracts, viết section, chỉnh văn, đọc ngược, peer review, sửa theo issue, ký, xuất.",
+stagePitch(4, {
+  title: "Viết bài báo từ bằng chứng đã kiểm", input: "EvidenceBundle đã khoá",
+  layers: [["Dữ liệu", "Kiểm hồ sơ và dựng sổ cái bằng chứng.", "Reproducible reporting", [["S00–02", "Kiểm hồ sơ thí nghiệm", "Kiểm ERP, xác minh DOI, đặt trần khẳng định."]], true], ["Lập luận", "Tranh luận và chấm từng khẳng định, chỉ khẳng định đứng vững được viết.", "Toulmin, AIF, ASPIC+", [["S03", "Gán nhãn phát biểu", "Gán loại cho từng phát biểu, chặn câu nói quá bằng chứng."], ["S04", "Tranh luận nhiều agent", "Cho agent đề xuất, phản biện và phân xử từng khẳng định."], ["S05", "Phân tích Toulmin", "Tách claim, reason, evidence, warrant, qualifier."], ["S06–07", "Đồ thị AIF, chấm ASPIC+", "Chấm IN, OUT, UNDEC rồi khoá khẳng định."]], true], ["Kế hoạch và viết", "Dựng cốt truyện, lên kế hoạch từng câu rồi viết theo kế hoạch.", "OCAR, IMRaD, Schimel", [["S08–09", "Hồ sơ tạp chí, cốt truyện OCAR", "Chọn hồ sơ tạp chí và dựng câu chuyện của bài."], ["S10", "Kế hoạch đoạn và câu", "Lên kế hoạch tới từng câu, con số lấy từ sổ cái."], ["S11", "Viết từng section", "Viết ba bản mỗi section để người nghiên cứu chọn."]], true], ["Kiểm và sửa", "Đối chiếu bài với đồ thị lập luận, review rồi sửa có truy vết.", "Entailment, peer review", [["S12", "Đọc ngược bài", "Đọc bài mà không xem kế hoạch, rồi so với đồ thị đã khoá."], ["S13", "Chỉnh văn theo tạp chí", "Chỉnh từ khung bài tới từng chữ mà giữ nguyên nghĩa."], ["S14", "Peer review nhiều agent", "Cho biên tập viên đọc trước, rồi review theo rubric cố định."], ["S15", "Sửa theo issue", "Chỉ sửa câu issue chạm tới, chạy lại kiểm liên quan."]], false], ["Ký duyệt và xuất", "Kiểm lần cuối, chờ người nghiên cứu ký rồi mới xuất bài.", "Gastel & Day, minh bạch AI", [["S16", "Ký duyệt và xuất bản", "Xuất bản thảo PDF kèm tuyên bố dùng AI, không tự nộp bài."]], true]],
+  notes: "Nguồn: docs/example/Giai đoạn Writing của logos.md. Engine có 24 bước gom thành năm khối, mỗi khối kết thúc ở một điểm dừng cho người nghiên cứu: G0 bắt đầu viết, P1 khoá khẳng định, P2 đến P5 chọn cốt truyện và duyệt section, đoạn, câu, G3 ký duyệt.\nThông điệp chính: model viết lời, code viết số. Mọi con số in từ sổ cái bằng chứng qua dấu chỗ như {{A1}}. Mọi khẳng định được lập luận và chấm trước khi viết. Mỗi đoạn, mỗi câu có kế hoạch trước. Người nghiên cứu quyết ở mọi điểm dừng, hệ thống không bao giờ tự nộp bài.\nLuật kiểm hai mức: H chặn lỗi làm sai nghĩa hoặc sai sự thật, M đo và báo lỗi văn phong.\nMức mạnh của câu theo thang show, indicate, suggest. Chỉ khẳng định IN mới được viết thành khẳng định.\nHạn chế: hồ sơ tạp chí mới có một bản chung, kiểm giá trị không báo cáo chưa có luật code riêng, hai luật văn phong để ở mức đo, chỉ làm cho data science với dữ liệu dạng bảng.",
 });
 
 
-/* AI trong hệ thống: ba vai trò AI, AI hỗ trợ gì ở từng stage, mức tự chủ. Nguồn: Report 7 phần I–II. */
+/* Agent Harness: hành trình sáu bước dạng chevron, ba bên tham gia ở dưới. Nguồn: docs/example/OpenAI-Scientist_Review2_Stages_Steps.md §8.1 đến §8.3. */
 {
-  const s = slide("Phương pháp", "AI trong hệ thống", "AI đề xuất và phản biện, người nghiên cứu duyệt và chịu trách nhiệm");
-  const label = (y, t) => s.addText(t, { x: MX, y, w: CW, h: 0.34, isTextBox: true, margin: 0, fontSize: 16, bold: true, charSpacing: 1.5, color: T.amber, fontFace: HEAD });
-  label(2.4, "BA VAI TRÒ CỦA AI");
-  const ROLES = [
-    ["AI Engine", "Một engine cho mỗi stage", "Soạn đề xuất và bản nháp cho stage đang chạy. Code kiểm tra từng đề xuất trước khi đưa cho người nghiên cứu."],
-    ["AI PI", "Điều phối cả Research Run", "Gợi ý bước nghiên cứu tiếp theo khi một run kết thúc. Ghi dự đoán kết quả trước khi khoá kế hoạch để đối chiếu về sau."],
-    ["AI Reviewer", "Phản biện độc lập", "Đặt câu hỏi về giả định, chỉ ra rủi ro phương pháp và gợi ý góc nhìn khác. Người nghiên cứu xem xét các góp ý này."],
+  const s = slide("Phương pháp", "Agent Harness", "AI đề xuất, hệ thống kiểm chứng, người nghiên cứu quyết định");
+  s.addText("Harness là lớp bao quanh AI. Nó quy định AI được thấy gì, được làm gì và kết quả phải đạt tiêu chí nào.", { x: MX, y: 2.15, w: CW, h: 0.6, isTextBox: true, margin: 0, valign: "middle", fontSize: 19, color: T.ink2, fontFace: BODY });
+  /* Màu theo bên làm bước: a AI, s hệ thống, h người nghiên cứu */
+  const WHO = {
+    a: { fill: T.white, line: T.ink2, txt: T.ink, tag: "AI", tagC: T.ink2 },
+    s: { fill: T.soft, line: T.softLine, txt: T.ink, tag: "HỆ THỐNG", tagC: T.muted },
+    h: { fill: T.orange, line: T.orange, txt: T.white, tag: "NGƯỜI NGHIÊN CỨU", tagC: T.amber },
+  };
+  const STEPS = [
+    ["s", "Chuẩn bị", "Gom dữ liệu đầu vào, hồ sơ dữ liệu và bản nháp đầu tiên."],
+    ["s", "Kiểm tra", "Đối chiếu từng tiêu chí, báo đạt hoặc chưa đạt kèm lý do."],
+    ["a", "Sửa lỗi", "Sửa từng chỗ chưa đạt bằng công cụ được phép. Thao tác sai luật bị chặn."],
+    ["a", "Phản biện", "Một AI khác đọc lại độc lập, nêu lỗi kèm bằng chứng."],
+    ["h", "Duyệt", "Người nghiên cứu chấp nhận hoặc gửi lại kèm nhận xét."],
+    ["s", "Bàn giao", "Chuyển kết quả có phiên bản, kèm chỗ còn thiếu và rủi ro, sang bước sau."],
   ];
-  const G3 = 0.3, w3 = (CW - 2 * G3) / 3, RY = 2.8, RH = 2.55;
-  ROLES.forEach(([name, tag, body], k) => {
-    const x = MX + k * (w3 + G3);
-    s.addShape(pres.ShapeType.roundRect, { x, y: RY, w: w3, h: RH, fill: { color: T.peachSoft }, rectRadius: 0.1, line: { color: T.peach, width: 1.25 }, objectName: `ai-role-${k}` });
-    s.addText([{ text: name, options: { fontSize: 21, bold: true, color: T.ink, fontFace: HEAD, breakLine: true } },
-      { text: tag, options: { fontSize: 16.5, bold: true, color: T.amber, fontFace: BODY } }],
-      { x: x + 0.3, y: RY + 0.2, w: w3 - 0.6, h: 0.85, isTextBox: true, margin: 0, valign: "top" });
-    s.addText(body, { x: x + 0.3, y: RY + 1.1, w: w3 - 0.6, h: RH - 1.25, isTextBox: true, margin: 0, valign: "top", fontSize: 17.5, color: T.ink2, fontFace: BODY, lineSpacingMultiple: 1.05 });
+  const CY = 3.25, CH = 1.65, cwid = 3.2, step = (CW - cwid) / 5;
+  const cx = (i) => MX + i * step + cwid / 2;
+  STEPS.forEach(([w, n, d], i) => {
+    const x = MX + i * step, st = WHO[w];
+    s.addShape(i === 0 ? pres.ShapeType.homePlate : pres.ShapeType.chevron, { x, y: CY, w: cwid, h: CH, fill: { color: st.fill }, line: { color: st.line, width: 1.75 }, objectName: `chev-${i}` });
+    s.addText([{ text: `${i + 1}  `, options: { fontSize: 24, bold: true, color: w === "h" ? T.white : T.orange } },
+      { text: n, options: { fontSize: 20, bold: true, color: st.txt } }],
+      { x: x + (i === 0 ? 0.2 : 0.75), y: CY, w: cwid - (i === 0 ? 0.7 : 1.2), h: CH, isTextBox: true, margin: 0, align: "center", valign: "middle", fontFace: HEAD });
+    s.addText(st.tag, { x: cx(i) - step / 2, y: CY + CH + 0.2, w: step, h: 0.38, isTextBox: true, margin: 0, align: "center", valign: "middle", fontSize: 16, bold: true, charSpacing: 1, color: st.tagC, fontFace: HEAD });
+    s.addText(d, { x: cx(i) - step / 2 + 0.12, y: CY + CH + 0.65, w: step - 0.24, h: 1.75, isTextBox: true, margin: 0, align: "center", valign: "top", fontSize: 18, color: T.body, fontFace: BODY, lineSpacingMultiple: 1.05 });
   });
-  label(5.6, "AI HỖ TRỢ TỪNG STAGE");
-  const HELP = [
-    "Phân tích cấu trúc và chất lượng dữ liệu, gợi ý cách làm sạch và chia mẫu",
-    "Tìm và tổng hợp tài liệu, đề xuất giả thuyết kiểm chứng được",
-    "Gợi ý phương pháp, baseline, metric và chỉ ra rủi ro của kế hoạch",
-    "Chạy phân tích theo kế hoạch đã khoá trong môi trường kiểm soát",
-    "Soạn bản thảo IMRaD từ kết quả đã kiểm và kiểm tra trích dẫn",
-  ];
-  const G5 = 0.2, w5 = (CW - 4 * G5) / 5, SY = 6.0, SH = 2.45;
-  HELP.forEach((t, k) => {
-    const x = MX + k * (w5 + G5);
-    s.addShape(pres.ShapeType.roundRect, { x, y: SY, w: w5, h: SH, fill: { color: T.white }, rectRadius: 0.1, line: { color: T.line, width: 1.25 }, objectName: `ai-stage-${k}` });
-    s.addText(`${k + 1}  ${STAGES[k][0]}`, { x: x + 0.2, y: SY + 0.15, w: w5 - 0.4, h: 0.4, isTextBox: true, margin: 0, fontSize: 17, bold: true, color: T.ink, fontFace: HEAD });
-    s.addShape(pres.ShapeType.line, { x: x + 0.2, y: SY + 0.62, w: w5 - 0.4, h: 0, line: { color: T.orange, width: 1.5 } });
-    s.addText(t, { x: x + 0.2, y: SY + 0.75, w: w5 - 0.4, h: SH - 0.85, isTextBox: true, margin: 0, valign: "top", fontSize: 17, color: T.body, fontFace: BODY, lineSpacingMultiple: 1.05 });
-  });
-  s.addShape(pres.ShapeType.roundRect, { x: MX, y: 8.7, w: CW, h: 1.35, fill: { color: T.surf }, rectRadius: 0.08, line: { color: T.surf } });
-  s.addText([{ text: "MỨC TỰ CHỦ", options: { fontSize: 16, bold: true, charSpacing: 1.5, color: T.amber, fontFace: HEAD, breakLine: true } },
-    { text: "Người nghiên cứu chọn Co-work, Milestones hoặc Autopilot. Ở mọi mức, chọn giả thuyết, xác nhận cấu trúc dữ liệu và khoá kế hoạch vẫn cần người duyệt. Khi chạy Autopilot, AI PI ra quyết định tạm thời và người nghiên cứu xác nhận hoặc đổi lại trong Decision Log.", options: { fontSize: 17, color: T.ink2, fontFace: BODY } }],
-    { x: MX + 0.3, y: 8.7, w: CW - 0.6, h: 1.35, isTextBox: true, margin: 0, valign: "middle", lineSpacingMultiple: 1.05 });
-  s.addNotes("Nguồn: Report 7 phần I–II. Business Opportunity (Supporting critical reflection): AI review agent đặt câu hỏi về giả định, chỉ ra rủi ro phương pháp, gợi ý góc nhìn khác, góp ý cần người đánh giá. Product Vision: AI agent gợi ý hướng nghiên cứu, hỗ trợ thực thi, nêu câu hỏi phản biện; researcher chịu trách nhiệm chọn giả thuyết, chấp nhận phương pháp, diễn giải kết quả. FE-04.5 gợi ý bước tiếp theo. FE-05.1 ba mức Co-work, Milestones, Autopilot. FE-05.2 quyết định bắt buộc người duyệt. FE-05.4 AI PI quyết định tạm thời khi Autopilot. FE-05.5 Decision Log. FE-06 đến FE-10 phần AI hỗ trợ từng stage. FE-11.2 AI reviewer chuyên biệt. Dự đoán của AI PI trước khi khoá kế hoạch theo use case Record and evaluate AI forecasts. Luồng kiểm soát chi tiết của mỗi đề xuất AI nằm ở slide Harness engineering.");
+  /* Vòng sửa: từ Sửa lỗi quay về Kiểm tra */
+  const top = CY + CH + 2.0, RY = top + 0.55, ln = { color: T.orange, width: 2, dashType: "dash" };
+  s.addShape(pres.ShapeType.line, { x: cx(2), y: top, w: 0, h: RY - top, line: ln, objectName: "loop-a" });
+  s.addShape(pres.ShapeType.line, { x: cx(1), y: RY, w: cx(2) - cx(1), h: 0, line: ln, objectName: "loop-b" });
+  s.addShape(pres.ShapeType.line, { x: cx(1), y: top, w: 0, h: RY - top, line: { ...ln, beginArrowType: "triangle" }, objectName: "loop-c" });
+  s.addText("Chưa đạt thì AI sửa rồi hệ thống kiểm lại. Số vòng sửa có giới hạn, hết vòng thì ghi lại lỗi còn lại.", { x: cx(2) + 0.25, y: RY - 0.25, w: CW - (cx(2) - MX) - 0.25, h: 0.5, isTextBox: true, margin: 0, valign: "middle", fontSize: 17, bold: true, color: T.amber, fontFace: BODY });
+  s.addShape(pres.ShapeType.roundRect, { x: MX, y: 8.85, w: CW, h: 1.05, fill: { color: T.surf }, rectRadius: 0.08, line: { color: T.line }, objectName: "takeaway" });
+  s.addText("AI chỉ đề xuất. Mọi con số do hệ thống tính, và người nghiên cứu luôn quyết bước cuối, kể cả khi chạy tự động.", { x: MX + 0.3, y: 8.85, w: CW - 0.6, h: 1.05, isTextBox: true, margin: 0, align: "center", valign: "middle", fontSize: 19, bold: true, color: T.ink, fontFace: BODY });
+  s.addNotes("Nguồn: docs/example/OpenAI-Scientist_Review2_Stages_Steps.md §8.1 đến §8.3.\n\nCách nói: đi theo mũi tên từ 1 tới 6, màu cho biết ai làm. Hệ thống chuẩn bị và kiểm tra theo tiêu chí (contract). Chỗ nào chưa đạt thì AI sửa qua công cụ hợp lệ, guard chặn thao tác sai luật, vòng sửa có giới hạn số lần và ngân sách, hết giới hạn thì ghi nhận lỗi còn lại chứ không coi là đạt. Một model khác phản biện độc lập. Người nghiên cứu duyệt. Hệ thống bàn giao kết quả có phiên bản kèm gap và known risk.\n\nBa vùng quyết định: Rule do code quyết (con số thống kê, hash, verdict), Human do người nghiên cứu quyết (chọn hypothesis, duyệt estimand, Lock), Creative do AI gợi ý và người chọn (câu hỏi, cơ chế lý giải, cách viết, phản biện).\n\nPinned action luôn do người nghiên cứu xác nhận kể cả ở chế độ auto. AI PI chỉ là advisor và oversight.");
 }
 
 /* ======================= 8-11. MAIN ACTORS ======================= */
@@ -562,57 +529,7 @@ pres.addSection({ title: "Thiết kế" });
 {
   const s = slide("Thiết kế", "Kiến trúc hệ thống", "Kiến trúc tổng thể");
   fitImage(s, D("diagrams/04-system-overview/System-Architecture-Diagram.png"), 3725, 2053, MX, 2.9, CW, 7.6);
-  s.addNotes("Năm stage engine chạy trên cùng một AI Engine runtime, chỉ khác cấu hình. Đây là cách nhóm bốn người làm được năm stage.\n\nPlatform giữ danh tính, project, lượt nghiên cứu, ngân sách, key, audit, Lock, disclosure và Research Dossier. Platform không phán xét nội dung khoa học.\n\nRanh giới tin cậy giải thích ở slide sau.");
-}
-
-/* ======================= HARNESS ENGINEERING ======================= */
-{
-  const s = slide("Thiết kế", "Harness engineering", "Mỗi việc AI làm đều đi qua cùng một lớp kiểm soát trước khi tới tay người nghiên cứu");
-  /* Hai hàng thẳng cột: hàng trên là việc harness làm, hàng dưới là lợi ích cho người nghiên cứu */
-  const LW = 2.4, G = 0.3, FX = MX + LW + 0.1, FW = CW - LW - 0.1, PAD = 0.25, X0 = FX + PAD, nw = (FW - 2 * PAD - 5 * G) / 6;
-  const FY = 2.85, NY = FY + 0.75, NH = 1.9, RY = NY + NH + 0.45, FH = RY + 0.35 - FY, BY = FY + FH + 0.35, BH = 1.75;
-  /* Khung harness bọc sáu bước, hàng đầu khung cho biết năm stage nào dùng nó */
-  s.addShape(pres.ShapeType.roundRect, { x: FX, y: FY, w: FW, h: FH, fill: { color: T.peachSoft }, rectRadius: 0.06, line: { color: T.orange, width: 1.75 }, objectName: "harness" });
-  s.addText("AI ENGINE RUNTIME (HARNESS)", { x: X0, y: FY + 0.12, w: 3.9, h: 0.45, isTextBox: true, margin: 0, valign: "middle", fontSize: 16.5, bold: true, charSpacing: 0.5, color: T.amber, fontFace: HEAD });
-  s.addText("Dùng chung cho cả năm stage, từ Dataset tới Paper", { x: FX + FW - PAD - 7.5, y: FY + 0.12, w: 7.5, h: 0.45, isTextBox: true, margin: 0, align: "right", valign: "middle", fontSize: 16.5, bold: true, color: T.amber, fontFace: BODY });
-  s.addText("Harness là lớp code bao quanh AI. Mỗi đề xuất của AI đi qua sáu bước rồi mới thành kết quả.", { x: MX, y: 2.2, w: CW, h: 0.5, isTextBox: true, margin: 0, valign: "middle", fontSize: 19, color: T.ink2, fontFace: BODY });
-  const STEPS = [
-    ["AI đề xuất", "AI", "Tạo hành động hoặc bản nháp cho stage", "llm", "Nhận sẵn bản nháp và gợi ý bước tiếp"],
-    ["GUARD", "CODE", "Xếp mức kiểm soát và chặn bước sai thứ tự", "gate", "Được hỏi trước ở Decision Inbox khi bước đó cần người quyết"],
-    ["Thực thi", "CODE", "Chạy phân tích trong sandbox trên data twin", "code", "Giữ dữ liệu gốc an toàn trong lúc AI thử phân tích"],
-    ["CHECK", "CODE", "Kiểm contract và để code tính mọi con số", "gate", "Tính lại được mọi con số trong kết quả"],
-    ["REVIEW", "AI", "Cho reviewer có context mới đọc lại artifact", "gate", "Thấy lỗi phương pháp trước khi nhận kết quả"],
-    ["TRACE", "CODE", "Ghi lại mọi bước và quyết định", "trace", "Chạy lại ra cùng kết quả cho người khác kiểm tra"],
-  ];
-  const label = (y, h, t) => s.addText(t, { x: MX, y, w: LW, h, isTextBox: true, margin: 0, valign: "middle", fontSize: 16, bold: true, charSpacing: 1.2, color: T.amber, fontFace: HEAD });
-  label(NY, NH, "HARNESS LÀM GÌ");
-  label(BY, BH, "NGƯỜI NGHIÊN CỨU ĐƯỢC GÌ");
-  const cx = (i) => X0 + i * (nw + G) + nw / 2;
-  STEPS.forEach(([h, who, d, k, gain], i) => {
-    const x = X0 + i * (nw + G);
-    const st = { llm: [T.white, T.ink2], gate: [T.peach, T.orange], code: [T.soft, T.softLine], trace: [T.white, T.softLine] }[k];
-    s.addShape(k === "gate" ? pres.ShapeType.hexagon : pres.ShapeType.roundRect, { x, y: NY, w: nw, h: NH, fill: { color: st[0] }, rectRadius: 0.1, line: { color: st[1], width: k === "llm" ? 2 : 1.5, dashType: k === "trace" ? "dash" : "solid" }, objectName: `node-${i}` });
-    s.addText([{ text: `${i + 1}  ${who}`, options: { fontSize: 16, bold: true, color: who === "AI" ? T.ink2 : T.muted, fontFace: HEAD, breakLine: true } },
-      { text: h, options: { fontSize: 18, bold: true, color: k === "gate" ? T.amber : T.ink, fontFace: HEAD, breakLine: true } },
-      { text: d, options: { fontSize: 16, color: T.body, fontFace: BODY } }],
-      { x: x + (k === "gate" ? 0.3 : 0.15), y: NY, w: nw - (k === "gate" ? 0.6 : 0.3), h: NH, isTextBox: true, margin: 0, align: "center", valign: "middle", paraSpaceAfter: 2 });
-    if (i < 4) arrow(s, x + nw + 0.02, NY + NH / 2, G - 0.04, 0, T.ink2);
-    /* Lợi ích thẳng cột với bước tạo ra nó */
-    s.addShape(pres.ShapeType.roundRect, { x, y: BY, w: nw, h: BH, fill: { color: T.peachSoft }, rectRadius: 0.08, line: { color: T.orange, width: 1 }, objectName: `gain-${i}` });
-    s.addText(gain, { x: x + 0.18, y: BY, w: nw - 0.36, h: BH, isTextBox: true, margin: 0, valign: "middle", fontSize: 18, color: T.ink, fontFace: BODY });
-  });
-  /* Vòng sửa: Check không đạt thì quay về AI */
-  s.addShape(pres.ShapeType.line, { x: cx(3), y: NY + NH, w: 0, h: RY - NY - NH, line: { color: T.orange, width: 1.5 }, objectName: "ret-v" });
-  s.addShape(pres.ShapeType.line, { x: cx(0), y: RY, w: cx(3) - cx(0), h: 0, line: { color: T.orange, width: 1.5 }, objectName: "ret-h" });
-  arrow(s, cx(0), RY, 0, -(RY - NY - NH - 0.03), T.orange);
-  s.addText("Check không đạt thì AI sửa lại, tối đa hai vòng", { x: cx(0) + 0.8, y: RY - 0.2, w: cx(3) - cx(0) - 1.6, h: 0.4, isTextBox: true, margin: 0, align: "center", valign: "middle", fontSize: 16.5, bold: true, color: T.amber, fontFace: BODY, fill: { color: T.peachSoft } });
-  /* Phân vai ở cuối slide */
-  const VY = BY + BH + 0.4;
-  s.addShape(pres.ShapeType.roundRect, { x: MX, y: VY, w: CW, h: 0.8, fill: { color: T.surf }, rectRadius: 0.08, line: { color: T.line }, objectName: "roles" });
-  s.addText([{ text: "PHÂN VAI   ", options: { bold: true, fontSize: 16.5, charSpacing: 1.2, color: T.amber, fontFace: HEAD } },
-    { text: "AI đề xuất và review. Code tính số và chặn bước sai. Người nghiên cứu quyết định và chịu trách nhiệm.", options: { fontSize: 17, color: T.ink, fontFace: BODY } }],
-    { x: MX + 0.3, y: VY, w: CW - 0.6, h: 0.8, isTextBox: true, margin: 0, valign: "middle" });
-  s.addNotes("Nguồn: Report 7 phần IV §1.1.1 (mọi stage engine chạy trên một AI Engine runtime), §1.1.3 Trust boundaries (TB2, TB3, TB5), ADR-02, ADR-05, ADR-06, ADR-07, ADR-08, NFR-20 gọi runtime chung là harness, FR-26 (ba mức Auto, Do Then Review, Must Ask), FR-29, FR-30, FR-50, FR-71 đến FR-75, FR-133, FR-169, FR-197, FR-199, NFR-26.\n\nCách đọc: hàng trên là việc harness làm với mỗi đề xuất của AI, hàng dưới là điều người nghiên cứu nhận được từ bước đó. Guard quyết định hành động được tự làm, làm rồi người xem lại, hay phải hỏi người trước qua Decision Inbox. LLM chỉ nhận text và schema, không thấy dữ liệu thật. Artifact qua đủ các bước thì được accept, có version và hash, rồi Platform lưu Lock và Dossier. Trace ghi lại toàn bộ để chạy lại ra cùng hash.\n\nĐộ tin cậy của AI reviewer: FR-77 đo precision từng persona trên seeded-flaw benchmark, FR-229 chỉ bật persona khi bắt được lỗi mà persona khác bỏ sót, FR-135 đến FR-137 cài lỗi data, experiment và inference.");
+  s.addNotes("Năm stage engine chạy trên cùng một AI Engine runtime, chỉ khác cấu hình. Đây là cách nhóm bốn người làm được năm stage.\n\nPlatform giữ danh tính, project, lượt nghiên cứu, ngân sách, key, audit, Lock, disclosure và Research Dossier. Platform không phán xét nội dung khoa học.\n\nCách AI bị kiểm soát đã trình bày ở slide Agent Harness.");
 }
 
 /* ======================= 20. TECHNOLOGY ======================= */
