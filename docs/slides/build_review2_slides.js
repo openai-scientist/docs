@@ -534,50 +534,55 @@ pres.addSection({ title: "Thiết kế" });
 
 /* ======================= 20. TECHNOLOGY ======================= */
 {
-  const s = slide("Thiết kế", "Công nghệ", "Công nghệ và môi trường");
-  /* Mỗi hàng: nhóm công nghệ bên trái, các lựa chọn kèm logo bên phải.
-     Hàng nhiều lựa chọn được chia thành hai dòng để chữ không bị nhỏ. */
+  const s = slide("Thiết kế", "Công nghệ", "Công nghệ nào dùng cho phần nào");
+  /* Mỗi mục: các logo, tên công nghệ, mục đích dùng trong hệ thống. Ba mục một dòng. */
   const ROWS = [
     ["Front-end", [
-      [["nextdotjs", "Next.js 16"], ["react", "React 19"], ["typescript", "TypeScript"], ["tailwindcss", "Tailwind CSS"], ["shadcnui", "shadcn/ui"], ["radixui", "Radix UI"]],
-      [["reactquery", "TanStack Query"], ["redux", "Redux Toolkit"], [null, "Zustand"], ["reacthookform", "React Hook Form"], ["zod", "Zod"], ["axios", "Axios"]],
+      [["nextdotjs"], "Next.js 16", "Dựng giao diện web, định tuyến trang"],
+      [["typescript"], "TypeScript", "Kiểm kiểu dữ liệu cho code giao diện"],
+      [["tailwindcss", "shadcnui", "radixui"], "Tailwind, shadcn, Radix", "Dựng component và style chung"],
+      [["reactquery", "axios"], "TanStack Query, Axios", "Gọi API và cache dữ liệu từ server"],
+      [["redux"], "Redux Toolkit, Zustand", "Giữ trạng thái giao diện phía client"],
+      [["reacthookform", "zod"], "React Hook Form, Zod", "Xây form và kiểm tra dữ liệu nhập"],
     ]],
-    ["Back-end", [[["python", "Python 3.12"], ["fastapi", "FastAPI"]]]],
-    ["Cơ sở dữ liệu và lưu trữ", [[["postgresql", "PostgreSQL 16"], ["cloudflare", "Cloudflare R2"]]]],
-    ["AI và tài liệu khoa học", [[[null, "OpenAI"], ["googlegemini", "Google Gemini"], ["openrouter", "OpenRouter"], ["openaccess", "OpenAlex"], ["arxiv", "arXiv"], ["semanticscholar", "Semantic Scholar"]]]],
+    ["Back-end và dữ liệu", [
+      [["python", "fastapi"], "Python 3.12, FastAPI", "Viết Platform API và các engine"],
+      [["postgresql"], "PostgreSQL 16", "Lưu người dùng, project, run và audit log"],
+      [["cloudflare"], "Cloudflare R2", "Lưu dataset, file project và artifact"],
+    ]],
+    ["AI và tài liệu", [
+      [["googlegemini", "openrouter"], "OpenAI, Gemini, OpenRouter", "Cung cấp model cho các engine và AI PI"],
+      [["openaccess", "arxiv", "semanticscholar"], "Literature APIs", "Tìm bài báo cho Literature Base"],
+      [["google"], "Google sign-in, Resend", "Đăng nhập Google, gửi mã qua email"],
+    ]],
     ["Hạ tầng và DevOps", [
-      [["traefikproxy", "Traefik"], [null, "Dokploy"], ["docker", "Docker Hub"], ["github", "GitHub"], ["githubactions", "GitHub Actions"]],
-      [["vitest", "Vitest"], ["biome", "Biome"], [null, "Husky"], ["resend", "Resend"], ["google", "Google sign-in"]],
+      [["traefikproxy"], "Traefik", "Định tuyến domain tới container"],
+      [["docker"], "Docker Hub, Dokploy", "Lưu image và triển khai lên VPS"],
+      [["github", "githubactions"], "GitHub, GitHub Actions", "Lưu code, chạy CI, build image"],
+      [["vitest", "biome"], "Vitest, Biome, Husky", "Chạy test và lint trước commit"],
     ]],
   ];
-  const LX = MX, LW = 4.0, RX = MX + 4.35, RW = CW - 4.35, GAP = 0.1, H1 = 0.92, LINE = 0.62;
-  let y = 2.95;
-  ROWS.forEach((row, r) => {
-    const lines = row[1], h = lines.length === 1 ? H1 : H1 + LINE;
-    card(s, { x: LX, y, w: LW, h, fill: T.peachSoft, border: T.peach, name: `cat-${r}` });
-    s.addText(row[0], { x: LX + 0.35, y, w: LW - 0.7, h, isTextBox: true, margin: 0, valign: "middle", fontSize: 19, bold: true, color: T.amber, fontFace: HEAD });
-    card(s, { x: RX, y, w: RW, h, fill: T.white, border: T.line, name: `tech-${r}` });
-    lines.forEach((items, li) => {
-      const ly = lines.length === 1 ? y : y + li * LINE + 0.08, lh = lines.length === 1 ? h : LINE;
-      const iw = (RW - 0.7) / items.length;
-      items.forEach((it, k) => {
-        const x = RX + 0.35 + k * iw;
-        if (it[0]) s.addImage({ path: TI(it[0]), x, y: ly + (lh - 0.42) / 2, w: 0.42, h: 0.42, objectName: `logo-${r}-${li}-${k}` });
-        s.addText(it[1], { x: x + (it[0] ? 0.55 : 0), y: ly, w: iw - (it[0] ? 0.62 : 0.1), h: lh, isTextBox: true, margin: 0, valign: "middle", fontSize: 16.5, color: T.ink2, fontFace: BODY });
-      });
+  /* Bốn cột theo tầng hệ thống: dải tiêu đề có số thứ tự, mỗi công nghệ một khối logo, tên và mục đích. */
+  const GAP = 0.3, TOP = 2.55, HEAD_H = 0.7, PITCH = 1.1, COLW = (CW - 3 * GAP) / 4, BOT = 10.05;
+  ROWS.forEach(([cat, items], c) => {
+    const x = MX + c * (COLW + GAP);
+    card(s, { x, y: TOP, w: COLW, h: BOT - TOP, fill: T.white, border: T.line, name: `col-${c}` });
+    s.addShape(pres.ShapeType.rect, { x, y: TOP, w: COLW, h: HEAD_H, fill: { color: T.peachSoft }, line: { color: T.peach }, objectName: `head-${c}` });
+    s.addText([{ text: `0${c + 1}  `, options: { color: T.amber, bold: true } }, { text: cat, options: { color: T.ink, bold: true } }],
+      { x: x + 0.25, y: TOP, w: COLW - 0.4, h: HEAD_H, isTextBox: true, margin: 0, valign: "middle", fontSize: 18.5, fontFace: HEAD });
+    items.forEach(([logos, name, use], k) => {
+      const iy = TOP + HEAD_H + 0.15 + k * PITCH, ix = x + 0.25, iw = COLW - 0.45;
+      if (k > 0) s.addShape(pres.ShapeType.line, { x: ix, y: iy - 0.06, w: iw, h: 0, line: { color: T.line2, width: 0.75 }, objectName: `sep-${c}-${k}` });
+      logos.forEach((lg, j) => s.addImage({ path: TI(lg), x: ix + j * 0.36, y: iy + 0.1, w: 0.3, h: 0.3, objectName: `logo-${c}-${k}-${j}` }));
+      const tx = ix + logos.length * 0.36 + 0.06;
+      s.addText(name, { x: tx, y: iy + 0.02, w: iw - (tx - ix), h: 0.46, isTextBox: true, margin: 0, valign: "middle", fontSize: 16, bold: true, color: T.ink, fontFace: HEAD, fit: "shrink" });
+      s.addText(use, { x: ix, y: iy + 0.48, w: iw, h: 0.56, isTextBox: true, margin: 0, valign: "top", fontSize: 16, color: T.body, fontFace: BODY });
     });
-    y += h + GAP;
   });
-  /* Hàng môi trường: hai môi trường đang chạy, một môi trường mới đặc tả */
-  card(s, { x: LX, y, w: LW, h: H1, fill: T.peachSoft, border: T.peach, name: "cat-env" });
-  s.addText("Môi trường", { x: LX + 0.35, y, w: LW - 0.7, h: H1, isTextBox: true, margin: 0, valign: "middle", fontSize: 19, bold: true, color: T.amber, fontFace: HEAD });
-  card(s, { x: RX, y, w: RW, h: H1, fill: T.white, border: T.line, name: "tech-env" });
-  [["Development", "đang chạy", false], ["Production", "đang chạy", false], ["Staging", "đã đặc tả, chưa deploy", true]].forEach((e, k) => {
-    const w = (RW - 0.7) / 3, x = RX + 0.35 + k * w;
-    s.addText(e[0], { x, y: y + 0.1, w: w - 0.2, h: 0.4, isTextBox: true, margin: 0, fontSize: 17, bold: true, color: e[2] ? T.amber : T.ink, fontFace: HEAD });
-    s.addText(e[1], { x, y: y + 0.48, w: w - 0.2, h: 0.36, isTextBox: true, margin: 0, fontSize: 16, color: e[2] ? T.amber : T.muted, fontFace: BODY });
-  });
-  s.addNotes("Danh sách thư viện front-end lấy từ package.json của repo sản phẩm. Back-end và hạ tầng lấy theo System Architecture Diagram.\n\nCode được quản lý bằng Git và pull request. Nhánh release chỉ nhận thay đổi khi CI chạy qua. Husky và lint-staged kiểm tra trước khi commit, Biome lo lint và format, Vitest chạy unit test front-end.\n\nKey của model do Platform Admin cấu hình. Hệ thống chỉ dùng tài liệu open-access. Literature API còn có Crossref, nhưng không có logo nên không đưa lên slide.\n\nLocal Node chạy cạnh dữ liệu trên máy người dùng và chỉ gửi số liệu tổng hợp qua release gate.\n\nStaging đã đặc tả nhưng chưa deploy. Đây là câu hỏi nhóm xin hội đồng quyết: buổi demo Hội đồng 1.1 chạy trên staging hay production.");
+  s.addText([{ text: "Môi trường   ", options: { bold: true, color: T.amber, fontFace: HEAD } },
+    { text: "Development và Production đang chạy. Staging đã đặc tả, chưa deploy.", options: { color: T.ink2, fontFace: BODY } }],
+    { x: MX, y: BOT + 0.12, w: CW, h: 0.5, isTextBox: true, margin: 0, valign: "middle", fontSize: 17 });
+  s.addNotes("Danh sách thư viện front-end lấy từ package.json của repo sản phẩm. Back-end và hạ tầng lấy theo System Architecture Diagram.\n\nCách nói: đọc theo từng hàng, mỗi mục là công nghệ và việc nó làm trong hệ thống. Python viết Platform API, năm stage engine, AI PI và Local Node. FastAPI cung cấp REST API và luồng sự kiện SSE của run. Next.js chỉ lo giao diện, không chứa logic khoa học. Next.js 16 chạy trên React 19.\n\nCode được quản lý bằng Git và pull request. Nhánh release chỉ nhận thay đổi khi CI chạy qua. Husky và lint-staged kiểm tra trước khi commit, Biome lo lint và format, Vitest chạy unit test front-end.\n\nKey của model do Platform Admin cấu hình. Hệ thống chỉ dùng tài liệu open-access. Literature APIs gồm OpenAlex, arXiv, Semantic Scholar và Crossref.\n\nStaging đã đặc tả nhưng chưa deploy. Đây là câu hỏi nhóm xin hội đồng quyết: buổi demo Hội đồng 1.1 chạy trên staging hay production.");
 }
 
 /* ======================= 21. DEMO WORKFLOWS ======================= */

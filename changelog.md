@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-07 — Vẽ lại System Architecture Diagram và slide Công nghệ
+
+- Mục đích: vẽ lại sơ đồ kiến trúc tổng thể theo Report 7 mới, kiểu C4 container, nền trắng, có icon; làm lại slide Công nghệ của Review 2 để mỗi công nghệ nói rõ dùng cho phần nào.
+- [System Architecture Diagram](diagrams/04-system-overview/System-Architecture-Diagram.drawio) và [PNG](diagrams/04-system-overview/System-Architecture-Diagram.png) sinh từ [generator](diagrams/04-system-overview/build_system_architecture.py) mới; icon SVG nhúng từ [icons/](diagrams/04-system-overview/icons/) (Simple Icons CC0, Tabler MIT, Dashboard Icons cho Dokploy). Sơ đồ gồm người dùng và Local Node, Cloudflare, ranh giới VPS (Traefik, tầng ứng dụng, tầng dữ liệu, tầng AI research với năm engine nối theo thứ tự stage và output từng stage, runtime band, AI PI), dịch vụ ngoài, hàng CI/CD và legend. Mỗi mũi tên có nhãn động từ kèm giao thức.
+- [Builder](docs/slides/build_review2_slides.js) và [deck](docs/slides/FA26SE115_Review2.pptx): slide Công nghệ đổi sang bốn cột theo tầng (Front-end, Back-end và dữ liệu, AI và tài liệu, Hạ tầng và DevOps), mỗi mục có logo, tên và mục đích; chỉ ghi Next.js 16, React 19 và tên đầy đủ các Literature API chuyển vào ghi chú người nói; dòng môi trường đặt cuối trang. Các slide khác không đổi.
+- Không đổi BRD/PRD/Use Case Spec vì chỉ vẽ lại sơ đồ theo tài liệu hiện có và đổi cách trình bày slide.
+- Validation: chạy generator, export PNG bằng draw.io CLI; build deck bằng pptxgenjs, xuất PDF bằng LibreOffice và xem render slide Công nghệ (không tràn hay đè chữ); `git diff --check`. Chưa soát trực quan toàn bộ PNG sơ đồ ở độ phân giải đầy đủ.
+
 ## 2026-11-05 — Slide Review 2: stage theo tài liệu steps và gộp Agent Harness
 
 - Mục đích: làm lại slide thuyết trình Review 2 cho dễ trình bày, bám theo tài liệu stage/step và harness do nhóm cung cấp ở `docs/example` (thư mục gitignore, không có trong repo).
