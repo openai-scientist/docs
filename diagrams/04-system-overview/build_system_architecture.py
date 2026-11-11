@@ -15,6 +15,9 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE / "System-Architecture-Diagram.drawio"
 FONT = "fontFamily=Arial;fontColor=#000000;"
 INK, GREY = "#000000", "#4D4D4D"
+# AWS Architecture Icons group palette: white groups with a coloured border and matching title.
+AWS = {"cloud": "#232F3E", "public": "#7AA116", "private": "#00A4A6", "ai": "#8C4FFF", "generic": "#7D8998"}
+CARD_LINE, LINE = "#B6BEC9", "#545B64"
 
 cells, ids = [], {}
 
@@ -35,11 +38,12 @@ def add(cid, value, style, x, y, w, h):
     ids[cid] = (x, y, w, h)
 
 
-def group(cid, title, x, y, w, h, fill="#FBFBFC", dashed=False):
-    """Tier or boundary band with its title at the top left."""
+def group(cid, title, x, y, w, h, fill="#FFFFFF", dashed=False, color=None):
+    """Group in AWS style: white fill, coloured border, title in the same colour at the top left."""
+    color = color or AWS["generic"]
     add(cid, f"<b>{title}</b>",
-        f"rounded=1;arcSize=2;html=1;whiteSpace=wrap;{FONT}fontSize=12;fillColor={fill};"
-        f"strokeColor={INK};strokeWidth=1;dashed={1 if dashed else 0};verticalAlign=top;align=left;"
+        f"rounded=0;html=1;whiteSpace=wrap;{FONT}fontColor={color};fontSize=12;fillColor={fill};"
+        f"strokeColor={color};strokeWidth=1.5;dashed={1 if dashed else 0};verticalAlign=top;align=left;"
         "spacingLeft=12;spacingTop=6;container=0;", x, y, w, h)
 
 
@@ -52,7 +56,7 @@ def node(cid, name, kind, desc, ico, color, x, y, w, h=72, fill="#FFFFFF", dashe
     """Card with an icon on the left: name, [type: technology] and one line of description."""
     label = f"<b style='font-size:13px'>{name}</b><br><span style='font-size:11px'>{desc}</span>"
     add(cid, label,
-        f"rounded=1;arcSize=8;html=1;whiteSpace=wrap;{FONT}fontSize=11;fillColor={fill};strokeColor={INK};"
+        f"rounded=1;arcSize=8;html=1;whiteSpace=wrap;{FONT}fontSize=11;fillColor={fill};strokeColor={CARD_LINE};"
         f"strokeWidth=1;dashed={1 if dashed else 0};align=left;verticalAlign=middle;spacingLeft=52;spacingRight=6;",
         x, y, w, h)
     add(cid + "_i", "", f"shape=image;html=1;imageAspect=1;aspect=fixed;image={icon_uri(ico, color)};",
@@ -60,7 +64,7 @@ def node(cid, name, kind, desc, ico, color, x, y, w, h=72, fill="#FFFFFF", dashe
 
 
 def edge(src, tgt, label="", pts=(), sx=None, sy=None, tx=None, ty=None, dashed=False, lx=0):
-    style = (f"edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;{FONT}fontSize=10;strokeColor={INK};strokeWidth=1;"
+    style = (f"edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;{FONT}fontSize=10;strokeColor={LINE};strokeWidth=1.25;"
              f"endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;dashed={1 if dashed else 0};")
     for k, v in (("exitX", sx), ("exitY", sy), ("entryX", tx), ("entryY", ty)):
         if v is not None:
@@ -80,9 +84,8 @@ def edge(src, tgt, label="", pts=(), sx=None, sy=None, tx=None, ty=None, dashed=
 # ---------- columns ----------
 group("g_users", "Users and data holders", 20, 90, 240, 780)
 group("g_edge", "Edge", 280, 90, 170, 780)
-group("g_vps", "OpenAI-Scientist on a Linux VPS", 470, 90, 890, 740,
-      fill="#FFFFFF", dashed=True)
-group("g_ext", "External services", 1380, 90, 250, 780, fill="#FBFBFC")
+group("g_vps", "OpenAI-Scientist on a Linux VPS", 470, 90, 890, 680, color=AWS["cloud"])
+group("g_ext", "External services", 1380, 90, 250, 780, dashed=True)
 
 # Users: the four roles of Report 7, then the browser and the Local Node
 for i, (cid, n, d, ico) in enumerate([
@@ -101,20 +104,20 @@ node("cf", "Cloudflare", "DNS, proxy, TLS", "Domain, HTTPS and protection", "si-
 # VPS: ingress, application tier, data tier, AI research tier
 node("traefik", "Traefik", "Reverse proxy, :443", "Sends each request to the right service",
      "si-traefikproxy", "#24A1C1", 490, 128, 850, 60)
-group("g_app", "Application tier", 480, 196, 870, 116)
+group("g_app", "Application tier", 480, 196, 870, 116, color=AWS["public"])
 node("web", "Web App", "Container: Next.js 16, React 19", "The website users work in", "si-nextdotjs",
      INK, 490, 224, 225, 76)
 node("api", "Platform API", "Container: FastAPI, Python 3.12", "Handles accounts, projects and runs",
      "si-fastapi", "#009688", 785, 224, 260, 76)
 node("worker", "Integration Worker", "Container: Python 3.12", "Sends results to Google Drive",
      "tb-cloud-upload", INK, 1080, 224, 260, 76)
-group("g_data", "Data tier", 480, 324, 870, 112)
+group("g_data", "Data tier", 480, 324, 870, 112, color=AWS["private"])
 node("r2", "Cloudflare R2", "Object storage, S3 API", "Stores datasets and files",
      "si-cloudflare", "#F38020", 490, 354, 260, 72, dashed=True)
 node("db", "Platform Database", "Container: PostgreSQL 16", "Stores users, projects and history", "si-postgresql",
      "#4169E1", 1080, 354, 260, 72)
 
-group("g_ai", "AI research tier", 480, 448, 870, 362, fill="#FBFBFC")
+group("g_ai", "AI research tier", 480, 448, 870, 300, color=AWS["ai"])
 # Five stage engines in pipeline order. The arrows show stage order: the Platform API starts
 # the next engine after the user accepts the result (Report 7, IV 1.1.1 and FE-06 to FE-10).
 # The AI PI sits above the engines and advises each of them at its decision gate.
@@ -125,15 +128,12 @@ EW, EG = 136, 32.5
 for i, (cid, n, out) in enumerate(STAGES):
     x = 510 + i * (EW + EG)
     add(cid, f"<b style='font-size:12px'>{i + 1}. {n}</b><br><span style='font-size:11px'>{out}</span>",
-        f"rounded=1;arcSize=8;html=1;whiteSpace=wrap;{FONT}fontSize=11;fillColor=#FFFFFF;strokeColor={INK};"
+        f"rounded=1;arcSize=8;html=1;whiteSpace=wrap;{FONT}fontSize=11;fillColor=#FFFFFF;strokeColor={CARD_LINE};"
         "strokeWidth=1;align=center;verticalAlign=top;spacingTop=38;", x, 600, EW, 100)
-    add(cid + "_i", "", f"shape=image;html=1;imageAspect=1;aspect=fixed;image={icon_uri('tb-robot', INK)};",
+    add(cid + "_i", "", f"shape=image;html=1;imageAspect=1;aspect=fixed;image={icon_uri('tb-robot', AWS['ai'])};",
         x + EW / 2 - 14, 606, 28, 28)
-add("runtime", "<b>AI Engine runtime</b>: built into every engine, same core with a different configuration",
-    f"rounded=1;arcSize=8;html=1;whiteSpace=wrap;{FONT}fontSize=12;fillColor=#DAE8FC;strokeColor=#6C8EBF;"
-    "strokeWidth=1;align=center;verticalAlign=middle;", 510, 730, 810, 40)
 node("aipi", "AI PI Service", "Container: Python", "AI reviewer that advises the researcher at every stage",
-     "tb-brain", INK, 510, 500, 810, 60)
+     "tb-brain", AWS["ai"], 510, 500, 810, 60)
 for i, (cid, _, _) in enumerate(STAGES):
     edge("aipi", cid, "Advises" if i == 2 else "", sx=(i * (EW + EG) + EW / 2) / 810, sy=1, tx=0.5, ty=0, dashed=True)
 for a_, b_ in zip(STAGES, STAGES[1:]):
@@ -148,7 +148,7 @@ node("extdb", "External data sources", "Software System", "Project databases to 
      "tb-database-import", INK, 1392, 398, 228)
 node("llm", "LLM providers", "Software System", "AI models: OpenAI, Gemini", "si-openai", INK, 1392, 542, 228)
 node("lit", "Literature APIs", "Software System", "Finds research papers", "tb-books", INK,
-     1392, 715, 228)
+     1392, 668, 228)
 
 # Delivery pipeline (Report 7, IV 1.5)
 group("g_cicd", "Delivery pipeline (CI/CD)", 20, 890, 1340, 120)
@@ -159,11 +159,6 @@ node("hub", "Docker Hub", "Image registry", "Stores built images", "si-docker", 
 node("dokploy", "Dokploy", "Deployment", "Deploys to the VPS", "di-dokploy", INK, 800, 925, 300, 70)
 
 # Legend
-add("legend", "<b>Legend</b><br>Solid arrow: request or data flow<br>"
-    "Dashed arrow: build and deploy<br>Dashed card: managed service outside the VPS<br>"
-    "Arrow between engines: stage order 1 to 5. The<br>Platform API starts the next stage after the user<br>accepts the result. Dashed: AI PI advice<br>AI PI: AI Principal Investigator",
-    f"rounded=1;arcSize=4;html=1;whiteSpace=wrap;{FONT}fontSize=10;fillColor=#FFFFFF;strokeColor={INK};"
-    "align=left;verticalAlign=top;spacing=8;", 1380, 890, 250, 140)
 
 # ---------- flows ----------
 edge("browser", "cf", "Opens")
@@ -182,8 +177,8 @@ edge("api", "resend", "Sends email", pts=[(1030, 214), (1365, 214), (1365, 240)]
 edge("worker", "drive", "Uploads", pts=[(1365, 290), (1365, 320)], sx=1, sy=0.86, tx=0, ty=0.5)
 edge("api", "extdb", "Imports tables", pts=[(960, 442), (1365, 442), (1365, 434)], sx=0.67, sy=1,
      tx=0, ty=0.5)
-edge("g_ai", "llm", "Asks models", sx=1, sy=0.337, tx=0, ty=0.5)
-edge("g_ai", "lit", "Searches", sx=1, sy=0.83, tx=0, ty=0.5)
+edge("g_ai", "llm", "Asks models", sx=1, sy=(578 - 448) / 300, tx=0, ty=0.5)
+edge("g_ai", "lit", "Searches", sx=1, sy=(704 - 448) / 300, tx=0, ty=0.5)
 edge("api", "aipi", "Asks for advice", sx=0.2, sy=1, tx=(837 - 510) / 810, ty=0, lx=0.62)
 edge("local", "g_ai", "Sends summary results", sx=1, sy=0.5, tx=0, ty=0.894)
 edge("gha", "hub", "Pushes images", dashed=True)
