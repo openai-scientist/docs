@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-11 — System Architecture Diagram: nhãn gọn và khối AI có liên kết
+
+- Mục đích: người xem nhìn vào biết ngay mỗi khối làm gì; tách rõ các tầng và thể hiện quan hệ trong khối AI. Không đổi thành phần hệ thống.
+- [Generator](diagrams/04-system-overview/build_system_architecture.py), [drawio](diagrams/04-system-overview/System-Architecture-Diagram.drawio), [PNG](diagrams/04-system-overview/System-Architecture-Diagram.png):
+  - Mỗi khối chỉ còn tên và một câu mô tả việc nó làm; bỏ dòng `[Container: …]`, URL dưới tiêu đề, tiêu đề sơ đồ và các ghi chú phụ. Nhãn mũi tên chỉ còn động từ, bỏ giao thức.
+  - Application tier và Data tier có khung bao như AI research tier; nền khung đổi sang xám rất nhạt `#FBFBFC`, nền trang trắng.
+  - Khối AI: AI PI Service đặt trên cùng, mũi tên nét đứt "Advises" xuống từng engine; năm engine đánh số 1–5 và nối theo thứ tự stage; Platform API có mũi tên "Asks for advice" tới AI PI; dải runtime ghi rõ là lõi chung nằm trong mỗi engine. Legend giải thích thứ tự stage do Platform API mở sau khi người dùng chấp nhận kết quả.
+- Lệch với [rule.md](diagrams/04-system-overview/rule.md): rule yêu cầu nhãn mũi tên ghi giao thức và mỗi khối ghi `[Container: công nghệ]`; bản này bỏ theo yêu cầu làm gọn, rule chưa sửa.
+- Chưa xác định: mũi tên Local Node vẫn trỏ vào cả khối AI (repo sản phẩm hiện chỉ có front-end nên chưa kiểm tra được đích).
+- Không đổi BRD/PRD/Use Case Spec vì chỉ đổi cách trình bày sơ đồ.
+- Validation: chạy generator, `xmllint --noout`, export PNG bằng draw.io CLI và xem render (không đè chữ), `git diff --check`.
+
 ## 2026-11-07 — Vẽ lại System Architecture Diagram và slide Công nghệ
 
 - Mục đích: vẽ lại sơ đồ kiến trúc tổng thể theo Report 7 mới, kiểu C4 container, nền trắng, có icon; làm lại slide Công nghệ của Review 2 để mỗi công nghệ nói rõ dùng cho phần nào.
