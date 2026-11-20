@@ -1,5 +1,75 @@
 # Changelog
 
+## 2026-11-21 — Sequence v2 nhóm Administration & Monitoring: actor theo Report 7
+
+- [Sequence v2](diagrams/08-sequence/v2/08-administration-monitoring/Sequence-Diagrams-Administration-Monitoring.drawio) chép từ bản v1, bố cục giữ nguyên; bản v1 không đổi. Actor "Platform Admin" đổi theo Report 7 III 3.2.8: Tenant Admin (01 Manage Users, 02 Configure Models, 03 Platform Settings, 06 User Detail, 07 All Projects), Tenant Admin / Platform Operator (04 Usage, Audit Log, Log Monitoring), Platform Operator (05 Admin Overview, 09 System Health, 10 Reviewer Benchmark). Ở các tab Tenant Admin, `requirePlatformAdmin` đổi thành `requireTenantAdmin` cho khớp Class v2. Tab 08 Grant or Revoke Tenant Admin đã đúng từ trước nên không đổi.
+- PNG 9 tab xuất lại (scale 2) trong `diagrams/08-sequence/v2/08-administration-monitoring/`; [Report 7](deliverables/FA26SE115_Report7.docx) thay ảnh 9 hình tương ứng trong 3.8 (thêm media mới, giữ caption, không xoá hình).
+- Validation: `xmllint --noout`; xem lại PNG tab 04; docx render sang PDF bằng LibreOffice, kiểm tra trang Figure 3.8.2.
+
+## 2026-11-21 — Activity Diagram v2: lane Tenant Admin
+
+- [Activity Diagram v2](diagrams/10-activity/v2/Activity-Diagrams.drawio) chép từ bản v1, chỉ đổi lane "Platform Admin" ở tab Administration & Monitoring thành "Tenant Admin" theo Report 7 III 3.2.8.3 (Edit Platform and Engine Settings). Các tab khác đã khớp Report 7 nên không đổi. [PNG](diagrams/10-activity/v2/08-Administration-Monitoring.png). Report 7 không có hình Activity nên không cần thay ảnh.
+- Validation: `xmllint --noout`; xem lại PNG tab Administration.
+
+## 2026-11-21 — State Machine v2 theo trạng thái trong code LOGOS
+
+- [State Machine v2](diagrams/09-state-machine/v2/State-Machine-Diagrams.drawio) dựng từ bản v1 bằng [build_state_v2.py](diagrams/09-state-machine/v2/build_state_v2.py); bản v1 giữ nguyên. Vẽ lại 3 tab theo code `logos/services/management`:
+  - Project Workspace: Draft → Data ready → Researching ⇄ Needs review, Completed (reopen), Archived (restore) theo `projects/project_status.py` và `projects/router/projects.py`.
+  - Research Run: Queued, Running, Paused, Awaiting review, Budget exceeded, Completed, Failed, Stopped theo `research/models.py`, `research/stage_runs.py`, `research/orchestrator.py`.
+  - AI Principal Investigator: trạng thái consultation Queued, Sent, Decided, Awaiting researcher, Failed, Applied, Stale, Endorsed, Overridden theo `research/pi/`.
+  - Notifications & Integrations: bỏ chữ "proposed" ở retry vì worker đã retry. Các tab khác không đổi.
+- [Report 7](deliverables/FA26SE115_Report7.docx): thay ảnh Figure 3.2.14 (Project), 3.4.15 (Research Run), 3.6.10 và 3.7 (Notification Email) bằng PNG v2; caption 3.6.10 đổi "Decision Item" thành "AI PI Consultation". Không xoá hình.
+- Validation: `xmllint --noout`; xem lại PNG 3 tab vẽ lại; docx render sang PDF bằng LibreOffice, kiểm tra trang Figure 3.4.15.
+
+## 2026-11-21 — Class Diagram v2: Tenant Admin và giá trị ProjectRole
+
+- [Class Diagram v2](diagrams/07-class/v2/Class-Diagram-Authentication-Account.drawio) chép từ bản v1, giữ nguyên bố cục 8 tab; bản v1 không đổi. Chỉ sửa chữ: `PlatformAdmin` → `TenantAdmin` (grant/revoke/require/isTenantAdmin) cho khớp vai trò Tenant Admin trong Report 7; giá trị enum `ProjectRole` viết thường `project_manager`, `researcher`, `reviewer` như `core/roles.py`. Giữ tên Paper. Builder và [class_model.py](diagrams/07-class/v2/class_model.py) cập nhật theo; font trong builder đổi sang Arial của macOS.
+- PNG 8 tab xuất lại trong `diagrams/07-class/v2/`; [Report 7](deliverables/FA26SE115_Report7.docx) thay ảnh Figure 3.1.1 … 3.8.1 Class Diagram bằng bản v2 (thêm media mới, giữ caption, không xoá hình).
+- Validation: `xmllint --noout`; xem lại PNG tab Administration & Monitoring; docx render sang PDF bằng LibreOffice, kiểm tra trang Figure 3.8.1.
+
+## 2026-11-21 — Screen Flow v2 và gắn diagram v2 vào Report 7
+
+- [Screen Flow v2](diagrams/02-screen-flow/v2/Screen-Flow-Diagram.drawio) chép đủ 8 tab của bản cũ; chỉ tab Screen Flow - Vertical B&W được sửa theo Report 7 III 3.1.2 (SC-01 … SC-26) và route FE: gộp Email verification/Sign-in link thành Verify code, thêm Public pages, Unauthorized, Reviewer queue; đổi tên Project list, Models, Usage, Platform settings, All projects; Admin Overview mở từ Project list. Các view Run Studio (scope, search, screen, read, synthesize, hypothesize, map, write) vẫn có trong FE nên giữ nguyên. [PNG](diagrams/02-screen-flow/v2/Screen-Flow-Diagram-Vertical-BW.png).
+- [Report 7](deliverables/FA26SE115_Report7.docx): thay ảnh của 7 hình bằng bản v2 (thêm media mới, giữ nguyên caption và vị trí, không xoá hình nào): Figure 3.1.1 Context ([v2](diagrams/12-context/v2/System-Context-Diagram.png)), 3.2.2.1 Use Case ([v2](<diagrams/01-use-case/v2/Use case.png>)), 3.3.1 Screen Flow, 3.1.5 ERD ([v2](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png)), IV-1 System Architecture ([v2](diagrams/04-system-overview/v2/System-Architecture-Diagram.png)), IV-2 Deployment ([v2](diagrams/04-system-overview/v2/Deployment-Diagram-Production.png)), IV-3 Package ([v2](diagrams/05-package/v2/Package-Diagram.png)). Kích thước giữ chiều rộng cũ, chiều cao theo tỉ lệ ảnh. Thay thêm 2 sequence đã vẽ lại: Figure 3.4.6 [Cancel and Sync Run](diagrams/08-sequence/04-research-run-orchestration/05-Cancel-and-Synchronize-Run.png) và Figure 3.8.9 [Grant or Revoke Tenant Admin](diagrams/08-sequence/08-administration-monitoring/08-Grant-or-Revoke-Tenant-Admin.png).
+- Validation: `xmllint --noout` drawio; docx render sang PDF bằng LibreOffice, xem lại trang Use Case và Screen Flow.
+
+## 2026-11-21 — Use Case Diagram bổ sung theo Report 7 — bản v2, giữ nguyên bố cục v1
+
+- Mục đích: đối chiếu [Use Case Diagram](diagrams/01-use-case/v2/AI-Research-Experimentation-Platform-Use-Case.drawio) với Report 7 III 2.1 và 2.2.2 (65 UC), bản v2 trong `diagrams/01-use-case/v2/`, bản v1 giữ nguyên; chỉ thêm/sửa cục bộ, không di chuyển hình cũ.
+- Actor: Platform Admin đổi thành Tenant Admin; thêm Platform Operator (Monitor system, Run reviewer benchmarks, kế thừa User); AI Provider (supporting) đổi thành AI Engine và nối thêm Choose the next step, Run the review loop, Compare methods.
+- Use case thêm: Accept or decline an invitation (User), View project activity log, Track claim history and evidence status, Run a replication study (Researcher), Record and evaluate AI forecasts (AI Engine). Delete project đổi tên thành Delete project (owner).
+- Reviewer nối thêm View project và View dataset and versions.
+- [rule.md](diagrams/01-use-case/v2/rule.md) cập nhật actor và checklist 65 UC.
+- Validation: vị trí ellipse và đường mới được kiểm tra tự động không chạm hình hay đường cũ; `xmllint --noout` sạch; export lại [PNG](<diagrams/01-use-case/v2/Use case.png>) và xem lại.
+
+## 2026-11-20 — System Overview v2 (System Architecture và Deployment) theo code LOGOS
+
+- Mục đích: đối chiếu hai hình Report 7 IV 1.1 với code và chuẩn ký hiệu (UML 2.5 deployment, C4 container), vẽ bản v2 trong [diagrams/04-system-overview/v2/](diagrams/04-system-overview/v2/README.md). Bản v1 giữ nguyên.
+- System Architecture ([builder](diagrams/04-system-overview/v2/build_system_architecture.py), [PNG](diagrams/04-system-overview/v2/System-Architecture-Diagram.png)):
+  - 5 vai trò LOGOS thay cho 4 vai trò cũ.
+  - Paper Engine đổi thành Writing Engine.
+  - Local Node gọi Platform API qua Cloudflare, thay cho mũi tên cũ vào AI tier.
+  - R2 vẽ viền liền vì production bắt buộc dùng R2.
+- System Architecture: bố cục lại theo chiều đọc trái sang phải (Users → Browser → Cloudflare → Traefik → Web App/Platform API → dữ liệu → AI research tier → dịch vụ ngoài), gộp 5 vai trò vào một ô Users, bỏ nhóm Edge/Application/Data tier, mỗi dịch vụ ngoài một làn thẳng; chữ tên 16 px, mô tả và nhãn 13 px.
+- Deployment ([builder](diagrams/04-system-overview/v2/build_deployment_diagram.py), [PNG](diagrams/04-system-overview/v2/Deployment-Diagram-Production.png)):
+  - Thêm node `writing`, `backup`, off-site backup storage và Local Node (logos-runner).
+  - Bỏ note; node vẽ bằng hình chữ nhật phẳng thay cho khối 3D.
+  - Builder viết lại trên lưới thẳng hàng: chữ tên node 15 px, nhãn đường 12 px, các ô cùng cỡ theo hàng, đường ra dịch vụ ngoài đủ dài để nhãn không tràn.
+  - Frame đổi thành `dep LOGOS production`.
+- Không đổi BRD/PRD/Use Case Spec: chỉ sửa hình cho khớp code.
+- Validation: chạy hai builder, `xmllint --noout`, export PNG bằng draw.io CLI và xem toàn hình; `git diff --check`.
+
+## 2026-11-20 — Context Diagram v2 rà soát theo chuẩn context diagram
+
+- Mục đích: rà lại [Context Diagram v2](diagrams/12-context/v2/README.md) theo quy tắc context diagram (DFD mức 0): một process duy nhất, external entity quanh hệ thống, luồng dữ liệu là cụm danh từ, không có data store. Vai trò đối chiếu với `LOGOS_Platform/01-san-pham/02-vai-tro-va-persona.md`.
+- Thay đổi trong [builder](diagrams/12-context/v2/build_context_diagram.py):
+  - Ellipse chỉ ghi tên hệ thống, bỏ dòng liệt kê Frontend, Platform API, Scientific Core.
+  - Tenant Admin: hai luồng đi lane thẳng, vào đỉnh ellipse giữa bó Project Manager và bó Reviewer. Bản trước có nhãn đè lên box và route cắt qua các luồng của Reviewer. Bó Reviewer dịch sang phải để chừa chỗ.
+  - `Researcher (Student)` đổi thành `Researcher (student)` theo đúng tên vai trò trong spec.
+- Giữ 69 luồng theo quyết định của người dùng (không gộp).
+- Không đổi BRD/PRD/Use Case Spec: chỉ sửa hình và nhãn.
+- Validation: chạy builder, `xmllint --noout`, export [PNG](diagrams/12-context/v2/System-Context-Diagram.png) bằng draw.io CLI và xem toàn hình; `git diff --check`.
+
 ## 2026-11-20 — Package Diagram v2 theo cấu trúc code LOGOS
 
 - Mục đích: v2 cũ có đường nối đè nhau, xuyên package và gộp package không có trong code. Bản vẽ lại đầu tiên dùng 12 phân hệ M01–M12 của spec. Repo không có package nào như vậy: code tách thành FE, BE `management`, AI engines (oversight cùng 5 stage), runner và shared packages. Vì vậy bản mới được vẽ theo code, như v1.
@@ -15,6 +85,17 @@
   - `«import»` đổi thành `«use»`.
   - Quy ước ghi trong [README v2](diagrams/05-package/v2/README.md).
 - Validation: chạy builder, `xmllint --noout`, export PNG bằng draw.io CLI và xem toàn hình; `git diff --check`.
+
+## 2026-11-20 — Vẽ lại sequence Cancel and Sync Run và Grant or Revoke Tenant Admin theo LOGOS
+
+- Mục đích: hai hình IV 3.4.6 và IV 3.8.9 trong Report 7 còn vẽ Pause và Platform Admin. Mình vẽ lại theo LOGOS: UC-M06-04 cho hủy và đối chiếu run, quyền `governance_change` cho việc cấp hoặc thu hồi vai trò.
+- [sequence_flows.py](diagrams/08-sequence/sequence_flows.py):
+  - Cancel and Synchronize Run: nhánh sync mở reconciliation task, hỏi Core theo command ID tối đa 5 lần trong 1 giờ, rồi gửi lại cùng command ID, áp kết quả của Core hoặc chuyển cho Platform Operator. Nhánh cancel: nếu lệnh chưa gửi thì hủy luôn và giải phóng khoản giữ; nếu đã gửi thì chuyển sang cancel requested, gửi lệnh hủy tới Core, Core xác nhận rồi mới chốt khoản giữ.
+  - Grant or Revoke Tenant Admin: actor là Tenant Admin. Yêu cầu tạo ApprovalRequest; Tenant Admin thứ hai bỏ phiếu (không tự duyệt, sign-in còn mới, digest khớp); khi có AuthorityReceipt thì đổi RoleGrant, ghi `MembershipChanged` vào outbox và ghi audit.
+- [build_sequence_groups.py](diagrams/08-sequence/build_sequence_groups.py): actor Tenant Admin kiểm quyền theo tenant.
+- PNG: [05-Cancel-and-Synchronize-Run.png](diagrams/08-sequence/04-research-run-orchestration/05-Cancel-and-Synchronize-Run.png); file `08-Grant-or-Revoke-Platform-Admin.png` đổi tên thành [08-Grant-or-Revoke-Tenant-Admin.png](diagrams/08-sequence/08-administration-monitoring/08-Grant-or-Revoke-Tenant-Admin.png); [inventory](diagrams/08-sequence/Sequence-Groups-design.md) cập nhật link.
+- Các tab admin khác vẫn để actor Platform Admin vì chưa có yêu cầu sửa. Docx chưa được chèn hình mới, người dùng tự chèn.
+- Validation: generator chạy xong phần ghi drawio, chỉ 2 file drawio thay đổi. Bước kiểm report cuối generator lỗi vì đường dẫn Windows `C:/Users/ADMIN/...` cũ. Export PNG bằng draw.io CLI (tab dài dùng scale 1) và đã xem cả hai hình. `git diff --check` sạch.
 
 ## 2026-11-20 — Report 7 chương VI đồng bộ với LOGOS
 
@@ -66,6 +147,28 @@
 - Không đổi BRD/PRD/Use Case Spec: chỉ vẽ lại theo đặc tả đã có, không đổi requirement.
 - Validation: `xmllint --noout`; kiểm tra hình học từ file drawio: 91 entity, 108 edge, 0 đoạn đè nhau, 0 đường xuyên entity, 0 đường chéo, 0 điểm nối dùng chung; export PNG bằng draw.io và xem render.
 
+## 2026-11-19 — Context Diagram v2 tách lane Tenant Admin, loại chồng route
+
+- Mục đích: sắp xếp lại vị trí node/connector sau khi khôi phục 69 luồng v1, tránh Tenant Admin đè lên Project Manager, Researcher hoặc các đường nối quản trị.
+- Thay đổi: giữ nguyên style và geometry các thành phần v1; đưa Tenant Admin vào lane riêng phía trên trái, dùng hai route vuông góc độc lập, không giao cắt các edge còn lại.
+- Validation: export lại PNG; kiểm tra 1 page/10 node/69 edge/0 dangling edge, 0 route xuyên node và 0 edge crossing/overlap, xem render trực quan, `git diff --check`.
+
+## 2026-11-19 — Context Diagram v2 đồng bộ lại theo layout và nội dung v1
+
+- Mục đích: sửa bản Context v2 theo phản hồi rằng bản trước đã đổi layout và rút gọn luồng quá mức. Bản mới lấy trực tiếp `main-2` của v1 làm baseline, không tạo style mới.
+- Giữ nguyên geometry/style v1: ellipse 800×650, vị trí/kích thước actor hiện hữu, font Arial, monochrome, orthogonal routing và 69 source-backed exchanges. Loại cell dangling không hợp lệ của snapshot.
+- Chỉ chỉnh delta cần thiết: tên hệ thống thành AI Research Experimentation Platform; mô tả trung tâm bao gồm FE, Platform API và Scientific Core/LOGOS; đổi tên external; tách Platform Admin thành Platform Operator và Tenant Admin theo vocabulary đích.
+- Artifact cập nhật: [builder](diagrams/12-context/v2/build_context_diagram.py), [drawio](diagrams/12-context/v2/System-Context-Diagram.drawio), [PNG](diagrams/12-context/v2/System-Context-Diagram.png), [README](diagrams/12-context/v2/README.md), [rule](diagrams/12-context/v2/rule.md).
+- Validation: `python3 -m py_compile`, generator, `xmllint --noout`, Draw.io export, kiểm tra 1 page/10 node/69 edge/0 dangling edge, so sánh geometry/style với v1 và xem render, `git diff --check`.
+
+## 2026-11-19 — Context Diagram v2 bao phủ toàn product FE–BE–LOGOS
+
+- Mục đích: tiếp tục bộ redraw theo biên bản bàn giao, mở rộng Context Diagram từ cách nhìn LOGOS cũ sang toàn bộ AI Research Experimentation Platform gồm FE, Platform API, Scientific Core/LOGOS, users, Local Node và external systems.
+- Artifact mới: [builder](diagrams/12-context/v2/build_context_diagram.py), [drawio](diagrams/12-context/v2/System-Context-Diagram.drawio), [PNG duy nhất](diagrams/12-context/v2/System-Context-Diagram.png), [README](diagrams/12-context/v2/README.md), [rule](diagrams/12-context/v2/rule.md).
+- Giữ style v1: một ellipse trung tâm, các rectangle participant/external, đường nối vuông góc có label tiếng Anh; bỏ label góc trái, không hiển thị mã M01–M12, không sửa artifact legacy ở `diagrams/12-context/`.
+- Nội dung gom ở mức context, không bung package nội bộ hoặc stage engine; role vocabulary đích được ghi kèm mapping hiện tại–đích trong README/handoff.
+- Validation của bản nháp trước: `python3 -m py_compile`, generator, `xmllint --noout`, export PNG bằng Draw.io, kiểm tra 1 page/10 node/19 edge/0 dangling edge. Bản nháp này đã được thay thế bởi entry đồng bộ v1 ở trên.
+
 ## 2026-11-19 — Package Diagram v2 mở rộng toàn product FE–BE–LOGOS
 
 - Mục đích: sửa phạm vi Package v2 vì bản trước chỉ thể hiện ownership của LOGOS Platform; bản mới bao phủ FE, Platform API/backend, Platform Foundation, Scientific Core/LOGOS, Runner & Local Node và Shared LOGOS Packages.
@@ -73,6 +176,13 @@
 - Giữ style v1: UML package folder trắng/đen, subsystem frame, dependency nét đứt đầu mở, route vuông góc; bỏ label góc trái và không hiển thị mã M01–M12. README ghi mapping giữa source package hiện tại và ownership đặc tả.
 - Không sửa artifact legacy ở `diagrams/05-package/`; không vẽ class/sequence/state trong lần này.
 - Validation: `python3 -m py_compile`, generator, `xmllint --noout`, Draw.io export PNG, extractor kiểm tra 1 page/0 dangling edge/không mã M01–M12 trên canvas, kiểm tra render và `git diff --check`.
+
+## 2026-11-19 — Cập nhật biên bản bàn giao theo phạm vi toàn sản phẩm FE–BE–LOGOS
+
+- Mục đích: bổ sung repo source thật vào baseline vẽ diagram; phân biệt rõ hiện trạng code với đặc tả đích đang được cập nhật, tránh vẽ riêng LOGOS hoặc suy diễn code cũ thành semantics mới.
+- Tài liệu: [biên bản bàn giao](plans/reports/261119-1622-logos-platform-diagram-handoff.md) có hierarchy nguồn sự thật, inventory FE/API/realtime/roles, `services/management`/`runner`/`oversight`, packages, stages, infrastructure và crosswalk bắt buộc trước mỗi diagram; [quy tắc diagrams](diagrams/README.md) đã ghi phạm vi mặc định FE–BE Platform–Scientific Core/LOGOS và trạng thái hiện trạng/đích/chuyển tiếp.
+- Nguồn đối chiếu: `/Users/ngothanhdat/Documents/CODE/3. capstone/capstone-projects/projects/ai-research-platform-fe`, `/Users/ngothanhdat/Documents/CODE/3. capstone/capstone-projects/projects/logos`, và đặc tả `/Users/ngothanhdat/Documents/CODE/3. capstone/capstone-projects/docs/LOGOS_Platform`.
+- Validation: kiểm tra inventory source, xác nhận FE ở `main` và LOGOS ở `dev` đều sạch tại thời điểm audit, `git diff --check`; chưa commit/push và chưa coi Use Case v2 là bản hoàn tất cho toàn sản phẩm.
 
 ## 2026-11-19 — Package Diagram v2 theo LOGOS Platform
 
