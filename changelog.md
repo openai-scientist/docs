@@ -43,6 +43,21 @@
 - Không sửa: phần I–II (còn 5 chỗ "Platform Admin"), chương IV–VI, diagram nhúng.
 - Validation: script khoá theo đoạn duy nhất trong chương III và assert số chỗ khớp; 0 "Platform Admin"/"Pause" còn trong III; LibreOffice render PDF 441 trang, xem bảng Actors và ma trận quyền; bản sao lưu trước khi sửa giữ ở scratchpad.
 
+## 2026-11-20 — Conceptual ERD v2 vẽ lại, bỏ đường đè nhau
+
+- Mục đích: bản v2 ngày 19/11 xếp 91 entity theo lưới sáu khu, đường nối vượt khu và đi chồng lên nhau nên khó đọc. Thay toàn bộ v2 bằng bản vẽ lại; không sửa artifact v1 ở thư mục cha.
+- Thay đổi: [builder](diagrams/03-conceptual-erd/v2/build_erd.py) lấy `ENT`/`REL` từ `LOGOS_Platform/visual/model.py` (91 thực thể, 108 quan hệ, khớp `04-du-lieu/02-erd-khai-niem.md`); Graphviz `dot` (`rankdir=LR`) đặt vị trí, router A* lưới 10 px (luật của builder v1) vẽ đường. Style v1 giữ nguyên; bản số Crow's Foot hai đầu theo `REL`. Cập nhật [drawio](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.drawio), [PNG](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png), [README](diagrams/03-conceptual-erd/v2/README.md), [rule](diagrams/03-conceptual-erd/v2/rule.md).
+- Không đổi BRD/PRD/Use Case Spec: chỉ vẽ lại theo đặc tả đã có, không đổi requirement.
+- Validation: `xmllint --noout`; kiểm tra hình học từ file drawio: 91 entity, 108 edge, 0 đoạn đè nhau, 0 đường xuyên entity, 0 đường chéo, 0 điểm nối dùng chung; export PNG bằng draw.io và xem render.
+
+## 2026-11-19 — Conceptual ERD v2 theo LOGOS Platform
+
+- Mục đích: tạo bản Conceptual ERD mới theo đặc tả frozen `LOGOS_Platform`, không ghi đè diagram legacy ở thư mục cha.
+- Artifact mới: [builder](diagrams/03-conceptual-erd/v2/build_erd.py), [drawio](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.drawio), [PNG duy nhất](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png), [README](diagrams/03-conceptual-erd/v2/README.md), [rule](diagrams/03-conceptual-erd/v2/rule.md).
+- Nguồn: `capstone-projects/docs/LOGOS_Platform/visual/model.py`; hình duy nhất hiển thị đầy đủ 91 thực thể và 108 quan hệ, chia thành sáu khu nghiệp vụ, giữ style Crow's Foot thuần của bản v1, label connector tiếng Anh và bỏ title góc trái.
+- Không sửa: toàn bộ artifact legacy trong `diagrams/03-conceptual-erd/` ở ngoài `v2/`, cùng các thay đổi Report 7 đang có.
+- Validation: `xmllint --noout`, `python3 -m py_compile`, generator count 91/108, builder idempotence, PNG export bằng Draw.io, kiểm tra render/style và `git diff --check`.
+
 ## 2026-11-11 — System Architecture Diagram: nhãn gọn và khối AI có liên kết
 
 - Mục đích: người xem nhìn vào biết ngay mỗi khối làm gì; tách rõ các tầng và thể hiện quan hệ trong khối AI. Không đổi thành phần hệ thống.

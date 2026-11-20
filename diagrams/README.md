@@ -4,6 +4,12 @@ Source diagrams for [Report 7](../deliverables/FA26SE115_Report7.docx), drawn in
 Each slot in the report shows `IMAGE TO BE ADDED — <diagram name>`; the file name below matches that name.
 Sources: SEP490 report template (T) and the SWP490 Review 2 guide (R2).
 
+## Versioned redraws
+
+Các bản vẽ LOGOS mới được đặt trong thư mục version riêng để không ghi đè artifact legacy. Bản Conceptual ERD mới nằm tại [`03-conceptual-erd/v2`](03-conceptual-erd/v2/); các file ở thư mục cha được giữ nguyên để đối chiếu lịch sử.
+
+Đối với v2, [`rule.md`](03-conceptual-erd/v2/rule.md) là quy tắc nội bộ của bản redraw: giữ nguyên style Crow's Foot của bản legacy nhưng dùng `LOGOS_Platform/visual/model.py` làm nguồn nội dung.
+
 ## Common rules (bắt buộc cho mọi diagram)
 
 Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dưới đây áp dụng thêm cho tất cả.
