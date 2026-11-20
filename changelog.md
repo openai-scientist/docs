@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-11-20 — Package Diagram v2 theo cấu trúc code LOGOS
+
+- Mục đích: v2 cũ có đường nối đè nhau, xuyên package và gộp package không có trong code. Bản vẽ lại đầu tiên dùng 12 phân hệ M01–M12 của spec. Repo không có package nào như vậy: code tách thành FE, BE `management`, AI engines (oversight cùng 5 stage), runner và shared packages. Vì vậy bản mới được vẽ theo code, như v1.
+- Artifact trong [diagrams/05-package/v2/](diagrams/05-package/v2/): [builder](diagrams/05-package/v2/build_package_diagram.py), [Package-Diagram.drawio](diagrams/05-package/v2/Package-Diagram.drawio), [PNG](diagrams/05-package/v2/Package-Diagram.png), [README](diagrams/05-package/v2/README.md), [rule](diagrams/05-package/v2/rule.md). Bản v2 cũ đã xoá, bản mới đặt lại tên thư mục là v2; v1 giữ nguyên. Các entry 2026-11-19 bên dưới nói về bản v2 cũ, link của chúng giờ trỏ tới bản mới.
+- So với v1:
+  - Khung ngoài đổi thành `pkg LOGOS`.
+  - `logos_paper` đổi thành `logos_writing`.
+  - Thêm `logos_recompute`.
+  - Lớp của `management` vẫn khớp contract import-linter hiện tại (logos commit 94eb2492).
+- Sửa tên theo UML 2.5.1:
+  - Khung `engines` tự đặt được thay bằng namespace thật: `services` gồm `management`, `logos_oversight`, `logos_runner`; `stages` gồm 5 stage.
+  - Bỏ `«layer» foundation`; `db`, `core`, `infra` nằm cùng hàng, nối theo import thật.
+  - `«import»` đổi thành `«use»`.
+  - Quy ước ghi trong [README v2](diagrams/05-package/v2/README.md).
+- Validation: chạy builder, `xmllint --noout`, export PNG bằng draw.io CLI và xem toàn hình; `git diff --check`.
+
 ## 2026-11-20 — Report 7 chương VI đồng bộ với LOGOS
 
 - Mục đích: sửa chương VI của [Report 7](deliverables/FA26SE115_Report7.docx) theo 5 vai trò LOGOS, giữ khung và chỉ sửa chỗ mâu thuẫn.
@@ -49,6 +65,25 @@
 - Thay đổi: [builder](diagrams/03-conceptual-erd/v2/build_erd.py) lấy `ENT`/`REL` từ `LOGOS_Platform/visual/model.py` (91 thực thể, 108 quan hệ, khớp `04-du-lieu/02-erd-khai-niem.md`); Graphviz `dot` (`rankdir=LR`) đặt vị trí, router A* lưới 10 px (luật của builder v1) vẽ đường. Style v1 giữ nguyên; bản số Crow's Foot hai đầu theo `REL`. Cập nhật [drawio](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.drawio), [PNG](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png), [README](diagrams/03-conceptual-erd/v2/README.md), [rule](diagrams/03-conceptual-erd/v2/rule.md).
 - Không đổi BRD/PRD/Use Case Spec: chỉ vẽ lại theo đặc tả đã có, không đổi requirement.
 - Validation: `xmllint --noout`; kiểm tra hình học từ file drawio: 91 entity, 108 edge, 0 đoạn đè nhau, 0 đường xuyên entity, 0 đường chéo, 0 điểm nối dùng chung; export PNG bằng draw.io và xem render.
+
+## 2026-11-19 — Package Diagram v2 mở rộng toàn product FE–BE–LOGOS
+
+- Mục đích: sửa phạm vi Package v2 vì bản trước chỉ thể hiện ownership của LOGOS Platform; bản mới bao phủ FE, Platform API/backend, Platform Foundation, Scientific Core/LOGOS, Runner & Local Node và Shared LOGOS Packages.
+- Artifact: [builder](diagrams/05-package/v2/build_package_diagram.py), [drawio](diagrams/05-package/v2/Package-Diagram.drawio), [PNG duy nhất](diagrams/05-package/v2/Package-Diagram.png), [README](diagrams/05-package/v2/README.md), [rule](diagrams/05-package/v2/rule.md).
+- Giữ style v1: UML package folder trắng/đen, subsystem frame, dependency nét đứt đầu mở, route vuông góc; bỏ label góc trái và không hiển thị mã M01–M12. README ghi mapping giữa source package hiện tại và ownership đặc tả.
+- Không sửa artifact legacy ở `diagrams/05-package/`; không vẽ class/sequence/state trong lần này.
+- Validation: `python3 -m py_compile`, generator, `xmllint --noout`, Draw.io export PNG, extractor kiểm tra 1 page/0 dangling edge/không mã M01–M12 trên canvas, kiểm tra render và `git diff --check`.
+
+## 2026-11-19 — Package Diagram v2 theo LOGOS Platform
+
+- Mục đích: tạo package diagram mới theo ownership M01–M12 và contract/shared layers của frozen `LOGOS_Platform`, không ghi đè artifact legacy.
+- Artifact mới: [builder](diagrams/05-package/v2/build_package_diagram.py), [drawio](diagrams/05-package/v2/Package-Diagram.drawio), [PNG duy nhất](diagrams/05-package/v2/Package-Diagram.png), [README](diagrams/05-package/v2/README.md), [rule](diagrams/05-package/v2/rule.md).
+- Giữ nguyên style v1: UML package folder trắng/đen, khung subsystem, dependency nét đứt đầu mở, font Arial; bỏ title/label chung ở góc trái và dùng label connector tiếng Anh.
+- Nội dung: 12 bounded contexts M01–M12, Scientific Core, Local Node, AI Providers & Secrets, Shared Contracts; M06 là gateway duy nhất tới Core.
+- Bố cục: thêm các lane vuông góc cố định cho dependency nội bộ và boundary bên phải, nới khoảng routing để dây không chồng package hoặc tạo bó line dày.
+- Hiệu chỉnh tiếp: route lại theo chuỗi dọc và attach point riêng; mũi tên kết thúc tại package đích, không đi xuyên `Core Contracts`; bỏ mã `M01`–`M12` khỏi tên hiển thị và chuẩn hóa label ngắn bằng tiếng Anh.
+- Không sửa artifact legacy ở `diagrams/05-package/` ngoài `v2/`, cũng không sửa các thay đổi Report 7 đang có.
+- Validation: `python3 -m py_compile`, generator, `xmllint --noout`, export PNG bằng Draw.io, geometry check không có route chéo/đi xuyên package và mọi endpoint nằm trên border đích, kiểm tra render/style sau lần route cuối và `git diff --check`.
 
 ## 2026-11-19 — Conceptual ERD v2 theo LOGOS Platform
 

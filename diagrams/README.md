@@ -8,6 +8,8 @@ Sources: SEP490 report template (T) and the SWP490 Review 2 guide (R2).
 
 Các bản vẽ LOGOS mới được đặt trong thư mục version riêng để không ghi đè artifact legacy. Bản Conceptual ERD mới nằm tại [`03-conceptual-erd/v2`](03-conceptual-erd/v2/); các file ở thư mục cha được giữ nguyên để đối chiếu lịch sử.
 
+Bản Package Diagram mới nằm tại [`05-package/v2`](05-package/v2/), giữ style UML package trắng/đen của bản legacy và vẽ theo cấu trúc code thật: FE, `services` (management, oversight, runner), `stages` và `packages`. Nguồn và quy ước đặt tên ghi trong [README](05-package/v2/README.md).
+
 Đối với v2, [`rule.md`](03-conceptual-erd/v2/rule.md) là quy tắc nội bộ của bản redraw: giữ nguyên style Crow's Foot của bản legacy nhưng dùng `LOGOS_Platform/visual/model.py` làm nguồn nội dung.
 
 ## Common rules (bắt buộc cho mọi diagram)
