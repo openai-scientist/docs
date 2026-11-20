@@ -1,5 +1,48 @@
 # Changelog
 
+## 2026-11-20 — Report 7 chương VI đồng bộ với LOGOS
+
+- Mục đích: sửa chương VI của [Report 7](deliverables/FA26SE115_Report7.docx) theo 5 vai trò LOGOS, giữ khung và chỉ sửa chỗ mâu thuẫn.
+- Xoá notice tracked "User guide synchronization notice". Bước cài đặt tạo Tenant Admin và tài khoản Platform Operator. Bảng "Who does what" có thêm dòng Platform Operator, Platform Admin đổi thành Tenant Admin (thay đổi nhạy cảm cần Tenant Admin thứ hai), Project Manager chỉ làm việc của Researcher trên các case mình phụ trách, Reviewer chỉ xem và bình luận phần được giao.
+- Phần quản trị, ngân sách và mô hình kiểm soát chia việc giữa Tenant Admin (người dùng, model, key, ngân sách, mức trần chi tiêu) và Platform Operator (audit log, health, benchmark). Tiêu đề 3.5.5 đổi thành Cancel and Sync Run, 3.9.8 thành Grant or Revoke Tenant Admin.
+- Giữ nguyên các mục "CONTENT TO BE ADDED" vì không thuộc phạm vi sửa mâu thuẫn.
+- Validation: script assert từng chỗ sửa; 0 "Platform Admin"/"Pause" trong toàn bộ bản render; 208 file ảnh giống hệt từng byte, 210 chỗ chèn hình; LibreOffice render 420 trang, đã xem bảng vai trò ở trang 404.
+
+## 2026-11-20 — Report 7 chương V đồng bộ với LOGOS
+
+- Mục đích: sửa chương V của [Report 7](deliverables/FA26SE115_Report7.docx) theo LOGOS_Platform, giữ khung và chỉ sửa chỗ mâu thuẫn.
+- Xoá đoạn notice tracked "Testing synchronization notice". Dòng Security testing trong bảng 2.1 thêm điều kiện cô lập tenant theo mô hình nhiều tenant của LOGOS. Các bảng phạm vi, công cụ, nhân sự, môi trường, mốc và file test case giữ nguyên vì không mâu thuẫn với đặc tả.
+- Không sửa BRD/PRD/Use Case Spec vì đây là đồng bộ tài liệu, không đổi yêu cầu.
+- Validation: script assert từng chỗ sửa; 208 file ảnh giống hệt từng byte, 210 chỗ chèn hình; LibreOffice render 420 trang, đã xem trang đầu chương V.
+
+## 2026-11-20 — Report 7 dựng lại phần Database theo mô hình dữ liệu LOGOS
+
+- Mục đích: ERD mới thay đổi lớn nên phần database của [Report 7](deliverables/FA26SE115_Report7.docx) phải dựng lại theo `LOGOS_Platform/visual/model.py` (91 entity, 108 quan hệ). Người dùng chọn cách nhóm theo phân hệ và chỉ ghi những gì đặc tả có nguồn.
+- III 3.1.5: viết lại đoạn mở đầu; bảng 34 entity cũ được thay bằng bảng Module | Responsibility | Entities, gồm 12 phân hệ và Scientific Core.
+- IV 2: viết lại hai đoạn giới thiệu. 2.1 gồm 4 bảng entity theo nhóm của đặc tả (Entity, Module, Kind, Description). 2.2 gồm bảng cột chung, bảng theo loại entity, quy tắc khoá tham chiếu và 12 bảng theo phân hệ (Table, Kind, Reference keys, Kind columns). Các bảng này thay thế 43 bảng cột của schema cũ. Mục lục cập nhật theo; số trang của các mục mới cần Update Field trong Word.
+- Không thêm cột chi tiết vì đặc tả không định nghĩa. Hình Database Design (Figure IV-4) và hình ERD giữ nguyên để người dùng chèn bản vẽ mới.
+- Validation: 208 file ảnh giống hệt từng byte, 210 chỗ chèn hình giữ nguyên; LibreOffice render, đã xem trang 2.1.1 và 2.2.1.
+
+## 2026-11-20 — Report 7 phần I–II và chương IV đồng bộ vai trò với LOGOS
+
+- Mục đích: người dùng cho phép sửa I–II để khớp 5 vai trò, rồi làm tiếp chương IV của [Report 7](deliverables/FA26SE115_Report7.docx). Giữ khung, chỉ sửa chỗ mâu thuẫn, không đụng hình.
+- Phần I–II: FE-01.2, FE-01.3, LI-02 dùng Platform Operator và Tenant Admin; mục WBS và dòng deliverable quản trị đổi thành Tenant Admin, Platform Operator.
+- Chương IV: bảng actor tách Platform Admin thành Platform Operator (sức khỏe, sự cố, khôi phục, audit, benchmark) và Tenant Admin (người dùng, model, key, cài đặt, ngân sách mặc định, cần người duyệt thứ hai); Project Manager chỉ giữ quyền Researcher trên Case mình phụ trách; Reviewer chỉ xem phần được giao. Các chỗ còn lại đổi sang Tenant Admin, riêng audit log và health sang Platform Operator. Tiêu đề, caption và mục lục 3.4.6 đổi thành Cancel and Sync Run, 3.8.9 thành Grant or Revoke Tenant Admin. Xoá 2 đoạn notice tracked của IV.
+- Giữ nguyên có chủ đích: giá trị enum `paused`/`stopped` trong bảng Database Design vì mô tả đúng database script hiện có; diagram nhúng để người dùng tự chèn bản vẽ mới.
+- Validation: script assert từng chỗ sửa; 0 "Platform Admin"/"Pause" trong I–IV; 208 file ảnh giống hệt từng byte, 210 chỗ chèn hình giữ nguyên; LibreOffice render 440 trang, xem bảng actor IV.
+
+## 2026-11-20 — Report 7 chương III đồng bộ với LOGOS Platform
+
+- Mục đích: thân chương III của [Report 7](deliverables/FA26SE115_Report7.docx) trước đây chỉ có 21 đoạn tracked "alignment notice" chèn thêm, nội dung bên dưới vẫn mâu thuẫn với đặc tả `capstone-projects/docs/LOGOS_Platform` (bản chốt 2026-11-19). Người dùng chốt: giữ khung UC/FR/màn hình, chỉ sửa chỗ mâu thuẫn; actor dùng 5 vai trò.
+- Actor: bảng III 2.1 có 5 dòng: Platform Operator, Tenant Admin, Project Manager, Researcher, Reviewer. Project Manager chỉ làm việc của Researcher trên Case mình phụ trách; Researcher đọc mọi Case, sửa và chạy Case được giao; Reviewer chỉ xem phần được giao phản biện.
+- Platform Admin được tách theo nhiệm vụ: Platform Operator nhận sức khỏe hệ thống, cảnh báo, audit log, log monitoring, Admin overview, reviewer benchmark (UC 64–65, FR-104, FR-258, 3.2.5.2, 3.2.8.5, 3.2.8.9); Tenant Admin nhận người dùng, model/credential, cài đặt, hạn mức chi tiêu, xem metadata dự án và usage. 3.2.8.4 chia giữa hai vai trò. Gán credential và đổi vai trò Tenant Admin cần Tenant Admin thứ hai duyệt (3.2.8.2, 3.2.8.8 đổi tên thành Grant or Revoke Tenant Admin).
+- Ma trận quyền màn hình 3.1.3: cột Platform Admin thành Tenant Admin, thêm cột Platform Operator, Reviewer "Assigned only" ở dữ liệu, tài liệu, research flow.
+- Run: 3.2.3.5 bỏ Pause/Resume/Stop/Abandon, còn Cancel and Sync Run.
+- NFR theo PRD LOGOS: workspace read p95 ≤ 500 ms với 100 người dùng đồng thời, timeline p95 ≤ 2 giây, sẵn sàng 99,5%/tháng, RPO 15 phút, RTO 4 giờ, WCAG 2.2 AA, giao diện tiếng Việt và tiếng Anh (NFR-01, 02, 06, 18, 19, 4.1 và tóm tắt 4.2).
+- Xoá 21 đoạn notice tracked trong chương III. Notice ở IV, V, VI giữ lại tới khi sửa các chương đó. Mục lục cập nhật 2 tiêu đề đổi tên.
+- Không sửa: phần I–II (còn 5 chỗ "Platform Admin"), chương IV–VI, diagram nhúng.
+- Validation: script khoá theo đoạn duy nhất trong chương III và assert số chỗ khớp; 0 "Platform Admin"/"Pause" còn trong III; LibreOffice render PDF 441 trang, xem bảng Actors và ma trận quyền; bản sao lưu trước khi sửa giữ ở scratchpad.
+
 ## 2026-11-11 — System Architecture Diagram: nhãn gọn và khối AI có liên kết
 
 - Mục đích: người xem nhìn vào biết ngay mỗi khối làm gì; tách rõ các tầng và thể hiện quan hệ trong khối AI. Không đổi thành phần hệ thống.
