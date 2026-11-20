@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-21 — AI Research Architecture v2 (Figure IV-2) theo LOGOS_Platform
+
+- [AI Research Architecture v2](diagrams/04-system-overview/v2/AI-Research-Architecture.html) dựng bằng [build_ai_research_architecture.py](diagrams/04-system-overview/v2/build_ai_research_architecture.py), dùng lại style và helper của `build_system_architecture_v3.py`; bản v3 ai-tier giữ nguyên. [PNG](diagrams/04-system-overview/v2/AI-Research-Architecture.png).
+- Sửa theo `capstone-projects/docs/LOGOS_Platform/02-kien-truc/01-tong-quan-kien-truc.md`: Platform chỉ gửi command qua Core Gateway và nhận event có version (bỏ consult/advice trực tiếp vào AI PI); khung Scientific Core thay cho "AI research tier"; Release Gate trong Local Node thay bằng Release Airlock (ReleaseReview) phía Platform; luồng gọi LLM ghi credential lease; Local Node chỉ nhận compute request đã cấp quyền và trả aggregate; bỏ hai câu chú thích trên canvas.
+- Report 7 chưa thay ảnh: người dùng tự gắn Figure IV-2.
+- Validation: render PNG bằng Chrome headless (2560×1440), xem lại không có chữ đè đường.
+
 ## 2026-11-21 — Sequence v2 nhóm Administration & Monitoring: actor theo Report 7
 
 - [Sequence v2](diagrams/08-sequence/v2/08-administration-monitoring/Sequence-Diagrams-Administration-Monitoring.drawio) chép từ bản v1, bố cục giữ nguyên; bản v1 không đổi. Actor "Platform Admin" đổi theo Report 7 III 3.2.8: Tenant Admin (01 Manage Users, 02 Configure Models, 03 Platform Settings, 06 User Detail, 07 All Projects), Tenant Admin / Platform Operator (04 Usage, Audit Log, Log Monitoring), Platform Operator (05 Admin Overview, 09 System Health, 10 Reviewer Benchmark). Ở các tab Tenant Admin, `requirePlatformAdmin` đổi thành `requireTenantAdmin` cho khớp Class v2. Tab 08 Grant or Revoke Tenant Admin đã đúng từ trước nên không đổi.
