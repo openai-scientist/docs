@@ -1,0 +1,55 @@
+# Rule: Use Case Diagram
+
+Chuẩn: UML 2.5.1 (OMG), mục 18 Use Cases. Vị trí trong report: III 2.2.1. Áp dụng thêm [quy tắc chung](../../README.md#common-rules-bắt-buộc-cho-mọi-diagram).
+
+## Mục đích
+Thể hiện actor nào dùng chức năng (use case) nào của hệ thống, và quan hệ giữa các use case. Không thể hiện thứ tự hay luồng xử lý.
+
+## Ký hiệu bắt buộc
+| Element | Ký hiệu draw.io | Quy tắc |
+|---|---|---|
+| Actor người | `UML > Actor` (stick figure) | Tên là **danh từ số ít chỉ vai trò**, không phải chức danh hay tên người. Đúng tên trong III 2.1 (Researcher, Project Manager, Reviewer, Tenant Admin, Platform Operator). |
+| Actor hệ thống ngoài | Hình chữ nhật có stereotype `«system»` hoặc stick figure | Ví dụ AI Engine, Local Node, External Data Sources, Literature & Evidence Sources. Đặt bên phải system boundary. |
+| System boundary | Hình chữ nhật, tên `OpenAI-Scientist` ở trên | Mọi use case nằm trong; mọi actor nằm ngoài. |
+| Use case | Ellipse | Tên **bắt đầu bằng động từ mạnh** + danh từ, dùng thuật ngữ nghiệp vụ: `Start a run from a research case`. Không hiển thị mã UC trong ellipse; giữ mã trong metadata `data-uc-id` để truy vết danh mục. |
+| Association | Đường liền, không mũi tên | Nối actor với use case họ khởi động. Spec cho phép mũi tên mở chỉ hướng khởi động, nhưng bộ diagram này không dùng. |
+| Include | Mũi tên nét đứt, đầu mở, nhãn `«include»`, **từ use case gốc chỉ tới use case được include** | Chỉ dùng khi use case gốc **luôn** gọi use case kia. Use case được include đặt bên phải use case gốc. |
+| Extend | Mũi tên nét đứt, đầu mở, nhãn `«extend»`, **từ use case mở rộng chỉ về use case gốc** | Chỉ dùng cho hành vi tuỳ chọn có điều kiện. Use case mở rộng đặt bên dưới use case gốc. |
+| Generalization | Đường liền, đầu tam giác rỗng chỉ về phía tổng quát | Giữa actor (Project Manager → Researcher theo BR-80) hoặc giữa use case. |
+
+## Bố cục
+- Giữ cấu trúc sơ đồ cũ của người dùng trên đúng một trang trong một file `.drawio`. Không tách thành overview, module hoặc trang chi tiết theo nhóm FE. Khi cập nhật nghiệp vụ, sửa trực tiếp các actor, use case và quan hệ cần thiết trong bố cục hiện có; chỉ điều chỉnh vị trí cục bộ khi cần tránh chồng lấn.
+- Phong cách theo ảnh tham chiếu của người dùng: một khung hệ thống lớn theo chiều dọc; Project Manager và Researcher ở bên trái, actor hỗ trợ và quản trị ở bên phải; các ellipse tạo thành cụm chức năng chính–phụ, rải quanh use case trung tâm của từng cụm. Giữ nền trắng, nét mảnh, chữ đen và bố cục tổng thể hiện có; không chuyển sang danh sách ellipse xếp đều thành một cột.
+- Đường association từ actor tỏa tới use case liên quan, dừng ở biên ellipse; bố trí include/extend gần cụm tương ứng để tránh đi xuyên hình. Hình tham chiếu định hướng bố cục, không thay thế quy tắc ngữ nghĩa UML hoặc tên/quyền trong BRD, PRD và Report III.
+- Actor chính và use case chính ở góc trên trái. Actor phụ và hệ thống ngoài bên phải.
+- Use case thường xảy ra trước đặt cao hơn.
+- Actor không nối trực tiếp với actor (ngoại trừ generalization).
+- Use case cùng FE đặt gần nhau thành cụm trong cùng khung hệ thống; không thêm package/module box chia vùng.
+- Khi có nhiều use case, mở rộng vùng vẽ và điều chỉnh khoảng cách trong cùng trang; không tự tách diagram theo nhóm FE hoặc tạo overview.
+
+## Không được
+- Vẽ luồng, thứ tự bước, hoặc nối use case với use case bằng đường liền.
+- Dùng `«include»`/`«extend»` chỉ để biểu diễn thứ tự bước. Có thể tách hành vi bắt buộc dùng chung thành included use case khi có yêu cầu và luồng rõ ràng; included use case không bắt buộc có actor khởi động riêng.
+- Đặt màn hình, bảng dữ liệu hay tên API vào use case.
+
+## Checklist
+- [ ] View phủ đủ 65 UC của Report 7 (III 2.2.2, UC-01 … UC-65); tên ellipse theo đúng tên trong bảng, không hiển thị mã UC.
+- [ ] Actor theo Report 7 III 2.1: User (tổng quát), Researcher, Project Manager, Reviewer, Tenant Admin, Platform Operator; AI Engine và các actor hỗ trợ External Data Sources, Literature & Evidence Sources, Local Node đặt bên phải. Project Manager kế thừa Researcher là cách vẽ đơn giản hoá.
+- [ ] Mỗi use case có ít nhất một actor.
+- [ ] Hướng mũi tên include/extend đúng.
+
+## Nguồn
+- OMG UML 2.5.1, §18 UseCases.
+- Ambler, [UML 2 Use Case Diagramming Guidelines](https://agilemodeling.com/style/useCaseDiagram.htm).
+- [uml-diagrams.org: Use Case Diagrams](https://www.uml-diagrams.org/use-case-diagrams.html).
+
+
+## Hiệu chỉnh theo review ngày 2026-11-02
+
+- Tên ellipse dùng sentence case; giữ nguyên các tên riêng và chữ viết tắt AI, PI, Dossier. Điều kiện owner và release priority đặt trong metadata.
+- Test data connection thuộc Manage data connections. Comment on an object là chức năng cộng tác chung, nối trực tiếp với Reviewer và Researcher (PM kế thừa), không specialization của Findings.
+- Theo yêu cầu bố cục mới nhất, Record research decision dùng ellipse tham chiếu gần từng chức năng để sáu include không dồn về một ô. Các bản có chung `data-use-case-key`, `data-reference-to` liên kết về bản gốc và tooltip giải thích cùng use case; không nối các ellipse tham chiếu với nhau.
+- AI Provider hỗ trợ cả năm stage theo Report IV mô tả stage engines gọi model service. Association không ngụ ý nhà cung cấp khởi tạo stage hay sinh số liệu khoa học.
+- Local Node là supporting actor độc lập với nền tảng trung tâm, hỗ trợ pairing và aggregate release. UC-08/30/31 được khôi phục theo Report III; UC-31 là mục tiêu xử lý tình trạng node của người dùng/nền tảng, không ngụ ý node offline khởi tạo thao tác. Chỉ aggregate đã qua policy được phép rời môi trường cục bộ, không chuyển raw rows.
+
+- Cụm Manage collaboration gom View comments, Comment on an object (UC-37), Edit own comment và Delete own comment. Researcher/Reviewer nối vào cụm; Project Manager kế thừa Researcher. Sửa/xóa chỉ áp dụng bình luận của chính tác giả; không gán mã UC mới cho các ellipse bổ trợ.
