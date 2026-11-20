@@ -10,7 +10,11 @@ Các bản vẽ LOGOS mới được đặt trong thư mục version riêng đ�
 
 Bản Package Diagram mới nằm tại [`05-package/v2`](05-package/v2/), giữ style UML package trắng/đen của bản legacy và vẽ theo cấu trúc code thật: FE, `services` (management, oversight, runner), `stages` và `packages`. Nguồn và quy ước đặt tên ghi trong [README](05-package/v2/README.md).
 
+Bản Context Diagram mới nằm tại [`12-context/v2`](12-context/v2/), là bản copy có kiểm soát từ page `main-2` của v1: giữ geometry, typography, 69 luồng và grammar ellipse/rectangle, chỉ sửa scope/name/role cần thiết cho toàn product gồm FE, Platform API, Scientific Core/LOGOS, người dùng, Local Node và các hệ thống ngoài. Bản legacy ở thư mục cha không bị ghi đè.
+
 Đối với v2, [`rule.md`](03-conceptual-erd/v2/rule.md) là quy tắc nội bộ của bản redraw: giữ nguyên style Crow's Foot của bản legacy nhưng dùng `LOGOS_Platform/visual/model.py` làm nguồn nội dung.
+
+Quy ước cho các diagram redraw mới: không đặt title/label chung ở góc trái canvas; label của connector dùng tiếng Anh khi diagram hướng tới Report 7; tên hiển thị dùng tên miền chuẩn, không tự thêm mã module/package như `M01`, `M07`, `M10` nếu đặc tả không yêu cầu. Mọi diagram mới phải ghi rõ `current-state`, `target-state` hoặc `transition` trong README/rule; phạm vi sản phẩm mặc định là FE–BE Platform–Scientific Core/LOGOS, không chỉ riêng LOGOS stages.
 
 ## Common rules (bắt buộc cho mọi diagram)
 
@@ -19,7 +23,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 **File và tên**
 - Mỗi `.drawio` chỉ chứa 1 diagram (1 page), trừ Screen Flow được gộp ba tab theo [rule riêng](02-screen-flow/rule.md), Class Diagram được gộp tám tab theo [rule riêng](07-class/rule.md), Sequence Diagram được chia tám folder/file theo nhóm, mỗi sequence một tab theo [rule riêng](08-sequence/rule.md), và State Machine Diagram được gộp một file/chín tab theo [rule riêng](09-state-machine/rule.md). Tên `<Diagram-Type>-<Subject>.drawio`, ví dụ `Sequence-Diagram-Sign-In.drawio`.
 - Export PNG cùng tên, cùng folder: `File > Export as > PNG`, Zoom 200%, Border 20 px, nền trắng, bỏ chọn "Transparent background". Report chỉ chèn PNG này.
-- Nội dung theo `report/`: tên actor, UC, FE, entity, state, message lấy đúng chữ trong report (tiếng Anh). Code khác report thì báo leader, không tự vẽ theo code.
+- Với artifact legacy, nội dung theo `report/` và giữ nguyên lịch sử. Với redraw v2, nội dung theo biên bản bàn giao: source repo dùng để xác minh current-state/phạm vi FE–BE–LOGOS, còn `LOGOS_Platform` quyết định semantics đích; mọi mismatch phải được ghi rõ thay vì âm thầm chọn một phía.
 
 **Khung và tiêu đề**
 - Diagram UML có frame theo UML 2.5.1: hình chữ nhật bao ngoài, góc trên trái là pentagon ghi `<kind> <name>`. Kind dạng viết tắt của spec: `uc` (use case), `sd` (interaction), `stm` (state machine), `act` (activity), `pkg` (package), `cmp` (component), `dep` (deployment). `class` không có dạng viết tắt nên ghi đủ. Ví dụ `sd Sign In`.
@@ -31,6 +35,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 - Đường nối màu đen `#000000`, độ dày 1 pt. Element nền trắng, viền đen 1 pt.
 - Chỉ dùng tối đa 1 màu nhấn, `#DAE8FC` viền `#6C8EBF` (blue nhạt của draw.io), để đánh dấu phần trọng tâm. Màu không được là cách duy nhất để phân biệt ý nghĩa.
 - Đường nối dùng `orthogonalEdgeStyle` (vuông góc), không chéo nhau nếu tránh được, không đi xuyên qua element.
+- Mũi tên phải có attach point riêng, chạm đúng element đích; route không được đè nhau hoặc bị đứt giữa đường.
 - Căn lưới: bật `Grid` 10 px, các element cùng hàng/cột phải thẳng hàng.
 - Kích thước vừa 1 trang A4 dọc (rộng tối đa ~1600 px ở zoom 100%). Quá lớn thì tách diagram, không thu nhỏ chữ.
 - Diagram có ký hiệu đặc biệt hoặc dùng màu phải có legend ở góc dưới phải. Riêng C4 thì luôn phải có legend.
@@ -60,6 +65,7 @@ Mỗi folder có `rule.md` riêng cho loại diagram đó; các quy tắc dướ
 | [09-state-machine](09-state-machine/) | State Machine Diagram, grouped flat lifecycle views | 1 file / 9 tabs | IV 3.2–3.6; Authentication bổ sung | R2 |
 | [10-activity](10-activity/) | Activity Diagram (swimlanes), one per main workflow | 5 | IV 3.4–3.6, VI 3 | R2 |
 | [11-optional](11-optional/) | System Context, Business Process, Deployment, Scrum Process | 4 | I 1.2, II 2.1, III 1, IV 1.1 | report/ |
+| [12-context](12-context/) | System Context Diagram | 1 | III 1, IV-1 | report/, handoff |
 
 ## File checklist
 
