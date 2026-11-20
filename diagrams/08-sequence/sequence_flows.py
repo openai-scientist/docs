@@ -437,14 +437,29 @@ GROUPS += [
                     db('Read stage state and budget', 'Rerun eligibility'),
                     alt(('[run ended or budget blocked]', []), ('[else: rerun allowed]', [
                         db('Create next version; mark downstream stale; append decision log', 'Versioned rerun scheduled')]))])]),
+        # LOGOS UC-M06-04: cancel goes through Core confirmation; sync reconciles by command ID.
         run('Cancel and Synchronize Run', 'IV 3.4.6', 'cancel(runId)', [], trigger='Cancel or sync run', choices=[
-            choice('[sync]', 'syncRun(runId)', 'syncRun(runId)', [
-                db('Read authoritative run and engine state', 'Current state')]),
+            choice('[sync]', 'syncRun(runId)', 'reconcile(runId)', [
+                db('Open reconciliation task for the command ID', 'Run reconciling'),
+                loop('[until Core answers or 5 attempts in 1 hour]', [
+                    call('s', 'k', 'getCommandStatus(commandId)', 'Received, not received or ended')]),
+                alt(('[Core did not receive the command]', [
+                        call('s', 'k', 'resend(commandId)', 'Same command accepted')]),
+                    ('[Core reports the run ended]', [db('Apply Core result to run state', 'Run state updated')]),
+                    ('[attempt limit reached]', [db('Mark run needs intervention; keep budget hold', 'Task for Platform Operator')]))]),
             choice('[cancel]', 'cancel(runId)', 'cancel(runId)', [
-                db('Check creator-or-PM rights and run state', 'Control eligibility'),
-                alt(('[run ended or caller not creator or PM]', []), ('[else: cancel allowed]', [
-                    db('End run as cancelled; keep accepted objects', 'ended(cancelled)'),
-                    db('Close waiting items and append audit', 'Cancellation recorded')]))])]),
+                db('Check run state and cancel right', 'Cancel eligibility'),
+                alt(('[run ended or no cancel right]', []),
+                    ('[command not yet sent to Core]', [
+                        db('End run as cancelled; append audit', 'Run cancelled'),
+                        call('s', 'b', 'release(holdId, noCommandEvidence)', 'Hold released')]),
+                    ('[else: command sent]', [
+                        db('Set run to cancel requested; append audit', 'Run cancel requested'),
+                        call('s', 'k', 'cancel(commandId)', 'Cancel accepted'),
+                        event('k', 's', 'onRunEnded(event)'),
+                        db('Apply cancelled, or completed if Core finished first', 'Final run state'),
+                        call('s', 'b', 'settle(holdId)', 'Hold settled; unused part refunded')]))])],
+            participants={'k': ': ScientificCore', 'b': ': BudgetService'}),
         run('Raise Token Budget', 'IV 3.4.7', 'raiseRunBudget(runId, amount)', entry='raiseTokenBudget(runId, amount)',
             trigger='Raise run token budget', steps=[
             db('Read run state, waiting reason and new amount', 'Budget review context'),
@@ -878,16 +893,20 @@ GROUPS += [
                           db('Save user change; append audit', 'Updated user')]))])]),
         admin('View All Projects', 'IV 3.8.8', 'listProjectMetadata()', entry='listAllProjects()', trigger='Open all projects', steps=[
             db('Read project list, members, usage and run states', 'Metadata only; no datasets or manuscripts')]),
-        admin('Grant or Revoke Platform Admin', 'IV 3.8.9', 'grantPlatformAdmin(userId)', [],
-              trigger='Grant or revoke Platform Admin', choices=[
-                  choice('[grant]', 'grantPlatformAdmin(userId)', 'grantPlatformAdmin(userId)', [
-                      db('Validate target user', 'Role action eligibility'),
-                      alt(('[invalid target or already admin]', []), ('[else: eligible]', [
-                          db('Grant Platform Admin role; append audit', 'Role granted')]))]),
-                  choice('[revoke]', 'revokePlatformAdmin(userId)', 'revokePlatformAdmin(userId)', [
-                      db('Validate target user', 'Role action eligibility'),
-                      alt(('[invalid target or last Platform Admin]', []), ('[else: eligible]', [
-                          db('Revoke Platform Admin role; append audit', 'Role revoked')]))])]),
+        # LOGOS governance_change: a second Tenant Admin approves; the receipt is applied by M01.
+        flow('Grant or Revoke Tenant Admin', 'IV 3.8.9', 'III 3.2.8.8; LOGOS M01, M05', 'Tenant Admin',
+             'AdministrationController', 'IdentityService', 'requestRoleChange(userId, change)', [],
+             trigger='Grant or revoke Tenant Admin', choices=[
+                 choice('[request grant or revoke]', 'requestRoleChange(userId, change)', 'requestRoleChange(userId, change)', [
+                     db('Validate target membership and last Tenant Admin rule', 'Role change eligibility'),
+                     alt(('[invalid target or last Tenant Admin]', []), ('[else: eligible]', [
+                         call('s', 'p', 'createApprovalRequest(governance_change, digest)', 'ApprovalRequest pending')]))]),
+                 choice('[second Tenant Admin approves]', 'approve(requestId)', 'approve(requestId)', [
+                     call('s', 'p', 'vote(requestId)', 'AuthorityReceipt or rejection'),
+                     alt(('[self-approval, stale sign-in or digest changed]', []),
+                         ('[else: receipt issued]', [
+                             db('Grant or revoke RoleGrant; write MembershipChanged to outbox; append audit', 'Role changed')]))])],
+             participants={'p': ': ApprovalService'}),
         admin('View System Health and Acknowledge Alerts', 'IV 3.8.10', 'health()', [], service='MonitoringService',
               trigger='Open health or acknowledge alert', choices=[
                   choice('[view health]', 'viewHealth()', 'health()', [

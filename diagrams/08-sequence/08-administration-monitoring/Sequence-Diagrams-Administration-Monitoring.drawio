@@ -1187,270 +1187,258 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="08-administration-monitoring-8" name="Grant or Revoke Platform Admin">
-    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1680" pageHeight="2187" background="#FFFFFF">
+  <diagram id="08-administration-monitoring-8" name="Grant or Revoke Tenant Admin">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="2260" pageHeight="2044" background="#FFFFFF">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="fragment_0" value="alt" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlFrame;fillColor=none;pointerEvents=0;container=0;width=55;height=25;align=left;verticalAlign=top;spacingLeft=8;spacingTop=5;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="20" y="182" width="1640" height="1944" />
+          <mxGeometry as="geometry" x="20" y="182" width="2220" height="1801" />
         </mxCell>
-        <mxCell id="fragment_0_guard0" value="[grant]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="104" y="198" width="1541" height="30" />
+        <mxCell id="fragment_0_guard0" value="[request grant or revoke]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="104" y="198" width="2121" height="30" />
         </mxCell>
-        <mxCell id="fragment_0_guard1" value="[revoke]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="104" y="1164" width="1541" height="30" />
+        <mxCell id="fragment_0_guard1" value="[second Tenant Admin approves]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="104" y="1085" width="2121" height="30" />
         </mxCell>
         <mxCell id="fragment_0_divider0" value="" edge="1" parent="1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;dashed=1;endArrow=none;">
           <mxGeometry as="geometry" relative="1">
-            <mxPoint as="sourcePoint" x="20" y="1160" />
-            <mxPoint as="targetPoint" x="1660" y="1160" />
+            <mxPoint as="sourcePoint" x="20" y="1081" />
+            <mxPoint as="targetPoint" x="2240" y="1081" />
           </mxGeometry>
         </mxCell>
         <mxCell id="fragment_1" value="alt" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlFrame;fillColor=none;pointerEvents=0;container=0;width=55;height=25;align=left;verticalAlign=top;spacingLeft=8;spacingTop=5;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="28" y="332" width="1592" height="800" />
+          <mxGeometry as="geometry" x="28" y="332" width="2172" height="721" />
         </mxCell>
         <mxCell id="fragment_1_guard0" value="[access denied or session invalid]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="104" y="348" width="1501" height="30" />
+          <mxGeometry as="geometry" x="104" y="348" width="2081" height="30" />
         </mxCell>
         <mxCell id="fragment_1_guard1" value="[else: access allowed]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="104" y="456" width="1501" height="30" />
+          <mxGeometry as="geometry" x="104" y="456" width="2081" height="30" />
         </mxCell>
         <mxCell id="fragment_1_divider0" value="" edge="1" parent="1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;dashed=1;endArrow=none;">
           <mxGeometry as="geometry" relative="1">
             <mxPoint as="sourcePoint" x="28" y="452" />
-            <mxPoint as="targetPoint" x="1620" y="452" />
+            <mxPoint as="targetPoint" x="2200" y="452" />
           </mxGeometry>
         </mxCell>
         <mxCell id="fragment_2" value="alt" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlFrame;fillColor=none;pointerEvents=0;container=0;width=55;height=25;align=left;verticalAlign=top;spacingLeft=8;spacingTop=5;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="28" y="1298" width="1592" height="800" />
+          <mxGeometry as="geometry" x="28" y="1219" width="2172" height="736" />
         </mxCell>
         <mxCell id="fragment_2_guard0" value="[access denied or session invalid]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="104" y="1314" width="1501" height="30" />
+          <mxGeometry as="geometry" x="104" y="1235" width="2081" height="30" />
         </mxCell>
         <mxCell id="fragment_2_guard1" value="[else: access allowed]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="104" y="1422" width="1501" height="30" />
+          <mxGeometry as="geometry" x="104" y="1343" width="2081" height="30" />
         </mxCell>
         <mxCell id="fragment_2_divider0" value="" edge="1" parent="1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;dashed=1;endArrow=none;">
           <mxGeometry as="geometry" relative="1">
-            <mxPoint as="sourcePoint" x="28" y="1418" />
-            <mxPoint as="targetPoint" x="1620" y="1418" />
+            <mxPoint as="sourcePoint" x="28" y="1339" />
+            <mxPoint as="targetPoint" x="2200" y="1339" />
           </mxGeometry>
         </mxCell>
         <mxCell id="fragment_3" value="alt" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlFrame;fillColor=none;pointerEvents=0;container=0;width=55;height=25;align=left;verticalAlign=top;spacingLeft=8;spacingTop=5;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="36" y="654" width="1579" height="450" />
+          <mxGeometry as="geometry" x="36" y="669" width="2159" height="356" />
         </mxCell>
-        <mxCell id="fragment_3_guard0" value="[invalid target or already admin]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="106" y="670" width="1494" height="30" />
+        <mxCell id="fragment_3_guard0" value="[invalid target or last Tenant Admin]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="106" y="685" width="2074" height="30" />
         </mxCell>
         <mxCell id="fragment_3_guard1" value="[else: eligible]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="106" y="825" width="1494" height="30" />
+          <mxGeometry as="geometry" x="106" y="825" width="2074" height="30" />
         </mxCell>
         <mxCell id="fragment_3_divider0" value="" edge="1" parent="1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;dashed=1;endArrow=none;">
           <mxGeometry as="geometry" relative="1">
             <mxPoint as="sourcePoint" x="36" y="821" />
-            <mxPoint as="targetPoint" x="1615" y="821" />
+            <mxPoint as="targetPoint" x="2195" y="821" />
           </mxGeometry>
         </mxCell>
         <mxCell id="fragment_4" value="alt" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlFrame;fillColor=none;pointerEvents=0;container=0;width=55;height=25;align=left;verticalAlign=top;spacingLeft=8;spacingTop=5;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="36" y="1620" width="1579" height="450" />
+          <mxGeometry as="geometry" x="36" y="1477" width="1869" height="450" />
         </mxCell>
-        <mxCell id="fragment_4_guard0" value="[invalid target or last Platform Admin]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1636" width="1494" height="30" />
+        <mxCell id="fragment_4_guard0" value="[self-approval, stale sign-in or digest changed]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="106" y="1493" width="1784" height="30" />
         </mxCell>
-        <mxCell id="fragment_4_guard1" value="[else: eligible]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1791" width="1494" height="30" />
+        <mxCell id="fragment_4_guard1" value="[else: receipt issued]" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="106" y="1633" width="1784" height="30" />
         </mxCell>
         <mxCell id="fragment_4_divider0" value="" edge="1" parent="1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;dashed=1;endArrow=none;">
           <mxGeometry as="geometry" relative="1">
-            <mxPoint as="sourcePoint" x="36" y="1787" />
-            <mxPoint as="targetPoint" x="1615" y="1787" />
+            <mxPoint as="sourcePoint" x="36" y="1629" />
+            <mxPoint as="targetPoint" x="1905" y="1629" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="u" value="Platform Admin" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;participant=umlActor;size=60;perimeter=lifelinePerimeter;container=1;verticalAlign=bottom;spacingBottom=-20;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="65" y="45" width="30" height="2117" />
+        <mxCell id="u" value="Tenant Admin" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;participant=umlActor;size=60;perimeter=lifelinePerimeter;container=1;verticalAlign=bottom;spacingBottom=-20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="65" y="45" width="30" height="1974" />
         </mxCell>
         <mxCell id="w" value="Web App" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="260" y="55" width="220" height="2107" />
+          <mxGeometry as="geometry" x="260" y="55" width="220" height="1964" />
         </mxCell>
         <mxCell id="c" value=": AdministrationController" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="550" y="55" width="220" height="2107" />
+          <mxGeometry as="geometry" x="550" y="55" width="220" height="1964" />
         </mxCell>
-        <mxCell id="s" value=": AdministrationService" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="840" y="55" width="220" height="2107" />
+        <mxCell id="a" value=": AuthorizationService" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="840" y="55" width="220" height="1964" />
         </mxCell>
-        <mxCell id="repo" value=": AdministrationRepository" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="1130" y="55" width="220" height="2107" />
+        <mxCell id="s" value=": IdentityService" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="1130" y="55" width="220" height="1964" />
+        </mxCell>
+        <mxCell id="repo" value=": IdentityRepository" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="1420" y="55" width="220" height="1964" />
         </mxCell>
         <mxCell id="d" value="Database" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry as="geometry" x="1420" y="55" width="220" height="2107" />
+          <mxGeometry as="geometry" x="1710" y="55" width="220" height="1964" />
+        </mxCell>
+        <mxCell id="p" value=": ApprovalService" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="2000" y="55" width="220" height="1964" />
         </mxCell>
         <mxCell id="activation_w_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="w" vertex="1">
-          <mxGeometry as="geometry" x="106" y="95" width="8" height="1886" />
+          <mxGeometry as="geometry" x="106" y="95" width="8" height="1743" />
         </mxCell>
         <mxCell id="activation_c_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="c" vertex="1">
-          <mxGeometry as="geometry" x="106" y="181" width="8" height="802" />
+          <mxGeometry as="geometry" x="106" y="181" width="8" height="723" />
         </mxCell>
         <mxCell id="activation_c_1" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="c" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1147" width="8" height="802" />
+          <mxGeometry as="geometry" x="106" y="1068" width="8" height="738" />
         </mxCell>
-        <mxCell id="activation_s_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="s" vertex="1">
+        <mxCell id="activation_a_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="a" vertex="1">
           <mxGeometry as="geometry" x="106" y="213" width="8" height="32" />
         </mxCell>
+        <mxCell id="activation_a_1" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="a" vertex="1">
+          <mxGeometry as="geometry" x="106" y="1100" width="8" height="32" />
+        </mxCell>
+        <mxCell id="activation_s_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="s" vertex="1">
+          <mxGeometry as="geometry" x="106" y="439" width="8" height="433" />
+        </mxCell>
         <mxCell id="activation_s_1" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="s" vertex="1">
-          <mxGeometry as="geometry" x="106" y="439" width="8" height="512" />
-        </mxCell>
-        <mxCell id="activation_s_2" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="s" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1179" width="8" height="32" />
-        </mxCell>
-        <mxCell id="activation_s_3" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="s" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1405" width="8" height="512" />
+          <mxGeometry as="geometry" x="106" y="1326" width="8" height="448" />
         </mxCell>
         <mxCell id="activation_repo_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="repo" vertex="1">
-          <mxGeometry as="geometry" x="106" y="471" width="8" height="96" />
+          <mxGeometry as="geometry" x="106" y="486" width="8" height="96" />
         </mxCell>
         <mxCell id="activation_repo_1" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="repo" vertex="1">
-          <mxGeometry as="geometry" x="106" y="823" width="8" height="96" />
-        </mxCell>
-        <mxCell id="activation_repo_2" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="repo" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1437" width="8" height="96" />
-        </mxCell>
-        <mxCell id="activation_repo_3" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="repo" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1789" width="8" height="96" />
+          <mxGeometry as="geometry" x="106" y="1646" width="8" height="96" />
         </mxCell>
         <mxCell id="activation_d_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="d" vertex="1">
-          <mxGeometry as="geometry" x="106" y="503" width="8" height="32" />
+          <mxGeometry as="geometry" x="106" y="518" width="8" height="32" />
         </mxCell>
         <mxCell id="activation_d_1" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="d" vertex="1">
-          <mxGeometry as="geometry" x="106" y="855" width="8" height="32" />
+          <mxGeometry as="geometry" x="106" y="1678" width="8" height="32" />
         </mxCell>
-        <mxCell id="activation_d_2" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="d" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1469" width="8" height="32" />
+        <mxCell id="activation_p_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="p" vertex="1">
+          <mxGeometry as="geometry" x="106" y="808" width="8" height="32" />
         </mxCell>
-        <mxCell id="activation_d_3" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="d" vertex="1">
-          <mxGeometry as="geometry" x="106" y="1821" width="8" height="32" />
+        <mxCell id="activation_p_1" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="p" vertex="1">
+          <mxGeometry as="geometry" x="106" y="1358" width="8" height="32" />
         </mxCell>
-        <mxCell id="m1" value="1: Grant or revoke Platform Admin" edge="1" parent="1" source="u" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0.5;exitY=0.04959848842701937;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m1" value="1: Grant or revoke Tenant Admin" edge="1" parent="1" source="u" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0.5;exitY=0.05319148936170213;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m2" value="2: grantPlatformAdmin(userId)" edge="1" parent="1" source="activation_w_0" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.04559915164369035;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m2" value="2: requestRoleChange(userId, change)" edge="1" parent="1" source="activation_w_0" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.04934021801491681;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m3" value="3: requirePlatformAdmin(userId)" edge="1" parent="1" source="activation_c_0" target="activation_s_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.0399002493765586;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m3" value="3: requireRole(user, tenant, action)" edge="1" parent="1" source="activation_c_0" target="activation_a_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.04426002766251729;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m4" value="4: Access check result" edge="1" parent="1" source="activation_s_0" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.0798004987531172;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m4" value="4: Access check result" edge="1" parent="1" source="activation_a_0" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.08852005532503458;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m5" value="5: Access rejected" edge="1" parent="1" source="activation_c_0" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.18703241895261846;entryX=1;entryY=0.12513255567338283;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m5" value="5: Access rejected" edge="1" parent="1" source="activation_c_0" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.2074688796680498;entryX=1;entryY=0.13539873780837636;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m6" value="6: Show unavailable or sign-in required" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.1420996818663839;entryX=0.5;entryY=0.1761927255550307;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m6" value="6: Show unavailable or sign-in required" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.15375788869764773;entryX=0.5;entryY=0.1889564336372847;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m7" value="7: grantPlatformAdmin(userId)" edge="1" parent="1" source="activation_c_0" target="activation_s_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.32169576059850374;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m7" value="7: requestRoleChange(userId, change)" edge="1" parent="1" source="activation_c_0" target="activation_s_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.35684647302904565;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m8" value="8: Validate target user" edge="1" parent="1" source="activation_s_1" target="activation_repo_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.0625;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m8" value="8: Validate target membership and last&lt;br&gt;Tenant Admin rule" edge="1" parent="1" source="activation_s_0" target="activation_repo_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.10854503464203233;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
         <mxCell id="m9" value="9: Query records" edge="1" parent="1" source="activation_repo_0" target="activation_d_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.3333333333333333;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m10" value="10: Role action eligibility" edge="1" parent="1" source="activation_d_0" target="activation_repo_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.6666666666666666;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m10" value="10: Role change eligibility" edge="1" parent="1" source="activation_d_0" target="activation_repo_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.6666666666666666;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m11" value="11: Role action eligibility" edge="1" parent="1" source="activation_repo_0" target="activation_s_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.25;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m11" value="11: Role change eligibility" edge="1" parent="1" source="activation_repo_0" target="activation_s_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.3302540415704388;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m12" value="12: Rejected: invalid target or already&lt;br&gt;admin" edge="1" parent="1" source="activation_s_1" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.447265625;entryX=1;entryY=0.6072319201995012;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m12" value="12: Rejected: invalid target or last Tenant Admin" edge="1" parent="1" source="activation_s_0" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.5288683602771362;entryX=1;entryY=0.673582295988935;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m13" value="13: Domain validation error" edge="1" parent="1" source="activation_c_0" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.6471321695760599;entryX=1;entryY=0.3207847295864263;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m13" value="13: Domain validation error" edge="1" parent="1" source="activation_c_0" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.7178423236514523;entryX=1;entryY=0.34710269650028686;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m14" value="14: Show error message" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.33775185577942735;entryX=0.5;entryY=0.3504959848842702;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m14" value="14: Show error message" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.3654618473895582;entryX=0.5;entryY=0.375886524822695;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m15" value="15: Grant Platform Admin role; append&lt;br&gt;audit" edge="1" parent="1" source="activation_s_1" target="activation_repo_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.75;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m15" value="15: createApprovalRequest(governance_change, digest)" edge="1" parent="1" source="activation_s_0" target="activation_p_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.8521939953810623;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m16" value="16: Write records" edge="1" parent="1" source="activation_repo_1" target="activation_d_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.3333333333333333;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m16" value="16: ApprovalRequest pending" edge="1" parent="1" source="activation_p_0" target="activation_s_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9260969976905312;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m17" value="17: Role granted" edge="1" parent="1" source="activation_d_1" target="activation_repo_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.6666666666666666;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m17" value="17: Operation result" edge="1" parent="1" source="activation_s_0" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9557399723374828;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m18" value="18: Role granted" edge="1" parent="1" source="activation_repo_1" target="activation_s_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9375;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m18" value="18: Result or domain validation error" edge="1" parent="1" source="activation_c_0" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.46414228341939184;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m19" value="19: Operation result" edge="1" parent="1" source="activation_s_1" target="activation_c_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9600997506234414;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m19" value="19: Show result or error" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.4825014343086632;entryX=0.5;entryY=0.47922998986828774;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m20" value="20: Result or domain validation error" edge="1" parent="1" source="activation_c_0" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.4708377518557794;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m20" value="20: approve(requestId)" edge="1" parent="1" source="activation_w_0" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.5582329317269076;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m21" value="21: Show result or error" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.4878048780487805;entryX=0.5;entryY=0.4841757203589986;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m21" value="21: requireRole(user, tenant, action)" edge="1" parent="1" source="activation_c_1" target="activation_a_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.04336043360433604;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m22" value="22: revokePlatformAdmin(userId)" edge="1" parent="1" source="activation_w_0" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.5577942735949099;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m22" value="22: Access check result" edge="1" parent="1" source="activation_a_1" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.08672086720867209;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m23" value="23: requirePlatformAdmin(userId)" edge="1" parent="1" source="activation_c_1" target="activation_s_2" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.0399002493765586;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m23" value="23: Access rejected" edge="1" parent="1" source="activation_c_1" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.2032520325203252;entryX=1;entryY=0.6442914515203672;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m24" value="24: Access check result" edge="1" parent="1" source="activation_s_2" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.0798004987531172;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m24" value="24: Show unavailable or sign-in required" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.6626506024096386;entryX=0.5;entryY=0.6382978723404256;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m25" value="25: Access rejected" edge="1" parent="1" source="activation_c_1" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.18703241895261846;entryX=1;entryY=0.6373276776246023;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m25" value="25: approve(requestId)" edge="1" parent="1" source="activation_c_1" target="activation_s_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.34959349593495936;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m26" value="26: Show unavailable or sign-in required" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.6542948038176034;entryX=0.5;entryY=0.6324988190836088;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m26" value="26: vote(requestId)" edge="1" parent="1" source="activation_s_1" target="activation_p_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.07142857142857142;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m27" value="27: revokePlatformAdmin(userId)" edge="1" parent="1" source="activation_c_1" target="activation_s_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.32169576059850374;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m27" value="27: AuthorityReceipt or rejection" edge="1" parent="1" source="activation_p_1" target="activation_s_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.14285714285714285;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m28" value="28: Validate target user" edge="1" parent="1" source="activation_s_3" target="activation_repo_2" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.0625;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m28" value="28: Rejected: self-approval, stale sign-in or digest changed" edge="1" parent="1" source="activation_s_1" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.33482142857142855;entryX=1;entryY=0.5528455284552846;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m29" value="29: Query records" edge="1" parent="1" source="activation_repo_2" target="activation_d_2" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.3333333333333333;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m29" value="29: Domain validation error" edge="1" parent="1" source="activation_c_1" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.5962059620596206;entryX=1;entryY=0.810671256454389;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m30" value="30: Role action eligibility" edge="1" parent="1" source="activation_d_2" target="activation_repo_2" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.6666666666666666;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m30" value="30: Show error message" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.8290304073436604;entryX=0.5;entryY=0.7852077001013171;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m31" value="31: Role action eligibility" edge="1" parent="1" source="activation_repo_2" target="activation_s_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.25;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m31" value="31: Grant or revoke RoleGrant; write&lt;br&gt;MembershipChanged to outbox; append&lt;br&gt;audit" edge="1" parent="1" source="activation_s_1" target="activation_repo_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.7142857142857143;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m32" value="32: Rejected: invalid target or last&lt;br&gt;Platform Admin" edge="1" parent="1" source="activation_s_3" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.447265625;entryX=1;entryY=0.6072319201995012;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m32" value="32: Write records" edge="1" parent="1" source="activation_repo_1" target="activation_d_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.3333333333333333;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m33" value="33: Domain validation error" edge="1" parent="1" source="activation_c_1" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.6471321695760599;entryX=1;entryY=0.8329798515376459;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m33" value="33: Role changed" edge="1" parent="1" source="activation_d_1" target="activation_repo_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.6666666666666666;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m34" value="34: Show error message" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=0.8499469777306469;entryX=0.5;entryY=0.8068020784128483;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m34" value="34: Role changed" edge="1" parent="1" source="activation_repo_1" target="activation_s_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9285714285714286;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m35" value="35: Revoke Platform Admin role; append&lt;br&gt;audit" edge="1" parent="1" source="activation_s_3" target="activation_repo_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.75;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m35" value="35: Operation result" edge="1" parent="1" source="activation_s_1" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9566395663956639;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m36" value="36: Write records" edge="1" parent="1" source="activation_repo_3" target="activation_d_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=0.3333333333333333;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m36" value="36: Result or domain validation error" edge="1" parent="1" source="activation_c_1" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9816408491107286;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m37" value="37: Role revoked" edge="1" parent="1" source="activation_d_3" target="activation_repo_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.6666666666666666;exitPerimeter=0;entryPerimeter=0;">
-          <mxGeometry as="geometry" relative="1" />
-        </mxCell>
-        <mxCell id="m38" value="38: Role revoked" edge="1" parent="1" source="activation_repo_3" target="activation_s_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9375;exitPerimeter=0;entryPerimeter=0;">
-          <mxGeometry as="geometry" relative="1" />
-        </mxCell>
-        <mxCell id="m39" value="39: Operation result" edge="1" parent="1" source="activation_s_3" target="activation_c_1" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9600997506234414;exitPerimeter=0;entryPerimeter=0;">
-          <mxGeometry as="geometry" relative="1" />
-        </mxCell>
-        <mxCell id="m40" value="40: Result or domain validation error" edge="1" parent="1" source="activation_c_1" target="activation_w_0" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=1;entryY=0.9830328738069989;exitPerimeter=0;entryPerimeter=0;">
-          <mxGeometry as="geometry" relative="1" />
-        </mxCell>
-        <mxCell id="m41" value="41: Show result or error" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=0.5;entryY=0.9404818138875768;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m37" value="37: Show result or error" edge="1" parent="1" source="activation_w_0" target="u" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0;exitY=1.0;entryX=0.5;entryY=0.9361702127659575;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
       </root>

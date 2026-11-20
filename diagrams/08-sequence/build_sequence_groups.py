@@ -99,6 +99,8 @@ def interaction(flow):
     if flow['actor'] == 'Platform Admin':
         names['a'] = ': AdministrationService'
         access_label = 'requirePlatformAdmin(userId)'
+    elif flow['actor'] == 'Tenant Admin':
+        access_label = 'requireRole(user, tenant, action)'
     if flow.get('public'):
         names.pop('a')
         prelude = []
