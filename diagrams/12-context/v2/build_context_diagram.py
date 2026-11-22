@@ -30,7 +30,7 @@ EDGE_STYLE = (
     "fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;"
 )
 
-X, Y, W, H = 1370, 675, 800, 650
+X, Y, W, H = 1290, 640, 960, 720
 CX, CY = X + W / 2, Y + H / 2
 
 
@@ -200,14 +200,14 @@ def build(output: Path) -> None:
     )
 
     placements = {
-        "Project Manager": (400, 350, 320, 220),
+        "Project Manager": (400, 300, 320, 300),
         "Researcher": (50, 990, 320, 260),
-        "AI / LLM Provider": (2700, 1680, 340, 170),
+        "AI / LLM Provider": (2700, 1660, 340, 230),
         "Local Node": (500, 1680, 340, 170),
-        "Reviewer": (2800, 390, 340, 190),
-        "Literature & Evidence Sources": (2850, 790, 370, 150),
-        "External Data Sources": (2970, 1080, 330, 160),
-        "Platform Operator": (2580, 1280, 340, 190),
+        "Reviewer": (2800, 360, 340, 240),
+        "Literature & Evidence Sources": (2850, 740, 370, 180),
+        "External Data Sources": (2970, 960, 330, 220),
+        "Platform Operator": (2580, 1290, 340, 240),
         "Tenant Admin": (50, 50, 320, 190),
     }
     display_names = {
@@ -240,21 +240,21 @@ def build(output: Path) -> None:
             label_segment = 0
             if actor == "Project Manager":
                 yy = ay + ah * t
-                sx = 1760 - 140 * flow_index / max(len(flows) - 1, 1)
+                sx = 1740 - 30 * flow_index
                 sy = ellipse_y(sx, False)
                 route = [(ax + aw, yy), (sx, yy), (sx, sy)]
                 actor_port = (1, t)
                 system_port = ((sx - X) / W, (sy - Y) / H)
             elif actor == "Reviewer":
                 yy = ay + ah * t
-                sx = 1805 + 115 * flow_index / max(len(flows) - 1, 1)
+                sx = 1830 + 30 * flow_index
                 sy = ellipse_y(sx, False)
                 route = [(ax, yy), (sx, yy), (sx, sy)]
                 actor_port = (0, t)
                 system_port = ((sx - X) / W, (sy - Y) / H)
             elif actor == "Researcher":
                 if flow_index < input_count:
-                    yy = 720 + flow_index * 28
+                    yy = 690 + flow_index * 34
                     apx = ax + 35 + flow_index * (aw - 70) / max(input_count - 1, 1)
                     sx = ellipse_x(yy)
                     sy = yy
@@ -264,7 +264,7 @@ def build(output: Path) -> None:
                     label_segment = 1
                 elif flow_index < input_count + middle_count:
                     relative_index = flow_index - input_count
-                    yy = 1000 + relative_index * 24
+                    yy = 1000 + relative_index * 27
                     sx = ellipse_x(yy)
                     sy = yy
                     route = [(ax + aw, yy), (sx, yy)]
@@ -273,9 +273,9 @@ def build(output: Path) -> None:
                 else:
                     relative_index = flow_index - input_count - middle_count
                     count = len(flows) - input_count - middle_count
-                    yy = 1300 + relative_index * 28
+                    yy = 1310 + relative_index * 30
                     apx = ax + aw - 35 - relative_index * (aw - 70) / max(count - 1, 1)
-                    sx = 1550 + relative_index * 180 / max(count - 1, 1)
+                    sx = 1480 + relative_index * 28
                     sy = ellipse_y(sx)
                     route = [(apx, ay + ah), (apx, yy), (sx, yy), (sx, sy)]
                     actor_port = ((apx - ax) / aw, 1)
@@ -290,14 +290,14 @@ def build(output: Path) -> None:
                 system_port = ((sx - X) / W, (sy - Y) / H)
             elif actor == "AI / LLM Provider":
                 yy = ay + ah * (0.08 + 0.84 * t)
-                sx = 1880 - flow_index * 6
+                sx = 2012 - flow_index * 28
                 sy = ellipse_y(sx)
                 route = [(ax, yy), (sx, yy), (sx, sy)]
                 actor_port = (0, (yy - ay) / ah)
                 system_port = ((sx - X) / W, (sy - Y) / H)
             elif actor == "Local Node":
                 yy = ay + ah * (0.15 + 0.7 * t)
-                sx = 1770 + flow_index * 18
+                sx = 1760 + flow_index * 28
                 sy = ellipse_y(sx)
                 route = [(ax + aw, yy), (sx, yy), (sx, sy)]
                 actor_port = (1, (yy - ay) / ah)
@@ -306,14 +306,14 @@ def build(output: Path) -> None:
                 # straight lane above Project Manager, entering the ellipse top between
                 # the Project Manager and Reviewer bundles so no route is crossed
                 yy = 110 if flow["direction"] == "in" else 170
-                sx = 1772 if flow["direction"] == "in" else 1788
+                sx = 1800 if flow["direction"] == "in" else 1770
                 sy = ellipse_y(sx, False)
                 route = [(ax + aw, yy), (sx, yy), (sx, sy)]
                 actor_port = (1, (yy - ay) / ah)
                 system_port = ((sx - X) / W, (sy - Y) / H)
             else:
                 yy = ay + ah * (0.03 + 0.94 * t)
-                sx = 2012 - flow_index * 7
+                sx = 2180 - flow_index * 28
                 sy = ellipse_y(sx)
                 route = [(ax, yy), (sx, yy), (sx, sy)]
                 actor_port = (0, (yy - ay) / ah)
