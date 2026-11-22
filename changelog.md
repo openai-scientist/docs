@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-22 — Report 7 Part III: liên kết Function, NFR, BR và viết lại NFR theo chuẩn
+
+- [Report 7](deliverables/FA26SE115_Report7.docx) Part III viết lại theo góp ý của leader: một dạng trình bày, không lặp nội dung, mã liền mạch, NFR có số đo và liên kết Function, NFR, BR.
+- 3.2 đến 3.8: bỏ bảng FR. Mỗi chức năng ghi "Related feature", "Quality targets" (mã NFR) và danh sách FR dạng "FR-xx (Must, source BR-…)". FR còn lại gom vào mục "General Rules" của từng nhóm. FR đánh số lại liền mạch FR-01 đến FR-253; BR, UC, ADR, R không còn khoảng trống. "&" đổi thành "and" trong heading và mục lục.
+- 4.2 Quality Attributes: 51 NFR có ngưỡng đo (p95, p99, thời gian, tỉ lệ) và phương pháp kiểm tra, ngưỡng lấy theo PRD §6 của bộ đặc tả. Trình bày theo IEEE 830 §3 và mẫu Wiegers: 6 mục con theo đặc tính ISO/IEC 25010 (Performance Efficiency, Reliability, Security, Usability, Maintainability, Functional Suitability), mỗi mục một câu phạm vi và một bảng; bỏ 19 đoạn tóm tắt và câu "Related requirements". Cột Source truy vết NFR về FR. Chữ "heartbeat" đổi thành health check hoặc status check.
+- 5 Requirement Appendix: bảng BR thêm cột "Related requirements"; 6 BR chưa có FR được gán (BR-23, BR-60, BR-62, BR-64, BR-78, BR-81). BR-101 trùng BR-01 nên gộp vào BR-01, BR-102 đổi thành BR-101. CR-04 tham chiếu BR-02 thay vì chép lại. Mục 3.8.4 General Rules bị lạc sau 5.3 được đưa về cuối 3.8. Câu dẫn 5.3 khớp cột Type; cột UC sắp tăng dần.
+- Thay đổi kéo theo: mã UC, ADR, R mới cập nhật trong Part IV và Part VI. File docx còn chứa sẵn các chỉnh sửa Part I và II trong bản làm việc; Part V không đổi.
+- Tham khảo: [IEEE 830 (Wikiwand)](https://www.wikiwand.com/en/articles/IEEE_830), [SRS template Wiegers](https://www.slideshare.net/slideshow/software-requirements-specification-template-258554399/258554399), [Requirements Engineering template](https://press.rebus.community/requirementsengineering/?p=149), [Planguage](https://modernanalyst.com/Resources/Articles/tabid/115/ID/2926/Specifying-Quality-Requirements-With-Planguage.aspx).
+- Validation: docx render sang PDF bằng LibreOffice, `pdftotext` kiểm tra heading 4.2.x, 51 NFR, vị trí 3.8.4; script kiểm tra mã FR/BR/NFR liền mạch và không còn "heartbeat", "BR-102"; số media giữ nguyên 458. Mục lục cần Update Table trong Word.
+
 ## 2026-11-21 — AI Research Architecture v2 (Figure IV-2) theo LOGOS_Platform
 
 - [AI Research Architecture v2](diagrams/04-system-overview/v2/AI-Research-Architecture.html) dựng bằng [build_ai_research_architecture.py](diagrams/04-system-overview/v2/build_ai_research_architecture.py), dùng lại style và helper của `build_system_architecture_v3.py`; bản v3 ai-tier giữ nguyên. [PNG](diagrams/04-system-overview/v2/AI-Research-Architecture.png).
