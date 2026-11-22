@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-22 — Diagram: Use Case, Screen Flow theo vai trò, ERD v2/v3, Context v2
+
+- Use Case: [draw.io](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) chỉnh vị trí một số ellipse và điểm gãy đường cho bớt chồng chéo. Ảnh xuất mới là [Use case.png](<diagrams/01-use-case/Use case.png>), thay cho `AI-Research-Experimentation-Platform-Use-Case.drawio.png` và `v2/Use case.png` (đã xoá).
+- Screen Flow v2: [build_role_tabs.py](diagrams/02-screen-flow/v2/build_role_tabs.py) dựng một tab cho mỗi vai trò trong [draw.io](diagrams/02-screen-flow/v2/Screen-Flow-Diagram.drawio), ô ghi "SC-xx Name" theo danh sách màn hình SC-01 đến SC-30. Ảnh: [Researcher](diagrams/02-screen-flow/v2/Screen-Flow-Researcher.png), [Project Manager](diagrams/02-screen-flow/v2/Screen-Flow-Project-Manager.png), [Reviewer](diagrams/02-screen-flow/v2/Screen-Flow-Reviewer.png), [Tenant Admin](diagrams/02-screen-flow/v2/Screen-Flow-Tenant-Admin.png), [Platform Operator](diagrams/02-screen-flow/v2/Screen-Flow-Platform-Operator.png). Bỏ PNG `Screen-Flow-Diagram-Vertical-BW.png` của v2.
+- Conceptual ERD v2: [build_erd.py](diagrams/03-conceptual-erd/v2/build_erd.py) xếp entity theo khối module, trong khối dùng Graphviz trên xuống; [README](diagrams/03-conceptual-erd/v2/README.md) cập nhật. Xuất lại [PNG](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png) và thêm bản dọc [Portrait](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual-Portrait.drawio).
+- Conceptual ERD v3: [build_business_erd.py](diagrams/03-conceptual-erd/v3/build_business_erd.py) rút mô hình v2 (91 entity) xuống khoảng 33 khái niệm nghiệp vụ, vẽ bằng style và router của v2. [draw.io](diagrams/03-conceptual-erd/v3/Entity-Relationship-Diagram-Business-Detailed.drawio), [PNG](diagrams/03-conceptual-erd/v3/Entity-Relationship-Diagram-Conceptual.png).
+- System Context v2: [build_context_diagram.py](diagrams/12-context/v2/build_context_diagram.py) nới vùng hệ thống, chỉnh vị trí và kích thước actor, giãn khoảng cách đường; xuất lại [draw.io](diagrams/12-context/v2/System-Context-Diagram.drawio) và [PNG](diagrams/12-context/v2/System-Context-Diagram.png).
+- `.gitignore` bỏ qua `plans/*`. Link trong changelog trỏ tới ảnh đã xoá được đổi sang ảnh mới.
+- Không đổi BRD/PRD/Use Case Spec: đây là thay đổi bố cục và ảnh xuất của diagram. Report 7 không đổi trong đợt này.
+- Validation: `xmllint --noout` sạch cho 6 file draw.io đã đổi; kiểm tra changelog không còn link tới file đã xoá; `git diff --check`.
+
 ## 2026-11-22 — Report 7 Part III: liên kết Function, NFR, BR và viết lại NFR theo chuẩn
 
 - [Report 7](deliverables/FA26SE115_Report7.docx) Part III viết lại theo góp ý của leader: một dạng trình bày, không lặp nội dung, mã liền mạch, NFR có số đo và liên kết Function, NFR, BR.
@@ -46,8 +57,8 @@
 
 ## 2026-11-21 — Screen Flow v2 và gắn diagram v2 vào Report 7
 
-- [Screen Flow v2](diagrams/02-screen-flow/v2/Screen-Flow-Diagram.drawio) chép đủ 8 tab của bản cũ; chỉ tab Screen Flow - Vertical B&W được sửa theo Report 7 III 3.1.2 (SC-01 … SC-26) và route FE: gộp Email verification/Sign-in link thành Verify code, thêm Public pages, Unauthorized, Reviewer queue; đổi tên Project list, Models, Usage, Platform settings, All projects; Admin Overview mở từ Project list. Các view Run Studio (scope, search, screen, read, synthesize, hypothesize, map, write) vẫn có trong FE nên giữ nguyên. [PNG](diagrams/02-screen-flow/v2/Screen-Flow-Diagram-Vertical-BW.png).
-- [Report 7](deliverables/FA26SE115_Report7.docx): thay ảnh của 7 hình bằng bản v2 (thêm media mới, giữ nguyên caption và vị trí, không xoá hình nào): Figure 3.1.1 Context ([v2](diagrams/12-context/v2/System-Context-Diagram.png)), 3.2.2.1 Use Case ([v2](<diagrams/01-use-case/v2/Use case.png>)), 3.3.1 Screen Flow, 3.1.5 ERD ([v2](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png)), IV-1 System Architecture ([v2](diagrams/04-system-overview/v2/System-Architecture-Diagram.png)), IV-2 Deployment ([v2](diagrams/04-system-overview/v2/Deployment-Diagram-Production.png)), IV-3 Package ([v2](diagrams/05-package/v2/Package-Diagram.png)). Kích thước giữ chiều rộng cũ, chiều cao theo tỉ lệ ảnh. Thay thêm 2 sequence đã vẽ lại: Figure 3.4.6 [Cancel and Sync Run](diagrams/08-sequence/04-research-run-orchestration/05-Cancel-and-Synchronize-Run.png) và Figure 3.8.9 [Grant or Revoke Tenant Admin](diagrams/08-sequence/08-administration-monitoring/08-Grant-or-Revoke-Tenant-Admin.png).
+- [Screen Flow v2](diagrams/02-screen-flow/v2/Screen-Flow-Diagram.drawio) chép đủ 8 tab của bản cũ; chỉ tab Screen Flow - Vertical B&W được sửa theo Report 7 III 3.1.2 (SC-01 … SC-26) và route FE: gộp Email verification/Sign-in link thành Verify code, thêm Public pages, Unauthorized, Reviewer queue; đổi tên Project list, Models, Usage, Platform settings, All projects; Admin Overview mở từ Project list. Các view Run Studio (scope, search, screen, read, synthesize, hypothesize, map, write) vẫn có trong FE nên giữ nguyên. [PNG](diagrams/02-screen-flow/v2/Screen-Flow-Researcher.png).
+- [Report 7](deliverables/FA26SE115_Report7.docx): thay ảnh của 7 hình bằng bản v2 (thêm media mới, giữ nguyên caption và vị trí, không xoá hình nào): Figure 3.1.1 Context ([v2](diagrams/12-context/v2/System-Context-Diagram.png)), 3.2.2.1 Use Case ([v2](<diagrams/01-use-case/Use case.png>)), 3.3.1 Screen Flow, 3.1.5 ERD ([v2](diagrams/03-conceptual-erd/v2/Entity-Relationship-Diagram-Conceptual.png)), IV-1 System Architecture ([v2](diagrams/04-system-overview/v2/System-Architecture-Diagram.png)), IV-2 Deployment ([v2](diagrams/04-system-overview/v2/Deployment-Diagram-Production.png)), IV-3 Package ([v2](diagrams/05-package/v2/Package-Diagram.png)). Kích thước giữ chiều rộng cũ, chiều cao theo tỉ lệ ảnh. Thay thêm 2 sequence đã vẽ lại: Figure 3.4.6 [Cancel and Sync Run](diagrams/08-sequence/04-research-run-orchestration/05-Cancel-and-Synchronize-Run.png) và Figure 3.8.9 [Grant or Revoke Tenant Admin](diagrams/08-sequence/08-administration-monitoring/08-Grant-or-Revoke-Tenant-Admin.png).
 - Validation: `xmllint --noout` drawio; docx render sang PDF bằng LibreOffice, xem lại trang Use Case và Screen Flow.
 
 ## 2026-11-21 — Use Case Diagram bổ sung theo Report 7 — bản v2, giữ nguyên bố cục v1
@@ -57,7 +68,7 @@
 - Use case thêm: Accept or decline an invitation (User), View project activity log, Track claim history and evidence status, Run a replication study (Researcher), Record and evaluate AI forecasts (AI Engine). Delete project đổi tên thành Delete project (owner).
 - Reviewer nối thêm View project và View dataset and versions.
 - [rule.md](diagrams/01-use-case/v2/rule.md) cập nhật actor và checklist 65 UC.
-- Validation: vị trí ellipse và đường mới được kiểm tra tự động không chạm hình hay đường cũ; `xmllint --noout` sạch; export lại [PNG](<diagrams/01-use-case/v2/Use case.png>) và xem lại.
+- Validation: vị trí ellipse và đường mới được kiểm tra tự động không chạm hình hay đường cũ; `xmllint --noout` sạch; export lại [PNG](<diagrams/01-use-case/Use case.png>) và xem lại.
 
 ## 2026-11-20 — System Overview v2 (System Architecture và Deployment) theo code LOGOS
 
@@ -676,19 +687,19 @@
 
 - Khôi phục UC-08, UC-30, UC-31 theo [Report III](report/03-software-requirements-specification.md), thêm Local Node là supporting actor cho pairing và aggregate release, gom cụm Manage local data processing ở gần dataset. Khôi phục UC-14; view có đủ 41 UC chính thức và 9 actor.
 - Chỉ aggregate được phép rời node; UC-31 mô tả xử lý offline/revoked bởi người dùng/nền tảng, không gán quyền quyết định cho node. Bổ sung supporting actor vào đặc tả UC-08/30 và đồng bộ [rule](diagrams/01-use-case/rule.md).
-- Cập nhật [draw.io](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) và [PNG editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png); không thêm requirement ngoài BRD/PRD. Validation: 41 mã duy nhất, 9 actor, endpoint hợp lệ; PNG nhúng khớp source; xem render; validator 0 errors/145 warnings (còn cảnh báo bố cục); git diff --check.
+- Cập nhật [draw.io](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) và [PNG editable](<diagrams/01-use-case/Use case.png>); không thêm requirement ngoài BRD/PRD. Validation: 41 mã duy nhất, 9 actor, endpoint hợp lệ; PNG nhúng khớp source; xem render; validator 0 errors/145 warnings (còn cảnh báo bố cục); git diff --check.
 
 
 ## 2026-11-02 — Gom cụm cộng tác và bình luận
 
 - Thêm Manage collaboration với View comments, Comment on an object (UC-37), Edit own comment và Delete own comment trong [Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio). Researcher/Reviewer nối vào cụm; PM kế thừa Researcher. Sửa/xóa chỉ bình luận của tác giả.
-- Đồng bộ hành vi bổ trợ trong [UC-37](report/03-software-requirements-specification.md), [rule](diagrams/01-use-case/rule.md) và [PNG editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png). Không gán mã UC mới; không thay requirement BRD/PRD.
+- Đồng bộ hành vi bổ trợ trong [UC-37](report/03-software-requirements-specification.md), [rule](diagrams/01-use-case/rule.md) và [PNG editable](<diagrams/01-use-case/Use case.png>). Không gán mã UC mới; không thay requirement BRD/PRD.
 - Validation: kiểm endpoint, xem render, xác nhận ảnh nhúng khớp source, git diff --check. Sơ đồ vẫn còn cảnh báo đường nối/bố cục.
 
 
 ## 2026-11-02 — Đưa decision log về gần từng chức năng
 
-- Thay ellipse nhận sáu đường dài bằng sáu bản hiển thị cục bộ của cùng Record research decision trong [Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio); liên kết bằng metadata, không tạo chức năng mới. Cập nhật [rule](diagrams/01-use-case/rule.md) và [PNG](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png).
+- Thay ellipse nhận sáu đường dài bằng sáu bản hiển thị cục bộ của cùng Record research decision trong [Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio); liên kết bằng metadata, không tạo chức năng mới. Cập nhật [rule](diagrams/01-use-case/rule.md) và [PNG](<diagrams/01-use-case/Use case.png>).
 - Chỉ đổi bố cục; không cần sửa BRD/PRD/Use Case Spec. Validation: xem render, kiểm endpoint và reference, ảnh nhúng khớp source; giữ 10 include và 5 extend trong source hiện tại.
 
 
@@ -697,7 +708,7 @@
 - Sửa Test data connection về Manage data connections; bỏ generalization của Comment on an object với Findings và nối Researcher/Reviewer trực tiếp; Project Manager kế thừa Researcher.
 - Gom Record research decision về một ellipse, giữ sáu include; bổ sung AI Provider hỗ trợ Dataset/Execution theo [Report IV](report/04-software-design-document.md).
 - Thống nhất sentence case, chuyển điều kiện owner/release khỏi tên sang metadata; làm rõ Local Node chỉ bị lược khỏi view tại [rule.md](diagrams/01-use-case/rule.md), không bị loại khỏi MVP.
-- Cập nhật [editable source](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) và [PNG editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png). Không đổi requirement BRD/PRD; giữ tập UC ID trong source người dùng hiện tại.
+- Cập nhật [editable source](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) và [PNG editable](<diagrams/01-use-case/Use case.png>). Không đổi requirement BRD/PRD; giữ tập UC ID trong source người dùng hiện tại.
 - Validation: không mất endpoint; PNG nhúng khớp source; xem render; validator 0 errors/136 warnings (còn cảnh báo bố cục, gồm boundary containment); git diff --check.
 
 
@@ -707,7 +718,7 @@
   từ [snapshot](diagrams/12-context/functional_scope.json) bằng
   [builder](diagrams/12-context/build_context_diagram.py); export lại
   [PNG editable context](diagrams/12-context/System-Context-Diagram-main-2.drawio.png)
-  và [PNG editable Use Case](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio.png).
+  và [PNG editable Use Case](<diagrams/01-use-case/Use case.png>).
 - Ghi nhận toàn bộ chỉnh sửa [Use Case editable](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio):
   thêm hai supporting actor nguồn tài liệu/dữ liệu, các ellipse hỗ trợ và
   quan hệ include/extend cho tài liệu, thông báo, review, dataset version
