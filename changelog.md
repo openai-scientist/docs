@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-23 — Report 7 Part IV: viết lại theo chuẩn Part III, sửa ảnh LOGOS, khoảng trống và mục lục
+
+- [Report 7](deliverables/FA26SE115_Report7.docx) Part IV (Software Design Document) viết lại theo IEEE 1016-2009 và cùng giọng văn với Part III, không lặp nội dung:
+  - 1.1: câu dẫn riêng cho Figure IV-1 và IV-2; 1.1.2 ghi backup định kỳ và giám sát uptime theo NFR-20; 1.1.3 đổi TB1–TB5 thành TB-01–TB-05, bỏ dòng trùng, dẫn BR-01/02/05/06/08/23 và R-02; QS-13/14 bỏ ngưỡng số.
+  - 1.2 chỉ giữ dịch vụ phát triển và vận hành; 1.3 nói rõ capstone-runner vừa là Docker image vừa là Python package nên Local Node chạy được không cần Docker; 1.4 thay bảng module bằng 12 module của Database Design; Risks tách thành 1.6.
+  - Mục 3: thêm bảng truy vết sequence diagram ↔ Function, Requirement, Feature của Part III (78 dòng); mỗi nhóm 3.1–3.8 có Design concern, các bước kèm mã BR/FR và ghi chú. Hình đánh số Figure IV-3.x.y để không trùng Part III; heading Sequence Diagram và "Must-Ask" thống nhất.
+- Part III: NFR-51 gộp vào NFR-43, còn 50 NFR.
+- Ảnh: Figure IV-1 đổi khung "LOGOS on a Linux VPS" thành "OpenAI-Scientist on a Linux VPS"; Figure IV-3 đổi frame thành "dep OpenAI-Scientist production" và artifact thành capstone-runner. Sửa ở [build_system_architecture.py](diagrams/04-system-overview/v2/build_system_architecture.py), [build_deployment_diagram.py](diagrams/04-system-overview/v2/build_deployment_diagram.py), xuất lại [System Architecture](diagrams/04-system-overview/v2/System-Architecture-Diagram.png), [Deployment](diagrams/04-system-overview/v2/Deployment-Diagram-Production.png); [README v2](diagrams/04-system-overview/v2/README.md) cập nhật. Docx thêm media mới, giữ media cũ (460).
+- Bố cục Part I–IV: xoá 55 đoạn rỗng thừa; thu nhỏ theo tỉ lệ 8 ảnh cao hơn vùng chữ; đoạn chứa ảnh dùng giãn dòng đơn; heading, ảnh và nhãn "Screen layout:" giữ cùng đoạn sau, caption cắt chuỗi giữ dòng. Không còn trang trắng và heading mồ côi.
+- Mục lục dựng lại từ Heading1–5 (394 dòng), số trang lấy từ bản render, tab số trang đặt trong lề để số hiển thị; sửa bookmark trùng của 2.1.x/2.2.x và tên 4.2.x cũ; bỏ dòng "Definition and Acronyms" vì thân bài không có mục này.
+- Không đổi BRD/PRD/Use Case Spec: đây là trình bày tài liệu thiết kế và ảnh, requirement không đổi ngoài việc gộp NFR-51.
+- Validation: docx render sang PDF bằng LibreOffice (419 trang); `pdftotext` không còn LOGOS, M01–M12, Q-xx, EC, NFR-51 trong Part IV; số trang mục lục tăng dần và ổn định sau hai lượt; media 460, 188 caption giữ nguyên; `git diff --check`.
+
 ## 2026-11-22 — Diagram: Use Case, Screen Flow theo vai trò, ERD v2/v3, Context v2
 
 - Use Case: [draw.io](diagrams/01-use-case/AI-Research-Experimentation-Platform-Use-Case.drawio) chỉnh vị trí một số ellipse và điểm gãy đường cho bớt chồng chéo. Ảnh xuất mới là [Use case.png](<diagrams/01-use-case/Use case.png>), thay cho `AI-Research-Experimentation-Platform-Use-Case.drawio.png` và `v2/Use case.png` (đã xoá).
@@ -15,11 +28,11 @@
 
 - [Report 7](deliverables/FA26SE115_Report7.docx) Part III viết lại theo góp ý của leader: một dạng trình bày, không lặp nội dung, mã liền mạch, NFR có số đo và liên kết Function, NFR, BR.
 - 3.2 đến 3.8: bỏ bảng FR. Mỗi chức năng ghi "Related feature", "Quality targets" (mã NFR) và danh sách FR dạng "FR-xx (Must, source BR-…)". FR còn lại gom vào mục "General Rules" của từng nhóm. FR đánh số lại liền mạch FR-01 đến FR-253; BR, UC, ADR, R không còn khoảng trống. "&" đổi thành "and" trong heading và mục lục.
-- 4.2 Quality Attributes: 51 NFR có ngưỡng đo (p95, p99, thời gian, tỉ lệ) và phương pháp kiểm tra, ngưỡng lấy theo PRD §6 của bộ đặc tả. Trình bày theo IEEE 830 §3 và mẫu Wiegers: 6 mục con theo đặc tính ISO/IEC 25010 (Performance Efficiency, Reliability, Security, Usability, Maintainability, Functional Suitability), mỗi mục một câu phạm vi và một bảng; bỏ 19 đoạn tóm tắt và câu "Related requirements". Cột Source truy vết NFR về FR. Chữ "heartbeat" đổi thành health check hoặc status check.
+- 4.2 Quality Attributes: 50 NFR có ngưỡng (NFR-51 sau đó gộp vào NFR-43) đo (p95, p99, thời gian, tỉ lệ) và phương pháp kiểm tra, ngưỡng lấy theo PRD §6 của bộ đặc tả. Trình bày theo IEEE 830 §3 và mẫu Wiegers: 6 mục con theo đặc tính ISO/IEC 25010 (Performance Efficiency, Reliability, Security, Usability, Maintainability, Functional Suitability), mỗi mục một câu phạm vi và một bảng; bỏ 19 đoạn tóm tắt và câu "Related requirements". Cột Source truy vết NFR về FR. Chữ "heartbeat" đổi thành health check hoặc status check.
 - 5 Requirement Appendix: bảng BR thêm cột "Related requirements"; 6 BR chưa có FR được gán (BR-23, BR-60, BR-62, BR-64, BR-78, BR-81). BR-101 trùng BR-01 nên gộp vào BR-01, BR-102 đổi thành BR-101. CR-04 tham chiếu BR-02 thay vì chép lại. Mục 3.8.4 General Rules bị lạc sau 5.3 được đưa về cuối 3.8. Câu dẫn 5.3 khớp cột Type; cột UC sắp tăng dần.
 - Thay đổi kéo theo: mã UC, ADR, R mới cập nhật trong Part IV và Part VI. File docx còn chứa sẵn các chỉnh sửa Part I và II trong bản làm việc; Part V không đổi.
 - Tham khảo: [IEEE 830 (Wikiwand)](https://www.wikiwand.com/en/articles/IEEE_830), [SRS template Wiegers](https://www.slideshare.net/slideshow/software-requirements-specification-template-258554399/258554399), [Requirements Engineering template](https://press.rebus.community/requirementsengineering/?p=149), [Planguage](https://modernanalyst.com/Resources/Articles/tabid/115/ID/2926/Specifying-Quality-Requirements-With-Planguage.aspx).
-- Validation: docx render sang PDF bằng LibreOffice, `pdftotext` kiểm tra heading 4.2.x, 51 NFR, vị trí 3.8.4; script kiểm tra mã FR/BR/NFR liền mạch và không còn "heartbeat", "BR-102"; số media giữ nguyên 458. Mục lục cần Update Table trong Word.
+- Validation: docx render sang PDF bằng LibreOffice, `pdftotext` kiểm tra heading 4.2.x, 50 NFR, vị trí 3.8.4; script kiểm tra mã FR/BR/NFR liền mạch và không còn "heartbeat", "BR-102"; số media giữ nguyên 458. Mục lục cần Update Table trong Word.
 
 ## 2026-11-21 — AI Research Architecture v2 (Figure IV-2) theo LOGOS_Platform
 

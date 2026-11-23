@@ -42,7 +42,7 @@ def path(a, b, text='', exit_=None, entry=None, pts=()):
 
 
 # --- outside the VPS: the runner next to the owner's data, the browser and the edge
-box('local', label('device', 'Local Node', '«artifact» logos-runner'), 100, 70, 300, 100)
+box('local', label('device', 'Local Node', '«artifact» capstone-runner'), 100, 70, 300, 100)
 box('browser', label('device', 'User browser'), 470, 70, 300, 100)
 box('cf', label('cloud service', 'Cloudflare', 'DNS, proxy, TLS'), 470, 240, 300, 100)
 path('browser', 'cf', 'HTTPS')
@@ -95,7 +95,7 @@ for i, (id_, name, desc, proto) in enumerate(EXT):
     box(id_, label('cloud service', name, *([desc] if desc else [])), 1460, y, 320, 95)
     path('vps', id_, proto, (1, round((y + 47.5 - VPS[1]) / VPS[3], 4)), (0, 0.5))
 
-cells.insert(0, f'<mxCell id="frame" value="dep LOGOS production" style="shape=umlFrame;whiteSpace=wrap;html=1;width=220;'
+cells.insert(0, f'<mxCell id="frame" value="dep OpenAI-Scientist production" style="shape=umlFrame;whiteSpace=wrap;html=1;width=300;'
              f'height=32;{FONT}fontSize=14;fontStyle=1;strokeColor=#000000;fillColor=none;" vertex="1" parent="1">'
              '<mxGeometry x="10" y="10" width="1810" height="1450" as="geometry"/></mxCell>')
 OUT.write_text('<mxfile><diagram name="Deployment-Diagram-Production"><mxGraphModel grid="1" gridSize="10" '

@@ -87,7 +87,7 @@ def edge(src, tgt, label="", pts=(), sx=None, sy=None, tx=None, ty=None, dashed=
 # -> Web App / Platform API; data sits under the API, the AI research tier at the bottom,
 # external services on the right with one straight lane per flow.
 H = 80
-group("g_vps", "LOGOS on a Linux VPS", 860, 90, 1070, 990, color=AWS["cloud"])
+group("g_vps", "OpenAI-Scientist on a Linux VPS", 860, 90, 1070, 990, color=AWS["cloud"])
 group("g_ext", "External services", 1970, 90, 310, 990, dashed=True)
 
 roles = ["Researcher (student)", "Project Manager", "Reviewer", "Tenant Admin", "Platform Operator"]

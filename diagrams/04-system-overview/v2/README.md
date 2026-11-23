@@ -14,7 +14,6 @@ Bản v2 của hai hình Report 7 IV 1.1: System Architecture Diagram (IV-1) và
 
 | Mục | v1 | v2 |
 |---|---|---|
-| Khung VPS | OpenAI-Scientist on a Linux VPS | LOGOS on a Linux VPS |
 | Người dùng | 4 vai trò, có Platform Admin | 5 vai trò LOGOS: Researcher (student), Project Manager, Reviewer, Tenant Admin, Platform Operator |
 | Engine thứ 5 | Paper Engine | Writing Engine (service `writing`) |
 | Local Node | Mũi tên vào AI research tier | Mũi tên tới Cloudflare: runner gọi Platform API để nhận job và trả kết quả |
@@ -24,10 +23,9 @@ Bản v2 của hai hình Report 7 IV 1.1: System Architecture Diagram (IV-1) và
 
 | Mục | v1 | v2 |
 |---|---|---|
-| Frame | `dep OpenAI-Scientist production` | `dep LOGOS production` |
 | Engine | 5 node, thiếu `writing` | 6 node: oversight, dataset, hypothesis, experiment-design, execution, writing |
 | Backup | Không có | Node `backup` (TCP 5432 tới `db`) và cloud service off-site backup storage (rclone remote) |
-| Local Node | Không có | «device» Local Node, «artifact» logos-runner, HTTPS tới Cloudflare |
+| Local Node | Không có | «device» Local Node, «artifact» capstone-runner (package `logos-runner` trong code), HTTPS tới Cloudflare |
 | Note | Có một note | Bỏ, diagram không có note |
 
 ## Ký hiệu
