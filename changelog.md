@@ -16,6 +16,7 @@
 - Google Drive: 87 PNG sequence, 8 PNG class và PNG package được tải lên dạng phiên bản mới của file cũ để giữ nguyên link; không tải file drawio.
 - Google Docs: tải lên bản docx nén ảnh (tối đa 2000 px, 256 màu) để dưới giới hạn nhập ~50 MB; bản nén không commit, docx gốc giữ ảnh đầy đủ.
 - Report 7 docx: bỏ 330 ảnh cũ không còn được tham chiếu (ẩn, không hiển thị) để file dưới giới hạn 100 MB của GitHub (139 MB → 63 MB); 212 ảnh hiển thị giữ nguyên từng byte.
+- Report 7 docx lấy bản nén ảnh làm bản gốc (ảnh tối đa 2000 px, 256 màu): 63 MB → 19 MB, đủ 212 ảnh, khớp bản đang dùng trên Google Docs.
 - Validation Google Docs: tải bản export docx, đối chiếu 102/102 link chú thích hình với docx gốc, 214/214 ảnh nhúng.
 - Không đổi BRD/PRD/Use Case Spec: chỉ là ảnh thiết kế, requirement không đổi.
 - Validation: kiểm tra từng PNG không bị cắt (dòng/cột mực cuối cách mép); verify hình học class diagram (không đường xuyên hộp); docx render PDF bằng LibreOffice (419 trang), xem lại trang 253, 296, 316 và 387; script đối chiếu mọi lời gọi hàm trong sequence với class diagram (còn lại chỉ lớp Repository và instance guardA/guardB); `git diff --check`.
