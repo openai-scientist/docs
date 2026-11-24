@@ -96,9 +96,11 @@ def interaction(flow):
     names.update(flow.get('participants', {}))
     # Only show participants which actually send/receive a message.
     access_label = 'validateSession(session)' if flow.get('session_only') else 'requireRole(user, project, action)'
-    if flow['actor'] == 'Platform Admin':
+    if 'Platform Operator' in flow['actor']:
+        access_label = 'requireRole(user, platform, action)'
+    elif flow['actor'] == 'Tenant Admin' and flow['service'] != 'IdentityService' and flow['controller'] == 'AdministrationController':
         names['a'] = ': AdministrationService'
-        access_label = 'requirePlatformAdmin(userId)'
+        access_label = 'requireTenantAdmin(userId)'
     elif flow['actor'] == 'Tenant Admin':
         access_label = 'requireRole(user, tenant, action)'
     if flow.get('public'):

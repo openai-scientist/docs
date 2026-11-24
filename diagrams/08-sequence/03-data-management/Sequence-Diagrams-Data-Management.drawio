@@ -339,7 +339,7 @@
         <mxCell id="k" value=": SecretService" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry as="geometry" x="2000" y="55" width="220" height="2178" />
         </mxCell>
-        <mxCell id="x" value=": Connector" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="x" value=": SourceConnector" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry as="geometry" x="2290" y="55" width="220" height="2178" />
         </mxCell>
         <mxCell id="v" value=": DatasetVersionService" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
@@ -1259,7 +1259,7 @@
         <mxCell id="d" value="Database" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry as="geometry" x="1710" y="55" width="220" height="3048" />
         </mxCell>
-        <mxCell id="x" value=": Connector" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="x" value=": SourceConnector" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry as="geometry" x="2000" y="55" width="220" height="3048" />
         </mxCell>
         <mxCell id="activation_w_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="w" vertex="1">
@@ -1540,7 +1540,7 @@
         <mxCell id="d" value="Database" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry as="geometry" x="1710" y="55" width="220" height="2712" />
         </mxCell>
-        <mxCell id="x" value=": Connector" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="x" value=": SourceConnector" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;shape=umlLifeline;size=44;perimeter=lifelinePerimeter;container=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry as="geometry" x="2000" y="55" width="220" height="2712" />
         </mxCell>
         <mxCell id="activation_w_0" value="" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;" parent="w" vertex="1">
@@ -2643,7 +2643,7 @@
         <mxCell id="m19" value="19: Job routed" edge="1" parent="1" source="activation_s_0" target="e" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;dashed=1;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=1;exitY=1.0;entryX=0.5;entryY=0.4481737413622902;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="m20" value="20: heartbeat(nodeId)" edge="1" parent="1" source="n" target="s" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0.5;exitY=0.516617308325107;entryX=0.5;entryY=0.516617308325107;exitPerimeter=0;entryPerimeter=0;">
+        <mxCell id="m20" value="20: checkHealth(nodeId)" edge="1" parent="1" source="n" target="s" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=open;endFill=0;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0.5;exitY=0.516617308325107;entryX=0.5;entryY=0.516617308325107;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1" />
         </mxCell>
         <mxCell id="m21" value="21: Mark Node online; release queued job" edge="1" parent="1" source="s" target="activation_repo_3" style="html=1;fontFamily=Arial;fontSize=12;fontColor=#000000;strokeColor=#000000;strokeWidth=1;fillColor=#FFFFFF;edgeStyle=none;rounded=0;endSize=9;endArrow=block;endFill=1;labelBackgroundColor=#FFFFFF;verticalAlign=bottom;spacingBottom=5;exitX=0.5;exitY=0.5343863112866074;entryX=0;entryY=0.0;exitPerimeter=0;entryPerimeter=0;">

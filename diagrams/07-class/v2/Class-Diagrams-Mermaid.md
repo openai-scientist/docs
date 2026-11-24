@@ -10,8 +10,8 @@ classDiagram
     class AuthenticationController {
         <<controller>>
         +requestEmailCode(email : String) void
-        +signInWithCode(input : EmailCode) AuthSession
-        +signInWithGoogle(code : String) AuthSession
+        +signInWithCode(input : EmailCode) Session
+        +signInWithGoogle(code : String) Session
         +currentSession(token : String) User
         +completeOnboarding(input : ProfileInput) User
         +updateProfile(input : ProfileInput) User
@@ -20,8 +20,8 @@ classDiagram
     class AuthenticationService {
         <<service>>
         +requestCode(email : String) void
-        +verifyCode(input : EmailCode) AuthSession
-        +signInGoogle(code : String) AuthSession
+        +verifyCode(input : EmailCode) Session
+        +signInGoogle(code : String) Session
         +validateSession(token : String) User
         +revokeSession(sessionId : UUID) void
         -resolveUser(email : String) User
@@ -48,28 +48,46 @@ classDiagram
     class User {
         <<entity>>
         - id : UUID
+        - status : String
         - email : String
         - displayName : String [0..1]
-        - avatarUrl : String [0..1]
-        - isTenantAdmin : Boolean
     }
-    class EmailChallenge {
+    class Session {
         <<entity>>
         - id : UUID
-        - email : String
-        - codeDigest : String
+        - userId : UUID
+        - status : String
         - expiresAt : DateTime
-        - consumedAt : DateTime [0..1]
     }
-    class AuthSession {
+    class IdentityLink {
         <<entity>>
         - id : UUID
-        - expiresAt : DateTime
-        - revokedAt : DateTime [0..1]
+        - userId : UUID
+        - status : String
+        - provider : String
     }
     class Membership {
         <<entity>>
+        - id : UUID
+        - tenantId : UUID
+        - userId : UUID
         - projectId : UUID
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
+    }
+    class RoleGrant {
+        <<entity>>
+        - id : UUID
+        - userId : UUID
+        - membershipId : UUID
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
         - role : ProjectRole
     }
     class ProjectRole {
@@ -83,14 +101,17 @@ classDiagram
     AuthenticationController ..> AuthorizationService : checks access
     AuthenticationService ..> GoogleIdentityProvider : verifies identity
     AuthenticationService ..> EmailDelivery : sends code
-    AuthenticationService ..> EmailChallenge : issues / consumes
-    AuthenticationService ..> AuthSession : manages sessions
+    AuthenticationService ..> Session : manages sessions
     AuthenticationService ..> User : resolves verified email
+    AuthenticationService ..> IdentityLink : links Google identity
     AccountService ..> User : updates
-    AuthorizationService ..> Membership : checks project role
+    AuthorizationService ..> Membership : reads memberships
+    AuthorizationService ..> RoleGrant : checks project role
+    User "1" *-- "0..*" Session : sessions
+    User "1" *-- "0..*" IdentityLink : identity links
     User "1" -- "0..*" Membership : memberships
-    User "1" *-- "0..*" AuthSession : sessions
-    Membership ..> ProjectRole : uses type
+    Membership "1" -- "0..*" RoleGrant : role grants
+    RoleGrant ..> ProjectRole : uses type
 ```
 
 ## 2. Project Workspace
@@ -119,12 +140,12 @@ classDiagram
         +listDocuments(projectId : UUID) Document [0..∗]
         +downloadDocument(documentId : UUID) File
         +deleteDocument(documentId : UUID) void
-        +configure(projectId : UUID, settings : ProjectSettings) void
+        +configure(projectId : UUID, settings : ConfigVersion) void
         +configureIntegration(projectId : UUID, input : IntegrationInput) void
         +testIntegration(integrationId : UUID) CheckResult
         +removeIntegration(integrationId : UUID) void
         +setNotificationPreferences(projectId : UUID, input : PreferencesInput) void
-        +listActivity(projectId : UUID, filter : ActivityFilter) AuditLogEntry [0..∗]
+        +listActivity(projectId : UUID, filter : ActivityFilter) AuditEvent [0..∗]
     }
     class ProjectService {
         <<service>>
@@ -135,8 +156,8 @@ classDiagram
         +archive(projectId : UUID) void
         +complete(projectId : UUID) void
         +delete(projectId : UUID) void
-        +configure(settings : ProjectSettings) void
-        +listActivity(projectId : UUID, filter : ActivityFilter) AuditLogEntry [0..∗]
+        +configure(settings : ConfigVersion) void
+        +listActivity(projectId : UUID, filter : ActivityFilter) AuditEvent [0..∗]
         -recordChange(action : String) void
     }
     class MembershipService {
@@ -180,9 +201,10 @@ classDiagram
     class Project {
         <<entity>>
         - id : UUID
+        - tenantId : UUID
+        - projectTemplateId : UUID
         - name : String
         - status : ProjectStatus
-        - ownerId : UUID
     }
     class ProjectStatus {
         <<enumeration>>
@@ -190,47 +212,63 @@ classDiagram
         completed
         archived
     }
-    class ProjectSettings {
-        <<entity>>
-        - monthlyBudget : Decimal
-        - warningThresholds : Decimal [0..∗]
-        - defaultPresetPerStage : Map
-        - reviewSettings : ReviewSettings
-        - notificationChoices : Map
-        - pinnedWaitDeadline : Duration
-    }
-    class Membership {
-        <<entity>>
-        - projectId : UUID
-        - role : ProjectRole
-        - dateAdded : DateTime
-    }
     class User {
         <<entity>>
         - id : UUID
+        - status : String
         - email : String
+    }
+    class Membership {
+        <<entity>>
+        - id : UUID
+        - tenantId : UUID
+        - userId : UUID
+        - projectId : UUID
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
     }
     class Invitation {
         <<entity>>
         - id : UUID
         - projectId : UUID
+        - status : String
         - email : String
-        - role : ProjectRole
         - expiresAt : DateTime
+    }
+    class ConfigVersion {
+        <<entity>>
+        - id : UUID
+        - settingDefinitionId : UUID
         - status : String
     }
-    class Document {
+    class BudgetAccount {
         <<entity>>
         - id : UUID
         - projectId : UUID
-        - name : String
-        - version : Integer
+        - status : String
+        - monthlyLimit : Decimal
     }
-    class AuditLogEntry {
+    class NotificationPreference {
         <<entity>>
+        - id : UUID
+        - userId : UUID
+        - status : String
+    }
+    class ActivityProjection {
+        <<entity>>
+        - id : UUID
+        - projectId : UUID
+        - lastEventPosition : Integer
+    }
+    class AuditEvent {
+        <<entity>>
+        - id : UUID
+        - userId : UUID
+        - auditCheckpointId : UUID
         - action : String
-        - actorId : UUID
-        - projectId : UUID [0..1]
         - time : DateTime
     }
     ProjectController ..> ProjectService : manages projects
@@ -243,14 +281,18 @@ classDiagram
     ProjectController ..> NotificationPreferenceService : sets preferences
     ProjectService ..> ActionPolicyService : sets stage presets
     ProjectService ..> Project : manages
-    ProjectService ..> AuditLogEntry : records changes
+    ProjectService ..> AuditEvent : records changes
+    ProjectService ..> ConfigVersion : publishes settings
+    ProjectService ..> ActivityProjection : lists activity
     MembershipService ..> Membership : maintains
     InvitationService ..> Invitation : issues / resolves
-    DocumentService ..> Document : stores
+    NotificationPreferenceService ..> NotificationPreference : updates
     Project ..> ProjectStatus : uses type
-    Project "1" *-- "1" ProjectSettings : settings
     Project "1" -- "0..*" Membership : memberships
     Membership "0..*" -- "1" User : member
+    Project "1" *-- "0..*" Invitation : invitations
+    Project "1" -- "1" BudgetAccount : budget
+    Project "1" -- "0..*" ConfigVersion : settings
 ```
 
 ## 3. Data Management
@@ -260,58 +302,58 @@ classDiagram
 classDiagram
     class DataController {
         <<controller>>
-        +upload(input : UploadInput) DatasetVersion
+        +upload(input : UploadInput) DataFileVersion
         +getDataset(datasetId : UUID) DatasetDetail
         +renameDataset(datasetId : UUID, name : String) void
         +deleteDataset(datasetId : UUID) void
-        +uploadVersion(datasetId : UUID, input : UploadInput) DatasetVersion
+        +uploadVersion(datasetId : UUID, input : UploadInput) DataFileVersion
         +preview(versionId : UUID) TablePreview
         +download(versionId : UUID) File
-        +importData(connectionId : UUID) DatasetVersion
+        +importData(connectionId : UUID) DataFileVersion
         +browseConnection(connectionId : UUID, schema : String) TableRef [0..∗]
         +previewSource(connectionId : UUID, source : AnySource) TablePreview
         +renameConnection(connectionId : UUID, name : String) void
         +testConnection(connectionId : UUID) CheckResult
         +deleteConnection(connectionId : UUID) void
-        +connectGoogle(projectId : UUID) DataConnection
+        +connectGoogle(projectId : UUID) Connector
         +requestPairingCode(projectId : UUID) PairingCode
-        +pairNode(code : String) LocalNode
+        +pairNode(code : String) Connector
         +proposeDatasets(nodeId : UUID, manifests : Manifest [1..∗]) void
         +revokeNode(nodeId : UUID) void
         +pushUpdate(event : DomainEvent) void
     }
     class DataService {
         <<service>>
-        +createDataset(input : DatasetInput) Dataset
+        +createDataset(input : DatasetInput) DataSource
         +getDetail(datasetId : UUID) DatasetDetail
         +rename(datasetId : UUID, name : String) void
         +delete(datasetId : UUID) void
-        +addVersion(datasetId : UUID, input : UploadInput) DatasetVersion
+        +addVersion(datasetId : UUID, input : UploadInput) DataFileVersion
         +preview(versionId : UUID) TablePreview
         +download(versionId : UUID) File
-        +importData(connection : DataConnection) DatasetVersion
+        +importData(connection : Connector) DataFileVersion
         +browse(connectionId : UUID, schema : String) TableRef [0..∗]
         +previewSource(connectionId : UUID, source : AnySource) TablePreview
         +renameConnection(connectionId : UUID, name : String) void
         +testConnection(connectionId : UUID) CheckResult
         +deleteConnection(connectionId : UUID) void
-        +authorizeGoogle(projectId : UUID) DataConnection
+        +authorizeGoogle(projectId : UUID) Connector
         -blockInternalHosts(uri : String) void
-        -rejectLocalPreview(dataset : Dataset) void
+        -rejectLocalPreview(dataset : DataSource) void
     }
     class DatasetVersionService {
         <<service>>
-        +create(datasetId : UUID, source : String) DatasetVersion
-        +verifyHash(version : DatasetVersion) Boolean
+        +create(datasetId : UUID, source : String) DataFileVersion
+        +verifyHash(version : DataFileVersion) Boolean
         -preventOverwrite(versionId : UUID) void
     }
     class LocalNodeService {
         <<service>>
         +issuePairingCode(projectId : UUID) PairingCode
-        +pair(projectId : UUID, code : String) LocalNode
-        +registerDatasets(nodeId : UUID, manifests : Manifest [1..∗]) Dataset [1..∗]
+        +pair(projectId : UUID, code : String) Connector
+        +registerDatasets(nodeId : UUID, manifests : Manifest [1..∗]) DataSource [1..∗]
         +route(job : LocalJob) JobResult
-        +heartbeat(nodeId : UUID) void
+        +checkHealth(nodeId : UUID) void
         +revoke(nodeId : UUID) void
         -rejectUnavailableNode(nodeId : UUID) void
     }
@@ -335,9 +377,9 @@ classDiagram
     }
     class ConnectorFactory {
         <<interface>>
-        +#95;#95;call#95;#95;(kind : String, config : Map, secret : Map) Connector
+        +#95;#95;call#95;#95;(kind : String, config : Map, secret : Map) SourceConnector
     }
-    class Connector {
+    class SourceConnector {
         <<interface>>
         +test() void
         +listTables(schema : String, search : String [0..1], limit : Integer) TableRef [0..∗]
@@ -357,66 +399,77 @@ classDiagram
     }
     class ReleaseGate {
         <<service>>
-        +check(job : LocalJob, result : Aggregate) Release
-        +recordRelease(release : Release) void
+        +check(job : LocalJob, result : Aggregate) ReleaseReview
+        +recordRelease(release : ReleaseReview) void
         -applyFirewall(result : Aggregate) void
         -round(result : Aggregate) Aggregate
         -checkDisclosure(result : Aggregate) void
         -checkDifferencing(result : Aggregate) void
         -checkProbeBudget(versionId : UUID) void
     }
-    class Dataset {
+    class DataSource {
         <<entity>>
         - id : UUID
-        - projectId : UUID
+        - connectorId : UUID
+        - status : String
         - name : String
         - location : DataLocation
-    }
-    class DatasetVersion {
-        <<entity>>
-        - id : UUID
-        - contentHash : String
-        - source : String
-        - createdAt : DateTime
     }
     class DataLocation {
         <<enumeration>>
         platform
         local
     }
-    class DataConnection {
+    class DataVersionRef {
         <<entity>>
         - id : UUID
-        - provider : String
-        - authorizationScope : String
-        - credentialRef : SecretRef
+        - dataSourceId : UUID
+        - coreId : UUID
+        - coreVersion : Integer
+        - digest : String
     }
-    class LocalNode {
+    class DataFileVersion {
+        <<entity>>
+        - id : UUID
+        - dataVersionRefId : UUID
+        - status : String
+    }
+    class Connector {
+        <<entity>>
+        - id : UUID
+        - servicePrincipalId : UUID
+        - status : String
+    }
+    class DataUseGrant {
         <<entity>>
         - id : UUID
         - projectId : UUID
-        - status : LocalNodeStatus
-        - lastSeenAt : DateTime [0..1]
-        - revokedAt : DateTime [0..1]
+        - dataSourceId : UUID
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
     }
-    class LocalNodeStatus {
-        <<enumeration>>
-        pairing
-        online
-        offline
-        revoked
-    }
-    class ReleaseLog {
-        <<entity>>
-        - datasetVersionId : UUID
-        - appendOnly : Boolean
-    }
-    class Release {
+    class ReleasePolicy {
         <<entity>>
         - id : UUID
-        - jobId : UUID
-        - kind : String
-        - reason : String
+        - projectId : UUID
+        - status : String
+    }
+    class ReleaseReview {
+        <<entity>>
+        - id : UUID
+        - releaseManifestId : UUID
+        - releasePolicyId : UUID
+        - status : String
+    }
+    class AuditEvent {
+        <<entity>>
+        - id : UUID
+        - userId : UUID
+        - auditCheckpointId : UUID
+        - action : String
         - time : DateTime
     }
     DataController ..> DataService : manages datasets
@@ -426,22 +479,28 @@ classDiagram
     DataService ..> SecretService : seals credentials
     DataService ..> ConnectorFactory : uses factory
     DataService ..> GoogleIdentityProvider : authorizes Google source
-    DataService ..> Dataset : manages
-    ConnectorFactory ..> Connector : creates connector
-    GoogleSheetsConnector ..|> Connector : implements
-    DatasetVersionService ..> DatasetVersion : creates / verifies
+    ConnectorFactory ..> SourceConnector : creates connector
+    GoogleSheetsConnector ..|> SourceConnector : implements
     ExecutionEngine ..> LocalNodeService : routes local job
     LocalNodeService ..> LocalNodeAgent : dispatches jobs
     LocalNodeService ..> NotificationService : sends offline notice
     LocalNodeService ..> RunOrchestrator : resumes waiting run
-    LocalNodeService ..> LocalNode : pairs / revokes
     LocalNodeAgent ..> ReleaseGate : checks aggregates
-    ReleaseGate ..> ReleaseLog : appends
-    Dataset "1" *-- "0..*" DatasetVersion : versions
-    Dataset ..> DataLocation : uses type
-    Dataset "0..*" -- "0..1" DataConnection : imports from
-    LocalNode ..> LocalNodeStatus : uses type
-    ReleaseLog "1" *-- "0..*" Release : releases
+    DataService ..> DataSource : manages
+    DataService ..> Connector : imports through
+    DataService ..> DataUseGrant : checks data use
+    DatasetVersionService ..> DataFileVersion : creates / verifies
+    DatasetVersionService ..> DataVersionRef : references version
+    LocalNodeService ..> Connector : pairs / revokes
+    ReleaseGate ..> ReleasePolicy : applies
+    ReleaseGate ..> ReleaseReview : records
+    ReleaseGate ..> AuditEvent : appends release
+    DataSource ..> DataLocation : uses type
+    DataSource "1" *-- "0..*" DataVersionRef : versions
+    DataVersionRef "1" -- "0..1" DataFileVersion : stored file
+    Connector "1" -- "0..*" DataSource : sources
+    DataSource "1" -- "0..*" DataUseGrant : use grants
+    ReleasePolicy "1" -- "0..*" ReleaseReview : reviews
 ```
 
 ## 4. Research Run Orchestration
@@ -451,10 +510,10 @@ classDiagram
 classDiagram
     class RunController {
         <<controller>>
-        +start(caseId : UUID) Run
-        +amendCase(input : Amendment) ResearchCase
+        +start(caseId : UUID) RunRequest
+        +amendCase(input : Amendment) ResearchCaseRef
         +getRun(runId : UUID) RunSnapshot
-        +listRuns(projectId : UUID, filter : RunFilter) Run [0..∗]
+        +listRuns(projectId : UUID, filter : RunFilter) RunRequest [0..∗]
         +acceptObject(objectId : UUID) void
         +requestRevision(objectId : UUID, reason : String) void
         +rerunStage(stageRunId : UUID) void
@@ -466,22 +525,22 @@ classDiagram
         +getIterationSummary(stageRunId : UUID) IterationSummary
         +downloadArtifact(versionId : UUID) File
         +compareArtifacts(versionA : UUID, versionB : UUID) VersionDiff
-        +addComment(input : CommentInput) Comment
+        +addComment(input : CommentInput) Discussion
         +editComment(commentId : UUID, text : String) void
         +deleteComment(commentId : UUID) void
-        +lockPlan(planId : UUID) Lock
-        +requestDeviation(planId : UUID, change : String, reason : String) DecisionInboxItem
+        +lockPlan(planId : UUID) AuthorityReceipt
+        +requestDeviation(planId : UUID, change : String, reason : String) DecisionTask
         +reviewSpending(itemId : UUID, approve : Boolean) void
-        +approveDossier(dossierId : UUID) Approval
-        +export(dossierId : UUID, format : String) Export
+        +approveDossier(dossierId : UUID) DecisionResponse
+        +export(dossierId : UUID, format : String) ExportJob
         +pushUpdate(event : DomainEvent) void
     }
     class RunOrchestrator {
         <<service>>
-        +start(caseId : UUID) Run
+        +start(caseId : UUID) RunRequest
         +getSnapshot(runId : UUID) RunSnapshot
-        +listRuns(projectId : UUID, filter : RunFilter) Run [0..∗]
-        +advance(runId : UUID) StageRun
+        +listRuns(projectId : UUID, filter : RunFilter) RunRequest [0..∗]
+        +advance(runId : UUID) RunPlanStep
         +acceptVersion(objectId : UUID) void
         +requestRevision(objectId : UUID, reason : String) void
         +rerunStage(stageRunId : UUID) void
@@ -500,8 +559,8 @@ classDiagram
     }
     class ResearchCaseService {
         <<service>>
-        +create(input : CaseInput) ResearchCase
-        +amend(caseId : UUID, change : CaseChange, reason : String) ResearchCase
+        +create(input : CaseInput) ResearchCaseRef
+        +amend(caseId : UUID, change : CaseChange, reason : String) ResearchCaseRef
     }
     class BudgetService {
         <<service>>
@@ -514,9 +573,9 @@ classDiagram
     }
     class DossierService {
         <<service>>
-        +createFromAccepted(packId : UUID) Dossier
-        +approve(dossierId : UUID) Approval
-        +exportApproved(dossierId : UUID, format : String) Export
+        +createFromAccepted(packId : UUID) ScientificPackageRef
+        +approve(dossierId : UUID) DecisionResponse
+        +exportApproved(dossierId : UUID, format : String) ExportJob
         -verifyReferenceHashes(dossierId : UUID) void
         -requirePinnedExportApproval(dossierId : UUID) void
     }
@@ -538,25 +597,26 @@ classDiagram
     class DatasetEngine {
         <<service>>
     }
-    class ResearchCase {
+    class ScientificCore {
+        <<external>>
+        +submit(command : CommandEnvelope) void
+        +cancel(commandId : UUID) void
+    }
+    class ResearchCaseRef {
         <<entity>>
         - id : UUID
         - projectId : UUID
-        - version : Integer
-        - objective : String
-        - constraints : String
-        - datasetVersionId : UUID [0..1]
-        - amendmentReason : String [0..1]
+        - coreId : UUID
+        - coreVersion : Integer
+        - digest : String
     }
-    class Run {
+    class RunRequest {
         <<entity>>
         - id : UUID
+        - inquiryRefId : UUID
         - state : RunState
         - waitingReason : WaitingReason [0..1]
         - endingOutcome : EndingOutcome [0..1]
-        - tokenBudget : Integer
-        - researchCaseRef : VersionRef
-        - pipeline : String = dataset#95;first
     }
     class RunState {
         <<enumeration>>
@@ -577,50 +637,100 @@ classDiagram
         technical#95;failure
         cancelled
     }
-    class StageRun {
+    class RunPlanStep {
         <<entity>>
         - id : UUID
-        - stage : String
-        - preset : String
-        - presenceAtStart : String
-        - contractStatus : String
+        - runRequestId : UUID
+        - lastEventPosition : Integer
     }
-    class HandOffObject {
+    class RunTimelineEntry {
         <<entity>>
         - id : UUID
-        - version : Integer
-        - contentHash : String
-        - state : String
-        - upstreamRefs : VersionRef [0..∗]
+        - runRequestId : UUID
+        - runPlanStepId : UUID
     }
-    class BudgetLedger {
+    class AdmissionReceipt {
         <<entity>>
+        - id : UUID
+        - runRequestId : UUID
+        - effectiveConfigSnapshotId : UUID
+        - credentialBindingId : UUID
+        - modelOfferingId : UUID
+        - dataUseGrantIds : UUID
+    }
+    class CommandEnvelope {
+        <<entity>>
+        - id : UUID
+        - runAttemptId : UUID
+        - authorityReceiptId : UUID
+        - status : String
+    }
+    class EventInbox {
+        <<entity>>
+        - id : UUID
+        - runRequestId : UUID
+    }
+    class BudgetAccount {
+        <<entity>>
+        - id : UUID
         - projectId : UUID
-        - month : String
-        - spending : Decimal
-        - notifiedThresholds : Decimal [0..∗]
+        - status : String
+        - monthlyLimit : Decimal
     }
-    class Dossier {
+    class CapacityLease {
         <<entity>>
         - id : UUID
-        - version : Integer
-        - evidenceBundleRef : VersionRef
-        - paperPackRef : VersionRef
-        - approvalState : String
+        - runRequestId : UUID
     }
-    class Approval {
+    class BudgetException {
         <<entity>>
-        - membershipId : UUID
-        - dossierVersion : Integer
-        - decision : String
-        - time : DateTime
+        - id : UUID
+        - budgetAccountId : UUID
+        - status : String
     }
-    class Export {
+    class DecisionTask {
         <<entity>>
-        - dossierVersion : Integer
-        - format : String
-        - approvedActionRef : UUID
-        - auditEntryRef : UUID
+        - id : UUID
+        - scientificObjectRefId : UUID
+        - status : String
+    }
+    class DecisionResponse {
+        <<entity>>
+        - id : UUID
+        - decisionTaskId : UUID
+        - status : String
+    }
+    class ScientificPackageRef {
+        <<entity>>
+        - id : UUID
+        - corePackageId : UUID
+        - runRequestId : UUID
+        - coreId : UUID
+        - coreVersion : Integer
+        - digest : String
+    }
+    class ReleaseManifest {
+        <<entity>>
+        - id : UUID
+        - scientificPackageRefId : UUID
+        - approvalRequestId : UUID
+        - status : String
+    }
+    class ShareGrant {
+        <<entity>>
+        - id : UUID
+        - releaseManifestId : UUID
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
+    }
+    class ExportJob {
+        <<entity>>
+        - id : UUID
+        - releaseManifestId : UUID
+        - status : String
     }
     RunController ..> RunOrchestrator : controls runs
     RunController ..> ResearchCaseService : amends cases
@@ -630,22 +740,32 @@ classDiagram
     RunController ..> LockService : locks plan
     RunController ..> CommentService : comments
     RunOrchestrator ..> DatasetEngine : schedules stages
-    RunOrchestrator ..> Run : orchestrates
-    ResearchCaseService ..> ResearchCase : versions
     BudgetService ..> RunOrchestrator : resumes / ends run
     BudgetService ..> NotificationService : alerts Project Managers
     BudgetService ..> DecisionService : creates spending item
-    BudgetService ..> BudgetLedger : records usage
-    DossierService ..> Dossier : versions / checks
-    Run "0..*" -- "1" ResearchCase : pinned case
-    Run ..> RunState : uses type
-    Run ..> WaitingReason : uses type
-    Run ..> EndingOutcome : uses type
-    Run "1" *-- "0..*" StageRun : stages
-    StageRun "1" -- "0..*" HandOffObject : outputs
-    Dossier ..> HandOffObject : references accepted versions
-    Dossier "1" *-- "0..*" Approval : approvals
-    Dossier "1" -- "0..*" Export : exports
+    RunOrchestrator ..> RunRequest : orchestrates
+    RunOrchestrator ..> AdmissionReceipt : admits run
+    RunOrchestrator ..> CommandEnvelope : sends command
+    RunOrchestrator ..> EventInbox : reads events
+    RunOrchestrator ..> ScientificCore : commands run
+    ResearchCaseService ..> ResearchCaseRef : versions
+    BudgetService ..> BudgetAccount : records usage
+    BudgetService ..> CapacityLease : holds run slot
+    BudgetService ..> BudgetException : raises limit
+    DossierService ..> ScientificPackageRef : versions / checks
+    DossierService ..> ExportJob : exports
+    RunRequest "0..*" -- "1" ResearchCaseRef : pinned case
+    RunRequest ..> RunState : uses type
+    RunRequest ..> WaitingReason : uses type
+    RunRequest ..> EndingOutcome : uses type
+    RunRequest "1" *-- "0..*" RunPlanStep : plan steps
+    RunRequest "1" *-- "0..*" RunTimelineEntry : timeline
+    RunRequest "1" -- "0..1" AdmissionReceipt : admission
+    RunRequest "1" -- "0..*" CommandEnvelope : commands
+    DecisionTask "1" -- "0..*" DecisionResponse : responses
+    ScientificPackageRef "1" -- "0..*" ReleaseManifest : manifests
+    ReleaseManifest "1" -- "0..*" ShareGrant : grants
+    ScientificPackageRef "1" -- "0..*" ExportJob : exports
 ```
 
 ## 5. Research Engines
@@ -684,7 +804,7 @@ classDiagram
     }
     class ExecutionEngine {
         <<service>>
-        +execute(lock : Lock) EvidenceBundle
+        +execute(lock : AuthorityReceipt) EvidenceBundle
         +runExplorationLane(planId : UUID) void
         +triage(itemId : UUID, decision : String) Candidate
     }
@@ -699,25 +819,25 @@ classDiagram
     }
     class LockService {
         <<service>>
-        +lock(planId : UUID) Lock
-        +requestDeviation(planId : UUID, change : String, reason : String) DecisionInboxItem
+        +lock(planId : UUID) AuthorityReceipt
+        +requestDeviation(planId : UUID, change : String, reason : String) DecisionTask
     }
     class IndependentReviewService {
         <<service>>
-        +review(object : HandOffObject) Finding [0..∗]
+        +review(object : ScientificObjectRef) ReviewComment [0..∗]
         -enforceTwoRounds(round : Integer) void
     }
     class ReviewerPersona {
         <<service>>
-        +review(object : HandOffObject, fields : String [1..∗]) Finding [0..∗]
+        +review(object : ScientificObjectRef, fields : String [1..∗]) ReviewComment [0..∗]
     }
     class MakerPersona {
         <<service>>
-        +revise(objectId : UUID, findings : Finding [1..∗]) HandOffObject
+        +revise(objectId : UUID, findings : ReviewComment [1..∗]) ScientificObjectRef
     }
     class Harness {
         <<service>>
-        +checkContract(object : HandOffObject) CheckResult
+        +checkContract(object : ScientificObjectRef) CheckResult
         +enforcePipelineOrder(plan : AnalysisPlan) void
         +renderNumbers(records : Record [0..∗]) String
         +computeProfile(versionId : UUID) Profile
@@ -727,9 +847,9 @@ classDiagram
         +checkDisclosureEligibility(lockId : UUID) CheckResult
         +computeVerdicts(input : EvidenceInput) Verdict [1..∗]
         +validateClaimsAndCitations(pack : PaperPack) CheckResult
-        +verifyFindings(findings : Finding [1..∗]) Finding [0..∗]
+        +verifyFindings(findings : ReviewComment [1..∗]) ReviewComment [0..∗]
         +recheckChangedFields(objectId : UUID) CheckResult
-        +scoreCase(caseId : UUID, findings : Finding [0..∗]) CaseResult
+        +scoreCase(caseId : UUID, findings : ReviewComment [0..∗]) CaseResult
         +computeBenchmarkMetrics(benchmarkRunId : UUID) BenchmarkMetrics
     }
     class ScholarlySource {
@@ -738,9 +858,9 @@ classDiagram
     }
     class IsolatedExecutor {
         <<external>>
-        +runTwin(lock : Lock) Diagnostics
-        +dryRun(lock : Lock) Diagnostics
-        +runConfirmatory(lock : Lock) JobStatus
+        +runTwin(lock : AuthorityReceipt) Diagnostics
+        +dryRun(lock : AuthorityReceipt) Diagnostics
+        +runConfirmatory(lock : AuthorityReceipt) JobStatus
     }
     class DatasetSnapshot {
         <<entity>>
@@ -757,15 +877,6 @@ classDiagram
         - hypotheses : Hypothesis [2..∗]
         - primaryClaimKey : String
     }
-    class LiteratureBase {
-        <<entity>>
-        - projectId : UUID
-        - version : Integer
-        - searchProtocol : String
-        - searchLog : SearchEntry [0..∗]
-        - screeningDecisions : ScreeningDecision [0..∗]
-        - evidenceCards : EvidenceCard [0..∗]
-    }
     class AnalysisPlan {
         <<entity>>
         - hypothesisSetRef : VersionRef
@@ -773,22 +884,6 @@ classDiagram
         - taskFamily : String
         - pipelineOrder : String [1..∗]
         - interpretationTable : Table
-    }
-    class Lock {
-        <<entity>>
-        - analysisPlanRef : VersionRef
-        - specHash : String
-        - programHash : String
-        - splitDigest : String
-        - lockedBy : UUID
-        - lockedAt : DateTime
-    }
-    class ConfirmatoryResults {
-        <<entity>>
-        - lockId : UUID
-        - state : String
-        - results : Result [0..∗]
-        - disclosedAt : DateTime [0..1]
     }
     class EvidenceBundle {
         <<entity>>
@@ -808,13 +903,48 @@ classDiagram
         - limitations : String [0..∗]
         - authorDeclarations : Declaration [0..∗]
     }
-    class Finding {
+    class ScientificObjectRef {
         <<entity>>
-        - anchor : ObjectFieldRef
-        - evidence : EvidenceRef
-        - severity : String
-        - verificationResult : String
-        - proposedFix : String
+        - id : UUID
+        - inquiryRefId : UUID
+        - corePlanId : UUID
+        - coreId : UUID
+        - coreVersion : Integer
+        - digest : String
+    }
+    class DataVersionRef {
+        <<entity>>
+        - id : UUID
+        - dataSourceId : UUID
+        - coreId : UUID
+        - coreVersion : Integer
+        - digest : String
+    }
+    class CommandEnvelope {
+        <<entity>>
+        - id : UUID
+        - runAttemptId : UUID
+        - authorityReceiptId : UUID
+        - status : String
+    }
+    class ReviewAssignment {
+        <<entity>>
+        - id : UUID
+        - scientificObjectRefId : UUID
+        - userId : UUID
+        - status : String
+    }
+    class ReviewComment {
+        <<entity>>
+        - id : UUID
+        - reviewAssignmentId : UUID
+        - status : String
+    }
+    class DecisionTask {
+        <<entity>>
+        - id : UUID
+        - scientificObjectRefId : UUID
+        - status : String
     }
     LiteratureController ..> LiteratureService : searches / screens
     LiteratureController ..> AuthorizationService : checks access
@@ -832,14 +962,18 @@ classDiagram
     PaperEngine ..> Harness : runs checks
     DatasetEngine ..> DatasetSnapshot : publishes
     HypothesisEngine ..> HypothesisSet : publishes
-    LiteratureService ..> LiteratureBase : versions
     ExperimentDesignEngine ..> AnalysisPlan : publishes
-    LockService ..> Lock : writes
     ExecutionEngine ..> EvidenceBundle : publishes
     PaperEngine ..> PaperPack : publishes
-    IndependentReviewService ..> Finding : records
-    HypothesisSet "0..*" -- "1" LiteratureBase : pins version
-    Lock "1" *-- "1" ConfirmatoryResults : confirmatory results
+    DatasetEngine ..> DataVersionRef : reads data version
+    RunOrchestrator ..> CommandEnvelope : starts stage engine
+    LockService ..> ScientificObjectRef : locks plan version
+    IndependentReviewService ..> ReviewAssignment : reads assignment
+    IndependentReviewService ..> ReviewComment : records
+    IndependentReviewService ..> DecisionTask : raises decision
+    DatasetSnapshot "0..*" -- "1" DataVersionRef : data version
+    ReviewAssignment "1" -- "0..*" ReviewComment : comments
+    ReviewComment "0..*" -- "1" ScientificObjectRef : anchored to
 ```
 
 ## 6. AI Principal Investigator
@@ -854,26 +988,26 @@ classDiagram
         +overturn(itemId : UUID, reason : String) void
         +changePolicy(input : PolicyInput) void
         +setPresence(value : Presence) void
-        +submitCharter(runId : UUID, input : CharterInput) Charter
+        +submitCharter(runId : UUID, input : CharterInput) RunTimelineEntry
         +endorseAdvice(consultationId : UUID) void
         +retryConsultation(consultationId : UUID) void
-        +getLabNotebook(runId : UUID) LabNotebookEntry [0..∗]
+        +getLabNotebook(runId : UUID) RunTimelineEntry [0..∗]
         +getPiOverview(runId : UUID) PiOverview
         +triage(itemId : UUID, decision : String) void
         +pushUpdate(event : DomainEvent) void
     }
     class DecisionService {
         <<service>>
-        +createRequest(input : DecisionInput) DecisionInboxItem
+        +createRequest(input : DecisionInput) DecisionTask
         +answer(itemId : UUID, option : String) void
         +confirmTentative(itemId : UUID) void
         +overturn(itemId : UUID, reason : String) void
-        +listActionable(userId : UUID) DecisionInboxItem [0..∗]
-        +submitCharter(runId : UUID, input : CharterInput) Charter
-        +requestConsultation(runId : UUID, trigger : String) Consultation
+        +listActionable(userId : UUID) DecisionTask [0..∗]
+        +submitCharter(runId : UUID, input : CharterInput) RunTimelineEntry
+        +requestConsultation(runId : UUID, trigger : String) RunTimelineEntry
         +endorseAdvice(consultationId : UUID) void
-        +retryConsultation(consultationId : UUID) Consultation
-        +getLabNotebook(runId : UUID) LabNotebookEntry [0..∗]
+        +retryConsultation(consultationId : UUID) RunTimelineEntry
+        +getLabNotebook(runId : UUID) RunTimelineEntry [0..∗]
         +getPiOverview(runId : UUID) PiOverview
         +expirePinnedItem(itemId : UUID) void
         -closeUnansweredAndEndWithGaps(itemId : UUID) void
@@ -890,9 +1024,9 @@ classDiagram
     class AIPrincipalInvestigator {
         <<service>>
         +consult(context : RunContext) Advice
-        +decideTentatively(item : DecisionInboxItem) void
+        +decideTentatively(item : DecisionTask) void
         +proposeNextStep(runId : UUID) String
-        -rejectPinnedDecision(item : DecisionInboxItem) void
+        -rejectPinnedDecision(item : DecisionTask) void
     }
     class OverturnMetricService {
         <<service>>
@@ -908,32 +1042,44 @@ classDiagram
     class ExecutionEngine {
         <<service>>
     }
-    class DecisionInboxItem {
+    class RunRequest {
         <<entity>>
         - id : UUID
-        - kind : String
-        - options : String [1..∗]
-        - proposedOption : String
+        - inquiryRefId : UUID
+        - state : RunState
+    }
+    class RunTimelineEntry {
+        <<entity>>
+        - id : UUID
+        - runRequestId : UUID
+        - runPlanStepId : UUID
+    }
+    class EffectiveConfigSnapshot {
+        <<entity>>
+        - id : UUID
+        - configVersionId : UUID
+    }
+    class ScientificObjectRef {
+        <<entity>>
+        - id : UUID
+        - inquiryRefId : UUID
+        - corePlanId : UUID
+        - coreId : UUID
+        - coreVersion : Integer
+        - digest : String
+    }
+    class ConfigVersion {
+        <<entity>>
+        - id : UUID
+        - settingDefinitionId : UUID
         - status : String
-        - pinned : Boolean
-        - waitDeadline : DateTime [0..1]
     }
-    class DecisionLogEntry {
+    class PolicyRule {
         <<entity>>
-        - actionType : String
+        - id : UUID
+        - configVersionId : UUID
+        - status : String
         - level : ActionLevel
-        - policyVersion : Integer
-        - decidedBy : String
-        - presence : Presence
-        - overturned : Boolean
-    }
-    class ActionPolicy {
-        <<entity>>
-        - version : Integer
-        - presetPerStage : Map
-        - overrides : Map
-        - floors : Map
-        - spendingCeiling : Decimal
     }
     class ActionLevel {
         <<enumeration>>
@@ -941,41 +1087,25 @@ classDiagram
         do#95;then#95;review
         must#95;ask
     }
-    class Charter {
-        <<entity>>
-        - runId : UUID
-        - version : Integer
-        - goals : String
-        - limits : String
-        - mustAskMatters : String [0..∗]
-    }
-    class Consultation {
-        <<entity>>
-        - runId : UUID
-        - trigger : String
-        - status : String
-        - advice : String [0..1]
-        - endorsed : Boolean
-    }
-    class LabNotebookEntry {
-        <<entity>>
-        - runId : UUID
-        - summary : String
-        - proposal : String [0..1]
-        - tentativeDecisionRef : UUID [0..1]
-        - reason : String
-        - presence : Presence
-    }
-    class Presence {
-        <<enumeration>>
-        present
-        away
-    }
-    class Run {
+    class DecisionTask {
         <<entity>>
         - id : UUID
-        - state : RunState
-        - endingOutcome : EndingOutcome [0..1]
+        - scientificObjectRefId : UUID
+        - status : String
+    }
+    class DecisionResponse {
+        <<entity>>
+        - id : UUID
+        - decisionTaskId : UUID
+        - status : String
+    }
+    class AuditEvent {
+        <<entity>>
+        - id : UUID
+        - userId : UUID
+        - auditCheckpointId : UUID
+        - action : String
+        - time : DateTime
     }
     DecisionController ..> DecisionService : answers / consults
     DecisionController ..> ActionPolicyService : changes policy
@@ -984,17 +1114,20 @@ classDiagram
     DecisionService ..> AIPrincipalInvestigator : consults
     DecisionService ..> OverturnMetricService : measures overturns
     DecisionService ..> RunOrchestrator : resumes / marks stale
-    DecisionService ..> DecisionInboxItem : creates / resolves
-    DecisionService ..> Charter : records
-    DecisionService ..> Consultation : records
-    ActionPolicyService ..> ActionPolicy : versions
-    AIPrincipalInvestigator ..> LabNotebookEntry : writes
-    OverturnMetricService ..> Run : measures by run
-    DecisionInboxItem "1" -- "0..1" DecisionLogEntry : decided record
-    ActionPolicy ..> ActionLevel : uses type
-    LabNotebookEntry ..> Presence : uses type
-    Run "1" -- "0..1" Charter : charter
-    Run "1" -- "0..*" Consultation : consultations
+    DecisionService ..> DecisionTask : creates / resolves
+    DecisionService ..> DecisionResponse : records
+    DecisionService ..> AuditEvent : logs decision
+    DecisionService ..> RunTimelineEntry : records charter
+    AIPrincipalInvestigator ..> RunTimelineEntry : writes advice
+    AIPrincipalInvestigator ..> EffectiveConfigSnapshot : reads at run start
+    AIPrincipalInvestigator ..> ScientificObjectRef : reads outcome
+    ActionPolicyService ..> PolicyRule : versions
+    ActionPolicyService ..> ConfigVersion : reads
+    OverturnMetricService ..> RunRequest : measures by run
+    RunRequest "1" *-- "0..*" RunTimelineEntry : timeline
+    RunRequest "1" -- "1" EffectiveConfigSnapshot : config
+    DecisionTask "1" -- "0..*" DecisionResponse : responses
+    PolicyRule ..> ActionLevel : uses type
 ```
 
 ## 7. Notifications & Integrations
@@ -1008,7 +1141,7 @@ classDiagram
         +markRead(notificationId : UUID) void
         +markAllRead() void
         +setPreferences(input : PreferencesInput) void
-        +listInbox() DecisionInboxItem [0..∗]
+        +listInbox() DecisionTask [0..∗]
         +listReviewQueue() ReviewItem [0..∗]
         +pushUpdate(event : DomainEvent) void
     }
@@ -1019,8 +1152,8 @@ classDiagram
         +markRead(notificationId : UUID) void
         +markAllRead(userId : UUID) void
         +retryEmail(emailId : UUID) void
-        -allowExternalNotice(item : DecisionInboxItem) Boolean
-        -selectAuthorizedRecipients(item : DecisionInboxItem) UUID [0..∗]
+        -allowExternalNotice(item : DecisionTask) Boolean
+        -selectAuthorizedRecipients(item : DecisionTask) UUID [0..∗]
     }
     class NotificationPreferenceService {
         <<service>>
@@ -1033,12 +1166,12 @@ classDiagram
         +test(integrationId : UUID) CheckResult
         +remove(integrationId : UUID) void
         +deliver(notificationId : UUID, channel : String) void
-        -resolveSealedCredential(ref : SecretRef) void
+        -resolveSealedCredential(ref : CredentialRef) void
     }
     class CommentService {
         <<service>>
-        +add(input : CommentInput) Comment
-        +list(objectRef : ObjectRef) Comment [0..∗]
+        +add(input : CommentInput) Discussion
+        +list(objectRef : ObjectRef) Discussion [0..∗]
         +edit(commentId : UUID, text : String) void
         +delete(commentId : UUID) void
         -requireProjectRole(actorId : UUID) void
@@ -1063,61 +1196,47 @@ classDiagram
     class Notification {
         <<entity>>
         - id : UUID
-        - recipientId : UUID
+        - userId : UUID
+        - lastEventPosition : Integer
         - kind : String
-        - status : String
         - readAt : DateTime [0..1]
-        - decisionItemId : UUID [0..1]
     }
-    class NotificationEmail {
+    class DeliveryAttempt {
         <<entity>>
         - id : UUID
         - notificationId : UUID
-        - status : EmailStatus
-        - attempts : Integer
-        - lastError : String [0..1]
-    }
-    class EmailStatus {
-        <<enumeration>>
-        pending
-        sending
-        sent
-        failed
-        skipped
-    }
-    class DecisionInboxItem {
-        <<entity>>
-        - id : UUID
-        - kind : String
-        - pinned : Boolean
-        - blocking : Boolean
-        - waitDeadline : DateTime [0..1]
+        - channel : String
     }
     class NotificationPreference {
         <<entity>>
-        - projectId : UUID
+        - id : UUID
         - userId : UUID
-        - eventChoices : Map
-        - channels : String [0..∗]
+        - status : String
     }
-    class ProjectIntegration {
-        <<entity>>
-        - projectId : UUID
-        - provider : String
-        - credentialRef : SecretRef
-        - enabled : Boolean
-    }
-    class Comment {
+    class Discussion {
         <<entity>>
         - id : UUID
-        - membershipId : UUID
+        - scientificObjectRefId : UUID
+        - status : String
         - text : String
-        - anchor : ObjectFieldRef
+    }
+    class ReviewComment {
+        <<entity>>
+        - id : UUID
+        - reviewAssignmentId : UUID
+        - status : String
     }
     class Membership {
         <<entity>>
+        - id : UUID
+        - tenantId : UUID
+        - userId : UUID
         - projectId : UUID
-        - role : ProjectRole
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
     }
     CollaborationController ..> NotificationService : reads / marks read
     CollaborationController ..> NotificationPreferenceService : sets preferences
@@ -1129,15 +1248,14 @@ classDiagram
     NotificationService ..> IntegrationService : delivers external notice
     IntegrationService ..> NotificationChannel : delivers through
     NotificationService ..> Notification : creates / marks read
-    NotificationService ..> NotificationEmail : queues / retries
+    NotificationService ..> DeliveryAttempt : queues / retries
     NotificationPreferenceService ..> NotificationPreference : updates
-    IntegrationService ..> ProjectIntegration : configures
-    CommentService ..> Comment : anchors
+    IntegrationService ..> DeliveryAttempt : delivers
+    CommentService ..> Discussion : anchors
+    ReviewService ..> ReviewComment : lists queue
     ReviewService ..> Membership : reads memberships
-    Notification "1" -- "0..1" NotificationEmail : email
-    NotificationEmail ..> EmailStatus : uses type
-    Notification "0..*" -- "0..1" DecisionInboxItem : decision context
-    Comment "0..*" -- "1" Membership : author
+    Notification "1" *-- "0..*" DeliveryAttempt : deliveries
+    Discussion "0..*" -- "1" Membership : author
 ```
 
 ## 8. Administration & Monitoring
@@ -1156,7 +1274,7 @@ classDiagram
         +configureEngine(input : EngineInput) void
         +viewOverview() PlatformOverview
         +viewUsage(filter : UsageFilter) UsageReport
-        +viewAudit(filter : AuditFilter) AuditLogEntry [0..∗]
+        +viewAudit(filter : AuditFilter) AuditEvent [0..∗]
         +viewLogs(filter : LogFilter) LogEntry [0..∗]
         +viewHealth() HealthSnapshot
         +acknowledgeAlert(alertId : UUID) void
@@ -1171,23 +1289,23 @@ classDiagram
         +grantTenantAdmin(userId : UUID) void
         +revokeTenantAdmin(userId : UUID) void
         +listProjectMetadata() ProjectMetadata [0..∗]
-        +configureModel(input : ModelInput) ModelProfile
-        +configureEngine(input : EngineInput) EngineSettings
+        +configureModel(input : ModelInput) ModelOffering
+        +configureEngine(input : EngineInput) ConfigVersion
         +setDefaultBudget(amount : Decimal) void
         +requireTenantAdmin(userId : UUID) void
     }
     class SecretService {
         <<service>>
-        +seal(value : String) SecretRef
-        +rotate(ref : SecretRef, value : String) void
-        +resolveForExecution(ref : SecretRef) Secret
+        +seal(value : String) CredentialRef
+        +rotate(ref : CredentialRef, value : String) void
+        +resolveForExecution(ref : CredentialRef) Secret
         -preventSecretDisclosure() void
     }
     class MonitoringService {
         <<service>>
         +overview() PlatformOverview
         +usage(filter : UsageFilter) UsageReport
-        +readAudit(filter : AuditFilter) AuditLogEntry [0..∗]
+        +readAudit(filter : AuditFilter) AuditEvent [0..∗]
         +logs(filter : LogFilter) LogEntry [0..∗]
         +health() HealthSnapshot
         +acknowledgeAlert(alertId : UUID) void
@@ -1201,7 +1319,17 @@ classDiagram
     }
     class ModelProvider {
         <<external>>
-        +testModel(profileRef : SecretRef) CheckResult
+        +testModel(profileRef : CredentialRef) CheckResult
+    }
+    class IdentityService {
+        <<service>>
+        +requestRoleChange(userId : UUID, change : RoleChange) ApprovalRequest
+        +applyReceipt(receipt : AuthorityReceipt) void
+    }
+    class ApprovalService {
+        <<service>>
+        +createApprovalRequest(kind : String, digest : String) ApprovalRequest
+        +vote(requestId : UUID) AuthorityReceipt
     }
     class IndependentReviewService {
         <<service>>
@@ -1209,95 +1337,122 @@ classDiagram
     class Harness {
         <<service>>
     }
+    class Tenant {
+        <<entity>>
+        - id : UUID
+        - status : String
+    }
     class User {
         <<entity>>
         - id : UUID
-        - email : String
         - status : String
+        - email : String
         - isTenantAdmin : Boolean
     }
-    class ModelProfile {
+    class Provider {
         <<entity>>
         - id : UUID
-        - modelRole : String
-        - model : String
-        - keyRef : SecretRef
-        - unitPrice : Decimal
+        - status : String
     }
-    class EngineSettings {
-        <<entity>>
-        - engineId : String
-        - enabled : Boolean
-        - configuration : Map
-    }
-    class SealedSecret {
+    class ModelOffering {
         <<entity>>
         - id : UUID
-        - encryptedValue : Bytes
-        - keyVersion : String
-        - updatedAt : DateTime
+        - providerId : UUID
+        - status : String
     }
-    class AuditLogEntry {
+    class CredentialRef {
         <<entity>>
+        - id : UUID
+        - status : String
+    }
+    class CredentialBinding {
+        <<entity>>
+        - id : UUID
+        - credentialRefId : UUID
+        - projectId : UUID
+        - status : String
+        - validFrom : DateTime
+        - validUntil : DateTime [0..1]
+        - reason : String
+        - grantedBy : UUID
+    }
+    class CredentialLease {
+        <<entity>>
+        - id : UUID
+        - credentialBindingId : UUID
+    }
+    class ConfigVersion {
+        <<entity>>
+        - id : UUID
+        - settingDefinitionId : UUID
+        - status : String
+    }
+    class RunAttempt {
+        <<entity>>
+        - id : UUID
+        - runRequestId : UUID
+        - status : String
+    }
+    class RunTimelineEntry {
+        <<entity>>
+        - id : UUID
+        - runRequestId : UUID
+        - runPlanStepId : UUID
+    }
+    class UsageEvent {
+        <<entity>>
+        - id : UUID
+        - runAttemptId : UUID
+    }
+    class LedgerEntry {
+        <<entity>>
+        - id : UUID
+        - usageEventId : UUID
+        - budgetReservationId : UUID
+    }
+    class AuditEvent {
+        <<entity>>
+        - id : UUID
+        - userId : UUID
+        - auditCheckpointId : UUID
         - action : String
-        - actorId : UUID
-        - projectId : UUID [0..1]
         - time : DateTime
     }
-    class HealthSnapshot {
-        <<entity>>
-        - collectedAt : DateTime
-        - componentStates : Map
-    }
-    class MonitoringAlert {
+    class AuditCheckpoint {
         <<entity>>
         - id : UUID
-        - component : String
-        - severity : String
-        - state : AlertState
-        - acknowledgedBy : UUID [0..1]
-        - acknowledgedAt : DateTime [0..1]
-        - resolvedAt : DateTime [0..1]
     }
-    class AlertState {
-        <<enumeration>>
-        active
-        resolved
-    }
-    class OperatingMetrics {
-        <<entity>>
-        - runId : UUID
-        - questionCount : Integer
-        - blockedTime : Duration
-        - overturnRates : Map
-        - personaPrecision : Map
-    }
-    class BenchmarkRun {
+    class Incident {
         <<entity>>
         - id : UUID
-        - catalogueVersion : String
-        - modelProfileId : UUID
-        - personaPrecision : Map
-        - leakageDetectionRate : Decimal
-        - orderBlockRate : Decimal
-        - finishedAt : DateTime [0..1]
+        - status : String
     }
     AdministrationController ..> AdministrationService : configures platform
     AdministrationController ..> MonitoringService : reads operation
     AdministrationController ..> BenchmarkService : runs benchmark
+    AdministrationController ..> IdentityService : changes Tenant Admin
+    IdentityService ..> ApprovalService : requests approval
     AdministrationService ..> SecretService : seals keys
     AdministrationService ..> ModelProvider : tests model
-    AdministrationService ..> User : manages accounts
-    AdministrationService ..> ModelProfile : configures model roles
-    AdministrationService ..> EngineSettings : configures engines
-    SecretService ..> SealedSecret : seals / rotates
-    MonitoringService ..> AuditLogEntry : reads append-only log
-    MonitoringService ..> HealthSnapshot : reads health
-    MonitoringService ..> MonitoringAlert : raises / acknowledges
-    MonitoringService ..> OperatingMetrics : computes
     BenchmarkService ..> IndependentReviewService : runs personas
     BenchmarkService ..> Harness : scores cases
-    BenchmarkService ..> BenchmarkRun : records
-    MonitoringAlert ..> AlertState : uses type
-    BenchmarkRun "0..*" -- "1" ModelProfile : model under test
+    AdministrationService ..> User : manages accounts
+    AdministrationService ..> ModelOffering : configures models
+    SecretService ..> CredentialBinding : binds credential
+    AdministrationService ..> ConfigVersion : publishes settings
+    SecretService ..> CredentialRef : seals / rotates
+    SecretService ..> CredentialLease : leases to run
+    MonitoringService ..> RunAttempt : checks before start
+    MonitoringService ..> RunTimelineEntry : records failure
+    MonitoringService ..> UsageEvent : reads usage
+    MonitoringService ..> LedgerEntry : reads charges
+    MonitoringService ..> AuditEvent : reads audit
+    MonitoringService ..> AuditCheckpoint : verifies chain
+    MonitoringService ..> Incident : raises / acknowledges
+    Tenant "1" -- "0..*" User : users
+    Provider "1" *-- "0..*" ModelOffering : offerings
+    CredentialRef "1" -- "0..*" CredentialBinding : bindings
+    CredentialRef "1" -- "0..*" CredentialLease : leases
+    UsageEvent "1" -- "0..*" LedgerEntry : charges
+    AuditCheckpoint "1" -- "0..*" AuditEvent : covers
 ```

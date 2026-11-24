@@ -63,8 +63,8 @@ def pi(title, slot, operation, steps, actor='Researcher', service='DecisionServi
                 'DecisionController', service, operation, steps, **kw)
 
 
-def admin(title, slot, operation, steps, service='AdministrationService', **kw):
-    return flow(title, slot, 'III 3.9; IV 3.8; FE-17', 'Platform Admin',
+def admin(title, slot, operation, steps, service='AdministrationService', actor='Tenant Admin', **kw):
+    return flow(title, slot, 'III 3.9; IV 3.8; FE-17', actor,
                 'AdministrationController', service, operation, steps, **kw)
 
 
@@ -267,7 +267,7 @@ GROUPS += [
                 call('s', 'x', 'openRows(source, maxRows)', 'Row stream of selected table'),
                 call('s', 'v', 'create(datasetId, source)', 'New immutable version and hash'),
                 db('Save version with platform location', 'Imported version')]))],
-             participants={'k': ': SecretService', 'x': ': Connector', 'v': ': DatasetVersionService'}),
+             participants={'k': ': SecretService', 'x': ': SourceConnector', 'v': ': DatasetVersionService'}),
         data('Rename or Delete Dataset', 'IV 3.3.5', 'rename(datasetId, name)', [],
              trigger='Rename or delete dataset', choices=[
                  choice('[rename]', 'renameDataset(datasetId, name)', 'rename(datasetId, name)', [
@@ -293,7 +293,7 @@ GROUPS += [
                      db('Read pinned version and data location', 'Version location'),
                      alt(('[location local]', []), ('[platform location]', [db('Read authorized version file', 'Version file')]))])]),
         data('Browse and Preview Connection Source', 'IV 3.3.8', 'browse(connectionId, schema)', [],
-             participants={'x': ': Connector'}, trigger='Browse or preview source', choices=[
+             participants={'x': ': SourceConnector'}, trigger='Browse or preview source', choices=[
                  choice('[browse]', 'browseConnection(connectionId, schema)', 'browse(connectionId, schema)', [
                      db('Load connection secret reference', 'DataConnection without credentials'),
                      call('s', 'x', 'test()', 'Source eligibility'),
@@ -303,7 +303,7 @@ GROUPS += [
                      db('Load connection secret reference', 'DataConnection without credentials'),
                      call('s', 'x', 'openRows(source, maxRows)', 'Preview rows')])]),
         data('Rename Test or Delete Data Connection', 'IV 3.3.9', 'testConnection(connectionId)', [],
-             participants={'x': ': Connector'}, trigger='Rename, test or delete connection', choices=[
+             participants={'x': ': SourceConnector'}, trigger='Rename, test or delete connection', choices=[
                  choice('[rename]', 'renameConnection(connectionId, name)', 'renameConnection(connectionId, name)', [
                      db('Read connection and project state', 'Connection context'),
                      alt(('[project archived]', []), ('[writable project]', [db('Save connection name', 'Updated metadata')]))]),
@@ -391,7 +391,7 @@ GROUPS += [
                          call('s', 'n', 'runJob(job)', 'Job accepted'),
                          {'from': 's', 'to': 'e', 'label': 'Job routed', 'reply': True}])),
                  opt('[offline Node reconnects]', [
-                     event('n', 's', 'heartbeat(nodeId)'),
+                     event('n', 's', 'checkHealth(nodeId)'),
                      db('Mark Node online; release queued job', 'Queued job released'),
                      event('s', 't', 'resume(runId)')]),
                  {'from': 'u', 'to': 'w', 'label': 'Revoke Local Node'},
@@ -439,12 +439,11 @@ GROUPS += [
                         db('Create next version; mark downstream stale; append decision log', 'Versioned rerun scheduled')]))])]),
         # LOGOS UC-M06-04: cancel goes through Core confirmation; sync reconciles by command ID.
         run('Cancel and Synchronize Run', 'IV 3.4.6', 'cancel(runId)', [], trigger='Cancel or sync run', choices=[
-            choice('[sync]', 'syncRun(runId)', 'reconcile(runId)', [
+            choice('[sync]', 'syncRun(runId)', 'syncRun(runId)', [
                 db('Open reconciliation task for the command ID', 'Run reconciling'),
                 loop('[until Core answers or 5 attempts in 1 hour]', [
-                    call('s', 'k', 'getCommandStatus(commandId)', 'Received, not received or ended')]),
-                alt(('[Core did not receive the command]', [
-                        call('s', 'k', 'resend(commandId)', 'Same command accepted')]),
+                    call('s', 'k', 'submit(command)', 'Same command ID: received, not received or ended')]),
+                alt(('[Core did not receive the command]', [db('Record resend with the same command ID', 'Command accepted')]),
                     ('[Core reports the run ended]', [db('Apply Core result to run state', 'Run state updated')]),
                     ('[attempt limit reached]', [db('Mark run needs intervention; keep budget hold', 'Task for Platform Operator')]))]),
             choice('[cancel]', 'cancel(runId)', 'cancel(runId)', [
@@ -452,13 +451,13 @@ GROUPS += [
                 alt(('[run ended or no cancel right]', []),
                     ('[command not yet sent to Core]', [
                         db('End run as cancelled; append audit', 'Run cancelled'),
-                        call('s', 'b', 'release(holdId, noCommandEvidence)', 'Hold released')]),
+                        call('s', 'b', 'recordUsage(runId, amount)', 'Hold released; nothing charged')]),
                     ('[else: command sent]', [
                         db('Set run to cancel requested; append audit', 'Run cancel requested'),
                         call('s', 'k', 'cancel(commandId)', 'Cancel accepted'),
-                        event('k', 's', 'onRunEnded(event)'),
+                        event('k', 's', 'onRunEvent(event)'),
                         db('Apply cancelled, or completed if Core finished first', 'Final run state'),
-                        call('s', 'b', 'settle(holdId)', 'Hold settled; unused part refunded')]))])],
+                        call('s', 'b', 'recordUsage(runId, amount)', 'Hold settled; unused part refunded')]))])],
             participants={'k': ': ScientificCore', 'b': ': BudgetService'}),
         run('Raise Token Budget', 'IV 3.4.7', 'raiseRunBudget(runId, amount)', entry='raiseTokenBudget(runId, amount)',
             trigger='Raise run token budget', steps=[
@@ -869,7 +868,7 @@ GROUPS += [
             alt(('[invalid settings]', []), ('[valid settings]', [
                 db('Save platform settings, engine defaults and budget', 'Updated settings'),
                 db('Append settings audit', 'Audit entry')]))]),
-        admin('View Usage Audit Log and Log Monitoring', 'IV 3.8.5', 'usage(filter)', [],
+        admin('View Usage Audit Log and Log Monitoring', 'IV 3.8.5', 'usage(filter)', [], actor='Tenant Admin / Platform Operator',
               service='MonitoringService', participants={'t': 'Monitoring Event Stream'},
               trigger='Open usage, audit log or logs', choices=[
                   choice('[usage]', 'viewUsage(filter)', 'usage(filter)', [
@@ -880,7 +879,7 @@ GROUPS += [
                       db('Read captured logs with secret filtering', 'Log entries and capture gaps'),
                       opt('[log view remains open]', [event('t', 's', 'onMonitoringEvent(event)'),
                           event('s', 'c', 'pushUpdate(event)'), event('c', 'w', 'Update monitoring view')])])]),
-        admin('View Admin Overview', 'IV 3.8.6', 'overview()', entry='viewOverview()', trigger='Open admin overview', steps=[
+        admin('View Admin Overview', 'IV 3.8.6', 'overview()', actor='Platform Operator', entry='viewOverview()', trigger='Open admin overview', steps=[
             db('Read usage, health and recent audit activity', 'Overview with availability / missing reasons')],
               service='MonitoringService'),
         admin('View and Edit User Detail', 'IV 3.8.7', 'getUserDetail(userId)', [],
@@ -897,17 +896,17 @@ GROUPS += [
         flow('Grant or Revoke Tenant Admin', 'IV 3.8.9', 'III 3.2.8.8; LOGOS M01, M05', 'Tenant Admin',
              'AdministrationController', 'IdentityService', 'requestRoleChange(userId, change)', [],
              trigger='Grant or revoke Tenant Admin', choices=[
-                 choice('[request grant or revoke]', 'requestRoleChange(userId, change)', 'requestRoleChange(userId, change)', [
+                 choice('[request grant or revoke]', 'grantTenantAdmin(userId) / revokeTenantAdmin(userId)', 'requestRoleChange(userId, change)', [
                      db('Validate target membership and last Tenant Admin rule', 'Role change eligibility'),
                      alt(('[invalid target or last Tenant Admin]', []), ('[else: eligible]', [
                          call('s', 'p', 'createApprovalRequest(governance_change, digest)', 'ApprovalRequest pending')]))]),
-                 choice('[second Tenant Admin approves]', 'approve(requestId)', 'approve(requestId)', [
+                 choice('[second Tenant Admin approves]', 'grantTenantAdmin(userId) / revokeTenantAdmin(userId)', 'applyReceipt(receipt)', [
                      call('s', 'p', 'vote(requestId)', 'AuthorityReceipt or rejection'),
                      alt(('[self-approval, stale sign-in or digest changed]', []),
                          ('[else: receipt issued]', [
                              db('Grant or revoke RoleGrant; write MembershipChanged to outbox; append audit', 'Role changed')]))])],
              participants={'p': ': ApprovalService'}),
-        admin('View System Health and Acknowledge Alerts', 'IV 3.8.10', 'health()', [], service='MonitoringService',
+        admin('View System Health and Acknowledge Alerts', 'IV 3.8.10', 'health()', [], actor='Platform Operator', service='MonitoringService',
               trigger='Open health or acknowledge alert', choices=[
                   choice('[view health]', 'viewHealth()', 'health()', [
                       db('Read component and worker health with availability', 'HealthSnapshot and active alerts')]),
@@ -917,7 +916,7 @@ GROUPS += [
                           db('Record acknowledgement; alert stays active; append audit', 'Acknowledged alert')]))])]),
         # 2026-11-03: UC-65, FE-11.4 and FE-17.4 had Must FRs but no design.
         flow('Run Reviewer Benchmark', 'IV 3.8.11', 'III 3.2.5; UC-65; FR-77, FR-134–138, FR-229, FR-259',
-             'Platform Admin', 'AdministrationController', 'BenchmarkService',
+             'Platform Operator', 'AdministrationController', 'BenchmarkService',
              'runBenchmark(catalogueVersion, modelProfileId)', [
             db('Read catalogue version, seeded-flaw cases and model profile', 'Benchmark context'),
             alt(('[catalogue or model profile unavailable]', []), ('[else: benchmark ready]', [

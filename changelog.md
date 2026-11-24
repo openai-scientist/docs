@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-11-24 — Report 7 Part IV: package, class và sequence diagram
+
+- Package: [build_package_diagram.py](diagrams/05-package/v2/build_package_diagram.py) bỏ tiền tố `logos_` khỏi tên package, khung đổi thành "pkg OpenAI-Scientist"; xuất lại [draw.io](diagrams/05-package/v2/Package-Diagram.drawio) và [PNG](diagrams/05-package/v2/Package-Diagram.png).
+- Class: [class_model.py](diagrams/07-class/v2/class_model.py) theo entity của Database Design, thêm ScientificCore, ApprovalService, IdentityService; bỏ vài quan hệ trùng (IdentityService→Tenant, ConfigVersion→PolicyRule, ProjectService→BudgetAccount), quan hệ binds credential chuyển sang SecretService. [draw.io](diagrams/07-class/v2/Class-Diagram-Authentication-Account.drawio) giữ bố cục v1; 8 trang được rà lại điểm nối, đường vuông góc, nhãn không đè đường và không đè nhau. Xuất lại 8 PNG `Class-Diagram-*.png` ở scale lớn nhất không bị cắt (so chiều cao nét vẽ với bản scale 1, vì draw.io cắt ảnh lớn nhưng vẫn để nền trắng); [Class-Diagrams-Mermaid.md](diagrams/07-class/v2/Class-Diagrams-Mermaid.md) sinh lại.
+- Sequence: `heartbeat(nodeId)` đổi thành `checkHealth(nodeId)` trong [sequence_flows.py](diagrams/08-sequence/sequence_flows.py) và [Data Management drawio](diagrams/08-sequence/03-data-management/Sequence-Diagrams-Data-Management.drawio); toàn bộ PNG sequence xuất lại cỡ lớn, cùng style.
+- Sequence khớp class diagram và docs: [sequence_flows.py](diagrams/08-sequence/sequence_flows.py), [build_sequence_groups.py](diagrams/08-sequence/build_sequence_groups.py).
+  - Actor nhóm Admin theo Part III 3.9: Tenant Admin, còn Platform Operator dùng cho audit log, health, benchmark và overview; bỏ "Platform Admin". Kiểm tra quyền dùng `requireTenantAdmin(userId)` hoặc `requireRole(user, platform, action)`, bỏ `requirePlatformAdmin` (không có trong class diagram).
+  - Connection gọi `SourceConnector` thay vì entity `Connector`; Cancel and Synchronize Run chỉ dùng hàm đã có (`syncRun`, `submit`, `cancel`, `onRunEvent`, `recordUsage`); Grant or Revoke Tenant Admin đi qua `grantTenantAdmin`/`revokeTenantAdmin` → `requestRoleChange` → `vote` → `applyReceipt`.
+  - Sinh lại drawio nhóm 3, 4, 8 (cả [v2/08](diagrams/08-sequence/v2/08-administration-monitoring/Sequence-Diagrams-Administration-Monitoring.drawio)).
+  - Sửa lỗi xuất ảnh lệch một tab (PNG mang nội dung tab kế tiếp); 87 PNG sequence xuất lại, đối chiếu tên tab với tên file.
+- [Report 7](deliverables/FA26SE115_Report7.docx): ảnh class, sequence và package thay bằng bản mới, rộng 17,1 cm; media cũ giữ nguyên.
+- [Report 7](deliverables/FA26SE115_Report7.docx) Part V (Test Plan): sửa văn phong bảng chiến lược kiểm thử (Objective của 4 mức test, thời điểm "On the local Docker stack, before release", người thực hiện "All members", tiêu chí hoàn thành "Every case passed, or pending with a reason", công cụ "Python API test script", phiên bản N/A cho script và GitHub Actions). Mục 3.3 Test Milestones còn trống ngày, chờ nhóm cung cấp.
+- Link hình Report 7: cập nhật link Drive của Figure 1.1 (System Context) và Figure IV-3.8.9 (Grant or Revoke Tenant Admin) theo bản Google Docs đã sửa; 102 link chú thích hình khớp bản Google Docs.
+- Google Drive: 87 PNG sequence, 8 PNG class và PNG package được tải lên dạng phiên bản mới của file cũ để giữ nguyên link; không tải file drawio.
+- Google Docs: tải lên bản docx nén ảnh (tối đa 2000 px, 256 màu) để dưới giới hạn nhập ~50 MB; bản nén không commit, docx gốc giữ ảnh đầy đủ.
+- Report 7 docx: bỏ 330 ảnh cũ không còn được tham chiếu (ẩn, không hiển thị) để file dưới giới hạn 100 MB của GitHub (139 MB → 63 MB); 212 ảnh hiển thị giữ nguyên từng byte.
+- Validation Google Docs: tải bản export docx, đối chiếu 102/102 link chú thích hình với docx gốc, 214/214 ảnh nhúng.
+- Không đổi BRD/PRD/Use Case Spec: chỉ là ảnh thiết kế, requirement không đổi.
+- Validation: kiểm tra từng PNG không bị cắt (dòng/cột mực cuối cách mép); verify hình học class diagram (không đường xuyên hộp); docx render PDF bằng LibreOffice (419 trang), xem lại trang 253, 296, 316 và 387; script đối chiếu mọi lời gọi hàm trong sequence với class diagram (còn lại chỉ lớp Repository và instance guardA/guardB); `git diff --check`.
+
 ## 2026-11-23 — Report 7 Part IV: viết lại theo chuẩn Part III, sửa ảnh LOGOS, khoảng trống và mục lục
 
 - [Report 7](deliverables/FA26SE115_Report7.docx) Part IV (Software Design Document) viết lại theo IEEE 1016-2009 và cùng giọng văn với Part III, không lặp nội dung:

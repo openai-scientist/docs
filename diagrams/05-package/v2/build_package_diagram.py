@@ -96,22 +96,22 @@ dep('mg_audit', 'mg_db', exit_=(0.3, 1), entry=(0.7, 0))
 dep('mg_audit', 'mg_core', exit_=(1, 0.5), entry=(0.5, 0))
 dep('mg_access', 'mg_core', exit_=(0.5, 1), entry=(0.75, 0))
 
-pkg('sv_oversight', 'logos_oversight', 1025, 740, 210, BH)
-pkg('sv_runner', 'logos_runner', 1025, 1000, 210, BH)
+pkg('sv_oversight', 'oversight', 1025, 740, 210, BH)
+pkg('sv_runner', 'runner', 1025, 1000, 210, BH)
 
 # --- stages: the five stage engines (separate HTTP services)
 pkg('st', 'stages', 1330, 610, 460, 400, frame=True)
-for i, (id_, n) in enumerate([('st_dataset', 'logos_dataset'), ('st_hypothesis', 'logos_hypothesis'),
-                              ('st_design', 'logos_experiment_design'), ('st_execution', 'logos_execution'),
-                              ('st_writing', 'logos_writing')]):
+for i, (id_, n) in enumerate([('st_dataset', 'dataset'), ('st_hypothesis', 'hypothesis'),
+                              ('st_design', 'experiment_design'), ('st_execution', 'execution'),
+                              ('st_writing', 'writing')]):
     x = 1455 if i == 4 else 1345 + (i % 2) * 225
     pkg(id_, n, x, 670 + (i // 2) * 110, 210, BH)
 
 # --- packages: shared libraries; logos_recompute has no package dependency
 pkg('sh', 'packages', 1330, 1060, 460, 460, frame=True)
-for id_, n, x, y_ in [('sh_discovery', 'logos_discovery', 1345, 1120), ('sh_recompute', 'logos_recompute', 1490, 1120),
-                      ('sh_analysis', 'logos_analysis', 1635, 1120), ('sh_engine', 'logos_engine', 1345, 1250),
-                      ('sh_tables', 'logos_tables', 1635, 1250), ('sh_contract', 'logos_contract', 1490, 1400)]:
+for id_, n, x, y_ in [('sh_discovery', 'discovery', 1345, 1120), ('sh_recompute', 'recompute', 1490, 1120),
+                      ('sh_analysis', 'analysis', 1635, 1120), ('sh_engine', 'engine', 1345, 1250),
+                      ('sh_tables', 'tables', 1635, 1250), ('sh_contract', 'contract', 1490, 1400)]:
     pkg(id_, n, x, y_, 140, BH)
 dep('sh_discovery', 'sh_engine')
 dep('sh_analysis', 'sh_tables')
@@ -129,8 +129,8 @@ dep('sv_runner', 'sh', '«use»', exit_=(1, 0.5), entry=(0, 0.1), via=[(1265, 10
 dep('st', 'sh', '«use»', exit_=(0.5, 1), entry=(0.5, 0))
 
 # UML frame "pkg <name>" around the whole diagram
-cells.insert(0, '<mxCell id="frame" value="pkg LOGOS" style="shape=umlFrame;whiteSpace=wrap;html=1;'
-             'width=120;height=28;fontFamily=Arial;fontSize=12;fontStyle=1;strokeColor=#000000;fillColor=none;" '
+cells.insert(0, '<mxCell id="frame" value="pkg OpenAI-Scientist" style="shape=umlFrame;whiteSpace=wrap;html=1;'
+             'width=170;height=28;fontFamily=Arial;fontSize=12;fontStyle=1;strokeColor=#000000;fillColor=none;" '
              'vertex="1" parent="1"><mxGeometry x="10" y="20" width="1810" height="1820" as="geometry"/></mxCell>')
 xml = ('<mxfile><diagram name="Package Diagram"><mxGraphModel grid="1" gridSize="10"><root><mxCell id="0"/>'
        '<mxCell id="1" parent="0"/>' + ''.join(cells) + '</root></mxGraphModel></diagram></mxfile>')
