@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-25 — Report 7 bản không có Local Node
+
+- Tài liệu mới [FA26SE115_Report7_No-Local-Node.docx](deliverables/FA26SE115_Report7_No-Local-Node.docx), chép từ [Report 7](deliverables/FA26SE115_Report7.docx): nhóm bỏ Local Node, dữ liệu chỉ lưu và xử lý trên Platform. Bản chính giữ nguyên.
+  - Part I–II: bỏ FE-12, LI-09, WBS 3.3/3.4 (tổng 171 → 163, kèm dự phòng 181 → 173), rủi ro số 10 (đánh lại 10–13), UC 24–26 (đánh lại số thứ tự), câu Local Node trong phần tổng quan, kiểm thử, đào tạo và bàn giao.
+  - Part III: bỏ mục 3.8 Local Node; FR-249/250 chuyển vào 3.3.11 General Rules. FR-121/125/127, BR-18 viết lại theo dữ liệu trên Platform; bỏ BR-19/20/21/80, NFR-13/19/29, MSG-15–22, SC-30, interface Local Node; Decision Inbox còn bảy loại mục (bỏ release review); bỏ tham chiếu FR-231–248, FR-251–253.
+  - Part IV: bỏ TB-04, QS-06/07, ADR-10, R-02, R-09, quality goal Data privacy, sequence 3.3.11–3.3.13 và State Diagram Local Node; sáu building block, sáu image (bỏ capstone-runner); bỏ ReleasePolicy/ReleaseReview.
+  - Part VI: bỏ yêu cầu máy Local Node, hướng dẫn ghép nối, mục 3.3.10, trạng thái node_offline và nhóm MSG Local Node.
+  - Ảnh thay mới: Context, Use Case, 5 Screen Flow, IV-1, IV-2, IV-3, IV-5; bỏ 7 ảnh không còn dùng.
+- Đánh lại mã liền mạch trong bản không Local Node (1052 chỗ, kể cả tham chiếu): FE 1–15, LI 1–20, BR 1–97, FR 1–232 (theo thứ tự xuất hiện; FR-249/250 cũ thành FR-145/146), NFR 1–47, MSG 1–53, UC 1–46, TB 1–4, QS 1–13, ADR 1–15, R 1–10. Lấp luôn khoảng trống có sẵn ở FE-16, LI-17/18, UC-37 của bản chính. Mã nằm trong ảnh UI/diagram không đổi.
+- Diagram: [diagrams/no-local-node/](diagrams/no-local-node/README.md) chứa bản sao đã bỏ Local Node (context, use case, screen flow, architecture, AI tier, deployment, package, database, class, sequence Data Management). Diagram gốc không đổi.
+- Drive và Google Doc: tải 103 PNG lên thư mục Drive riêng của bản không Local Node (cấu trúc như Drive bản chính; không tải State 03 Local Node, `Database-Diagram.drawio.png`, bản Screen Flow No-Labels-BW). Sửa trực tiếp 98 link chú thích hình trong Google Doc sang file trên Drive mới; kiểm tra lại bằng bản mobilebasic: 98 chú thích, 98 ID duy nhất, khớp toàn bộ danh sách ID mới, không còn link Drive bản chính.
+- Không đổi BRD/PRD/Use Case Spec của bản chính: thay đổi chỉ nằm trong bản báo cáo tách riêng.
+- Validation: quét toàn văn docx không còn "Local Node", "local data", "Release Gate", "release review/log", "probe budget", FE-12, SC-30, MSG-15–22; docx render PDF bằng LibreOffice (401 trang), xem lại trang 39, 41, 186, 229; `pdftotext` không còn "Local Node"; `git diff --check`.
+
 ## 2026-11-24 — Report 7 Part IV: package, class và sequence diagram
 
 - Package: [build_package_diagram.py](diagrams/05-package/v2/build_package_diagram.py) bỏ tiền tố `logos_` khỏi tên package, khung đổi thành "pkg OpenAI-Scientist"; xuất lại [draw.io](diagrams/05-package/v2/Package-Diagram.drawio) và [PNG](diagrams/05-package/v2/Package-Diagram.png).

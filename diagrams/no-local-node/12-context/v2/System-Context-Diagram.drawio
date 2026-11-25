@@ -1,0 +1,461 @@
+<mxfile host="Electron" agent="Codex drawio-skill">
+  <diagram id="context-v2" name="main-2" data-source="v1 main-2 geometry + functional_scope.json; LOGOS_Platform role and product-scope correction" data-model="Whole-product context: FE, Platform API/backend, Scientific Core/LOGOS and external contexts.">
+    <mxGraphModel dx="3354" dy="2343" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1900" pageHeight="1300" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="platform" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;ellipse;fontSize=28;align=center;verticalAlign=middle;strokeWidth=2.4;" value="&lt;b&gt;AI Research Experimentation Platform&lt;/b&gt;" vertex="1">
+          <mxGeometry height="720" width="960" x="1290" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-0" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="Project Manager" vertex="1">
+          <mxGeometry height="300" width="320" x="400" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-1" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="Researcher" vertex="1">
+          <mxGeometry height="260" width="320" x="50" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-2" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="AI Model Providers" vertex="1">
+          <mxGeometry height="230" width="340" x="2700" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-4" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="Reviewer" vertex="1">
+          <mxGeometry height="240" width="340" x="2800" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-5" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="Literature &amp;amp; Evidence Services" vertex="1">
+          <mxGeometry height="180" width="370" x="2850" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-6" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="External Data Sources" vertex="1">
+          <mxGeometry height="220" width="330" x="2970" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-7" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="Platform Operator" vertex="1">
+          <mxGeometry height="240" width="340" x="2580" y="1290" as="geometry" />
+        </mxCell>
+        <mxCell id="actor-8" parent="1" style="html=1;whiteSpace=wrap;fontFamily=Arial;fontColor=#111827;strokeColor=#111827;fillColor=#FFFFFF;fontSize=23;fontStyle=1;align=center;verticalAlign=middle;strokeWidth=1.5;" value="Tenant Admin" vertex="1">
+          <mxGeometry height="190" width="320" x="50" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-FE-02.1" data-fe="FE-02.1" data-source-text="Create, manage, and archive research project workspaces." data-wbs="2.3–2.4" edge="1" parent="1" source="actor-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.05813953488372093;exitPerimeter=0;entryX=0.46875;entryY=0.000977518041521503;entryPerimeter=0;" target="platform" value="Project management requests">
+          <mxGeometry relative="1" x="-0.24065443967736888" as="geometry">
+            <Array as="points">
+              <mxPoint x="1740" y="317.4418604651163" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-02.2" data-fe="FE-02.2" data-source-text="Invite members, assign project roles, and manage access permissions." data-wbs="2.3–2.4" edge="1" parent="1" source="actor-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.1744186046511628;exitPerimeter=0;entryX=0.4375;entryY=0.003921629175389145;entryPerimeter=0;" target="platform" value="Member and invitation management requests">
+          <mxGeometry relative="1" x="-0.22686329343279188" as="geometry">
+            <Array as="points">
+              <mxPoint x="1710" y="352.3255813953488" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-02.3" data-fe="FE-02.3" data-source-text="Configure project budgets, approval policies, AI autonomy settings, and notifications." data-wbs="2.3–2.4" edge="1" parent="1" source="actor-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.29069767441860467;exitPerimeter=0;entryX=0.40625;entryY=0.008867698578071605;entryPerimeter=0;" target="platform" value="Project governance and notification settings">
+          <mxGeometry relative="1" x="-0.21258256359914662" as="geometry">
+            <Array as="points">
+              <mxPoint x="1680" y="387.2093023255814" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-13.1" data-fe="FE-13.1" data-source-text="Set AI token budgets for individual Research Runs and monthly project budgets." data-wbs="5.3" edge="1" parent="1" source="actor-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.4069767441860465;exitPerimeter=0;entryX=0.375;entryY=0.015877081724072973;entryPerimeter=0;" target="platform" value="Run and project budget settings">
+          <mxGeometry relative="1" x="-0.19781839420941516" as="geometry">
+            <Array as="points">
+              <mxPoint x="1650" y="422.09302325581393" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-13.3" data-fe="FE-13.3" data-source-text="Require Project Manager approval for additional spending when project budget limits are reached." data-wbs="5.3" edge="1" parent="1" source="actor-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.5232558139534884;exitPerimeter=0;entryX=0.34375;entryY=0.02504112020091674;entryPerimeter=0;" target="platform" value="Additional spending approval decisions">
+          <mxGeometry relative="1" x="-0.18260055373538508" as="geometry">
+            <Array as="points">
+              <mxPoint x="1620" y="456.9767441860465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-9" data-fe="FE-14.2" data-source-text="Allow Reviewers or Project Managers to approve Dossiers according to project approval policies." data-wbs="10.1" edge="1" parent="1" source="actor-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.6395348837209303;exitPerimeter=0;entryX=0.3125;entryY=0.03648759455652106;entryPerimeter=0;" target="platform" value="Research dossier approval decisions">
+          <mxGeometry relative="1" x="-0.1669942860302026" as="geometry">
+            <Array as="points">
+              <mxPoint x="1590" y="491.8604651162791" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-02.4" data-fe="FE-02.4" data-source-text="Maintain project activity logs and provide read-only access to archived projects." data-wbs="2.3–2.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.8255813953488372;entryPerimeter=0;exitX=0.28125;exitY=0.05039079468943252;exitPerimeter=0;" target="actor-0" value="Project activity records and archived workspaces">
+          <mxGeometry relative="1" x="0.13277517066907452" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="547.6744186046512" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-13.2" data-fe="FE-13.2,FE-13.4" data-source-text="Monitor resource consumption, track costs, and issue budget threshold alerts. | Maintain cost histories and enforce AI resource usage limits." data-wbs="5.3" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.9418604651162791;entryPerimeter=0;exitX=0.25;exitY=0.06698729810778066;exitPerimeter=0;" target="actor-0" value="Resource usage, cost history and budget alerts">
+          <mxGeometry relative="1" x="0.11540445986846315" as="geometry">
+            <Array as="points">
+              <mxPoint x="1530" y="582.5581395348837" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-03.1" data-fe="FE-03.1,FE-03.2,FE-03.3,FE-03.4" data-source-text="Upload and import tabular datasets from files and authorized external data sources. | Manage dataset versions and associate specific versions with research analyses. | Manage data connections and storage locations, including platform-hosted and local datasets. | Control dataset access and protect data connection credentials." data-wbs="3.1–3.2" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.109375;exitY=0;exitPerimeter=0;entryX=0.24579159419828991;entryY=0.06944444444444445;entryPerimeter=0;" target="platform" value="Dataset, source and version management requests">
+          <mxGeometry relative="1" x="0.17231872759176103" as="geometry">
+            <Array as="points">
+              <mxPoint x="85" y="690" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-04.1" data-fe="FE-04.1" data-source-text="Create Research Cases with objectives, context, constraints, and references, with optional initial datasets." data-wbs="4.1–4.4" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.22098214285714288;exitY=0;exitPerimeter=0;entryX=0.1789773285956964;entryY=0.11666666666666667;entryPerimeter=0;" target="platform" value="Research cases and research objectives">
+          <mxGeometry relative="1" x="0.16551511807523966" as="geometry">
+            <Array as="points">
+              <mxPoint x="120.71428571428572" y="724" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-04.2" data-fe="FE-04.2,FE-04.3" data-source-text="Coordinate Research Runs across five stages: Dataset, Hypothesis, Experiment Design, Execution, and Paper. | Discover available project or public datasets and enforce one active Research Run per project." data-wbs="4.1–4.4" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.33258928571428575;exitY=0;exitPerimeter=0;entryX=0.1298252831598918;entryY=0.1638888888888889;entryPerimeter=0;" target="platform" value="Run control and dataset selection requests">
+          <mxGeometry relative="1" x="0.15568341424528742" as="geometry">
+            <Array as="points">
+              <mxPoint x="156.42857142857144" y="758" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-05.1" data-fe="FE-05.1" data-source-text="Configure AI autonomy using Co-work, Milestones, and Autopilot modes." data-wbs="5.1–5.2" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.44419642857142855;exitY=0;exitPerimeter=0;entryX=0.09190294061762311;entryY=0.2111111111111111;entryPerimeter=0;" target="platform" value="Research automation settings">
+          <mxGeometry relative="1" x="0.14305490482175665" as="geometry">
+            <Array as="points">
+              <mxPoint x="192.14285714285714" y="792" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-05.2" data-fe="FE-05.2,FE-05.5" data-source-text="Require Researcher approval for critical decisions, including hypothesis selection, data structure confirmation, and analysis plan locking. | Allow Researchers to confirm or override AI decisions and review decision histories through the Decision Log." data-wbs="5.1–5.2" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.5558035714285714;exitY=0;exitPerimeter=0;entryX=0.06228180044437011;entryY=0.25833333333333336;entryPerimeter=0;" target="platform" value="Research approvals and automated decision overrides">
+          <mxGeometry relative="1" x="0.12753382238954436" as="geometry">
+            <Array as="points">
+              <mxPoint x="227.85714285714286" y="826" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-19.1" data-fe="FE-19.1,FE-19.2,FE-19.3" data-source-text="Design comparative studies of Machine Learning methods using the same dataset. | Support hyperparameter optimization, ensemble learning, stacking, ablation studies, and budget-aware evaluations. | Enforce fair comparison conditions through consistent data partitions, repeated trials, and comparable tuning budgets." data-wbs="10.3" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.6674107142857142;exitY=0;exitPerimeter=0;entryX=0.03935766800619452;entryY=0.3055555555555556;entryPerimeter=0;" target="platform" value="Machine learning comparison requests and evaluation settings">
+          <mxGeometry relative="1" x="0.10885839978545664" as="geometry">
+            <Array as="points">
+              <mxPoint x="263.57142857142856" y="860" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-1" data-fe="support-1" data-source-text="Hypothesis selections, plan locking and methodological change decisions" data-wbs="" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.7790178571428571;exitY=0;exitPerimeter=0;entryX=0.022165701017653323;entryY=0.3527777777777778;entryPerimeter=0;" target="platform" value="Hypothesis selections, plan locking and methodological change decisions">
+          <mxGeometry relative="1" x="0.08664311861345064" as="geometry">
+            <Array as="points">
+              <mxPoint x="299.2857142857143" y="894" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-2" data-fe="support-2" data-source-text="Journal profile approvals and research dossier export requests" data-wbs="" edge="1" parent="1" source="actor-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0.890625;exitY=0;exitPerimeter=0;entryX=0.010102051443364483;entryY=0.4;entryPerimeter=0;" target="platform" value="Journal profile approvals and research dossier export requests">
+          <mxGeometry relative="1" x="0.060387769186979634" as="geometry">
+            <Array as="points">
+              <mxPoint x="335" y="928" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-04.4" data-fe="FE-04.4,FE-04.5" data-source-text="Track research progress, stage outcomes, artifact versions, and changes affecting subsequent stages. | Support run cancellation, completion tracking, and recommendations for subsequent research activities." data-wbs="4.1–4.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.038461538461538464;entryPerimeter=0;exitX=0.0;exitY=0.5;exitPerimeter=0;" target="actor-1" value="Run progress, artifacts and completion recommendations">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-05.3" data-fe="FE-05.3,FE-05.4" data-source-text="Manage research questions, approval requests, and pending decisions through a centralized Decision Inbox. | Enable AI PI to recommend actions and make provisional decisions on permitted tasks during unattended Autopilot operation." data-wbs="5.1–5.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.1423076923076923;entryPerimeter=0;exitX=0.0014082331205216292;exitY=0.5375;exitPerimeter=0;" target="actor-1" value="Pending decisions and automated research recommendations">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-06.1" data-fe="FE-06.1,FE-06.2,FE-06.3,FE-06.4,FE-06.5" data-source-text="Analyze dataset structure, characteristics, and overall data quality. | Detects missing values, duplicates, class imbalance, dataset shifts, and potential data leakage. | Recommend data cleaning and partitioning strategies based on dataset structure, sample size, and research objectives. | Assess dataset suitability for research questions and suggest feasible research directions. | Generate a DatasetSnapshot containing data profiles, preparation strategies, and identified limitations." data-wbs="6.1–6.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.24615384615384617;entryPerimeter=0;exitX=0.005657001667870295;exitY=0.575;exitPerimeter=0;" target="actor-1" value="Dataset quality assessments and preparation recommendations">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-07.1" data-fe="FE-07.1,FE-07.2" data-source-text="Search, screen, and organize scientific literature from accessible academic sources within the Literature Base. | Synthesize scientific evidence, analyze related studies, and identify research gaps." data-wbs="6.3–6.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.35;entryPerimeter=0;exitX=0.012820618252373113;exitY=0.6125;exitPerimeter=0;" target="actor-1" value="Literature collection, evidence synthesis and research gaps">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-07.3" data-fe="FE-07.3,FE-07.4,FE-07.5" data-source-text="Generate testable hypotheses with defined variables, comparators, evaluation metrics, and falsification criteria. | Evaluate hypothesis testability and allow researchers to select primary and secondary hypotheses. | Generate a HypothesisSet linking selected hypotheses to their supporting scientific evidence." data-wbs="6.3–6.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.45384615384615384;entryPerimeter=0;exitX=0.023030399291527223;exitY=0.65;exitPerimeter=0;" target="actor-1" value="Testable hypotheses, selection requests and evidence links">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-08.1" data-fe="FE-08.1,FE-08.2,FE-08.3,FE-08.4" data-source-text="Develop an AnalysisPlan based on accepted research hypotheses and dataset information. | Recommend analytical methods, models, baselines, and evaluation metrics appropriate to the research objectives. | Define data processing procedures, hypothesis testing methods, and robustness assessments. | Identify methodological risks and validate analysis plans through preliminary testing before execution." data-wbs="7.1–7.3" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.5576923076923077;entryPerimeter=0;exitX=0.03648759455652121;exitY=0.6875;exitPerimeter=0;" target="actor-1" value="Analysis plans, methods and validation results">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-08.5" data-fe="FE-08.5" data-source-text="Allow Researchers to review and lock analysis plans while tracking subsequent methodological changes." data-wbs="7.1–7.3" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.6615384615384615;entryPerimeter=0;exitX=0.053485722512706245;exitY=0.725;exitPerimeter=0;" target="actor-1" value="Plan review, locking and change approval requests">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-09.1" data-fe="FE-09.1,FE-09.4" data-source-text="Execute experiments according to locked AnalysisPlans within a controlled environment. | Track additional analyses, methodological deviations, and experimental exploration history." data-wbs="8.1–8.5" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.7653846153846153;entryPerimeter=0;exitX=0.07444888673627001;exitY=0.7625;exitPerimeter=0;" target="actor-1" value="Execution records, additional analyses and deviations">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-09.2" data-fe="FE-09.2" data-source-text="Enforce analysis procedures and separate exploratory findings from confirmatory results until authorized disclosure." data-wbs="8.1–8.5" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.8692307692307693;entryPerimeter=0;exitX=0.1;exitY=0.8;exitPerimeter=0;" target="actor-1" value="Confirmatory results and disclosure status">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-09.3" data-fe="FE-09.3,FE-09.5" data-source-text="Evaluate hypotheses through statistical verdicts, evidence grades, and permitted claim levels. | Verify result reproducibility and compile findings, tables, figures, and supporting records into an EvidenceBundle." data-wbs="8.1–8.5" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.9730769230769231;entryPerimeter=0;exitX=0.13109113591565727;exitY=0.8375;exitPerimeter=0;" target="actor-1" value="Research evidence packages, verdicts and reproducibility results">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-10.1" data-fe="FE-10.1,FE-10.2,FE-10.5" data-source-text="Generate scientific manuscripts following the IMRaD structure using verified research outputs. | Integrate validated statistics, tables, and figures from the EvidenceBundle. | Generate a PaperPack containing the manuscript, references, figures, tables, and supporting review information." data-wbs="9.3" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.890625;entryY=1;entryPerimeter=0;exitX=0.19791666666666666;exitY=0.8984289895605267;exitPerimeter=0;" target="actor-1" value="Manuscript packages with tables, figures and references">
+          <mxGeometry relative="1" x="-0.030020306185168488" as="geometry">
+            <Array as="points">
+              <mxPoint x="1480" y="1310" />
+              <mxPoint x="335" y="1310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-10.3" data-fe="FE-10.3,FE-10.4" data-source-text="Manage citations and verify consistency between scientific claims, conclusions, and supporting evidence. | Check claim limitations, study limitations, and compliance with relevant reporting checklists." data-wbs="9.3" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.79296875;entryY=1;entryPerimeter=0;exitX=0.22708333333333333;exitY=0.9189468857212755;exitPerimeter=0;" target="actor-1" value="Citation, claim and reporting check results">
+          <mxGeometry relative="1" x="-0.038752392549318504" as="geometry">
+            <Array as="points">
+              <mxPoint x="1508" y="1340" />
+              <mxPoint x="303.75" y="1340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-18.1" data-fe="FE-18.1,FE-18.2" data-source-text="Analyze authorized sample articles to identify journal structures, writing styles, and presentation characteristics. | Generate versioned Journal Profiles with source references, distinguishing observed conventions from publisher requirements." data-wbs="10.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.6953125;entryY=1;entryPerimeter=0;exitX=0.25625;exitY=0.936561493377508;exitPerimeter=0;" target="actor-1" value="Journal style analysis and versioned journal profiles">
+          <mxGeometry relative="1" x="-0.044695219718333234" as="geometry">
+            <Array as="points">
+              <mxPoint x="1536" y="1370" />
+              <mxPoint x="272.5" y="1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-18.3" data-fe="FE-18.3" data-source-text="Allow Researchers to approve and apply Journal Profiles during manuscript preparation without altering scientific claims." data-wbs="10.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.59765625;entryY=1;entryPerimeter=0;exitX=0.28541666666666665;exitY=0.9516126582100589;exitPerimeter=0;" target="actor-1" value="Journal profile approval requests">
+          <mxGeometry relative="1" x="-0.04856658934867264" as="geometry">
+            <Array as="points">
+              <mxPoint x="1564" y="1400" />
+              <mxPoint x="241.25" y="1400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-19.4" data-fe="FE-19.4" data-source-text="Evaluate performance, stability, and reliability while preserving results that do not demonstrate methodological superiority." data-wbs="10.3" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.5;entryY=1;entryPerimeter=0;exitX=0.3145833333333333;exitY=0.9643497170476387;exitPerimeter=0;" target="actor-1" value="Machine learning performance, stability and comparison results">
+          <mxGeometry relative="1" x="-0.05087374909210385" as="geometry">
+            <Array as="points">
+              <mxPoint x="1592" y="1430" />
+              <mxPoint x="210" y="1430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-20.1" data-fe="FE-20.1,FE-20.2" data-source-text="Track the testing history and evidence status of scientific claims across multiple Research Runs. | Aggregate evidence from independent datasets while preventing duplicate evidence from shared observations." data-wbs="10.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.40234375;entryY=1;entryPerimeter=0;exitX=0.34375;exitY=0.9749588797990832;exitPerimeter=0;" target="actor-1" value="Scientific claim records and independent evidence history">
+          <mxGeometry relative="1" x="-0.05198183097523801" as="geometry">
+            <Array as="points">
+              <mxPoint x="1620" y="1460" />
+              <mxPoint x="178.75" y="1460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-20.3" data-fe="FE-20.3" data-source-text="Record AI forecasts before analysis plan locking and evaluate forecast accuracy after experimental results become available." data-wbs="10.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.3046875;entryY=1;entryPerimeter=0;exitX=0.3729166666666667;exitY=0.9835802171190308;exitPerimeter=0;" target="actor-1" value="Automated forecasts and accuracy evaluation">
+          <mxGeometry relative="1" x="-0.05215778363967005" as="geometry">
+            <Array as="points">
+              <mxPoint x="1648" y="1490" />
+              <mxPoint x="147.5" y="1490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-20.4" data-fe="FE-20.4" data-source-text="Support replication studies using independent datasets to assess the consistency of research conclusions." data-wbs="10.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.20703125;entryY=1;entryPerimeter=0;exitX=0.40208333333333335;exitY=0.9903185968213819;exitPerimeter=0;" target="actor-1" value="Independent replication results">
+          <mxGeometry relative="1" x="-0.05159930196568818" as="geometry">
+            <Array as="points">
+              <mxPoint x="1676" y="1520" />
+              <mxPoint x="116.25" y="1520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-20.5" data-fe="FE-20.5" data-source-text="Evaluate error detection and evidence reliability through research benchmarks with known outcomes." data-wbs="10.4" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0.109375;entryY=1;entryPerimeter=0;exitX=0.43125;exitY=0.9952508833914382;exitPerimeter=0;" target="actor-1" value="Known-outcome benchmark results">
+          <mxGeometry relative="1" x="-0.05045429797714451" as="geometry">
+            <Array as="points">
+              <mxPoint x="1704" y="1550" />
+              <mxPoint x="85" y="1550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-4-1" data-fe="support-4-1" data-source-text="Model responses, generated proposals and review findings" data-wbs="" edge="1" parent="1" source="actor-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.14363636363636348;exitPerimeter=0;entryX=0.7520833333333333;entryY=0.931803187870997;entryPerimeter=0;" target="platform" value="Research coordination responses">
+          <mxGeometry relative="1" x="-0.35709230394128066" as="geometry">
+            <Array as="points">
+              <mxPoint x="2012" y="1693.0363636363636" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-4-2" data-fe="support-4-2" data-source-text="Model responses, generated proposals and review findings" data-wbs="" edge="1" parent="1" source="actor-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.27090909090909066;exitPerimeter=0;entryX=0.7229166666666667;entryY=0.9475579959315016;entryPerimeter=0;" target="platform" value="Generated research stage proposals">
+          <mxGeometry relative="1" x="-0.3584616462722612" as="geometry">
+            <Array as="points">
+              <mxPoint x="1984" y="1722.3090909090909" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-4-3" data-fe="support-4-3" data-source-text="Model responses, generated proposals and review findings" data-wbs="" edge="1" parent="1" source="actor-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.39818181818181786;exitPerimeter=0;entryX=0.69375;entryY=0.9609348516873073;entryPerimeter=0;" target="platform" value="Independent model review findings">
+          <mxGeometry relative="1" x="-0.3606647573935431" as="geometry">
+            <Array as="points">
+              <mxPoint x="1956" y="1751.581818181818" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-3-1" data-fe="support-3-1" data-source-text="Model inference requests for research coordination and research stages" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.6018181818181821;entryPerimeter=0;exitX=0.6645833333333333;exitY=0.9721359194012766;exitPerimeter=0;" target="actor-2" value="Research coordination inference requests">
+          <mxGeometry relative="1" x="0.37260272468675315" as="geometry">
+            <Array as="points">
+              <mxPoint x="1928" y="1798.418181818182" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-3-2" data-fe="support-3-2" data-source-text="Model inference requests for research coordination and research stages" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.7290909090909093;entryPerimeter=0;exitX=0.6354166666666666;exitY=0.98131312717283;exitPerimeter=0;" target="actor-2" value="Research stage generation requests">
+          <mxGeometry relative="1" x="0.3755588053642458" as="geometry">
+            <Array as="points">
+              <mxPoint x="1900" y="1827.6909090909091" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-3-3" data-fe="support-3-3" data-source-text="Model inference requests for research coordination and research stages" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.8563636363636365;entryPerimeter=0;exitX=0.60625;exitY=0.988580533279827;exitPerimeter=0;" target="actor-2" value="Independent model review requests">
+          <mxGeometry relative="1" x="0.37893120998707674" as="geometry">
+            <Array as="points">
+              <mxPoint x="1872" y="1856.9636363636364" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-0" data-fe="support-0" data-source-text="Review comments, correction findings and research dossier approval decisions" data-wbs="" edge="1" parent="1" source="actor-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.07575757575757576;exitPerimeter=0;entryX=0.5625;entryY=0.003921629175389145;entryPerimeter=0;" target="platform" value="Review comments, correction findings and research dossier approval decisions">
+          <mxGeometry relative="1" x="-0.2143469988685811" as="geometry">
+            <Array as="points">
+              <mxPoint x="1830" y="378.1818181818182" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-11.1" data-fe="FE-11.1,FE-11.2" data-source-text="Conduct independent reviews of research artifacts at each research stage. | Use specialized AI reviewers to assess data quality, methodologies, evidence, and scientific reasoning." data-wbs="9.1–9.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.31818181818181823;entryPerimeter=0;exitX=0.59375;exitY=0.008867698578071605;exitPerimeter=0;" target="actor-4" value="Independent review reports">
+          <mxGeometry relative="1" x="0.1826236974303883" as="geometry">
+            <Array as="points">
+              <mxPoint x="1860" y="436.3636363636364" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-11.3" data-fe="FE-11.3,FE-11.4" data-source-text="Detect, classify, and verify review findings before requesting corrections. | Manage revision cycles, document unresolved risks, and evaluate reviewer performance through benchmarks." data-wbs="9.1–9.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.4696969696969697;entryPerimeter=0;exitX=0.625;exitY=0.015877081724072973;exitPerimeter=0;" target="actor-4" value="Review findings, revision history and unresolved risks">
+          <mxGeometry relative="1" x="0.16414396291260247" as="geometry">
+            <Array as="points">
+              <mxPoint x="1890" y="472.72727272727275" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-14.1" data-fe="FE-14.1,FE-14.3" data-source-text="Generate Research Dossiers from accepted EvidenceBundles and PaperPacks. | Manage Dossier versions and require renewed approval when accepted research content changes." data-wbs="10.1" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.6212121212121212;entryPerimeter=0;exitX=0.65625;exitY=0.02504112020091674;exitPerimeter=0;" target="actor-4" value="Research dossiers, versions and approval status">
+          <mxGeometry relative="1" x="0.14474982603173547" as="geometry">
+            <Array as="points">
+              <mxPoint x="1920" y="509.0909090909091" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-14.2" data-fe="FE-14.2" data-source-text="Allow Reviewers or Project Managers to approve Dossiers according to project approval policies." data-wbs="10.1" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.7727272727272727;entryPerimeter=0;exitX=0.6875;exitY=0.03648759455652106;exitPerimeter=0;" target="actor-4" value="Research dossier approval requests">
+          <mxGeometry relative="1" x="0.12444835848006552" as="geometry">
+            <Array as="points">
+              <mxPoint x="1950" y="545.4545454545455" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-14.4" data-fe="FE-14.4" data-source-text="Enable authorized export of approved Dossiers and maintain export histories." data-wbs="10.1" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.9242424242424242;entryPerimeter=0;exitX=0.71875;exitY=0.05039079468943252;exitPerimeter=0;" target="actor-4" value="Approved research dossier exports and export history">
+          <mxGeometry relative="1" x="0.10329906261312383" as="geometry">
+            <Array as="points">
+              <mxPoint x="1980" y="581.8181818181818" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-6-1" data-fe="support-6-1" data-source-text="Permitted references, metadata and supporting evidence" data-wbs="" edge="1" parent="1" source="actor-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.18695652173913055;exitPerimeter=0;entryX=0.8888061956369033;entryY=0.1856280193236715;entryPerimeter=0;" target="platform" value="Permitted references and bibliographic metadata">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-6-2" data-fe="support-6-2" data-source-text="Permitted references, metadata and supporting evidence" data-wbs="" edge="1" parent="1" source="actor-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.3608695652173916;exitPerimeter=0;entryX=0.9202577691955914;entryY=0.2291062801932368;entryPerimeter=0;" target="platform" value="Supporting evidence and citation verification results">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-5-1" data-fe="support-5-1" data-source-text="Literature discovery, evidence and citation-verification queries" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.639130434782609;entryPerimeter=0;exitX=0.9576754681159443;exitY=0.29867149758454115;exitPerimeter=0;" target="actor-5" value="Literature discovery queries">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-5-2" data-fe="support-5-2" data-source-text="Literature discovery, evidence and citation-verification queries" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.8130434782608694;entryPerimeter=0;exitX=0.9744294481204799;exitY=0.3421497584541063;exitPerimeter=0;" target="actor-5" value="Evidence and citation verification queries">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-8-1" data-fe="support-8-1" data-source-text="Dataset content, versions, schema and source metadata" data-wbs="" edge="1" parent="1" source="actor-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.16060606060606078;exitPerimeter=0;entryX=0.99995798863285;entryY=0.4935185185185186;entryPerimeter=0;" target="platform" value="Source listings and metadata">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-8-2" data-fe="support-8-2" data-source-text="Dataset content, versions, schema and source metadata" data-wbs="" edge="1" parent="1" source="actor-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.2818181818181818;exitPerimeter=0;entryX=0.9990654847058564;entryY=0.5305555555555556;entryPerimeter=0;" target="platform" value="Dataset previews and schema">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-8-3" data-fe="support-8-3" data-source-text="Dataset content, versions, schema and source metadata" data-wbs="" edge="1" parent="1" source="actor-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.40303030303030335;exitPerimeter=0;entryX=0.9954101749324612;entryY=0.5675925925925926;entryPerimeter=0;" target="platform" value="Dataset content and version metadata">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-7-1" data-fe="support-7-1" data-source-text="Authorized source browsing, preview and dataset import requests" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.5969696969696966;entryPerimeter=0;exitX=0.9836409904895944;exitY=0.6268518518518518;exitPerimeter=0;" target="actor-6" value="Authorized source browsing requests">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-7-2" data-fe="support-7-2" data-source-text="Authorized source browsing, preview and dataset import requests" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.7181818181818181;entryPerimeter=0;exitX=0.9723774254753982;exitY=0.6638888888888889;exitPerimeter=0;" target="actor-6" value="Dataset preview requests">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-support-7-3" data-fe="support-7-3" data-source-text="Authorized source browsing, preview and dataset import requests" data-wbs="" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.8393939393939397;entryPerimeter=0;exitX=0.9578523476960769;exitY=0.7009259259259261;exitPerimeter=0;" target="actor-6" value="Dataset import requests">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.1-1" data-fe="FE-17.1" data-source-text="Manage user accounts, AI model configurations, and system settings." data-wbs="12.1–12.2" edge="1" parent="1" source="actor-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.10121212121212106;exitPerimeter=0;entryX=0.9270833333333334;entryY=0.7599996661322643;entryPerimeter=0;" target="platform" value="User account administration requests">
+          <mxGeometry relative="1" x="-0.24111797286314152" as="geometry">
+            <Array as="points">
+              <mxPoint x="2180" y="1314.290909090909" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.1-2" data-fe="FE-17.1" data-source-text="Manage user accounts, AI model configurations, and system settings." data-wbs="12.1–12.2" edge="1" parent="1" source="actor-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.24363636363636373;exitPerimeter=0;entryX=0.8979166666666667;entryY=0.8027578675920561;entryPerimeter=0;" target="platform" value="Language model configuration requests">
+          <mxGeometry relative="1" x="-0.2336438412690648" as="geometry">
+            <Array as="points">
+              <mxPoint x="2152" y="1348.4727272727273" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.1-3" data-fe="FE-17.2" data-source-text="Manage AI service connections, access credentials, and default resource limits." data-wbs="12.1–12.2" edge="1" parent="1" source="actor-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=0;exitY=0.38606060606060644;exitPerimeter=0;entryX=0.86875;entryY=0.8376735664810023;entryPerimeter=0;" target="platform" value="Service connection and access credential settings">
+          <mxGeometry relative="1" x="-0.23429495836846737" as="geometry">
+            <Array as="points">
+              <mxPoint x="2124" y="1382.6545454545455" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.3-1" data-fe="FE-17.3" data-source-text="Monitor system health, audit logs, and resource usage." data-wbs="12.1–12.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.6139393939393936;entryPerimeter=0;exitX=0.8395833333333333;exitY=0.8669920431320305;exitPerimeter=0;" target="actor-7" value="System health status">
+          <mxGeometry relative="1" x="0.26344275952035057" as="geometry">
+            <Array as="points">
+              <mxPoint x="2096" y="1437.3454545454545" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.3-2" data-fe="FE-17.3" data-source-text="Monitor system health, audit logs, and resource usage." data-wbs="12.1–12.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.7563636363636362;entryPerimeter=0;exitX=0.8104166666666667;exitY=0.8919712911114226;exitPerimeter=0;" target="actor-7" value="System audit logs">
+          <mxGeometry relative="1" x="0.26993554683402987" as="geometry">
+            <Array as="points">
+              <mxPoint x="2068" y="1471.5272727272727" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.3-4" data-fe="FE-17.4" data-source-text="Track Research Run operational metrics and AI reviewer performance." data-wbs="12.1–12.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=0;entryY=0.8987878787878789;entryPerimeter=0;exitX=0.78125;exitY=0.9133986423538422;exitPerimeter=0;" target="actor-7" value="Research run metrics and model reviewer performance">
+          <mxGeometry relative="1" x="0.27813476608345633" as="geometry">
+            <Array as="points">
+              <mxPoint x="2040" y="1505.709090909091" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.1-4" data-fe="FE-17.1,FE-17.2" data-source-text="Manage user accounts, AI model configurations, and system settings. | Manage AI service connections, access credentials, and default resource limits." data-wbs="12.1–12.2" edge="1" parent="1" source="actor-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;exitX=1;exitY=0.3157894736842105;exitPerimeter=0;entryX=0.53125;entryY=0.000977518041521503;entryPerimeter=0;" target="platform" value="Tenant settings and default resource limits">
+          <mxGeometry relative="1" x="-0.2706700570855831" as="geometry">
+            <Array as="points">
+              <mxPoint x="1800" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow-FE-17.3-3" data-fe="FE-17.3" data-source-text="Monitor system health, audit logs, and resource usage." data-wbs="12.1–12.2" edge="1" parent="1" source="platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=1.4;endArrow=classic;endFill=1;endSize=9;fontFamily=Arial;fontSize=18;align=center;verticalAlign=middle;labelBackgroundColor=#FFFFFF;spacing=2;entryX=1;entryY=0.631578947368421;entryPerimeter=0;exitX=0.5;exitY=0.0;exitPerimeter=0;" target="actor-8" value="Tenant usage and cost reports">
+          <mxGeometry relative="1" x="0.25133689839572204" as="geometry">
+            <Array as="points">
+              <mxPoint x="1770" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
